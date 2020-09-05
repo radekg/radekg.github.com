@@ -42,3 +42,8 @@ section.p-article__body > p > img {
     border-radius: 3px;
     border: 1px solid #dedede !important;
 }
+
+section.footnotes > ol > li > p {
+    margin: 0;
+    padding: 0;
+}

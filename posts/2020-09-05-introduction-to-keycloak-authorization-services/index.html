@@ -103,7 +103,10 @@ if (!doNotTrack) {
 <p>The first thought of any seasoned developer would most likely be to create a new database and store a mapping between the Support Team Member user and the Customer. The Support Application would then query the new database and only display the Customers for which the mappings exist. And that&rsquo;s fine, there is nothing wrong with approach. However, that&rsquo;s another database to maintain. Someone has to create the rules of which Member supports which Customer. This knowledge has to be stored somewhere and someone has to build an application to ensure the data in the new database is always up to date and relevant.</p>
 <p>An alternative approach would be to use Keycloak for storing, managing and retrieval of all of this knowledge. If we consider Keycloak to be a single source of truth across the organization, we remove quite a lot of complexity.</p>
 <p>So, further in this article, I am showing a proof of concept of Keycloak as a mechanism to allow Support Team Members to access selected Customers only, without any other database. This will also present how to use Keycloak Authorization Services in real-world scenario and give the reader a glimpse into User Managed Access (UMA).</p>
-<p><a href="https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/">I have described how to start a local development version of Keycloak</a>. Examples here will build on top of the previous write up.</p>
+<p><a href="https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/">I have described how to start a local development version of Keycloak</a>. Examples here will build on top of the previous write up. <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<h2 id="the-goal">The goal</h2>
+<p>The outcome of this article is to have a Keycloak realm with an OpenID client configured so that a program can be created to query Keycloak for users&rsquo; entitlements and discover all available entitlements of a given type by leveraging Keycloak token and resource set endpoints.</p>
+<p>We will configure a realm with required roles and set up Authorization Services resources, policies, scopes and permissions for two different access levels: a regular user, Service Team Member, and a supervisor, the user who is entitled to see all available resources, regardless of the role membership.</p>
 <p>Without any further due, let&rsquo;s start!</p>
 <h2 id="add-a-realm">Add a realm</h2>
 <p>Open the browser, go to <a href="http://localhost:28080/auth/admin/master/console/">http://localhost:28080/auth/admin/master/console/</a>, sign in as <code>admin:admin</code>.</p>
@@ -305,7 +308,7 @@ export USER_PASSWORD<span style="color:#f92672">=</span>password123
 <blockquote>
 <p><strong>From Wikipedia:</strong><br>
 UMA stands for <em>User Managed Access</em> and is an OAuth based access management protocol standard.<br>
-It enables a resource owner to control the authorization of data sharing and other protected-resource access made between online services on the owner’s behalf or with the owner’s authorization by an autonomous requesting party. <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+It enables a resource owner to control the authorization of data sharing and other protected-resource access made between online services on the owner’s behalf or with the owner’s authorization by an autonomous requesting party. <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
 </blockquote>
 <p>We can now ask Keycloak to tell us which resources the user has access to.</p>
 <p>In order to do so, we have to ask for an UMA token by sending a post request to the realm token endpoint with our existing access token and a special grant type: <code>urn:ietf:params:oauth:grant-type:uma-ticket</code>.</p>
@@ -598,7 +601,10 @@ export KEYCLOAK_RESOURCE_SET_URL<span style="color:#f92672">=</span>http://127.0
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://en.wikipedia.org/wiki/User-Managed_Access">https://en.wikipedia.org/wiki/User-Managed_Access</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/">Keycloak with Docker Compose</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://en.wikipedia.org/wiki/User-Managed_Access">https://en.wikipedia.org/wiki/User-Managed_Access</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
