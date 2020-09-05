@@ -504,7 +504,8 @@ export KEYCLOAK_RESOURCE_SET_URL<span style="color:#f92672">=</span>http://127.0
 </span><span style="color:#ae81ff"></span>    -k -d <span style="color:#e6db74">&#34;grant_type=password&amp;username=</span><span style="color:#e6db74">${</span>ADMIN_USER_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">&amp;password=</span><span style="color:#e6db74">${</span>ADMIN_USER_PASSWORD<span style="color:#e6db74">}</span><span style="color:#e6db74">&amp;scope=email profile&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -H <span style="color:#e6db74">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">${</span>KEYCLOAK_TOKEN_URL<span style="color:#e6db74">}</span> | jq <span style="color:#e6db74">&#39;.access_token&#39;</span> -r<span style="color:#e6db74">`</span>
-</code></pre></div><p>We can query for available customers like this:</p>
+</code></pre></div><p>The token received above is technically a <strong>protection API token</strong> (PAT). PAT is a special OAuth2 access token with a scope defined as <code>uma_protection</code>. <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>We can query for available customers like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl --silent <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  -H <span style="color:#e6db74">&#34;Authorization: Bearer </span><span style="color:#e6db74">${</span>supervisor_access_token<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">${</span>KEYCLOAK_RESOURCE_SET_URL<span style="color:#e6db74">}</span>?type<span style="color:#f92672">=</span>urn:customers:resources:customer | jq <span style="color:#e6db74">&#39;.&#39;</span>
@@ -605,6 +606,9 @@ export KEYCLOAK_RESOURCE_SET_URL<span style="color:#f92672">=</span>http://127.0
 </li>
 <li id="fn:2" role="doc-endnote">
 <p><a href="https://en.wikipedia.org/wiki/User-Managed_Access">https://en.wikipedia.org/wiki/User-Managed_Access</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://www.keycloak.org/docs/latest/authorization_services/#_service_protection_whatis_obtain_pat">What is a PAT and how to obtain it</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
