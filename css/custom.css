@@ -37,3 +37,8 @@ hr {
     margin: 40px 100px;
     text-align: center;
 }
+
+section.p-article__body > p > img {
+    border-radius: 3px;
+    border: 1px solid #dedede !important;
+}
