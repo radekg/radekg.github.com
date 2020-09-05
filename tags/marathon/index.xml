@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>marathon on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/marathon/</link>
+    <description>Recent content in marathon on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Nov 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/marathon/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Apache Spark on Mesos with Docker bridge networking</title>
+      <link>https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/</link>
+      <pubDate>Mon, 23 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/</guid>
+      <description>About two weeks ago, Virdata released a set of patches for Apache Spark enabling Spark to work on Mesos with Docker bridge networking. We are using these in production for our multi tenant Spark environment.
+SPARK-11638: Spark patches All patches for all components described below are available in Spark JIRA. We&amp;rsquo;ve released patches for all versions of Spark available at the time of creating them - from 1.4.0 to 1.5.2. We have also released patches for Akka 2.</description>
+    </item>
+    
+  </channel>
+</rss>

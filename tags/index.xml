@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/</link>
+    <description>Recent content in Tags on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iam</title>
+      <link>https://gruchalski.com/tags/iam/</link>
+      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/iam/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>keycloak</title>
+      <link>https://gruchalski.com/tags/keycloak/</link>
+      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/keycloak/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>multi-tenant</title>
+      <link>https://gruchalski.com/tags/multi-tenant/</link>
+      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/multi-tenant/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sso</title>
+      <link>https://gruchalski.com/tags/sso/</link>
+      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/sso/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>uma</title>
+      <link>https://gruchalski.com/tags/uma/</link>
+      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/uma/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://gruchalski.com/tags/docker/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>idp</title>
+      <link>https://gruchalski.com/tags/idp/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/idp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>central</title>
+      <link>https://gruchalski.com/tags/central/</link>
+      <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/central/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>maven</title>
+      <link>https://gruchalski.com/tags/maven/</link>
+      <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/maven/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sbt</title>
+      <link>https://gruchalski.com/tags/sbt/</link>
+      <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/sbt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sonatype</title>
+      <link>https://gruchalski.com/tags/sonatype/</link>
+      <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/sonatype/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>marathon</title>
+      <link>https://gruchalski.com/tags/marathon/</link>
+      <pubDate>Mon, 23 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/marathon/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mesos</title>
+      <link>https://gruchalski.com/tags/mesos/</link>
+      <pubDate>Mon, 23 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/mesos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spark</title>
+      <link>https://gruchalski.com/tags/spark/</link>
+      <pubDate>Mon, 23 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/spark/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>euc2015</title>
+      <link>https://gruchalski.com/tags/euc2015/</link>
+      <pubDate>Wed, 17 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/euc2015/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gossiperl</title>
+      <link>https://gruchalski.com/tags/gossiperl/</link>
+      <pubDate>Wed, 17 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/gossiperl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>keynote</title>
+      <link>https://gruchalski.com/tags/keynote/</link>
+      <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/keynote/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>presenting</title>
+      <link>https://gruchalski.com/tags/presenting/</link>
+      <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/presenting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gossip</title>
+      <link>https://gruchalski.com/tags/gossip/</link>
+      <pubDate>Mon, 05 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/gossip/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>thrift</title>
+      <link>https://gruchalski.com/tags/thrift/</link>
+      <pubDate>Mon, 05 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/thrift/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>erlang</title>
+      <link>https://gruchalski.com/tags/erlang/</link>
+      <pubDate>Tue, 09 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/erlang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>influxdb</title>
+      <link>https://gruchalski.com/tags/influxdb/</link>
+      <pubDate>Tue, 09 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/influxdb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devstack</title>
+      <link>https://gruchalski.com/tags/devstack/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/devstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>openstack</title>
+      <link>https://gruchalski.com/tags/openstack/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/openstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ubuntu</title>
+      <link>https://gruchalski.com/tags/ubuntu/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vagrant</title>
+      <link>https://gruchalski.com/tags/vagrant/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/vagrant/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>apache</title>
+      <link>https://gruchalski.com/tags/apache/</link>
+      <pubDate>Mon, 24 Jun 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/apache/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>chef</title>
+      <link>https://gruchalski.com/tags/chef/</link>
+      <pubDate>Mon, 24 Jun 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/chef/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>opscode</title>
+      <link>https://gruchalski.com/tags/opscode/</link>
+      <pubDate>Mon, 24 Jun 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/opscode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>zookeeper</title>
+      <link>https://gruchalski.com/tags/zookeeper/</link>
+      <pubDate>Mon, 24 Jun 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/zookeeper/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>https://gruchalski.com/tags/git/</link>
+      <pubDate>Fri, 22 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>https://gruchalski.com/tags/devops/</link>
+      <pubDate>Thu, 07 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ec2</title>
+      <link>https://gruchalski.com/tags/ec2/</link>
+      <pubDate>Thu, 07 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/ec2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>knife</title>
+      <link>https://gruchalski.com/tags/knife/</link>
+      <pubDate>Thu, 07 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/knife/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ganglia</title>
+      <link>https://gruchalski.com/tags/ganglia/</link>
+      <pubDate>Tue, 05 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/ganglia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>logstash</title>
+      <link>https://gruchalski.com/tags/logstash/</link>
+      <pubDate>Tue, 05 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/logstash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>monit</title>
+      <link>https://gruchalski.com/tags/monit/</link>
+      <pubDate>Tue, 05 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/monit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>redis</title>
+      <link>https://gruchalski.com/tags/redis/</link>
+      <pubDate>Tue, 05 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/redis/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

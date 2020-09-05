@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ubuntu on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/ubuntu/</link>
+    <description>Recent content in ubuntu on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 May 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OpenStack Devstack up and running with Vagrant, in 12.5 minutes</title>
+      <link>https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/</guid>
+      <description>I&amp;rsquo;d like to develop for OpenStack The eaiest way to start, is to use a project called devstack. Devstack is:
+ A documented shell script to build complete OpenStack development environments.
+ It looks promising. Unfortunately, the script is not as simple as what is claimed on the website:
+git clone https://github.com/openstack-dev/devstack.git # configure, while optional... cd devstack; ./stack.sh  There be Dragons.
+So? After looking at a number of different search results on the Internets, digging through some Chef cookbooks, Puppet stuff, here&amp;rsquo;s a Vagrant file to set up Devstack using Vagrant (Ubuntu 12.</description>
+    </item>
+    
+  </channel>
+</rss>

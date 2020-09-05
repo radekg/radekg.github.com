@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>keycloak on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/keycloak/</link>
+    <description>Recent content in keycloak on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/keycloak/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introduction to Keycloak Authorization Services</title>
+      <link>https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/</link>
+      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/</guid>
+      <description>As the number of applications and websites in the organization grows, the developer will inevitably receive a request to implement Single Sign-On. Single Sign-On (SSO for short) is an authentication scheme allowing the user to log in with a single set of credentials and share the session across multiple, independent, potentially unrelated systems.
+The savvy developer will roll out Keycloak, enable Standard Flow client, maybe enable some of the social login options, like GitHub, Google or Facebook and call it a day.</description>
+    </item>
+    
+    <item>
+      <title>Keycloak With Docker Compose</title>
+      <link>https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/</guid>
+      <description>Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.
+Out of the box, we get things like Single Sign-On, Identity Brokering and Social Login, User Federation and Authorization Services.
+With little to no code, we can give users of our apps the ability to sign in with Identity Providers like GitHub, Twitter or Google.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sbt on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/sbt/</link>
+    <description>Recent content in sbt on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/sbt/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Publish to Maven Central via Sonatype with SBT</title>
+      <link>https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/</link>
+      <pubDate>Tue, 31 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/</guid>
+      <description>First, create an account on the Sonatype JIRA, unless you have one. For the new group ID, create a ticket using the form under this URI. Once requested, wait for the ticket to go into Resolved state. When this happens, you can publish your project to Sonatype.
+To do so, configure your SBT project. Add the following lines to your project/plugins.sbt:
+addSbtPlugin(&amp;#34;org.xerial.sbt&amp;#34; % &amp;#34;sbt-sonatype&amp;#34; % &amp;#34;1.1&amp;#34;) addSbtPlugin(&amp;#34;com.jsuereth&amp;#34; % &amp;#34;sbt-pgp&amp;#34; % &amp;#34;1.</description>
+    </item>
+    
+  </channel>
+</rss>
