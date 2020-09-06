@@ -6,7 +6,7 @@
     <description>Recent content in Tags on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 06 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>iam</title>
       <link>https://gruchalski.com/tags/iam/</link>
-      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/iam/</guid>
       <description></description>
@@ -23,9 +23,18 @@
     <item>
       <title>keycloak</title>
       <link>https://gruchalski.com/tags/keycloak/</link>
-      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/keycloak/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>uma</title>
+      <link>https://gruchalski.com/tags/uma/</link>
+      <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/uma/</guid>
       <description></description>
     </item>
     
@@ -44,15 +53,6 @@
       <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/sso/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>uma</title>
-      <link>https://gruchalski.com/tags/uma/</link>
-      <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/uma/</guid>
       <description></description>
     </item>
     

@@ -6,10 +6,22 @@
     <description>Recent content in uma on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 06 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/tags/uma/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Keycloak Authorization Services - retrieving the decision only</title>
+      <link>https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</link>
+      <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</guid>
+      <description>In Introduction to Keycloak Authorization Services 1, I have described how to use the Authorization Services to find out if the user has access to certain resources.
+I have done so by asking Keycloak to issue an access token with a special grant_type with the value of urn:ietf:params:oauth:grant-type:uma-ticket which returned a list of permissions the has access to.
+The request looked like this:
+curl --silent -X POST \  ${KEYCLOAK_TOKEN_URL} \  -H &amp;#34;Authorization: Bearer ${access_token}&amp;#34; \  --data &amp;#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&amp;#34; \  --data &amp;#34;audience=customers&amp;#34; \  --data &amp;#34;permission=CustomerB#customer-b&amp;#34; | jq &amp;#39;.</description>
+    </item>
     
     <item>
       <title>Introduction to Keycloak Authorization Services</title>
