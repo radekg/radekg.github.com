@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
-  <title>gruchalski.com</title>
-  <meta property="og:title" content="gruchalski.com" />
-  <meta name="twitter:title" content="gruchalski.com" />
+  <title>ssl</title>
+  <meta property="og:title" content="ssl" />
+  <meta name="twitter:title" content="ssl" />
   
 
   
 
   <meta name="author" content=""/>
   <meta property="og:site_name" content="gruchalski.com" />
-  <meta property="og:url" content="https://gruchalski.com/" />
+  <meta property="og:url" content="https://gruchalski.com/tags/ssl/" />
 
   
   <meta name="twitter:card" content="summary" />
@@ -43,8 +43,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="https://gruchalski.com/css/custom.css" />
   
   
-  <link href="https://gruchalski.com/index.xml" rel="alternate" type="application/rss+xml" title="gruchalski.com" />
-  
   
   <script type="text/javascript" src="https://gruchalski.com/js/bundle.js"></script>
   
@@ -63,10 +61,12 @@ if (!doNotTrack) {
 
   <main id="main" class="l-main">
 
+<h2 class="c-title p-tag-title">ssl</h2>
 
 
-  
-  <article class="c-article p-list-article">
+
+
+<article class="c-article p-list-article">
   <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/">Certificate Authority is not Voodoo</a></h2>
     <p class="c-article__meta">
@@ -86,214 +86,6 @@ if (!doNotTrack) {
 </article>
 
 
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/">Keycloak Authorization Services - retrieving the decision only</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2020-09-06T00:00:00Z">
-  Sep 6, 2020
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    In Introduction to Keycloak Authorization Services 1, I have described how to use the Authorization Services to find out if the user has access to certain resources.
-I have done so by asking Keycloak to issue an access token with a special grant_type with the value of urn:ietf:params:oauth:grant-type:uma-ticket which returned a list of permissions the has access to.
-The request looked like this:
-curl --silent -X POST \  ${KEYCLOAK_TOKEN_URL} \  -H &#34;Authorization: Bearer ${access_token}&#34; \  --data &#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34; \  --data &#34;audience=customers&#34; \  --data &#34;permission=CustomerB#customer-b&#34; | jq &#39;.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/">Introduction to Keycloak Authorization Services</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2020-09-05T00:00:00Z">
-  Sep 5, 2020
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    As the number of applications and websites in the organization grows, the developer will inevitably receive a request to implement Single Sign-On. Single Sign-On (SSO for short) is an authentication scheme allowing the user to log in with a single set of credentials and share the session across multiple, independent, potentially unrelated systems.
-The savvy developer will roll out Keycloak, enable Standard Flow client, maybe enable some of the social login options, like GitHub, Google or Facebook and call it a day.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/">Keycloak With Docker Compose</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2020-09-03T00:00:00Z">
-  Sep 3, 2020
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.
-Out of the box, we get things like Single Sign-On, Identity Brokering and Social Login, User Federation and Authorization Services.
-With little to no code, we can give users of our apps the ability to sign in with Identity Providers like GitHub, Twitter or Google.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/">Publish to Maven Central via Sonatype with SBT</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2017-01-31T00:00:00Z">
-  Jan 31, 2017
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    First, create an account on the Sonatype JIRA, unless you have one. For the new group ID, create a ticket using the form under this URI. Once requested, wait for the ticket to go into Resolved state. When this happens, you can publish your project to Sonatype.
-To do so, configure your SBT project. Add the following lines to your project/plugins.sbt:
-addSbtPlugin(&#34;org.xerial.sbt&#34; % &#34;sbt-sonatype&#34; % &#34;1.1&#34;) addSbtPlugin(&#34;com.jsuereth&#34; % &#34;sbt-pgp&#34; % &#34;1.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/">The case for Kafka cold storage</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2016-05-08T00:00:00Z">
-  May 8, 2016
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    It is entirely possible that what I am going to describe here is an edge case not many people hit with their Kafka deployments. However, in my experience, when Kafka is used to ingest large volumes of data, it makes perfect sense. Considering that every now and then people ask for a cold storage feature on the Kafka mailing list, I am not the only one who would find this useful.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/">Apache Spark on Mesos with Docker bridge networking</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2015-11-23T00:00:00Z">
-  Nov 23, 2015
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    About two weeks ago, Virdata released a set of patches for Apache Spark enabling Spark to work on Mesos with Docker bridge networking. We are using these in production for our multi tenant Spark environment.
-SPARK-11638: Spark patches All patches for all components described below are available in Spark JIRA. We&rsquo;ve released patches for all versions of Spark available at the time of creating them - from 1.4.0 to 1.5.2. We have also released patches for Akka 2.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/">Gossiperl at EUC 2015 and next steps</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2015-06-17T00:00:00Z">
-  Jun 17, 2015
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Wow. It’s difficult to believe it’s been almost a week since I gave a talk about gossip protocols at Erlang User Conference in Stockholm. It was a fantastic event, great agenda, great topics, fantastic networking. EUC is one of those events you should attend, you will not regret it. No matter if you are interested in Erlang/Elixir or not. Big “Thank You” to all who made it happen.
-EUC2015 was also a place of first public appearance of Gossiperl.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/">Control Keynote presentation with your mobile browser</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2015-05-11T00:00:00Z">
-  May 11, 2015
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    A little moan to start with&hellip; I owned a mid 2009 MacBook Pro, I never used it for presenting stuff to others but I actually bought a remote control for it. The computer cost me a lot of money, it was top end stuff when it was bought. The remote control cost me the money as well. I also have a copy of Keynote. It also cost me money. A while ago I&rsquo;ve switched to a new MacBook, the Retina one, top end as well.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/">Crowd sourced unit testing / CI</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2015-04-21T00:00:00Z">
-  Apr 21, 2015
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Unit testing has evolved a long way over the years, continuous integration services even more so. Few years back, when mentioning CI, Jenkins was the only reasonable choice someone would take. It was kind of easy to set up, depending on what one was planning to do with it. Looking at this space today there are plenty of services offering painless CI for the masses. The most known one - Travis CI.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
 
 <nav class="c-pagination p-pagination">
   <div class="c-pagination__ctrl">
@@ -302,13 +94,12 @@ EUC2015 was also a place of first public appearance of Gossiperl.
     </div>
     <div class="c-pagination__older">
       
-      <a href="/page/2/">Older</a>
-      
     </div>
   </div>
-  <span class="c-pagination__count p-pagination__count">Page 1 of 2</span>
+  <span class="c-pagination__count p-pagination__count">Page 1 of 1</span>
 </nav>
- 
+
+
 
   </main>
   

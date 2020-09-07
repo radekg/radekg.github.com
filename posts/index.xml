@@ -6,10 +6,19 @@
     <description>Recent content in Posts on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Certificate Authority is not Voodoo</title>
+      <link>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</link>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</guid>
+      <description>Modern applications tend to get fairly complex pretty quick. A usual stack will consist of many moving parts. Starting from a cloud environment, maybe abstracted behind Kubernetes or Mesos, through multitude of web servers, GRPC services, to monitoring systems like Grafana, Jaeger, Prometheus, all fronted with load balancers or proxies like Traefik. Many of these components have fairly complex dependencies, ETCD or Zookeeper come to mind. All these power a highly dynamic environment where containers and virtual machines iterate and get replaced very quick.</description>
+    </item>
     
     <item>
       <title>Keycloak Authorization Services - retrieving the decision only</title>
@@ -53,6 +62,15 @@ With little to no code, we can give users of our apps the ability to sign in wit
       <description>First, create an account on the Sonatype JIRA, unless you have one. For the new group ID, create a ticket using the form under this URI. Once requested, wait for the ticket to go into Resolved state. When this happens, you can publish your project to Sonatype.
 To do so, configure your SBT project. Add the following lines to your project/plugins.sbt:
 addSbtPlugin(&amp;#34;org.xerial.sbt&amp;#34; % &amp;#34;sbt-sonatype&amp;#34; % &amp;#34;1.1&amp;#34;) addSbtPlugin(&amp;#34;com.jsuereth&amp;#34; % &amp;#34;sbt-pgp&amp;#34; % &amp;#34;1.</description>
+    </item>
+    
+    <item>
+      <title>The case for Kafka cold storage</title>
+      <link>https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/</link>
+      <pubDate>Sun, 08 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/</guid>
+      <description>It is entirely possible that what I am going to describe here is an edge case not many people hit with their Kafka deployments. However, in my experience, when Kafka is used to ingest large volumes of data, it makes perfect sense. Considering that every now and then people ask for a cold storage feature on the Kafka mailing list, I am not the only one who would find this useful.</description>
     </item>
     
     <item>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ssl on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/ssl/</link>
+    <description>Recent content in ssl on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 07 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/ssl/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Certificate Authority is not Voodoo</title>
+      <link>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</link>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</guid>
+      <description>Modern applications tend to get fairly complex pretty quick. A usual stack will consist of many moving parts. Starting from a cloud environment, maybe abstracted behind Kubernetes or Mesos, through multitude of web servers, GRPC services, to monitoring systems like Grafana, Jaeger, Prometheus, all fronted with load balancers or proxies like Traefik. Many of these components have fairly complex dependencies, ETCD or Zookeeper come to mind. All these power a highly dynamic environment where containers and virtual machines iterate and get replaced very quick.</description>
+    </item>
+    
+  </channel>
+</rss>

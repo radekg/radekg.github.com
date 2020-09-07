@@ -3,8 +3,48 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://gruchalski.com/tags/ca/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2020-09-06T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/infrastructure/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/pki/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/ssl/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/tls/</loc>
+    <lastmod>2020-09-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -19,16 +59,6 @@
   
   <url>
     <loc>https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</loc>
-    <lastmod>2020-09-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2020-09-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2020-09-06T00:00:00+00:00</lastmod>
   </url>
   
@@ -95,6 +125,21 @@
   <url>
     <loc>https://gruchalski.com/tags/sonatype/</loc>
     <lastmod>2017-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/apache/</loc>
+    <lastmod>2016-05-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/kafka/</loc>
+    <lastmod>2016-05-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/</loc>
+    <lastmod>2016-05-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -215,11 +260,6 @@
   <url>
     <loc>https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/</loc>
     <lastmod>2013-10-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/apache/</loc>
-    <lastmod>2013-06-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
