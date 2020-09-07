@@ -17,7 +17,7 @@
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</guid>
-      <description>Modern applications tend to get fairly complex pretty quick. A usual stack will consist of many moving parts. Starting from a cloud environment, maybe abstracted behind Kubernetes or Mesos, through multitude of web servers, GRPC services, to monitoring systems like Grafana, Jaeger, Prometheus, all fronted with load balancers or proxies like Traefik. Many of these components have fairly complex dependencies, ETCD or Zookeeper come to mind. All these power a highly dynamic environment where containers and virtual machines iterate and get replaced very quick.</description>
+      <description>Modern applications tend to get fairly complex pretty quick. A usual stack will consist of many moving parts. Starting from a cloud environment, maybe abstracted behind Kubernetes or Mesos, through multitude of web servers, GRPC services, to monitoring systems like Grafana, Jaeger, Prometheus, all fronted with load balancers or proxies like Traefik. Many of these components have fairly complex dependencies, ETCD or Zookeeper come to mind. All these power a highly dynamic environment where containers and virtual machines iterate and get replaced often.</description>
     </item>
     
   </channel>
