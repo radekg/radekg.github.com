@@ -6,10 +6,21 @@
     <description>Recent content in pki on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/tags/pki/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Multi-tenant Vault PKI with custom root PEM bundles</title>
+      <link>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</link>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</guid>
+      <description>In the previous article1, I have investigated modern PKI software alternatives. One of the options on the list was HashiCorp Vault. The natural next step is to set up a Vault PKI.
+This article documents setting up an imaginary multi-tenant Vault PKI with custom PEM bundles generated with OpenSSL. The steps the following:
+ create a root CA with OpenSSL create intermediate CAs for imaginary customers with OpenSSL using HashiCorp Vault in development mode:  import custom bundle with root and intermediate certificates configure Vault roles issue a certificate    The method for generating the root and intermediate CAs comes from OpenSSL Certificate Authority guide written by Jamie Nguyen2.</description>
+    </item>
     
     <item>
       <title>Certificate Authority is not Voodoo</title>

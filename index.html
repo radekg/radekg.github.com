@@ -68,6 +68,30 @@ if (!doNotTrack) {
   
   <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/">Multi-tenant Vault PKI with custom root PEM bundles</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2020-09-09T00:00:00Z">
+  Sep 9, 2020
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    In the previous article1, I have investigated modern PKI software alternatives. One of the options on the list was HashiCorp Vault. The natural next step is to set up a Vault PKI.
+This article documents setting up an imaginary multi-tenant Vault PKI with custom PEM bundles generated with OpenSSL. The steps the following:
+ create a root CA with OpenSSL create intermediate CAs for imaginary customers with OpenSSL using HashiCorp Vault in development mode:  import custom bundle with root and intermediate certificates configure Vault roles issue a certificate    The method for generating the root and intermediate CAs comes from OpenSSL Certificate Authority guide written by Jamie Nguyen2.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+  
+    
+  <article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/">Certificate Authority is not Voodoo</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -268,28 +292,6 @@ EUC2015 was also a place of first public appearance of Gossiperl.
   </div>
   
   <a href="https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/">Crowd sourced unit testing / CI</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2015-04-21T00:00:00Z">
-  Apr 21, 2015
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Unit testing has evolved a long way over the years, continuous integration services even more so. Few years back, when mentioning CI, Jenkins was the only reasonable choice someone would take. It was kind of easy to set up, depending on what one was planning to do with it. Looking at this space today there are plenty of services offering painless CI for the masses. The most known one - Travis CI.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

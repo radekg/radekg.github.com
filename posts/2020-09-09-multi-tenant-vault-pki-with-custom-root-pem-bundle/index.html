@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  
+  <title>Multi-tenant Vault PKI with custom root PEM bundles</title>
+  <meta property="og:title" content="Multi-tenant Vault PKI with custom root PEM bundles" />
+  <meta name="twitter:title" content="Multi-tenant Vault PKI with custom root PEM bundles" />
+  
+
+  
+  <meta name="description" content="Configuring multi-tenant Vault PKI with OpenSSL root and intermediate CAs">
+  <meta property="og:description" content="Configuring multi-tenant Vault PKI with OpenSSL root and intermediate CAs">
+  <meta name="twitter:description" content="Configuring multi-tenant Vault PKI with OpenSSL root and intermediate CAs">
+  
+
+  <meta name="author" content="Radek Gruchalski"/>
+  <meta property="og:site_name" content="gruchalski.com" />
+  <meta property="og:url" content="https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/" />
+
+  
+  <meta name="twitter:card" content="summary" />
+
+  
+
+  
+  <meta property="og:type" content="article" />
+  
+  
+  
+  <meta name="generator" content="Hugo 0.74.3" />
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-39073034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+  <link rel="stylesheet" href="https://gruchalski.com/css/style.css" />
+  <link rel="stylesheet" href="https://gruchalski.com/css/custom.css" />
+  
+  
+  
+  <script type="text/javascript" src="https://gruchalski.com/js/bundle.js"></script>
+  
+
+</head>
+
+<body>
+  <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;" aria-hidden="true"> <symbol id="icon-500px" viewBox="0 0 16 16"><g> <path d="M3.953 10.512a5.24 5.24 0 0 0 6.996 3.141c.625-.262 1.184-.641 1.666-1.122s.859-1.041 1.122-1.666c.272-.647.412-1.331.412-2.037s-.137-1.394-.412-2.037c-.262-.625-.641-1.184-1.122-1.666s-1.041-.859-1.666-1.122a5.226 5.226 0 0 0-2.037-.413c-.716 0-1.431.144-2.066.413-.509.216-1.372.769-1.875 1.291l-.003.003V.984h7.241c.262-.003.262-.372.262-.491 0-.122 0-.487-.266-.491H4.377a.343.343 0 0 0-.344.341v6.066c0 .197.244.338.472.384.444.094.544-.047.653-.197l.016-.019c.166-.247.681-.766.688-.772a4.262 4.262 0 0 1 3.037-1.25c1.147 0 2.222.444 3.028 1.25a4.245 4.245 0 0 1 1.256 3.019 4.236 4.236 0 0 1-1.25 3.019 4.336 4.336 0 0 1-3.047 1.25 4.136 4.136 0 0 1-2.159-.597l.003-3.688c0-.491.213-1.028.572-1.431a2.09 2.09 0 0 1 1.588-.716c.594 0 1.15.225 1.566.634.409.406.637.95.637 1.528a2.179 2.179 0 0 1-2.206 2.197c-.238 0-.672-.106-.691-.109-.25-.075-.356.272-.391.387-.134.441.069.528.109.541.397.125.659.147 1.003.147a3.173 3.173 0 0 0 3.169-3.169c0-1.734-1.422-3.144-3.166-3.144-.856 0-1.659.328-2.263.919-.575.566-.903 1.319-.903 2.069v.019c-.003.094-.003 2.306-.006 3.031l-.003-.003c-.328-.363-.653-.919-.869-1.488-.084-.222-.275-.184-.534-.103-.125.034-.469.141-.391.394zm3.722-.865c0 .106.097.2.156.253l.019.019c.1.097.194.147.281.147a.181.181 0 0 0 .131-.05c.044-.041.537-.544.588-.591l.553.55c.05.056.106.088.172.088.088 0 .184-.053.284-.156.238-.244.119-.375.063-.438l-.559-.559.584-.588c.128-.137.016-.284-.097-.397-.162-.162-.322-.206-.422-.112l-.581.581-.588-.588a.16.16 0 0 0-.113-.047c-.078 0-.172.053-.275.156-.181.181-.219.306-.125.406l.588.584-.584.584c-.053.05-.078.103-.075.156zm1.278-7.931c-.938 0-1.938.191-2.669.506a.207.207 0 0 0-.134.181.753.753 0 0 0 .069.337c.047.116.166.425.4.334a6.689 6.689 0 0 1 2.334-.444 6.35 6.35 0 0 1 2.469.497c.622.263 1.206.644 1.844 1.194a.22.22 0 0 0 .147.059c.125 0 .244-.122.347-.237.169-.191.287-.35.119-.509a6.858 6.858 0 0 0-2.1-1.356 7.326 7.326 0 0 0-2.825-.563zM14.006 13.3c-.113-.113-.209-.178-.294-.203s-.162-.006-.222.053l-.056.056a6.32 6.32 0 0 1-6.938 1.356 6.336 6.336 0 0 1-2.013-1.356 6.046 6.046 0 0 1-1.356-2.012c-.288-.713-.381-1.247-.413-1.422-.003-.016-.006-.028-.006-.037-.041-.206-.231-.222-.503-.178-.112.019-.459.072-.428.319v.006a7.261 7.261 0 0 0 2.04 3.994 7.266 7.266 0 0 0 10.288 0l.059-.059c.069-.084.134-.225-.159-.516z"/> </g></symbol> <symbol id="icon-codepen" viewBox="0 0 16 16"><g> <path d="M14.777 5.751l-7-4.667a.5.5 0 0 0-.555 0l-7 4.667a.501.501 0 0 0-.223.416v4.667c0 .167.084.323.223.416l7 4.667a.5.5 0 0 0 .554 0l7-4.667a.501.501 0 0 0 .223-.416V6.167a.501.501 0 0 0-.223-.416zM7.5 10.232L4.901 8.5 7.5 6.768 10.099 8.5 7.5 10.232zM8 5.899V2.434l5.599 3.732L11 7.898l-3-2zm-1 0l-3 2-2.599-1.732L7 2.435V5.9zM3.099 8.5L1 9.899V7.101L3.099 8.5zM4 9.101l3 2v3.465l-5.599-3.732L4 9.102zm4 2l3-2 2.599 1.732L8 14.565V11.1zM11.901 8.5L14 7.101v2.798L11.901 8.5z"/> </g></symbol> <symbol id="icon-dribbble" viewBox="0 0 16 16"><g> <path d="M8 16c-4.412 0-8-3.588-8-8s3.587-8 8-8c4.412 0 8 3.587 8 8s-3.588 8-8 8zm6.747-6.906c-.234-.075-2.116-.634-4.256-.291a29.7 29.7 0 0 1 1.328 4.872 6.845 6.845 0 0 0 2.928-4.581zM10.669 14.3c-.103-.6-.497-2.688-1.456-5.181-.016.006-.031.009-.044.016-3.856 1.344-5.241 4.016-5.362 4.266a6.807 6.807 0 0 0 6.863.9zm-7.747-1.722c.156-.266 2.031-3.369 5.553-4.509a7.04 7.04 0 0 1 .269-.081 24.04 24.04 0 0 0-.553-1.159c-3.409 1.022-6.722.978-7.022.975-.003.069-.003.138-.003.209 0 1.753.666 3.356 1.756 4.566zM1.313 6.609c.306.003 3.122.016 6.319-.831a43.092 43.092 0 0 0-2.534-3.953 6.854 6.854 0 0 0-3.784 4.784zM6.4 1.366a36.612 36.612 0 0 1 2.55 4c2.431-.909 3.459-2.294 3.581-2.469A6.799 6.799 0 0 0 6.4 1.366zm6.891 2.325c-.144.194-1.291 1.663-3.816 2.694.159.325.313.656.453.991.05.119.1.234.147.353 2.275-.284 4.534.172 4.759.219a6.816 6.816 0 0 0-1.544-4.256z"/> </g></symbol> <symbol id="icon-facebook" viewBox="0 0 16 16"><g> <path d="M9.5 3H12V0H9.5C7.57 0 6 1.57 6 3.5V5H4v3h2v8h3V8h2.5l.5-3H9V3.5c0-.271.229-.5.5-.5z"/> </g></symbol> <symbol id="icon-feed" viewBox="0 0 16 16"><g> <path d="M2.13 11.733c-1.175 0-2.13.958-2.13 2.126 0 1.174.955 2.122 2.13 2.122a2.126 2.126 0 0 0 2.133-2.122 2.133 2.133 0 0 0-2.133-2.126zM.002 5.436v3.067c1.997 0 3.874.781 5.288 2.196a7.45 7.45 0 0 1 2.192 5.302h3.08c0-5.825-4.739-10.564-10.56-10.564zM.006 0v3.068C7.128 3.068 12.924 8.87 12.924 16H16C16 7.18 8.824 0 .006 0z"/> </g></symbol> <symbol id="icon-flickr" viewBox="0 0 16 16"><g> <path d="M0 8.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0zm9 0a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/> </g></symbol> <symbol id="icon-github" viewBox="0 0 16 16"><g> <path d="M8 .198a8 8 0 0 0-2.529 15.591c.4.074.547-.174.547-.385 0-.191-.008-.821-.011-1.489-2.226.484-2.695-.944-2.695-.944-.364-.925-.888-1.171-.888-1.171-.726-.497.055-.486.055-.486.803.056 1.226.824 1.226.824.714 1.223 1.872.869 2.328.665.072-.517.279-.87.508-1.07-1.777-.202-3.645-.888-3.645-3.954 0-.873.313-1.587.824-2.147-.083-.202-.357-1.015.077-2.117 0 0 .672-.215 2.201.82A7.672 7.672 0 0 1 8 4.066c.68.003 1.365.092 2.004.269 1.527-1.035 2.198-.82 2.198-.82.435 1.102.162 1.916.079 2.117.513.56.823 1.274.823 2.147 0 3.073-1.872 3.749-3.653 3.947.287.248.543.735.543 1.481 0 1.07-.009 1.932-.009 2.195 0 .213.144.462.55.384A8 8 0 0 0 8.001.196z"/> </g></symbol> <symbol id="icon-gitlab" viewBox="0 0 28 28"><g> <path d="M1.625 11.031L14 26.89.437 17.046a1.092 1.092 0 0 1-.391-1.203l1.578-4.813zm7.219 0h10.313L14.001 26.89zM5.75 1.469l3.094 9.562H1.625l3.094-9.562a.548.548 0 0 1 1.031 0zm20.625 9.562l1.578 4.813a1.09 1.09 0 0 1-.391 1.203l-13.563 9.844 12.375-15.859zm0 0h-7.219l3.094-9.562a.548.548 0 0 1 1.031 0z"/> </g></symbol> <symbol id="icon-google-plus" viewBox="0 0 16 16"><g> <path d="M5.091 7.147v1.747h2.888c-.116.75-.872 2.197-2.888 2.197-1.737 0-3.156-1.441-3.156-3.216s1.419-3.216 3.156-3.216c.991 0 1.65.422 2.028.784L8.5 4.112c-.888-.828-2.037-1.331-3.409-1.331C2.275 2.784 0 5.059 0 7.875s2.275 5.091 5.091 5.091c2.937 0 4.888-2.066 4.888-4.975 0-.334-.037-.591-.081-.844H5.092zM16 7h-1.5V5.5H13V7h-1.5v1.5H13V10h1.5V8.5H16z"/> </g></symbol> <symbol id="icon-instagram" viewBox="0 0 22 22"><g> <path d="M15.445 0H6.554A6.559 6.559 0 0 0 0 6.554v8.891A6.559 6.559 0 0 0 6.554 22h8.891a6.56 6.56 0 0 0 6.554-6.555V6.554A6.557 6.557 0 0 0 15.445 0zm4.342 15.445a4.343 4.343 0 0 1-4.342 4.342H6.554a4.341 4.341 0 0 1-4.341-4.342V6.554a4.34 4.34 0 0 1 4.341-4.341h8.891a4.342 4.342 0 0 1 4.341 4.341l.001 8.891z"/> <path d="M11 5.312A5.693 5.693 0 0 0 5.312 11 5.694 5.694 0 0 0 11 16.688 5.694 5.694 0 0 0 16.688 11 5.693 5.693 0 0 0 11 5.312zm0 9.163a3.475 3.475 0 1 1-.001-6.95 3.475 3.475 0 0 1 .001 6.95zm5.7-10.484a1.363 1.363 0 1 1-1.364 1.364c0-.752.51-1.364 1.364-1.364z"/> </g></symbol> <symbol id="icon-linkedin" viewBox="0 0 16 16"><g> <path d="M6 6h2.767v1.418h.04C9.192 6.727 10.134 6 11.539 6 14.46 6 15 7.818 15 10.183V15h-2.885v-4.27c0-1.018-.021-2.329-1.5-2.329-1.502 0-1.732 1.109-1.732 2.255V15H6V6zM1 6h3v9H1V6zM4 3.5a1.5 1.5 0 1 1-3.001-.001A1.5 1.5 0 0 1 4 3.5z"/> </g></symbol> <symbol id="icon-mail" viewBox="0 0 22 18"><g> <path fill="#000" d="M0 17.225V.776h22v16.447H0v.002zm3.011-1.815h15.978l-5.111-5.115L11 13.179l-2.877-2.883-5.112 5.114zm-1.216-1.275l5.077-5.09L1.795 3.98v10.155zm13.332-5.09l5.079 5.09V3.979l-5.079 5.066zm-4.126 1.588l8.022-8.027-16.045-.001 8.023 8.028z"/> </g></symbol> <symbol id="icon-medium" viewBox="0 0 24 24"><g> <path d="M22.085 4.733L24 2.901V2.5h-6.634l-4.728 11.768L7.259 2.5H.303v.401L2.54 5.594c.218.199.332.49.303.783V16.96c.069.381-.055.773-.323 1.05L0 21.064v.396h7.145v-.401l-2.52-3.049a1.244 1.244 0 0 1-.347-1.05V7.806l6.272 13.659h.729l5.393-13.659v10.881c0 .287 0 .346-.188.534l-1.94 1.877v.402h9.412v-.401l-1.87-1.831a.556.556 0 0 1-.214-.534V5.267a.554.554 0 0 1 .213-.534z"/> </g></symbol> <symbol id="icon-npm" viewBox="0 0 16 16"><g> <path d="M0 0v16h16V0H0zm13 13h-2V5H8v8H3V3h10v10z"/> </g></symbol> <symbol id="icon-pinterest" viewBox="0 0 16 16"><g> <path d="M8 1.069a6.93 6.93 0 0 0-2.525 13.384c-.059-.547-.116-1.391.025-1.988.125-.541.813-3.444.813-3.444s-.206-.416-.206-1.028c0-.963.559-1.684 1.253-1.684.591 0 .878.444.878.975 0 .594-.378 1.484-.575 2.306-.166.691.344 1.253 1.025 1.253 1.231 0 2.178-1.3 2.178-3.175 0-1.659-1.194-2.819-2.894-2.819-1.972 0-3.128 1.478-3.128 3.009 0 .597.228 1.234.516 1.581.056.069.066.128.047.2a95.89 95.89 0 0 1-.194.787c-.031.128-.1.153-.231.094-.866-.403-1.406-1.669-1.406-2.684 0-2.188 1.587-4.194 4.578-4.194 2.403 0 4.272 1.712 4.272 4.003 0 2.388-1.506 4.313-3.597 4.313-.703 0-1.362-.366-1.588-.797 0 0-.347 1.322-.431 1.647-.156.603-.578 1.356-.862 1.816a6.93 6.93 0 0 0 8.984-6.622 6.931 6.931 0 0 0-6.931-6.934z"/> </g></symbol> <symbol id="icon-search" viewBox="0 0 16 16"><g> <path d="M15.504 13.616l-3.79-3.223c-.392-.353-.811-.514-1.149-.499a6 6 0 1 0-.672.672c-.016.338.146.757.499 1.149l3.223 3.79c.552.613 1.453.665 2.003.115s.498-1.452-.115-2.003zM6 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/> </g></symbol> <symbol id="icon-strava" viewBox="0 0 24 24"><g> <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/> </g></symbol> <symbol id="icon-tumblr" viewBox="0 0 16 16"><g> <path d="M9.001 7v3.659c0 .928-.012 1.463.086 1.727.098.262.342.534.609.691.354.212.758.318 1.214.318.81 0 1.289-.107 2.09-.633v2.405a9.089 9.089 0 0 1-1.833.639A7.93 7.93 0 0 1 9.369 16a4.9 4.9 0 0 1-1.725-.276 4.195 4.195 0 0 1-1.438-.79c-.398-.343-.672-.706-.826-1.091s-.23-.944-.23-1.676V6.556H3.003V4.29c.628-.204 1.331-.497 1.778-.877a4.386 4.386 0 0 0 1.08-1.374C6.133 1.505 6.32.825 6.422 0h2.579v4H13v3H9.001z"/> </g></symbol> <symbol id="icon-twitter" viewBox="0 0 16 16"><g> <path d="M16 3.538a6.461 6.461 0 0 1-1.884.516 3.301 3.301 0 0 0 1.444-1.816 6.607 6.607 0 0 1-2.084.797 3.28 3.28 0 0 0-2.397-1.034 3.28 3.28 0 0 0-3.197 4.028 9.321 9.321 0 0 1-6.766-3.431 3.284 3.284 0 0 0 1.015 4.381A3.301 3.301 0 0 1 .643 6.57v.041A3.283 3.283 0 0 0 3.277 9.83a3.291 3.291 0 0 1-1.485.057 3.293 3.293 0 0 0 3.066 2.281 6.586 6.586 0 0 1-4.862 1.359 9.286 9.286 0 0 0 5.034 1.475c6.037 0 9.341-5.003 9.341-9.341 0-.144-.003-.284-.009-.425a6.59 6.59 0 0 0 1.637-1.697z"/> </g></symbol> <symbol id="icon-vimeo" viewBox="0 0 16 16"><g> <path d="M15.994 4.281c-.072 1.556-1.159 3.691-3.263 6.397-2.175 2.825-4.016 4.241-5.522 4.241-.931 0-1.722-.859-2.366-2.581-.431-1.578-.859-3.156-1.291-4.734-.478-1.722-.991-2.581-1.541-2.581-.119 0-.538.253-1.256.753l-.753-.969c.791-.694 1.569-1.388 2.334-2.081 1.053-.909 1.844-1.387 2.372-1.438 1.244-.119 2.013.731 2.3 2.553.309 1.966.525 3.188.647 3.666.359 1.631.753 2.447 1.184 2.447.334 0 .838-.528 1.509-1.588.669-1.056 1.028-1.862 1.078-2.416.097-.912-.262-1.372-1.078-1.372a2.98 2.98 0 0 0-1.184.263c.787-2.575 2.287-3.825 4.506-3.753 1.641.044 2.416 1.109 2.322 3.194z"/> </g></symbol> <symbol id="icon-wordpress" viewBox="0 0 16 16"><g> <path d="M2 8c0 2.313 1.38 4.312 3.382 5.259L2.52 5.622A5.693 5.693 0 0 0 2 8zm10.05-.295c0-.722-.266-1.222-.495-1.612-.304-.482-.589-.889-.589-1.371 0-.537.418-1.037 1.008-1.037.027 0 .052.003.078.005A6.064 6.064 0 0 0 8 2.156 6.036 6.036 0 0 0 2.987 4.79c.141.004.274.007.386.007.627 0 1.599-.074 1.599-.074.323-.018.361.444.038.482 0 0-.325.037-.687.055l2.185 6.33 1.313-3.835-.935-2.495a12.304 12.304 0 0 1-.629-.055c-.323-.019-.285-.5.038-.482 0 0 .991.074 1.58.074.627 0 1.599-.074 1.599-.074.323-.018.362.444.038.482 0 0-.326.037-.687.055l2.168 6.282.599-1.947c.259-.809.457-1.389.457-1.889zm-3.945.806l-1.8 5.095a6.148 6.148 0 0 0 3.687-.093.52.52 0 0 1-.043-.081L8.105 8.511zm5.16-3.315c.026.186.04.386.04.601 0 .593-.114 1.259-.456 2.093l-1.833 5.16c1.784-1.013 2.983-2.895 2.983-5.051a5.697 5.697 0 0 0-.735-2.803zM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14z"/> </g></symbol> <symbol id="icon-youtube" viewBox="0 0 16 16"><g> <path d="M15.841 4.8s-.156-1.103-.637-1.587c-.609-.637-1.291-.641-1.603-.678-2.237-.163-5.597-.163-5.597-.163h-.006s-3.359 0-5.597.163c-.313.038-.994.041-1.603.678C.317 3.697.164 4.8.164 4.8S.005 6.094.005 7.391v1.213c0 1.294.159 2.591.159 2.591s.156 1.103.634 1.588c.609.637 1.409.616 1.766.684 1.281.122 5.441.159 5.441.159s3.363-.006 5.6-.166c.313-.037.994-.041 1.603-.678.481-.484.637-1.588.637-1.588s.159-1.294.159-2.591V7.39c-.003-1.294-.162-2.591-.162-2.591zm-9.494 5.275V5.578l4.322 2.256-4.322 2.241z"/> </g></symbol></svg>
+  <header class="l-header">
+    
+    <p class="c-title p-title"><a href="https://gruchalski.com/" class="p-title__link">gruchalski.com</a></p>
+    
+    
+  </header>
+
+  <main id="main" class="l-main">
+
+
+<article class="p-article">
+  <header>
+    <h1>Multi-tenant Vault PKI with custom root PEM bundles</h1>
+    <div>
+      
+        <div class="c-time">
+          Posted on
+<time datetime="2020-09-09T00:00:00Z">
+  Sep 9, 2020
+</time>
+
+        </div>
+      
+      
+      <a href="https://gruchalski.com/tags/pki" class="c-tag">pki</a>
+      
+      <a href="https://gruchalski.com/tags/ca" class="c-tag">ca</a>
+      
+      <a href="https://gruchalski.com/tags/tls" class="c-tag">tls</a>
+      
+      <a href="https://gruchalski.com/tags/openssl" class="c-tag">openssl</a>
+      
+      <a href="https://gruchalski.com/tags/vault" class="c-tag">vault</a>
+      
+      <a href="https://gruchalski.com/tags/multi-tenant" class="c-tag">multi-tenant</a>
+      
+    </div>
+  </header>
+  
+  <section id="js-article" class="p-article__body">
+    <p>In the previous article<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, I have investigated modern PKI software alternatives. One of the options on the list was HashiCorp Vault. The natural next step is to set up a Vault PKI.</p>
+<p>This article documents setting up an imaginary multi-tenant Vault PKI with custom PEM bundles generated with OpenSSL. The steps the following:</p>
+<ul>
+<li>create a root CA with OpenSSL</li>
+<li>create intermediate CAs for imaginary customers with OpenSSL</li>
+<li>using HashiCorp Vault in development mode:
+<ul>
+<li>import custom bundle with root and intermediate certificates</li>
+<li>configure Vault roles</li>
+<li>issue a certificate</li>
+</ul>
+</li>
+</ul>
+<p>The method for generating the root and intermediate CAs comes from <a href="https://jamielinux.com/docs/openssl-certificate-authority/">OpenSSL Certificate Authority</a> guide written by <a href="https://jamielinux.com/">Jamie Nguyen</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. I&rsquo;m including the scripts and the configuration in this article for reference.</p>
+<h2 id="the-result">The result</h2>
+<p>As an outcome of this article, the reader will be able to create a new root CA and add new intermediate CAs to existing root CAs with a single command. This command will also prepare the Vault PEM bundle. With the Vault bundle and four more shell commands, the user will have a ready to use certificate with a CA chain. The process will be:</p>
+<ol>
+<li>run <code>init-intermediate.sh &lt;ca-name&gt; &lt;customer-id&gt;</code> to have an intermediate CA</li>
+<li>enable PKI for the new customer with <code>vault</code> shell command</li>
+<li>import a PEM bundle with <code>vault</code> shell command</li>
+<li>add a permission with <code>vault</code> shell command</li>
+<li>issue a certificate with <code>vault</code> shell command</li>
+</ol>
+<h2 id="create-a-root-ca">Create a root CA</h2>
+<p>I&rsquo;m going to start by creating an environment file which will contain a location for the CA and distinguished name settings. As the root of the CA, I&rsquo;m going to use <code>~/.ca</code> directory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/.ca
+</code></pre></div><p>Now, I will create the environment file, <code>~/.ca/.article-ca</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">tee ~/.ca/.article-ca &gt;/dev/null <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74"># DN defaults:
+</span><span style="color:#e6db74">export CA_DN_DEFAULT_COUNTRY_CODE=DE
+</span><span style="color:#e6db74">export CA_DN_DEFAULT_STATE_OR_PROVINCE=&#34;NRW&#34;
+</span><span style="color:#e6db74">export CA_DN_DEFAULT_LOCALITY=&#34;Herzogenrath&#34;
+</span><span style="color:#e6db74">export CA_DN_DEFAULT_ORG=&#34;klarrio.com&#34;
+</span><span style="color:#e6db74">export CA_DN_DEFAULT_ORG_UNIT=gmbh
+</span><span style="color:#e6db74">export CA_DN_DEFAULT_EMAIL_ADDRESS=&#34;radek.gruchalski@klarrio.com&#34;
+</span><span style="color:#e6db74">export CA_DN_DEFAULT_COMMON_NAME=&#34;${CA_DN_DEFAULT_ORG_UNIT}.${CA_DN_DEFAULT_ORG}&#34;
+</span><span style="color:#e6db74"># Certificate settings:
+</span><span style="color:#e6db74">export DEFAULT_BITS=2048
+</span><span style="color:#e6db74">export DEFAULT_CA_DAYS=365
+</span><span style="color:#e6db74">export DEFAULT_DAYS=90
+</span><span style="color:#e6db74">export NS_CLIENT_CERT_COMMENT=&#34;OpenSSL Generated Server Certificate&#34;
+</span><span style="color:#e6db74">export NS_SERVER_CERT_COMMENT=&#34;OpenSSL Generated Server Certificate&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>The next step is to create a shell program responsible for writing the CA root configuration. This, and the following intermediate, are by far the two longest bits of code in this article.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/usr/bin/env bash
+</span><span style="color:#75715e"></span>set -eu
+
+CA_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
+
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -f <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/.<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    source <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/.<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span>
+<span style="color:#66d9ef">else</span>
+    echo <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/.<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span> not found
+    exit <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">fi</span>
+
+CADIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span>
+mkdir -p <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span> <span style="color:#f92672">&amp;&amp;</span> cd <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># init subdirectories, index.txt and serial files:</span>
+mkdir certs crl newcerts private
+chmod <span style="color:#ae81ff">700</span> private
+touch index.txt
+echo <span style="color:#ae81ff">1000</span> &gt; serial
+
+<span style="color:#75715e"># write the root CA config:</span>
+tee openssl.cnf &gt;/dev/null <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74"># OpenSSL root CA configuration file.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ ca ]
+</span><span style="color:#e6db74"># man ca
+</span><span style="color:#e6db74">default_ca = CA_default
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ CA_default ]
+</span><span style="color:#e6db74"># Directory and file locations.
+</span><span style="color:#e6db74">dir               = ${CADIR}
+</span><span style="color:#e6db74">certs             = \$dir/certs
+</span><span style="color:#e6db74">crl_dir           = \$dir/crl
+</span><span style="color:#e6db74">new_certs_dir     = \$dir/newcerts
+</span><span style="color:#e6db74">database          = \$dir/index.txt
+</span><span style="color:#e6db74">serial            = \$dir/serial
+</span><span style="color:#e6db74">RANDFILE          = \$dir/private/.rand
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># The root key and root certificate.
+</span><span style="color:#e6db74">private_key       = \$dir/private/ca.key.pem
+</span><span style="color:#e6db74">certificate       = \$dir/certs/ca.cert.pem
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># For certificate revocation lists.
+</span><span style="color:#e6db74">crlnumber         = \$dir/crlnumber
+</span><span style="color:#e6db74">crl               = \$dir/crl/ca.crl.pem
+</span><span style="color:#e6db74">crl_extensions    = crl_ext
+</span><span style="color:#e6db74">default_crl_days  = 30
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># SHA-1 is deprecated, so use SHA-2 instead.
+</span><span style="color:#e6db74">default_md        = sha256
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">name_opt          = ca_default
+</span><span style="color:#e6db74">cert_opt          = ca_default
+</span><span style="color:#e6db74">default_days      = ${DEFAULT_DAYS}
+</span><span style="color:#e6db74">preserve          = no
+</span><span style="color:#e6db74">policy            = policy_strict
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ policy_strict ]
+</span><span style="color:#e6db74"># The root CA should only sign intermediate certificates that match.
+</span><span style="color:#e6db74"># See the POLICY FORMAT section of &#39;man ca&#39;.
+</span><span style="color:#e6db74">countryName             = match
+</span><span style="color:#e6db74">stateOrProvinceName     = match
+</span><span style="color:#e6db74">organizationName        = match
+</span><span style="color:#e6db74">organizationalUnitName  = optional
+</span><span style="color:#e6db74">commonName              = supplied
+</span><span style="color:#e6db74">emailAddress            = optional
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ policy_loose ]
+</span><span style="color:#e6db74"># Allow the intermediate CA to sign a more diverse range of certificates.
+</span><span style="color:#e6db74"># See the POLICY FORMAT section of the &#39;ca&#39; man page.
+</span><span style="color:#e6db74">countryName             = optional
+</span><span style="color:#e6db74">stateOrProvinceName     = optional
+</span><span style="color:#e6db74">localityName            = optional
+</span><span style="color:#e6db74">organizationName        = optional
+</span><span style="color:#e6db74">organizationalUnitName  = optional
+</span><span style="color:#e6db74">commonName              = supplied
+</span><span style="color:#e6db74">emailAddress            = optional
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ req ]
+</span><span style="color:#e6db74"># Options for the &#39;req&#39; tool (&#39;man req&#39;).
+</span><span style="color:#e6db74">default_bits        = ${DEFAULT_BITS}
+</span><span style="color:#e6db74">distinguished_name  = req_distinguished_name
+</span><span style="color:#e6db74">string_mask         = utf8only
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># SHA-1 is deprecated, so use SHA-2 instead.
+</span><span style="color:#e6db74">default_md          = sha256
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># Extension to add when the -x509 option is used.
+</span><span style="color:#e6db74">x509_extensions     = v3_ca
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ req_distinguished_name ]
+</span><span style="color:#e6db74"># See &lt;https://en.wikipedia.org/wiki/Certificate_signing_request&gt;.
+</span><span style="color:#e6db74">countryName                     = Country Name (2 letter code)
+</span><span style="color:#e6db74">stateOrProvinceName             = State or Province Name
+</span><span style="color:#e6db74">localityName                    = Locality Name
+</span><span style="color:#e6db74">0.organizationName              = Organization Name
+</span><span style="color:#e6db74">organizationalUnitName          = Organizational Unit Name
+</span><span style="color:#e6db74">commonName                      = Common Name
+</span><span style="color:#e6db74">emailAddress                    = Email Address
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># Optionally, specify some defaults.
+</span><span style="color:#e6db74">countryName_default             = ${CA_DN_DEFAULT_COUNTRY_CODE}
+</span><span style="color:#e6db74">stateOrProvinceName_default     = &#34;${CA_DN_DEFAULT_STATE_OR_PROVINCE}&#34;
+</span><span style="color:#e6db74">localityName_default            = &#34;${CA_DN_DEFAULT_LOCALITY}&#34;
+</span><span style="color:#e6db74">0.organizationName_default      = &#34;${CA_DN_DEFAULT_ORG}&#34;
+</span><span style="color:#e6db74">organizationalUnitName_default  = &#34;${CA_DN_DEFAULT_ORG_UNIT}&#34;
+</span><span style="color:#e6db74">emailAddress_default            = &#34;${CA_DN_DEFAULT_EMAIL_ADDRESS}&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ v3_ca ]
+</span><span style="color:#e6db74"># Extensions for a typical CA (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid:always,issuer
+</span><span style="color:#e6db74">basicConstraints = critical, CA:true
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ v3_intermediate_ca ]
+</span><span style="color:#e6db74"># Extensions for a typical intermediate CA (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid:always,issuer
+</span><span style="color:#e6db74">basicConstraints = critical, CA:true, pathlen:0
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ usr_cert ]
+</span><span style="color:#e6db74"># Extensions for client certificates (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">basicConstraints = CA:FALSE
+</span><span style="color:#e6db74">nsCertType = client, email
+</span><span style="color:#e6db74">nsComment = &#34;${NS_CLIENT_CERT_COMMENT}&#34;
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid,issuer
+</span><span style="color:#e6db74">keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+</span><span style="color:#e6db74">extendedKeyUsage = clientAuth, emailProtection
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ server_cert ]
+</span><span style="color:#e6db74"># Extensions for server certificates (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">basicConstraints = CA:FALSE
+</span><span style="color:#e6db74">nsCertType = server
+</span><span style="color:#e6db74">nsComment = &#34;${NS_SERVER_CERT_COMMENT}&#34;
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid,issuer:always
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature, keyEncipherment
+</span><span style="color:#e6db74">extendedKeyUsage = serverAuth
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ crl_ext ]
+</span><span style="color:#e6db74"># Extension for CRLs (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">authorityKeyIdentifier=keyid:always
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ ocsp ]
+</span><span style="color:#e6db74"># Extension for OCSP signing certificates (&#39;man ocsp&#39;).
+</span><span style="color:#e6db74">basicConstraints = CA:FALSE
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid,issuer
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature
+</span><span style="color:#e6db74">extendedKeyUsage = critical, OCSPSignings
+</span><span style="color:#e6db74">EOF</span>
+
+<span style="color:#75715e"># generate root CA:</span>
+openssl genrsa -aes256 -out <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/private/ca.key.pem <span style="color:#ae81ff">4096</span>
+chmod <span style="color:#ae81ff">400</span> <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/private/ca.key.pem
+openssl req -config <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/openssl.cnf <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>      -key <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/private/ca.key.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>      -new -x509 -days <span style="color:#e6db74">${</span>DEFAULT_CA_DAYS<span style="color:#e6db74">}</span> -sha256 -extensions v3_ca <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>      -out <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/certs/ca.cert.pem
+chmod <span style="color:#ae81ff">444</span> <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/certs/ca.cert.pem
+openssl x509 -noout -text -in <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/certs/ca.cert.pem
+</code></pre></div><p>After saving the program as <code>~/.ca/init-ca.sh</code>, making it executable with <code>chmod +x ~/.ca/init-ca.sh</code> and running as <code>~/.ca/init-ca.sh article-ca</code>, the new CA has been created in <code>~/.ca/article-ca</code>. Using this method and changing the CA name given to the program as the first argument, more root CAs can be created.</p>
+<p>The program will ask three times for the CA private key passphrase: to create the key, to verify and to use the key. Next, it will ask to confirm default values for the distinguished name. When all values are confirmed and correct, the CA root certificate will be generated.</p>
+<p>The output will be similar to:</p>
+<pre><code>Generating RSA private key, 4096 bit long modulus
+..........................++
+...........................................................................................................................................................................................++
+e is 65537 (0x10001)
+Enter pass phrase for /Users/rad/.ca/article-ca/private/ca.key.pem:
+Verifying - Enter pass phrase for /Users/rad/.ca/article-ca/private/ca.key.pem:
+Enter pass phrase for /Users/rad/.ca/article-ca/private/ca.key.pem:
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [DE]:
+State or Province Name [NRW]:
+Locality Name [Herzogenrath]:
+Organization Name [klarrio.com]:
+Organizational Unit Name [gmbh]:
+Common Name []:
+Email Address [radek.gruchalski@klarrio.com]:
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 14292483172117400839 (0xc65919b8604e4d07)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=DE, ST=NRW, L=Herzogenrath, O=klarrio.com, OU=gmbh/emailAddress=radek.gruchalski@klarrio.com
+        Validity
+            Not Before: Sep  8 20:53:48 2020 GMT
+            Not After : Sep  8 20:53:48 2021 GMT
+        Subject: C=DE, ST=NRW, L=Herzogenrath, O=klarrio.com, OU=gmbh/emailAddress=radek.gruchalski@klarrio.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (4096 bit)
+                Modulus:
+                    00:ab:bf:02:ef:72:b3:ce:ac:4b:37:01:1b:57:fc:
+                    ...
+                    0d:84:73:28:32:e8:f1:99:64:ee:f5:b2:6f:21:7f:
+                    9e:08:21
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier:
+                06:DE:59:CD:9A:21:9F:A0:B2:32:EE:B3:E6:89:11:10:9C:6E:83:0F
+            X509v3 Authority Key Identifier:
+                keyid:06:DE:59:CD:9A:21:9F:A0:B2:32:EE:B3:E6:89:11:10:9C:6E:83:0F
+
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+    Signature Algorithm: sha256WithRSAEncryption
+         35:30:29:2c:39:1b:57:81:d8:95:9a:26:1f:5c:44:62:65:ca:
+         ...
+         fe:28:53:b1:76:63:22:cd
+</code></pre><p>on disk, there should be:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ tree ~/.ca/article-ca/
+/Users/rad/.ca/article-ca/
+├── certs
+│   └── ca.cert.pem
+├── crl
+├── index.txt
+├── newcerts
+├── openssl.cnf
+├── private
+│   └── ca.key.pem
+└── serial
+
+<span style="color:#ae81ff">4</span> directories, <span style="color:#ae81ff">5</span> files
+</code></pre></div><h2 id="create-an-intermediate-ca">Create an intermediate CA</h2>
+<p>The intermediate CA reuses the environment file of the root CA. The program to create it is very similar to the <code>init-ca.sh</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/usr/bin/env bash
+</span><span style="color:#75715e"></span>set -eu
+
+CA_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
+INTERMEDIATE_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>2<span style="color:#e6db74">}</span>
+
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -f <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/.<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    source <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/.<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span>
+<span style="color:#66d9ef">else</span>
+    echo <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/.<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span> not found
+    exit <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">fi</span>
+
+CADIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/<span style="color:#e6db74">${</span>CA_NAME<span style="color:#e6db74">}</span>
+INTERMEDIATEDIR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/intermediate/<span style="color:#e6db74">${</span>INTERMEDIATE_NAME<span style="color:#e6db74">}</span>
+
+mkdir -p <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span> <span style="color:#f92672">&amp;&amp;</span> cd <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># init subdirectories, index.txt and serial files:</span>
+mkdir certs chain crl csr newcerts private vault-bundle
+chmod <span style="color:#ae81ff">700</span> private
+touch index.txt
+echo <span style="color:#ae81ff">1000</span> &gt; serial
+echo <span style="color:#ae81ff">1000</span> &gt; crlnumber
+
+<span style="color:#75715e"># write the intermediate config:</span>
+tee openssl.cnf &gt;/dev/null <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74"># OpenSSL intermediate CA configuration file.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ ca ]
+</span><span style="color:#e6db74"># &#39;man ca&#39;
+</span><span style="color:#e6db74">default_ca = CA_default
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ CA_default ]
+</span><span style="color:#e6db74"># Directory and file locations.
+</span><span style="color:#e6db74">dir               = ${INTERMEDIATEDIR}
+</span><span style="color:#e6db74">certs             = \$dir/certs
+</span><span style="color:#e6db74">crl_dir           = \$dir/crl
+</span><span style="color:#e6db74">new_certs_dir     = \$dir/newcerts
+</span><span style="color:#e6db74">database          = \$dir/index.txt
+</span><span style="color:#e6db74">serial            = \$dir/serial
+</span><span style="color:#e6db74">RANDFILE          = \$dir/private/.rand
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># The root key and root certificate.
+</span><span style="color:#e6db74">private_key       = \$dir/private/intermediate.key.pem
+</span><span style="color:#e6db74">certificate       = \$dir/certs/intermediate.cert.pem
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># For certificate revocation lists.
+</span><span style="color:#e6db74">crlnumber         = \$dir/crlnumber
+</span><span style="color:#e6db74">crl               = \$dir/crl/intermediate.crl.pem
+</span><span style="color:#e6db74">crl_extensions    = crl_ext
+</span><span style="color:#e6db74">default_crl_days  = 30
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># SHA-1 is deprecated, so use SHA-2 instead.
+</span><span style="color:#e6db74">default_md        = sha256
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">name_opt          = ca_default
+</span><span style="color:#e6db74">cert_opt          = ca_default
+</span><span style="color:#e6db74">default_days      = ${DEFAULT_DAYS}
+</span><span style="color:#e6db74">preserve          = no
+</span><span style="color:#e6db74">policy            = policy_loose
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ policy_strict ]
+</span><span style="color:#e6db74"># The root CA should only sign intermediate certificates that match.
+</span><span style="color:#e6db74"># See the POLICY FORMAT section of &#39;man ca&#39;.
+</span><span style="color:#e6db74">countryName             = match
+</span><span style="color:#e6db74">stateOrProvinceName     = match
+</span><span style="color:#e6db74">organizationName        = match
+</span><span style="color:#e6db74">organizationalUnitName  = optional
+</span><span style="color:#e6db74">commonName              = supplied
+</span><span style="color:#e6db74">emailAddress            = optional
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ policy_loose ]
+</span><span style="color:#e6db74"># Allow the intermediate CA to sign a more diverse range of certificates.
+</span><span style="color:#e6db74"># See the POLICY FORMAT section of the &#39;ca&#39; man page.
+</span><span style="color:#e6db74">countryName             = optional
+</span><span style="color:#e6db74">stateOrProvinceName     = optional
+</span><span style="color:#e6db74">localityName            = optional
+</span><span style="color:#e6db74">organizationName        = optional
+</span><span style="color:#e6db74">organizationalUnitName  = optional
+</span><span style="color:#e6db74">commonName              = supplied
+</span><span style="color:#e6db74">emailAddress            = optional
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ req ]
+</span><span style="color:#e6db74"># Options for the &#39;req&#39; tool (&#39;man req&#39;).
+</span><span style="color:#e6db74">default_bits        = ${DEFAULT_BITS}
+</span><span style="color:#e6db74">distinguished_name  = req_distinguished_name
+</span><span style="color:#e6db74">string_mask         = utf8only
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># SHA-1 is deprecated, so use SHA-2 instead.
+</span><span style="color:#e6db74">default_md          = sha256
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># Extension to add when the -x509 option is used.
+</span><span style="color:#e6db74">x509_extensions     = v3_ca
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ req_distinguished_name ]
+</span><span style="color:#e6db74"># See &lt;https://en.wikipedia.org/wiki/Certificate_signing_request&gt;.
+</span><span style="color:#e6db74">countryName                     = Country Name (2 letter code)
+</span><span style="color:#e6db74">stateOrProvinceName             = State or Province Name
+</span><span style="color:#e6db74">localityName                    = Locality Name
+</span><span style="color:#e6db74">0.organizationName              = Organization Name
+</span><span style="color:#e6db74">organizationalUnitName          = Organizational Unit Name
+</span><span style="color:#e6db74">commonName                      = Common Name
+</span><span style="color:#e6db74">emailAddress                    = Email Address
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># Optionally, specify some defaults.
+</span><span style="color:#e6db74">countryName_default             = ${CA_DN_DEFAULT_COUNTRY_CODE}
+</span><span style="color:#e6db74">stateOrProvinceName_default     = &#34;${CA_DN_DEFAULT_STATE_OR_PROVINCE}&#34;
+</span><span style="color:#e6db74">localityName_default            = &#34;${CA_DN_DEFAULT_LOCALITY}&#34;
+</span><span style="color:#e6db74">0.organizationName_default      = &#34;${CA_DN_DEFAULT_ORG}&#34;
+</span><span style="color:#e6db74">organizationalUnitName_default  = &#34;${CA_DN_DEFAULT_ORG_UNIT}&#34;
+</span><span style="color:#e6db74">commonName_default              = &#34;${INTERMEDIATE_NAME}.${CA_DN_DEFAULT_COMMON_NAME}&#34;
+</span><span style="color:#e6db74">emailAddress_default            = &#34;${CA_DN_DEFAULT_EMAIL_ADDRESS}&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ v3_ca ]
+</span><span style="color:#e6db74"># Extensions for a typical CA (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid:always,issuer
+</span><span style="color:#e6db74">basicConstraints = critical, CA:true
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ v3_intermediate_ca ]
+</span><span style="color:#e6db74"># Extensions for a typical intermediate CA (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid:always,issuer
+</span><span style="color:#e6db74">basicConstraints = critical, CA:true, pathlen:0
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ usr_cert ]
+</span><span style="color:#e6db74"># Extensions for client certificates (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">basicConstraints = CA:FALSE
+</span><span style="color:#e6db74">nsCertType = client, email
+</span><span style="color:#e6db74">nsComment = &#34;${NS_CLIENT_CERT_COMMENT}&#34;
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid,issuer
+</span><span style="color:#e6db74">keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+</span><span style="color:#e6db74">extendedKeyUsage = clientAuth, emailProtection
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ server_cert ]
+</span><span style="color:#e6db74"># Extensions for server certificates (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">basicConstraints = CA:FALSE
+</span><span style="color:#e6db74">nsCertType = server
+</span><span style="color:#e6db74">nsComment = &#34;${NS_SERVER_CERT_COMMENT}&#34;
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid,issuer:always
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature, keyEncipherment
+</span><span style="color:#e6db74">extendedKeyUsage = serverAuth
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ crl_ext ]
+</span><span style="color:#e6db74"># Extension for CRLs (&#39;man x509v3_config&#39;).
+</span><span style="color:#e6db74">authorityKeyIdentifier=keyid:always
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ ocsp ]
+</span><span style="color:#e6db74"># Extension for OCSP signing certificates (&#39;man ocsp&#39;).
+</span><span style="color:#e6db74">basicConstraints = CA:FALSE
+</span><span style="color:#e6db74">subjectKeyIdentifier = hash
+</span><span style="color:#e6db74">authorityKeyIdentifier = keyid,issuer
+</span><span style="color:#e6db74">keyUsage = critical, digitalSignature
+</span><span style="color:#e6db74">extendedKeyUsage = critical, OCSPSigning
+</span><span style="color:#e6db74">EOF</span>
+
+<span style="color:#75715e"># generate intermediate CA certificate for ${CA_NAME}/${INTERMEDIATE_NAME} in ${INTERMEDIATEDIR}...&#34;</span>
+openssl genrsa -aes256 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -out <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/private/intermediate.key.pem <span style="color:#ae81ff">4096</span>
+chmod <span style="color:#ae81ff">400</span> <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/private/intermediate.key.pem
+openssl req -config <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/openssl.cnf -new -sha256 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -key <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/private/intermediate.key.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -out <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/csr/intermediate.csr.pem
+openssl ca -config <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/openssl.cnf -extensions v3_intermediate_ca <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -days <span style="color:#e6db74">${</span>DEFAULT_CA_DAYS<span style="color:#e6db74">}</span> -notext -md sha256 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -in <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/csr/intermediate.csr.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -out <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/certs/intermediate.cert.pem
+chmod <span style="color:#ae81ff">444</span> <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/certs/intermediate.cert.pem
+openssl x509 -noout -text <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -in <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/certs/intermediate.cert.pem
+openssl verify -CAfile <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/certs/ca.cert.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/certs/intermediate.cert.pem
+
+<span style="color:#75715e"># generate the chain:</span>
+cat <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/certs/intermediate.cert.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>      <span style="color:#e6db74">${</span>CADIR<span style="color:#e6db74">}</span>/certs/ca.cert.pem &gt; <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/chain/ca-chain.cert.pem
+chmod <span style="color:#ae81ff">444</span> <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/certs/ca-chain.cert.pem
+
+<span style="color:#75715e"># convert intermediate CA key to PKCS1 format required by Vault bundle</span>
+openssl rsa -in <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/private/intermediate.key.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -out <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/vault-bundle/intermediate-pkcs1.key.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -outform pem
+
+<span style="color:#75715e"># generate the actual Vault bundle:</span>
+cat <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/chain/ca-chain.cert.pem <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/vault-bundle/intermediate-pkcs1.key.pem &gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/vault-bundle/bundle.pem
+
+<span style="color:#75715e"># remove the pkcs1 file:</span>
+rm <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/vault-bundle/intermediate-pkcs1.key.pem
+</code></pre></div><p>After saving as <code>~/.ca/init-intermediate.sh</code>, making executable with <code>chmod +x ~/.ca/init-intermediate.sh</code>, it can be executed. I&rsquo;m going to create two intermediate CAs immediately. In my case, mirroring the imaginary use case for setting up Keycloak with multiple customers<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>, I have:</p>
+<ul>
+<li>CustomerA <code>~/.ca/init-intermediate.sh article-ca customer-a</code></li>
+<li>CustomerB <code>~/.ca/init-intermediate.sh article-ca customer-b</code></li>
+</ul>
+<p>In each case, the program will ask the following:</p>
+<ul>
+<li>the intermediate CA key password, three times: to create the key, verify the password and use the key</li>
+<li>verify to confirm distinguished name defaults, additionally a common name</li>
+<li>root CA key password during intermediate signing</li>
+<li>a couple of confirmations</li>
+<li>once again a passphrase of the intermediate CA key for pkcs1 conversion</li>
+</ul>
+<p>After these two commands are finished, the files on disk look similar to:</p>
+<pre><code>[rad] ~ $ tree ~/.ca/article-ca/
+/Users/rad/.ca/article-ca/
+├── certs
+│   └── ca.cert.pem
+├── crl
+├── index.txt
+├── index.txt.attr
+├── index.txt.attr.old
+├── index.txt.old
+├── intermediate
+│   ├── customer-a
+│   │   ├── certs
+│   │   │   └── intermediate.cert.pem
+│   │   ├── chain
+│   │   │   └── ca-chain.cert.pem
+│   │   ├── crl
+│   │   ├── crlnumber
+│   │   ├── csr
+│   │   │   └── intermediate.csr.pem
+│   │   ├── index.txt
+│   │   ├── newcerts
+│   │   ├── openssl.cnf
+│   │   ├── private
+│   │   │   └── intermediate.key.pem
+│   │   ├── serial
+│   │   └── vault-bundle
+│   │       └── bundle.pem
+│   └── customer-b
+│       ├── certs
+│       │   └── intermediate.cert.pem
+│       ├── chain
+│       │   └── ca-chain.cert.pem
+│       ├── crl
+│       ├── crlnumber
+│       ├── csr
+│       │   └── intermediate.csr.pem
+│       ├── index.txt
+│       ├── newcerts
+│       ├── openssl.cnf
+│       ├── private
+│       │   └── intermediate.key.pem
+│       ├── serial
+│       └── vault-bundle
+│           └── bundle.pem
+├── newcerts
+│   ├── 1000.pem
+│   └── 1001.pem
+├── openssl.cnf
+├── private
+│   └── ca.key.pem
+├── serial
+└── serial.old
+
+21 directories, 29 files
+</code></pre><p>The output of the intermediate CA init, for one of the executions, is similar to:</p>
+<pre><code>Generating RSA private key, 4096 bit long modulus
+...........................................++
+.....................................................................................................................................................................................................................................................................................++
+e is 65537 (0x10001)
+Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
+Verifying - Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
+Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [DE]:
+State or Province Name [NRW]:
+Locality Name [Herzogenrath]:
+Organization Name [klarrio.com]:
+Organizational Unit Name [gmbh]:
+Common Name [customer-a.gmbh.klarrio.com]:
+Email Address [radek.gruchalski@klarrio.com]:
+Using configuration from /Users/rad/.ca/article-ca/openssl.cnf
+Enter pass phrase for /Users/rad/.ca/article-ca/private/ca.key.pem:
+Check that the request matches the signature
+Signature ok
+Certificate Details:
+        Serial Number: 4096 (0x1000)
+        Validity
+            Not Before: Sep  8 21:05:08 2020 GMT
+            Not After : Sep  8 21:05:08 2021 GMT
+        Subject:
+            countryName               = DE
+            stateOrProvinceName       = NRW
+            organizationName          = klarrio.com
+            organizationalUnitName    = gmbh
+            commonName                = customer-a.gmbh.klarrio.com
+            emailAddress              = radek.gruchalski@klarrio.com
+        X509v3 extensions:
+            X509v3 Subject Key Identifier:
+                47:7D:8A:9E:DC:23:03:7A:AA:E4:79:A8:98:EE:40:54:01:84:1C:E8
+            X509v3 Authority Key Identifier:
+                keyid:06:DE:59:CD:9A:21:9F:A0:B2:32:EE:B3:E6:89:11:10:9C:6E:83:0F
+
+            X509v3 Basic Constraints: critical
+                CA:TRUE, pathlen:0
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+Certificate is to be certified until Sep  8 21:05:08 2021 GMT (365 days)
+Sign the certificate? [y/n]:y
+
+
+1 out of 1 certificate requests certified, commit? [y/n]y
+Write out database with 1 new entries
+Data Base Updated
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 4096 (0x1000)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=DE, ST=NRW, L=Herzogenrath, O=klarrio.com, OU=gmbh/emailAddress=radek.gruchalski@klarrio.com
+        Validity
+            Not Before: Sep  9 21:05:08 2020 GMT
+            Not After : Sep  9 21:05:08 2021 GMT
+        Subject: C=DE, ST=NRW, O=klarrio.com, OU=gmbh, CN=customer-a.gmbh.klarrio.com/emailAddress=radek.gruchalski@klarrio.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (4096 bit)
+                Modulus:
+                    00:aa:c3:eb:7e:c4:2a:79:2e:bc:7b:6f:c2:61:f9:
+                    ...
+                    80:27:da:c6:b8:ff:20:3b:7f:9b:fd:ff:15:d0:2c:
+                    e7:2b:03
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier:
+                47:7D:8A:9E:DC:23:03:7A:AA:E4:79:A8:98:EE:40:54:01:84:1C:E8
+            X509v3 Authority Key Identifier:
+                keyid:06:DE:59:CD:9A:21:9F:A0:B2:32:EE:B3:E6:89:11:10:9C:6E:83:0F
+
+            X509v3 Basic Constraints: critical
+                CA:TRUE, pathlen:0
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+    Signature Algorithm: sha256WithRSAEncryption
+         22:b5:e3:6e:a5:d6:0d:6b:30:65:a3:d9:68:27:38:2b:ea:64:
+         ...
+         39:ac:c3:66:88:8c:f0:eb
+/Users/rad/.ca/article-ca/intermediate/customer-a/certs/intermediate.cert.pem: OK
+Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
+writing RSA key
+</code></pre><p>At this stage, I have a root CA and two intermediate CA for respective common names:</p>
+<ul>
+<li>CustomerA: <code>customer-a.gmbh.klarrio.com</code></li>
+<li>CustomerB: <code>customer-b.gmbh.klarrio.com</code></li>
+</ul>
+<p>For every intermediate, I have a PEM bundle ready to be imported to HashiCorp Vault.</p>
+<h2 id="start-vault-in-development-mode">Start Vault in development mode</h2>
+<p>I&rsquo;m going to use Vault development mode, with <code>VAULT_DEV_ROOT_TOKEN_ID</code> hard coded and default port <code>8200</code> exposed so it can be reached from <code>localhost</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker run --rm <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -p 8200:8200 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -ti <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -e <span style="color:#e6db74">&#39;VAULT_DEV_ROOT_TOKEN_ID=dev-token&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -e <span style="color:#e6db74">&#39;VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --cap-add<span style="color:#f92672">=</span>IPC_LOCK <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    vault
+...
+2020-09-08T21:08:07.855Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  expiration: revoked lease: lease_id<span style="color:#f92672">=</span>auth/token/root/h128b471d9329710fbbd34dc5a4a98b4d0c7fe104799e818447a013762aed1e66
+2020-09-08T21:08:07.859Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  core: successful mount: namespace<span style="color:#f92672">=</span> path<span style="color:#f92672">=</span>secret/ type<span style="color:#f92672">=</span>kv
+2020-09-08T21:08:07.869Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  secrets.kv.kv_9795fd99: collecting keys to upgrade
+2020-09-08T21:08:07.869Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  secrets.kv.kv_9795fd99: <span style="color:#66d9ef">done</span> collecting keys: num_keys<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+2020-09-08T21:08:07.869Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  secrets.kv.kv_9795fd99: upgrading keys finished
+</code></pre></div><p>Now, in another terminal window, I am going to export the token and Vault address environment variables:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">export VAULT_ADDR<span style="color:#f92672">=</span>http://127.0.0.1:8200
+export VAULT_TOKEN<span style="color:#f92672">=</span>dev-token
+</code></pre></div><p>Finally, I can enable PKIs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault secrets enable -path<span style="color:#f92672">=</span>customer-a pki
+vault secrets enable -path<span style="color:#f92672">=</span>customer-b pki
+</code></pre></div><p>I can see Vault confirming:</p>
+<pre><code>2020-09-08T21:11:32.133Z [INFO]  core: successful mount: namespace= path=customer-a/ type=pki
+2020-09-08T21:11:32.914Z [INFO]  core: successful mount: namespace= path=customer-b/ type=pki
+</code></pre><h2 id="importing-the-bundles">Importing the bundles</h2>
+<p>The next step is to import the PEM bundles, they were prepared during the intermediate CA creation:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/config/ca pem_bundle<span style="color:#f92672">=</span>@<span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/article-ca/intermediate/customer-a/vault-bundle/bundle.pem
+Success! Data written to: customer-a/config/ca
+<span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-b/config/ca pem_bundle<span style="color:#f92672">=</span>@<span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/article-ca/intermediate/customer-b/vault-bundle/bundle.pem
+Success! Data written to: customer-b/config/ca
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/roles/system-of-customer-a-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allow_localhost<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allow_bare_domains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost,customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allow_subdomains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    max_ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;720h&#34;</span>
+Success! Data written to: customer-a/roles/system-of-customer-a-com
+<span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-b/roles/system-of-customer-b-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allow_localhost<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allow_bare_domains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost,customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allow_subdomains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    max_ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;720h&#34;</span>
+Success! Data written to: customer-b/roles/system-of-customer-b-com
+</code></pre></div><h3 id="notes-to-the-examples-above">Notes to the examples above</h3>
+<ol>
+<li>By setting <code>allow_bare_domains</code> to <code>true</code>, I allow the user to generate a certificate for any literal domain specified in <code>allowed_domains</code>, so the user can issue a certificate for <code>customer-[X].gmbh.klarrio.com</code>.</li>
+<li>By setting <code>allow_localhost</code> to <code>true</code>, I allow issuing a certificate for <code>localhost</code>, useful for testing.</li>
+<li>By setting <code>allow_subdomains</code> to <code>true</code>, I give the user the ability to issue certificates with common names that are subdomains of <code>allowed_domains</code>.</li>
+</ol>
+<p>All the interesting options are documented in the Vault documentation<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
+<h2 id="requesting-certificates">Requesting certificates</h2>
+<p>To request a certificate, simply issue the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-a/issue/system-of-customer-a-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;become.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;240h&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
+</code></pre></div><p>To which the output is &hellip; pretty verbose &hellip;:</p>
+<pre><code>Key                 Value
+---                 -----
+ca_chain            [-----BEGIN CERTIFICATE-----
+MIIF+zCCA+OgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwgYQxCzAJBgNVBAYTAkRF
+MQwwCgYDVQQIDANOUlcxFTATBgNVBAcMDEhlcnpvZ2VucmF0aDEUMBIGA1UECgwL
+...
+KhlaTNBfyYaIYXeTQgCa+ar7OcZQhKMvPv1dTOFtZQ8Rjk5+8Y0yOazDZoiM8Os=
+-----END CERTIFICATE----- -----BEGIN CERTIFICATE-----
+MIIF8DCCA9igAwIBAgIJAMZZGbhgTk0HMA0GCSqGSIb3DQEBCwUAMIGEMQswCQYD
+...
+kY3o7PdJs57rbyjVo3UWLZwQbqBkMpH3zxjKLco8lE3UscEU7Up/ZxqQF9i3Wxj1
+bahjbSfvI/V5gKaVkfcp/Pe1wavMFSI0GueEzP4oU7F2YyLN
+-----END CERTIFICATE-----]
+certificate         -----BEGIN CERTIFICATE-----
+MIIE8TCCAtmgAwIBAgIUZWaMXolFNt/ufzgUOnvu79ZCVjEwDQYJKoZIhvcNAQEL
+BQAwgZMxCzAJBgNVBAYTAkRFMQwwCgYDVQQIDANOUlcxFDASBgNVBAoMC2tsYXJy
+...
+nJOv5KyaSz8OCKdX+JlVmU9Qoapj4EyXOZQ+LS8RBsFXrbjpjqxdd3kpiEhpcQwN
+7UXijzXX25gZKwFPTof+VdAKa5M1/uU9G15KwL4S/vJwYGwL/zo799qrGdd/+plV
+cOd4GA883CW0DdC8QuU2+w3HIRS6
+-----END CERTIFICATE-----
+expiration          1600616181
+issuing_ca          -----BEGIN CERTIFICATE-----
+MIIF+zCCA+OgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwgYQxCzAJBgNVBAYTAkRF
+MQwwCgYDVQQIDANOUlcxFTATBgNVBAcMDEhlcnpvZ2VucmF0aDEUMBIGA1UECgwL
+a2xhcnJpby5jb20xDTALBgNVBAsMBGdtYmgxKzApBgkqhkiG9w0BCQEWHHJhZGVr
+...
+pIjI/wXZwURNn920ODhsA0v467Llw4gMTTjxOfDIFrdZ46936IMzHNOXI5b87dfU
+KhlaTNBfyYaIYXeTQgCa+ar7OcZQhKMvPv1dTOFtZQ8Rjk5+8Y0yOazDZoiM8Os=
+-----END CERTIFICATE-----
+private_key         -----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA57Ww9OC6UzHaLAALdbotEoTf5c2qw4BufVlOB7zZh+GbX2hR
+...
+zcDV96GoXPEnuXHdVsfePFIdPS7IRmAEn72UW6u39mVqGJuX1/5tk76ay6cPHP/B
+xtX2UAplk9bD046wNh1/PxudBnqavOFf4F5uDizYhyihbmmhS/mcxA==
+-----END RSA PRIVATE KEY-----
+private_key_type    rsa
+serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
+</code></pre><p>Cool, we have the certificate, a private key and a certificate chain. The CA chain can now be copied to <code>chain.pem</code> file.</p>
+<p><img src="/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/ca-chain.png" alt="CA chain"></p>
+<p><strong>Pay attention to the</strong> <code>-----END CERTIFICATE----- -----BEGIN CERTIFICATE-----</code> <strong>bit.</strong> It needs to be saved as:</p>
+<pre><code>...
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+...
+</code></pre><p>Copy the certificate to <code>certificate.pem</code>:</p>
+<p><img src="/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/certificate.png" alt="certificate"></p>
+<p>And the private to <code>key.pem</code>:</p>
+<p><img src="/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/private-key.png" alt="private key"></p>
+<p>A server with TLS transport can now be created using the <code>chain.pem</code>, <code>certificate.pem</code> and <code>key.pem</code> files.</p>
+<h2 id="why-is-this-cool">Why is this cool</h2>
+<ol>
+<li>It&rsquo;s not possible to request certificates for domain names not in <code>allowed_domains</code>:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/issue/system-of-customer-a-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;become.customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;240h&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
+Error writing data to customer-a/issue/system-of-customer-a-com: Error making API request.
+
+URL: PUT http://127.0.0.1:8200/v1/customer-a/issue/system-of-customer-a-com
+Code: 400. Errors:
+
+* common name become.customer-b.gmbh.klarrio.com not allowed by this role
+</code></pre></div><ol start="2">
+<li>It&rsquo;s possible to provide alt names:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-b/issue/system-of-customer-b-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    alt_names<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;you.customer-b.gmbh.klarrio.com,or-you.customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;720h&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
+</code></pre></div><ol start="3">
+<li>Certificates generated for <code>CustomerA</code> do not validate for <code>CustomerB</code> and vice versa - different intermediate</li>
+<li>It is very easy to define a policy with different criteria. For example: to allow a user of <code>CustomerB</code> to generate a certificate for specific domain only:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/roles/get-in-touch <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allow_bare_domains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    max_ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1h&#34;</span>
+</code></pre></div><p>so that it&rsquo;s possible to:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-a/issue/get-in-touch <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1h&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
+</code></pre></div><p>but not:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-a/issue/get-in-touch <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;maybe.get-in-touch.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1h&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Once the initial setting up of the program to create the CAs is finished, the rest of the process is straightforward. Adding new customers (intermediates) is fairly easy. Configuring Vault is not a big job. Vault PKI is a solid choice for a multi-tenant PKI solution.</p>
+<p>Of course, there are still some challenges left on the table. Mainly storing the root and intermediate certificates safely and properly ensuring who can access them.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="/posts/2020-09-07-certificate-authority-is-not-voodoo/">Certificate Authority is not Voodoo</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://jamielinux.com/docs/openssl-certificate-authority/">OpenSSL Certificate Authority</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="/posts/2020-09-05-introduction-to-keycloak-authorization-services/">Introduction to Keycloak Authorization Services</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://www.vaultproject.io/api-docs/secret/pki#parameters-8">Vault PKI Create/Update Role Parameters</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+  </section>
+  <footer>
+    
+    <nav class="p-pagination c-pagination">
+      <div class="c-pagination__ctrl">
+        <div class="c-pagination__newer">
+          
+          
+        </div>
+        <div class="c-pagination__older">
+          
+          <a href="https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/">Older</a>
+          
+        </div>
+      </div>
+    </nav>
+    <div class="issues">
+      <h3>Comments</h3>
+      <p>
+        This website does not offer direct commenting feature. That does not mean I am not open for a discussion. 
+        If you have comments or questions regarding an article posted on this website, 
+        please open an issue on GitHub, where this website is currently hosted.</p>
+      <p>Direct links:</p>
+      <ul>
+        <li><a href="https://github.com/radekg/radekg.github.com/issues">existing issues</a></li>
+        <li><a href="https://github.com/radekg/radekg.github.com/issues/new">create a new issue</a></li>
+      </ul>
+    </div>
+    
+
+<section class="p-related">
+  <h3>See Also</h3>
+  <ul id="slider" class="p-related__list">
+    
+    <li class="p-related__item js-related__item">
+      <a href="/posts/2020-09-07-certificate-authority-is-not-voodoo/"
+        >
+        <span>Certificate Authority is not Voodoo</span>
+      </a>
+    </li>
+    
+    <li class="p-related__item js-related__item">
+      <a href="/posts/2020-09-05-introduction-to-keycloak-authorization-services/"
+        >
+        <span>Introduction to Keycloak Authorization Services</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+    
+<aside class="p-author">
+  
+  
+  <div class="p-author__body">
+    
+    <p class="c-title p-author__name ">Radek Gruchalski</p>
+    
+    
+    
+  </div>
+  
+</aside>
+
+
+  </footer>
+</article>
+  </main>
+  
+
+  <footer class="l-footer">
+    
+
+
+    <p class="p-copyright">
+      
+        &copy; 2020
+        
+          &nbsp;&bull;&nbsp;
+          <a href="https://gruchalski.com/">gruchalski.com</a>
+        
+      
+    </p>
+    <p class="p-copyright">
+      about <a href="/about">Radek Gruchalski</a>
+      &nbsp;&bull;&nbsp;<a href="/tags">tags</a>
+      &nbsp;&bull;&nbsp;<a href="https://github.com/radekg/">radekg</a> on <img src="/assets/github.png" alt="GitHub" style="vertical-align: bottom;" /> GitHub
+      &nbsp;|&nbsp;<a href="https://www.linkedin.com/in/radgruchalski/">radgruchalski</a> on <img src="/assets/linkedin.png" alt="LinkedIn" style="vertical-align: bottom;" /> LinkedIn
+    </p>
+    <p class="p-copyright">
+      this website uses Google Analytics
+    </p>
+  </footer>
+
+</body>
+</html>
+
