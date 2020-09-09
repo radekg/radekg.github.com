@@ -12,6 +12,17 @@
     
     
     <item>
+      <title>Authenticate to private JFrog NPM registry</title>
+      <link>https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/</link>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/</guid>
+      <description>This always gets me, npm publish fails to authenticate:
+npm ERR! code E401 npm ERR! Unable to authenticate, need: Basic realm=&amp;quot;Artifactory Realm&amp;quot; npm ERR! A complete log of this run can be found in: npm ERR! /Users/rad/.npm/_logs/...Z-debug.log The solution is:
+ Sign-in to JFrog. Find Edit profile under the Welcome, ... menu. Put JFrog password in and unlock. Copy the encrypted password. Issue a curl request like this:  curl -u ${JFROG_USER}:${JFROG_ENCRYPTED_PASSWORD} https://${JFROG_ORG}.</description>
+    </item>
+    
+    <item>
       <title>Multi-tenant Vault PKI with custom root PEM bundles</title>
       <link>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</link>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
