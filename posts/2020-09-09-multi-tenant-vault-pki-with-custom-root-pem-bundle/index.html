@@ -101,7 +101,7 @@ if (!doNotTrack) {
 <p>This article documents setting up an imaginary multi-tenant Vault PKI with custom PEM bundles generated with OpenSSL. The steps the following:</p>
 <ul>
 <li>create a root CA with OpenSSL</li>
-<li>create intermediate CAs for imaginary customers with OpenSSL</li>
+<li>create intermediate CAs for imaginary clients with OpenSSL</li>
 <li>using HashiCorp Vault in development mode:
 <ul>
 <li>import custom bundle with root and intermediate certificates</li>
@@ -114,8 +114,8 @@ if (!doNotTrack) {
 <h2 id="the-result">The result</h2>
 <p>As an outcome of this article, the reader will be able to create a new root CA and add new intermediate CAs to existing root CAs with a single command. This command will also prepare the Vault PEM bundle. With the Vault bundle and four more shell commands, the user will have a ready to use certificate with a CA chain. The process will be:</p>
 <ol>
-<li>run <code>init-intermediate.sh &lt;ca-name&gt; &lt;customer-id&gt;</code> to have an intermediate CA</li>
-<li>enable PKI for the new customer with <code>vault</code> shell command</li>
+<li>run <code>init-intermediate.sh &lt;ca-name&gt; &lt;client-id&gt;</code> to have an intermediate CA</li>
+<li>enable PKI for the new client with <code>vault</code> shell command</li>
 <li>import a PEM bundle with <code>vault</code> shell command</li>
 <li>add a permission with <code>vault</code> shell command</li>
 <li>issue a certificate with <code>vault</code> shell command</li>
@@ -574,10 +574,10 @@ cat <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db
 
 <span style="color:#75715e"># remove the pkcs1 file:</span>
 rm <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db74">}</span>/vault-bundle/intermediate-pkcs1.key.pem
-</code></pre></div><p>After saving as <code>~/.ca/init-intermediate.sh</code>, making executable with <code>chmod +x ~/.ca/init-intermediate.sh</code>, it can be executed. I&rsquo;m going to create two intermediate CAs immediately. In my case, mirroring the imaginary use case for setting up Keycloak with multiple customers<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>, I have:</p>
+</code></pre></div><p>After saving as <code>~/.ca/init-intermediate.sh</code>, making executable with <code>chmod +x ~/.ca/init-intermediate.sh</code>, it can be executed. I&rsquo;m going to create two intermediate CAs immediately. In my case, mirroring the imaginary use case for setting up Keycloak with multiple clients<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>, I have:</p>
 <ul>
-<li>CustomerA <code>~/.ca/init-intermediate.sh article-ca customer-a</code></li>
-<li>CustomerB <code>~/.ca/init-intermediate.sh article-ca customer-b</code></li>
+<li>ClientA <code>~/.ca/init-intermediate.sh article-ca client-a</code></li>
+<li>ClientB <code>~/.ca/init-intermediate.sh article-ca client-b</code></li>
 </ul>
 <p>In each case, the program will ask the following:</p>
 <ul>
@@ -598,7 +598,7 @@ rm <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db7
 ├── index.txt.attr.old
 ├── index.txt.old
 ├── intermediate
-│   ├── customer-a
+│   ├── client-a
 │   │   ├── certs
 │   │   │   └── intermediate.cert.pem
 │   │   ├── chain
@@ -615,7 +615,7 @@ rm <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db7
 │   │   ├── serial
 │   │   └── vault-bundle
 │   │       └── bundle.pem
-│   └── customer-b
+│   └── client-b
 │       ├── certs
 │       │   └── intermediate.cert.pem
 │       ├── chain
@@ -647,9 +647,9 @@ rm <span style="color:#e6db74">${</span>INTERMEDIATEDIR<span style="color:#e6db7
 ...........................................++
 .....................................................................................................................................................................................................................................................................................++
 e is 65537 (0x10001)
-Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
-Verifying - Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
-Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
+Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/client-a/private/intermediate.key.pem:
+Verifying - Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/client-a/private/intermediate.key.pem:
+Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/client-a/private/intermediate.key.pem:
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
 What you are about to enter is what is called a Distinguished Name or a DN.
@@ -662,7 +662,7 @@ State or Province Name [NRW]:
 Locality Name [Herzogenrath]:
 Organization Name [klarrio.com]:
 Organizational Unit Name [gmbh]:
-Common Name [customer-a.gmbh.klarrio.com]:
+Common Name [client-a.gmbh.klarrio.com]:
 Email Address [radek.gruchalski@klarrio.com]:
 Using configuration from /Users/rad/.ca/article-ca/openssl.cnf
 Enter pass phrase for /Users/rad/.ca/article-ca/private/ca.key.pem:
@@ -678,7 +678,7 @@ Certificate Details:
             stateOrProvinceName       = NRW
             organizationName          = klarrio.com
             organizationalUnitName    = gmbh
-            commonName                = customer-a.gmbh.klarrio.com
+            commonName                = client-a.gmbh.klarrio.com
             emailAddress              = radek.gruchalski@klarrio.com
         X509v3 extensions:
             X509v3 Subject Key Identifier:
@@ -706,7 +706,7 @@ Certificate:
         Validity
             Not Before: Sep  9 21:05:08 2020 GMT
             Not After : Sep  9 21:05:08 2021 GMT
-        Subject: C=DE, ST=NRW, O=klarrio.com, OU=gmbh, CN=customer-a.gmbh.klarrio.com/emailAddress=radek.gruchalski@klarrio.com
+        Subject: C=DE, ST=NRW, O=klarrio.com, OU=gmbh, CN=client-a.gmbh.klarrio.com/emailAddress=radek.gruchalski@klarrio.com
         Subject Public Key Info:
             Public Key Algorithm: rsaEncryption
                 Public-Key: (4096 bit)
@@ -730,13 +730,13 @@ Certificate:
          22:b5:e3:6e:a5:d6:0d:6b:30:65:a3:d9:68:27:38:2b:ea:64:
          ...
          39:ac:c3:66:88:8c:f0:eb
-/Users/rad/.ca/article-ca/intermediate/customer-a/certs/intermediate.cert.pem: OK
-Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/customer-a/private/intermediate.key.pem:
+/Users/rad/.ca/article-ca/intermediate/client-a/certs/intermediate.cert.pem: OK
+Enter pass phrase for /Users/rad/.ca/article-ca/intermediate/client-a/private/intermediate.key.pem:
 writing RSA key
 </code></pre><p>At this stage, I have a root CA and two intermediate CA for respective common names:</p>
 <ul>
-<li>CustomerA: <code>customer-a.gmbh.klarrio.com</code></li>
-<li>CustomerB: <code>customer-b.gmbh.klarrio.com</code></li>
+<li>ClientA: <code>client-a.gmbh.klarrio.com</code></li>
+<li>ClientB: <code>client-b.gmbh.klarrio.com</code></li>
 </ul>
 <p>For every intermediate, I have a PEM bundle ready to be imported to HashiCorp Vault.</p>
 <h2 id="start-vault-in-development-mode">Start Vault in development mode</h2>
@@ -758,42 +758,42 @@ writing RSA key
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">export VAULT_ADDR<span style="color:#f92672">=</span>http://127.0.0.1:8200
 export VAULT_TOKEN<span style="color:#f92672">=</span>dev-token
 </code></pre></div><p>Finally, I can enable PKIs:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault secrets enable -path<span style="color:#f92672">=</span>customer-a pki
-vault secrets enable -path<span style="color:#f92672">=</span>customer-b pki
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault secrets enable -path<span style="color:#f92672">=</span>client-a pki
+vault secrets enable -path<span style="color:#f92672">=</span>client-b pki
 </code></pre></div><p>I can see Vault confirming:</p>
-<pre><code>2020-09-08T21:11:32.133Z [INFO]  core: successful mount: namespace= path=customer-a/ type=pki
-2020-09-08T21:11:32.914Z [INFO]  core: successful mount: namespace= path=customer-b/ type=pki
+<pre><code>2020-09-08T21:11:32.133Z [INFO]  core: successful mount: namespace= path=client-a/ type=pki
+2020-09-08T21:11:32.914Z [INFO]  core: successful mount: namespace= path=client-b/ type=pki
 </code></pre><h2 id="importing-the-bundles">Importing the bundles</h2>
 <p>The next step is to import the PEM bundles, they were prepared during the intermediate CA creation:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/config/ca pem_bundle<span style="color:#f92672">=</span>@<span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/article-ca/intermediate/customer-a/vault-bundle/bundle.pem
-Success! Data written to: customer-a/config/ca
-<span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-b/config/ca pem_bundle<span style="color:#f92672">=</span>@<span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/article-ca/intermediate/customer-b/vault-bundle/bundle.pem
-Success! Data written to: customer-b/config/ca
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/roles/system-of-customer-a-com <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write client-a/config/ca pem_bundle<span style="color:#f92672">=</span>@<span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/article-ca/intermediate/client-a/vault-bundle/bundle.pem
+Success! Data written to: client-a/config/ca
+<span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write client-b/config/ca pem_bundle<span style="color:#f92672">=</span>@<span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.ca/article-ca/intermediate/client-b/vault-bundle/bundle.pem
+Success! Data written to: client-b/config/ca
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write client-a/roles/system-of-client-a-com <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    allow_localhost<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    allow_bare_domains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost,customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost,client-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    allow_subdomains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    max_ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;720h&#34;</span>
-Success! Data written to: customer-a/roles/system-of-customer-a-com
-<span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-b/roles/system-of-customer-b-com <span style="color:#ae81ff">\
+Success! Data written to: client-a/roles/system-of-client-a-com
+<span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write client-b/roles/system-of-client-b-com <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    allow_localhost<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    allow_bare_domains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost,customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost,client-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    allow_subdomains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    max_ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;720h&#34;</span>
-Success! Data written to: customer-b/roles/system-of-customer-b-com
+Success! Data written to: client-b/roles/system-of-client-b-com
 </code></pre></div><h3 id="notes-to-the-examples-above">Notes to the examples above</h3>
 <ol>
-<li>By setting <code>allow_bare_domains</code> to <code>true</code>, I allow the user to generate a certificate for any literal domain specified in <code>allowed_domains</code>, so the user can issue a certificate for <code>customer-[X].gmbh.klarrio.com</code>.</li>
+<li>By setting <code>allow_bare_domains</code> to <code>true</code>, I allow the user to generate a certificate for any literal domain specified in <code>allowed_domains</code>, so the user can issue a certificate for <code>client-[X].gmbh.klarrio.com</code>.</li>
 <li>By setting <code>allow_localhost</code> to <code>true</code>, I allow issuing a certificate for <code>localhost</code>, useful for testing.</li>
 <li>By setting <code>allow_subdomains</code> to <code>true</code>, I give the user the ability to issue certificates with common names that are subdomains of <code>allowed_domains</code>.</li>
 </ol>
 <p>All the interesting options are documented in the Vault documentation<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
 <h2 id="requesting-certificates">Requesting certificates</h2>
 <p>To request a certificate, simply issue the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-a/issue/system-of-customer-a-com <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;become.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write client-a/issue/system-of-client-a-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;become.client-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;240h&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
 </code></pre></div><p>To which the output is &hellip; pretty verbose &hellip;:</p>
@@ -851,44 +851,44 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 <ol>
 <li>It&rsquo;s not possible to request certificates for domain names not in <code>allowed_domains</code>:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/issue/system-of-customer-a-com <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;become.customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write client-a/issue/system-of-client-a-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;become.client-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;240h&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
-Error writing data to customer-a/issue/system-of-customer-a-com: Error making API request.
+Error writing data to client-a/issue/system-of-client-a-com: Error making API request.
 
-URL: PUT http://127.0.0.1:8200/v1/customer-a/issue/system-of-customer-a-com
+URL: PUT http://127.0.0.1:8200/v1/client-a/issue/system-of-client-a-com
 Code: 400. Errors:
 
-* common name become.customer-b.gmbh.klarrio.com not allowed by this role
+* common name become.client-b.gmbh.klarrio.com not allowed by this role
 </code></pre></div><ol start="2">
 <li>It&rsquo;s possible to provide alt names:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-b/issue/system-of-customer-b-com <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    alt_names<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;you.customer-b.gmbh.klarrio.com,or-you.customer-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write client-b/issue/system-of-client-b-com <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.client-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    alt_names<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;you.client-b.gmbh.klarrio.com,or-you.client-b.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;720h&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
 </code></pre></div><ol start="3">
-<li>Certificates generated for <code>CustomerA</code> do not validate for <code>CustomerB</code> and vice versa - different intermediate</li>
-<li>It is very easy to define a policy with different criteria. For example: to allow a user of <code>CustomerB</code> to generate a certificate for specific domain only:</li>
+<li>Certificates generated for <code>ClientA</code> do not validate for <code>ClientB</code> and vice versa - different intermediate</li>
+<li>It is very easy to define a policy with different criteria. For example: to allow a user of <code>ClientB</code> to generate a certificate for specific domain only:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write customer-a/roles/get-in-touch <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>rad<span style="color:#f92672">]</span> ~ $ vault write client-a/roles/get-in-touch <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    allow_bare_domains<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    allowed_domains<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    max_ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1h&#34;</span>
 </code></pre></div><p>so that it&rsquo;s possible to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-a/issue/get-in-touch <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write client-a/issue/get-in-touch <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1h&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
 </code></pre></div><p>but not:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write customer-a/issue/get-in-touch <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;maybe.get-in-touch.customer-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vault write client-a/issue/get-in-touch <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    common_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;maybe.get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1h&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    format<span style="color:#f92672">=</span>pem
 </code></pre></div><h2 id="conclusion">Conclusion</h2>
-<p>Once the initial setting up of the program to create the CAs is finished, the rest of the process is straightforward. Adding new customers (intermediates) is fairly easy. Configuring Vault is not a big job. Vault PKI is a solid choice for a multi-tenant PKI solution.</p>
+<p>Once the initial setting up of the program to create the CAs is finished, the rest of the process is straightforward. Adding new clients (intermediates) is fairly easy. Configuring Vault is not a big job. Vault PKI is a solid choice for a multi-tenant PKI solution.</p>
 <p>Of course, there are still some challenges left on the table. Mainly storing the root and intermediate certificates safely and properly ensuring who can access them.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
