@@ -68,6 +68,30 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/">Keycloak Authorization Services - RPT, permissions or a decision only</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2020-09-16T00:00:00Z">
+  Sep 16, 2020
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    This is a clarification to the previous write up about Keycloak Authorization Services1. The documentation of the response_mode documents the two values which can be used: decision and permissions. In the first Keycloak article2, I have wrongly assumed that no response_mode in the grant_type=urn:ietf:params:oauth:grant-type:uma-ticket call implies the value of permissions.
+Mmm, that was a wrong assumption.
+Now, looking at the documentation and trying it out, the distinction seems pretty obvious. It turns out there are three types of responses for this grant_type.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/">Authenticate to private JFrog npm registry</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -271,29 +295,6 @@ SPARK-11638: Spark patches All patches for all components described below are av
   </div>
   
   <a href="https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/">Gossiperl at EUC 2015 and next steps</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2015-06-17T00:00:00Z">
-  Jun 17, 2015
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Wow. It’s difficult to believe it’s been almost a week since I gave a talk about gossip protocols at Erlang User Conference in Stockholm. It was a fantastic event, great agenda, great topics, fantastic networking. EUC is one of those events you should attend, you will not regret it. No matter if you are interested in Erlang/Elixir or not. Big “Thank You” to all who made it happen.
-EUC2015 was also a place of first public appearance of Gossiperl.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

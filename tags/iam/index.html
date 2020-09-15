@@ -68,6 +68,30 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/">Keycloak Authorization Services - RPT, permissions or a decision only</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2020-09-16T00:00:00Z">
+  Sep 16, 2020
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    This is a clarification to the previous write up about Keycloak Authorization Services1. The documentation of the response_mode documents the two values which can be used: decision and permissions. In the first Keycloak article2, I have wrongly assumed that no response_mode in the grant_type=urn:ietf:params:oauth:grant-type:uma-ticket call implies the value of permissions.
+Mmm, that was a wrong assumption.
+Now, looking at the documentation and trying it out, the distinction seems pretty obvious. It turns out there are three types of responses for this grant_type.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/">Keycloak Authorization Services - retrieving the decision only</a></h2>
     <p class="c-article__meta">
       Posted on
