@@ -108,7 +108,7 @@ if (!doNotTrack) {
 </span><span style="color:#ae81ff"></span>    -k -d <span style="color:#e6db74">&#34;grant_type=password&amp;username=member@service-team&amp;password=</span><span style="color:#e6db74">${</span>USER_PASSWORD<span style="color:#e6db74">}</span><span style="color:#e6db74">&amp;scope=email profile&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -H <span style="color:#e6db74">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">${</span>KEYCLOAK_TOKEN_URL<span style="color:#e6db74">}</span> | jq <span style="color:#e6db74">&#39;.access_token&#39;</span> -r<span style="color:#e6db74">`</span>
-</code></pre></div><p>The response looks like this, the <code>access_token</code> is the <code>RPT</code>:</p>
+</code></pre></div><p>the response looks like this, the <code>access_token</code> is the <code>RPT</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;upgraded&#34;</span>: <span style="color:#66d9ef">false</span>,
   <span style="color:#f92672">&#34;access_token&#34;</span>: <span style="color:#e6db74">&#34;eyJhbGciOiJSUzI1NiIsI...n8AC51T1AMwDtoqfCEXrdwcrQ&#34;</span>,
@@ -131,7 +131,7 @@ if (!doNotTrack) {
 </span><span style="color:#ae81ff"></span>  --data <span style="color:#e6db74">&#34;audience=customers&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --data <span style="color:#e6db74">&#34;response_mode=decision&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --data <span style="color:#e6db74">&#34;permission=CustomerB#customer-b&#34;</span> | jq <span style="color:#e6db74">&#39;.&#39;</span>
-</code></pre></div><p>And returns only a decision. If user has access to the resources, the response is:</p>
+</code></pre></div><p>and returns only a decision. If user has access to the resources, the response is:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;result&#34;</span>: <span style="color:#66d9ef">true</span>
 }
@@ -144,7 +144,7 @@ if (!doNotTrack) {
 <li>Asking for permissions: <code>response_mode=permissions</code></li>
 </ol>
 <p>By specifying</p>
-<pre><code>--data &quot;response_mode=decision&quot;
+<pre><code>--data &quot;response_mode=permissions&quot;
 </code></pre><p>full call being:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl --silent -X POST <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">${</span>KEYCLOAK_TOKEN_URL<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
@@ -188,7 +188,7 @@ if (!doNotTrack) {
   }
 ]
 </code></pre></div><h2 id="listing-permissions-without-the-name">Listing permissions without the name</h2>
-<p>Optionally, we can ask Keycloak to not return resource names, only IDs. This is achieved with the following call:</p>
+<p>Optionally, we can ask Keycloak to not return resource names, only IDs. This is achieved by using <code>response_include_resource_name=false</code>, an example:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl --silent -X POST <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">${</span>KEYCLOAK_TOKEN_URL<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  -H <span style="color:#e6db74">&#34;Authorization: Bearer </span><span style="color:#e6db74">${</span>access_token<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
@@ -196,7 +196,7 @@ if (!doNotTrack) {
 </span><span style="color:#ae81ff"></span>  --data <span style="color:#e6db74">&#34;audience=customers&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --data <span style="color:#e6db74">&#34;response_mode=permissions&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --data <span style="color:#e6db74">&#34;response_include_resource_name=false&#34;</span> | jq <span style="color:#e6db74">&#39;.&#39;</span>
-</code></pre></div><p>resulting in:</p>
+</code></pre></div><p>gives:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
   {
     <span style="color:#f92672">&#34;scopes&#34;</span>: [
