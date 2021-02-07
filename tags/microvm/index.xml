@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>vault on gruchalski.com</title>
-    <link>https://gruchalski.com/tags/vault/</link>
-    <description>Recent content in vault on gruchalski.com</description>
+    <title>microvm on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/microvm/</link>
+    <description>Recent content in microvm on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 07 Feb 2021 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://gruchalski.com/tags/vault/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://gruchalski.com/tags/microvm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -29,17 +29,6 @@ We&amp;rsquo;re going to use Nomad with the firecracker-task.driver3 which can t
       <guid>https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/</guid>
       <description>Firecracker1 is recently making rounds on the internet as this relatively new, awesome technology for running lightweight VMs.
 As something coming from AWS and powering AWS Lambda, my original perception was that it&amp;rsquo;s not easy to set up and use. However, this write from Julia Evans2 proved me wrong. So, as I have recently picked up a used Dell R720 with decent amount of RAM and CPUs, it was time to take these two for a spin together.</description>
-    </item>
-    
-    <item>
-      <title>Multi-tenant Vault PKI with custom root PEM bundles</title>
-      <link>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</link>
-      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</guid>
-      <description>In the previous article1, I have investigated modern PKI software alternatives. One of the options on the list was HashiCorp Vault. The natural next step is to set up a Vault PKI.
-This article documents setting up an imaginary multi-tenant Vault PKI with custom PEM bundles generated with OpenSSL. The steps the following:
- create a root CA with OpenSSL create intermediate CAs for imaginary clients with OpenSSL using HashiCorp Vault in development mode:  import custom bundle with root and intermediate certificates configure Vault roles issue a certificate    The method for generating the root and intermediate CAs comes from OpenSSL Certificate Authority guide written by Jamie Nguyen2.</description>
     </item>
     
   </channel>
