@@ -20,6 +20,9 @@
   <meta property="og:url" content="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/" />
 
   
+  <meta property="og:image" content="https://gruchalski.com/assets/posts/2021-02-07/firecracker-and-cni.png" />
+  <meta name="twitter:image" content="https://gruchalski.com/assets/posts/2021-02-07/firecracker-and-cni.png" />
+  
   <meta name="twitter:card" content="summary" />
 
   
@@ -93,6 +96,8 @@ if (!doNotTrack) {
       
     </div>
   </header>
+  
+    <img src="/assets/posts/2021-02-07/firecracker-and-cni.png" alt="thumbnail" class="p-article__thumbnail">
   
   <section id="js-article" class="p-article__body">
     <p>It&rsquo;s good to know how to set up Firecracker VM by hand but that&rsquo;s definitely suboptimal long term. So today I am looking at setting up Firecracker with CNI plugins. Firecracker needs four CNI plugins to operate: <code>ptp</code>, <code>firewall</code>, <code>host-local</code> and <code>tc-redirect-tap</code>. First three come from the <a href="https://github.com/containernetworking/plugins">CNI plugins</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> repository, the last one comes from <a href="https://github.com/awslabs/tc-redirect-tap">AWS Labs tc-redirect-tap</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> repository.</p>
