@@ -93,7 +93,7 @@ if (!doNotTrack) {
   <section id="js-article" class="p-article__body">
     <p><a href="https://github.com/firecracker-microvm/firecracker">Firecracker</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> is recently making rounds on the internet as this relatively new, awesome technology for running lightweight VMs.</p>
 <p>As something coming from AWS and powering AWS Lambda, my original perception was that it&rsquo;s not easy to set up and use. However, <a href="https://jvns.ca/blog/2021/01/23/firecracker--start-a-vm-in-less-than-a-second/">this write from Julia Evans</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> proved me wrong. So, as I have recently picked up a used Dell R720 with decent amount of RAM and CPUs, it was time to take these two for a spin together.</p>
-<p>Sipping the first coffee this gloomy, Nürburgring weather morning, the thought of putting Vault on Firecracker seemed somewhat amusing, &hellip; and the day was gone.</p>
+<p>Sipping the first coffee this gloomy Nürburgring weather morning, the thought of putting Vault on Firecracker seemed somewhat amusing, &hellip; and the day was gone.</p>
 <p>I&rsquo;m going to show you how I&rsquo;ve done it. Do I like Firecracker? It&rsquo;s been only one day but yes, it&rsquo;s pretty neat and easy to use.</p>
 <h2 id="environment">Environment</h2>
 <p>Clean HWE Ubuntu 18.04.5 Server installation with the password-less <code>sudoer</code> user.</p>
@@ -252,11 +252,11 @@ echo rc_verbose<span style="color:#f92672">=</span>yes &gt; /etc/conf.d/local
 
 <span style="color:#75715e"># All done, exit docker shell</span>
 exit
-</code></pre></div><p>A few words about the <code>HashiCorpVault.start</code> service file. One method to shut the Firecracker VM gracefully down is to call reboot from inside of the VM. This is because Firecracker exits on CPU reset, <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/api_requests/actions.md#intel-and-amd-only-sendctrlaltdel">more info here</a>. Hence the command:</p>
+</code></pre></div><p>A few words about the <code>HashiCorpVault.start</code> service file. One method to shut the Firecracker VM gracefully down is to call <code>reboot</code> from inside of the VM. This is because Firecracker exits on CPU reset, <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/api_requests/actions.md#intel-and-amd-only-sendctrlaltdel">more info here</a>. Hence the command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/usr/local/bin/docker-entrypoint.sh server -dev <span style="color:#f92672">&amp;&amp;</span> reboot <span style="color:#f92672">||</span> reboot
 </code></pre></div><p>will start the Vault server using the regular <code>docker-entrypoint.sh</code> from the original image.</p>
-<p>The <code>&amp;&amp; reboot</code> part will ensure the VM stops automatically after Vault exits gracefully.</p>
-<p>The <code>|| reboot</code> part will stop the VM if Vault does not start for whatever reason. This saves a hassle of doing <code>ps -a</code> and <code>sudo kill &lt;pid&gt;</code> dance when things go south.</p>
+<p>The <code>&amp;&amp; reboot</code> part will ensure the VM stops automatically after Vault exits gracefully. The <code>|| reboot</code> part will stop the VM if Vault does not start for whatever reason.</p>
+<p>This saves a hassle of doing <code>ps -a</code> and <code>sudo kill &lt;pid&gt;</code> dance when things go south.</p>
 <p>You can now stop the container and unmount the file system:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker stop <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span>
 sudo umount /firecracker/filesystems/mnt-<span style="color:#e6db74">${</span>FS<span style="color:#e6db74">}</span>
