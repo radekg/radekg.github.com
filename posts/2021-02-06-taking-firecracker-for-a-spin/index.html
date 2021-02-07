@@ -92,20 +92,20 @@ if (!doNotTrack) {
   
   <section id="js-article" class="p-article__body">
     <p><a href="https://github.com/firecracker-microvm/firecracker">Firecracker</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> is recently making rounds on the internet as this relatively new, awesome technology for running lightweight VMs.</p>
-<p>As something coming from AWS and powering AWS Lambda, my original perception was that it&rsquo;s not easy to set or use. However, <a href="https://jvns.ca/blog/2021/01/23/firecracker--start-a-vm-in-less-than-a-second/">this write from Julia Evans</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> shows that my perception is wrong. So, as I have recently picked up a used Dell R720 with decent amount of RAM and CPUs, it was time to take these two together for a spin.</p>
-<p>Sipping the first coffee this morning, the thought of putting Vault on Firecracker seemed somewhat amusing, &hellip; and the day was gone.</p>
+<p>As something coming from AWS and powering AWS Lambda, my original perception was that it&rsquo;s not easy to set up and use. However, <a href="https://jvns.ca/blog/2021/01/23/firecracker--start-a-vm-in-less-than-a-second/">this write from Julia Evans</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> proved me wrong. So, as I have recently picked up a used Dell R720 with decent amount of RAM and CPUs, it was time to take these two for a spin together.</p>
+<p>Sipping the first coffee this gloomy, Nürburgring weather morning, the thought of putting Vault on Firecracker seemed somewhat amusing, &hellip; and the day was gone.</p>
 <p>I&rsquo;m going to show you how I&rsquo;ve done it. Do I like Firecracker? It&rsquo;s been only one day but yes, it&rsquo;s pretty neat and easy to use.</p>
 <h2 id="environment">Environment</h2>
 <p>Clean HWE Ubuntu 18.04.5 Server installation with the password-less <code>sudoer</code> user.</p>
 <h2 id="intro">Intro</h2>
-<p>A Firecracker VM requires a Linux Linux Kernel and a root file system. Most of the people who talk about Firecracker use example <code>hello-vmlinux</code> and a root file system from AWS. I wanted to learn how to build these myself so I went with building my own <code>5.8</code> Kernel and a root file system extracted from the default official HashiCorp Vault Docker image. The steps:</p>
+<p>A Firecracker VM requires a Linux Linux Kernel and a root file system. Most of the people who talk about Firecracker use example <code>hello-vmlinux</code> and a root file system from AWS. I wanted to learn how to build these myself so I went with building my own <code>5.8</code> kernel and a root file system extracted from the default official HashiCorp Vault Docker image. The steps:</p>
 <ul>
-<li>install all the software required to build Linux Kernel and Docker</li>
+<li>install all the software required to build Linux kernel and install Docker</li>
 <li>setup directory structure to work with</li>
 <li>install Firecracker</li>
 <li>get, configure and build Linux kernel</li>
 <li>extract Vault file system from a running container</li>
-<li>run Vault Firecracker VM</li>
+<li>run Vault Firecracker microVM</li>
 </ul>
 <h2 id="dependencies">Dependencies</h2>
 <p>To avoid multiple <code>apt-get update</code>s, add Docker repository first:</p>
@@ -138,8 +138,8 @@ sudo apt-get install <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    containerd.io -y
 sudo groupadd docker <span style="color:#75715e"># this may report that the group already exists</span>
 sudo usermod -aG docker $USER
-</code></pre></div><h2 id="setup-directory-structure">Setup directory structure</h2>
-<p>To have everything in one place, create the following directories</p>
+</code></pre></div><h2 id="setup-the-directory-structure">Setup the directory structure</h2>
+<p>To have everything in one place, create the following directories:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo mkdir -p /firecracker
 sudo chown -R <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span> /firecracker
 mkdir -p /firecracker/<span style="color:#f92672">{</span>configs,filesystems,kernels,linux.git,releases<span style="color:#f92672">}</span>
@@ -160,7 +160,7 @@ mkdir -p /firecracker/<span style="color:#f92672">{</span>configs,filesystems,ke
 <p>This will download the latest Firecracker release, install the release in <code>/firecracker/releases</code> directory and create <code>/usr/bin/firecracker-&lt;version&gt;</code> and <code>/usr/bin/jailer-&lt;version&gt;</code> links. You&rsquo;ll also get <code>/usr/bin/firecracker</code> and <code>/usr/bin/jailer</code> links pointing to the version links. You can now run Firecracker:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">firecracker --help
 </code></pre></div><h2 id="get-linux-kernel">Get Linux Kernel</h2>
-<p>I&rsquo;m going to use 5.8. Do I need one? Not sure but why not.</p>
+<p>I&rsquo;m going to use <code>5.8</code> kernel. Do I need one? Not sure but why not.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">export KERNEL_VERSION<span style="color:#f92672">=</span>v5.8
 </code></pre></div><p>Clone sources from GitHub:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd /firecracker/linux.git
@@ -170,10 +170,16 @@ git checkout <span style="color:#e6db74">${</span>KERNEL_VERSION<span style="col
 <p>So, I&rsquo;m not really fluent at this and&hellip;</p>
 <p><img src="/assets/posts/2021-02-06-taking-firecracker-for-a-spin/no-idea-what-im-doing.png" alt="I have no idea what I&rsquo;m doing"></p>
 <p>This is the first time I&rsquo;m building the kernel but fortunately <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/rootfs-and-kernel-setup.md">one of the the Firecracker getting started documents</a> points to a <a href="https://github.com/firecracker-microvm/firecracker/blob/master/resources/microvm-kernel-x86_64.config">recommended kernel config</a>. What&rsquo;s less fortunate, the document talks about kernel <code>v4.20</code> and the config is for <code>v4.14.174</code>. I&rsquo;ve downloaded the file and placed it in <code>/firecracker/linux.git/.config</code> anyway but when I tried building the <code>v5.8</code> kernel, <code>make</code> was insisting on recreating the config and asked me a lot of questions about what I want.</p>
-<p>I don&rsquo;t know what I want and I don&rsquo;t know if <code>make</code> took the values from the old <code>.config</code> so I basically held <code>Enter</code> down for a bit. <code>make</code> moved my <code>.config</code> to <code>.config.old</code> and gave me a new <code>.config</code> file for <code>v5.8</code> kernel. I took the new generated file and compared it with the original <code>v4.14.174</code> config. These files have few thousand lines so I wrote a program in Golang which loads both versions and compares the values. With a flag, it allows for bringing non-existing values from the <code>good config</code> to the new one. You can find this program in the <code>kernel-configs</code> directory of <a href="https://github.com/radekg/firecracker-hashicorp-vault">this repository</a>[]. To get the <code>v5.8</code> config, I basically executed:</p>
-<p><code>go run ./compare-configs.go --goo-config=./4.14.174.config --new-config=./5.8.config --bring-old-non-existing</code></p>
-<p>I&rsquo;ve replaced the <code>/firecracker/linux.git/.config</code> file contents with the result of my <code>compare configs</code> program and re-run kernel build. This time, it did not insist on recreating anything and used my config, definitely.</p>
+<p>I don&rsquo;t know what I want and I don&rsquo;t know if <code>make</code> took the values from the old <code>.config</code> so I basically held <code>Enter</code> down for a bit. <code>make</code> moved my <code>.config</code> to <code>.config.old</code> and gave me a new <code>.config</code> file for <code>v5.8</code> kernel. I took the new generated file and compared it with the original <code>v4.14.174</code> config.</p>
+<p>These files have few thousand lines so I wrote a program in Golang which loads both versions and compares the values.</p>
+<p>With a flag, it allows bringing non-existing values from the <code>good config</code> to the new one. You can find this program in the <code>kernel-configs</code> directory of <a href="https://github.com/radekg/firecracker-hashicorp-vault">this repository</a>[]. To get the <code>v5.8</code> config, I basically executed:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go run ./compare-configs.go <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --good-config<span style="color:#f92672">=</span>./4.14.174.config <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --new-config<span style="color:#f92672">=</span>./5.8.config <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --bring-old-non-existing
+</code></pre></div><p>Next, I&rsquo;ve replaced the <code>/firecracker/linux.git/.config</code> file contents with the result of my <code>compare configs</code> program and re-run kernel build. This time, it did not insist on recreating anything and used my config, definitely. Happy times!</p>
 <h2 id="build-the-kernel">Build the kernel</h2>
+<p>You probably want to change the value of <code>-j</code> to something like <code>4</code> or <code>8</code>. The build will take a bit more time.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">time make vmlinux -j32
 ...
   LD      vmlinux.o
@@ -191,22 +197,23 @@ git checkout <span style="color:#e6db74">${</span>KERNEL_VERSION<span style="col
 real	0m54.052s
 user	23m51.313s
 sys	2m35.287s
-</code></pre></div><p>After the build is complete, put the resulting <code>vmlinux</code> file in <code>/firecracker/kernels</code> directory:</p>
+</code></pre></div><p>After the build is complete, copy the <code>vmlinux</code> binary to the <code>/firecracker/kernels</code> directory:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mv ./vmlinux /firecracker/kernels/vmlinux-<span style="color:#e6db74">${</span>KERNEL_VERSION<span style="color:#e6db74">}</span>
 </code></pre></div><h2 id="build-the-file-system">Build the file system</h2>
-<p>Fun part starts here. The article from Julia Evans talks about getting an <code>init</code> system installed in the container. I have naively tried simply extracting the file system and running it bluntly without doing any additional configuration but Firecracker was complaining about not having <code>/sbin/openrc</code> available. Makes sense, Docker images generally don&rsquo;t need an init system. So I had to find a method to get one in. Fortunately, Vault Docker image is built from Alpine and the <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/rootfs-and-kernel-setup.md#creating-a-rootfs-image">Creating a rootfs Image</a> instructions show how to add an init system to a file system of an Alpine based container.</p>
+<p>Fun part starts here. The article from Julia Evans talks about getting an <code>init</code> system installed in the container. I have naively tried simply extracting the file system and running it bluntly without doing any additional configuration but Firecracker was complaining about not having <code>/sbin/openrc</code> available. Makes sense, Docker images generally don&rsquo;t need an init system. So I had to find a method to get one in.</p>
+<p>Fortunately, Vault Docker image is built from Alpine Linux and the <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/rootfs-and-kernel-setup.md#creating-a-rootfs-image">Creating a rootfs Image</a> instructions show how to add an init system to a file system of an Alpine based container.</p>
 <p>We&rsquo;ve building a file system for Vault:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">export FS<span style="color:#f92672">=</span>vault
 </code></pre></div><p>Create a file system file and format it as <code>ext4</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">rm /firecracker/filesystems/vault-root.ext4
 dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span>/firecracker/filesystems/vault-root.ext4 bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>
 mkfs.ext4 /firecracker/filesystems/vault-root.ext4
-</code></pre></div><p>I have no idea how much space I needed. <code>50</code> megs wasn&rsquo;t enough so I gave oit <code>500</code> megs for the root file system. Quick and dirty&hellip;</p>
+</code></pre></div><p>I have no idea how much space I needed. <code>50</code> megs wasn&rsquo;t enough so I gave it <code>500</code> instead.</p>
 <p>Create a mount directory and mount the file system file:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p /firecracker/filesystems/mnt-<span style="color:#e6db74">${</span>FS<span style="color:#e6db74">}</span>
 sudo mount /firecracker/filesystems/<span style="color:#e6db74">${</span>FS<span style="color:#e6db74">}</span>-root.ext4 <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  /firecracker/filesystems/mnt-<span style="color:#e6db74">${</span>FS<span style="color:#e6db74">}</span>
-</code></pre></div><p>Now, run the Vault container and fetch the container ID, attach out mount directory to the container:</p>
+</code></pre></div><p>Now, run the Vault container and fetch the container ID, attach file system mount directory to the container:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">export CONTAINER_ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker run -t --rm -v /firecracker/filesystems/mnt-<span style="color:#e6db74">${</span>FS<span style="color:#e6db74">}</span>:/export-rootfs -d vault:latest<span style="color:#66d9ef">)</span>
 </code></pre></div><p>Get the shell in the container:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker exec -ti <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span> /bin/sh
@@ -247,7 +254,9 @@ echo rc_verbose<span style="color:#f92672">=</span>yes &gt; /etc/conf.d/local
 exit
 </code></pre></div><p>A few words about the <code>HashiCorpVault.start</code> service file. One method to shut the Firecracker VM gracefully down is to call reboot from inside of the VM. This is because Firecracker exits on CPU reset, <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/api_requests/actions.md#intel-and-amd-only-sendctrlaltdel">more info here</a>. Hence the command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/usr/local/bin/docker-entrypoint.sh server -dev <span style="color:#f92672">&amp;&amp;</span> reboot <span style="color:#f92672">||</span> reboot
-</code></pre></div><p>will start the Vault server using the regular <code>docker-entrypoint.sh</code> from the original image. The <code>&amp;&amp; reboot</code> part will ensure the VM stops automatically after Vault exits gracefully. The <code>|| reboot</code> part will stop the VM if Vault does not start for whatever reason. YThis saves a hassle os doing <code>ps -a</code> and <code>sudo kill &lt;pid&gt;</code> dance when things go south.</p>
+</code></pre></div><p>will start the Vault server using the regular <code>docker-entrypoint.sh</code> from the original image.</p>
+<p>The <code>&amp;&amp; reboot</code> part will ensure the VM stops automatically after Vault exits gracefully.</p>
+<p>The <code>|| reboot</code> part will stop the VM if Vault does not start for whatever reason. This saves a hassle of doing <code>ps -a</code> and <code>sudo kill &lt;pid&gt;</code> dance when things go south.</p>
 <p>You can now stop the container and unmount the file system:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker stop <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span>
 sudo umount /firecracker/filesystems/mnt-<span style="color:#e6db74">${</span>FS<span style="color:#e6db74">}</span>
@@ -353,7 +362,7 @@ Development mode should NOT be used in production installations!
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl http://169.254.0.21:8200/sys/health
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;errors&#34;</span>:<span style="color:#f92672">[]}</span>
 </code></pre></div><p>It&rsquo;s alive.</p>
-<p>You can stop the VM by simply pressing <code>CTRL+C</code> in the terminal window where Vault is running. The VM will shut down gracefully:</p>
+<p>You can stop the VM by simply pressing <code>CTRL+C</code> in the terminal window where Vault is running. The VM will shut gracefully down:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">^C<span style="color:#f92672">==</span>&gt; Vault shutdown triggered
 2021-02-06T21:13:33.863Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  core: marked as sealed
 2021-02-06T21:13:33.866Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  core: pre-seal teardown starting
