@@ -27,11 +27,21 @@
   <meta name="generator" content="Hugo 0.74.3" />
   
 <script type="application/javascript">
-var doNotTrack = false;
+var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+var doNotTrack = (dnt == "1" || dnt == "yes");
 if (!doNotTrack) {
 	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-39073034-1', 'auto');
-	
+	if (window.sessionStorage) {
+		var GA_SESSION_STORAGE_KEY = 'ga:clientId';
+		ga('create', 'UA-39073034-1', {
+	    'storage': 'none',
+	    'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
+	   });
+	   ga(function(tracker) {
+	    sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
+	   });
+   }
+	ga('set', 'anonymizeIp', true);
 	ga('send', 'pageview');
 }
 </script>
@@ -172,7 +182,8 @@ This article documents setting up an imaginary multi-tenant Vault PKI with custo
       &nbsp;|&nbsp;<a href="https://www.linkedin.com/in/radgruchalski/">radgruchalski</a> on <img src="/assets/linkedin.png" alt="LinkedIn" style="vertical-align: bottom;" /> LinkedIn
     </p>
     <p class="p-copyright">
-      this website uses Google Analytics
+      this website uses Google Analytics but<br/>
+      it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses
     </p>
   </footer>
 
