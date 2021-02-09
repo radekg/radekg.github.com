@@ -89,7 +89,7 @@ if (!doNotTrack) {
   </header>
   <div class="c-article__summary">
     It&rsquo;s good to know how to set up Firecracker VM by hand but that&rsquo;s definitely suboptimal long term. So today I am looking at setting up Firecracker with CNI plugins. Firecracker needs four CNI plugins to operate: ptp, firewall, host-local and tc-redirect-tap. First three come from the CNI plugins1 repository, the last one comes from AWS Labs tc-redirect-tap2 repository.
-We&rsquo;re going to use Nomad with the firecracker-task.driver3 which can take advantage of the portmap CNI plugin, we will use that one too.
+Golang CNI plugins and tc-redirect-tap require golang to build. I&rsquo;m using 1.
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/" class="c-article__btn p-list-article__btn">Read more</a>

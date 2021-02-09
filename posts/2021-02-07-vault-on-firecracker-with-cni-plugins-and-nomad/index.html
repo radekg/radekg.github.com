@@ -111,7 +111,6 @@ if (!doNotTrack) {
   
   <section id="js-article" class="p-article__body">
     <p>It&rsquo;s good to know how to set up Firecracker VM by hand but that&rsquo;s definitely suboptimal long term. So today I am looking at setting up Firecracker with CNI plugins. Firecracker needs four CNI plugins to operate: <code>ptp</code>, <code>firewall</code>, <code>host-local</code> and <code>tc-redirect-tap</code>. First three come from the <a href="https://github.com/containernetworking/plugins">CNI plugins</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> repository, the last one comes from <a href="https://github.com/awslabs/tc-redirect-tap">AWS Labs tc-redirect-tap</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> repository.</p>
-<p>We&rsquo;re going to use Nomad with the <a href="https://github.com/cneira/firecracker-task-driver"><code>firecracker-task.driver</code></a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> which can take advantage of the <code>portmap</code> CNI plugin, we will use that one too.</p>
 <h2 id="golang">Golang</h2>
 <p>CNI plugins and <code>tc-redirect-tap</code> require golang to build. I&rsquo;m using <code>1.15.8</code>.</p>
 <h2 id="cni-plugins">CNI plugins</h2>
@@ -146,7 +145,7 @@ git clone https://github.com/awslabs/tc-redirect-tap.git .
 make all
 </code></pre></div><p>The binary can be found in the root of the sources directory.</p>
 <h2 id="installing-the-plugins">Installing the plugins</h2>
-<p>CNI plugins are sought from the <code>/opt/cni/bin</code> directory. Some tools allow overriding that path but there is no consistency so the default directory is the safest choice. However, to keep everything tidy, I will place by plugins in the <code>/firecracker/cni/bin</code> directory, per the structure from <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>:</p>
+<p>CNI plugins are sought from the <code>/opt/cni/bin</code> directory. Some tools allow overriding that path but there is no consistency so the default directory is the safest choice. However, to keep everything tidy, I will place by plugins in the <code>/firecracker/cni/bin</code> directory, per the structure from <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p /firecracker/cni/bin
 cp ~/cni-plugins/bin/* /firecracker/cni/bin/
 cp ~/tc-redirect-tap/tc-redirect-tap /firecracker/cni/bin/tc-redirect-tap
@@ -192,15 +191,6 @@ sudo ln -sfn /firecracker/cni/conf.d /etc/cni/conf.d
 </span><span style="color:#e6db74">            &#34;type&#34;: &#34;firewall&#34;
 </span><span style="color:#e6db74">        },
 </span><span style="color:#e6db74">        {
-</span><span style="color:#e6db74">            &#34;type&#34;: &#34;portmap&#34;,
-</span><span style="color:#e6db74">            &#34;capabilities&#34;: {&#34;portMappings&#34;: true},
-</span><span style="color:#e6db74">            &#34;runTimeConfig&#34;:  { 
-</span><span style="color:#e6db74">                &#34;portMappings&#34;: [
-</span><span style="color:#e6db74">                    { &#34;hostPort&#34;: 8200, &#34;containerPort&#34;: 8200, &#34;protocol&#34;: &#34;udp&#34; }
-</span><span style="color:#e6db74">                ]
-</span><span style="color:#e6db74">            }
-</span><span style="color:#e6db74">        },
-</span><span style="color:#e6db74">        {
 </span><span style="color:#e6db74">            &#34;type&#34;: &#34;tc-redirect-tap&#34;
 </span><span style="color:#e6db74">        }
 </span><span style="color:#e6db74">    ]
@@ -219,7 +209,7 @@ sudo ln -sfn /firecracker/cni/conf.d /etc/cni/conf.d
 </code></pre></div><h2 id="create-the-nomad-task">Create the Nomad task</h2>
 <p>Create the directory for Nomad jobs:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo mkdir -p /etc/nomad/jobs
-</code></pre></div><p>And write the job definition. <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">The process of getting the kernel and the root image is described in the previous post</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
+</code></pre></div><p>And write the job definition. <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">The process of getting the kernel and the root image is described in the previous post</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee -a /etc/nomad/jobs/vault.nomad
 </span><span style="color:#e6db74">job &#34;vault-with-cni&#34; {
 </span><span style="color:#e6db74">    datacenters = [&#34;dc1&#34;]
@@ -323,10 +313,7 @@ a57d68ec  10f89343  vault-test  <span style="color:#ae81ff">0</span>        run 
 <p><a href="https://github.com/awslabs/tc-redirect-tap">AWS Labs tcp-redirect-tap GitHub repository</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://github.com/cneira/firecracker-task-driver">firecracker-task.driver GitHub repository</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:4" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
