@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/golang/</link>
+    <description>Recent content in golang on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 10 Feb 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>My golang modules live in Athens</title>
+      <link>https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/</link>
+      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/</guid>
+      <description>So I&amp;rsquo;ve been on the fence with the vendor directory.
+On one hand, it&amp;rsquo;s great to have the modules in the project because it speeds up the build and serves as a safe storage.
+On the other hand, it does increase the churn in the repository and creates a lot of duplication on disk because many projects often contain the same dependencies.
+Since I do like holding on to my dependencies and go mod works great for me, I&amp;rsquo;ve decided to try out The Athens.</description>
+    </item>
+    
+  </channel>
+</rss>

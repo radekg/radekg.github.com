@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
-  <title>Posts</title>
-  <meta property="og:title" content="Posts" />
-  <meta name="twitter:title" content="Posts" />
+  <title>golang</title>
+  <meta property="og:title" content="golang" />
+  <meta name="twitter:title" content="golang" />
   
 
   
 
   <meta name="author" content=""/>
   <meta property="og:site_name" content="gruchalski.com" />
-  <meta property="og:url" content="https://gruchalski.com/posts/" />
+  <meta property="og:url" content="https://gruchalski.com/tags/golang/" />
 
   
   <meta name="twitter:card" content="summary" />
@@ -71,129 +71,30 @@ if (!doNotTrack) {
 
   <main id="main" class="l-main">
 
-<h2 class="c-title p-tag-title">Posts</h2>
+<h2 class="c-title p-tag-title">golang</h2>
 
 
 
 
 <article class="c-article p-list-article">
   <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/">Erflux, InfluxDB client for Erlang</a></h2>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/">My golang modules live in Athens</a></h2>
     <p class="c-article__meta">
       Posted on
-<time datetime="2013-10-21T00:00:00Z">
-  Oct 21, 2013
+<time datetime="2021-02-10T00:00:00Z">
+  Feb 10, 2021
 </time>
 
     </p>
   </header>
   <div class="c-article__summary">
-    It’s been already a month since I released erflux on github. Erflux is an Erlang client for InfluxDB HTTP protocol.
-Installation {deps, [ {erflux, &#34;.*&#34;, {git, &#34;git://github.com/radekg/erflux.git&#34;, {tag, &#34;version-1&#34;}}} }]} and run
-./rebar get-deps  Configuration Erflux allows configuring a number of parameters:
- InfluxDB host, default 127.0.0.1 InfluxDB port, default 8086 username, default: root password, default: root SSL usage, default: false timeout, default: infinity  The simplest way of applying configuration is to use application:set_env, like the example below:
+    So I&rsquo;ve been on the fence with the vendor directory.
+On one hand, it&rsquo;s great to have the modules in the project because it speeds up the build and serves as a safe storage.
+On the other hand, it does increase the churn in the repository and creates a lot of duplication on disk because many projects often contain the same dependencies.
+Since I do like holding on to my dependencies and go mod works great for me, I&rsquo;ve decided to try out The Athens.
   </div>
   
-  <a href="https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/">Apache Zookeeper authentication</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2013-06-24T00:00:00Z">
-  Jun 24, 2013
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    The problem One of my Zookeeper clusters has to be available to everyone. But I want to make sure only specific known hosts are allowed to connect. The problem was, those known hosts are dynamic and I didn&rsquo;t want any configuration for this component. The servers are running in the cloud, they come and go.
-At Technicolor, we use Chef to manage all our boxes. Every box is registered on the Chef server, we know every private and public IP address of every server within our setup.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2013-03-22-git-chopping-out-part-of-the-repo-into-a-separate-repo/">Git: chopping out part of the repo into a separate repo</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2013-03-22T00:00:00Z">
-  Mar 22, 2013
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    I had to cut out cookbooks/nodejs from the develop into a separate repository and move develop to master.
- The problem is, there is a git repository called XYZ with the following structure:
- cookbooks  nodejs ... mysql ...   other_stuff ...  and following branches:
- refs/heads/master refs/heads/develop  I had to cut out cookbooks/nodejs from the develop into a separate repository and move develop to master.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2013-03-22-git-chopping-out-part-of-the-repo-into-a-separate-repo/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2013-03-07-setting-up-knife-ec2/">Setting up knife ec2</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2013-03-07T00:00:00Z">
-  Mar 7, 2013
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    I keep getting Fog::Compute::AWS::NotFound: The key pair ... does not exist error!
- How to solve this problem isn&rsquo;t explained well enough anywhere.
-Install knife-ec2 first:
-sudo gem install knife-ec2  Then I added this to my knife.rb:
-# key name, as defined in EC2 Key Pairs, # this value has to be exactly the same as the one in the management console: knife[:aws_ssh_key_id] = &#34;my-ec2-key&#34; # AWS ID/SECRET: knife[:aws_access_key_id] = &#34;.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2013-03-07-setting-up-knife-ec2/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2013-03-05-devops-box/">DevOps box</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2013-03-05T00:00:00Z">
-  Mar 5, 2013
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    {% include collecttags.html %}
- I was asked to build a box with all the monitoring tools required. Chef, Logstash, Ganglia and Monit were selected. Here&rsquo;s a core dump.
- In this post I&rsquo;m going to describe how to setup a box containing following elements:
- Opsworks Chef Server Logstash indexer with Redis as an incoming queue Kibana Ganglia collector Monit with the log shipped to logstash M/Monit   I have this nasty habit - this whole thing is running as root.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2013-03-05-devops-box/" class="c-article__btn p-list-article__btn">Read more</a>
+  <a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
@@ -203,14 +104,12 @@ sudo gem install knife-ec2  Then I added this to my knife.rb:
   <div class="c-pagination__ctrl">
     <div class="c-pagination__newer">
       
-      <a href="/posts/page/2/">Newer</a>
-      
     </div>
     <div class="c-pagination__older">
       
     </div>
   </div>
-  <span class="c-pagination__count p-pagination__count">Page 3 of 3</span>
+  <span class="c-pagination__count p-pagination__count">Page 1 of 1</span>
 </nav>
 
 

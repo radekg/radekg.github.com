@@ -78,6 +78,30 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/">Publish to Maven Central via Sonatype with SBT</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2017-01-31T00:00:00Z">
+  Jan 31, 2017
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    First, create an account on the Sonatype JIRA, unless you have one. For the new group ID, create a ticket using the form under this URI. Once requested, wait for the ticket to go into Resolved state. When this happens, you can publish your project to Sonatype.
+To do so, configure your SBT project. Add the following lines to your project/plugins.sbt:
+addSbtPlugin(&#34;org.xerial.sbt&#34; % &#34;sbt-sonatype&#34; % &#34;1.1&#34;) addSbtPlugin(&#34;com.jsuereth&#34; % &#34;sbt-pgp&#34; % &#34;1.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/">The case for Kafka cold storage</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -276,31 +300,6 @@ So? After looking at a number of different search results on the Internets, digg
   </div>
   
   <a href="https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/">Erflux, InfluxDB client for Erlang</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2013-10-21T00:00:00Z">
-  Oct 21, 2013
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    It’s been already a month since I released erflux on github. Erflux is an Erlang client for InfluxDB HTTP protocol.
-Installation {deps, [ {erflux, &#34;.*&#34;, {git, &#34;git://github.com/radekg/erflux.git&#34;, {tag, &#34;version-1&#34;}}} }]} and run
-./rebar get-deps  Configuration Erflux allows configuring a number of parameters:
- InfluxDB host, default 127.0.0.1 InfluxDB port, default 8086 username, default: root password, default: root SSL usage, default: false timeout, default: infinity  The simplest way of applying configuration is to use application:set_env, like the example below:
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
