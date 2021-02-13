@@ -6,10 +6,37 @@
     <description>Recent content in Tags on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>alpine</title>
+      <link>https://gruchalski.com/tags/alpine/</link>
+      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/alpine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://gruchalski.com/tags/docker/</link>
+      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>firecracker</title>
+      <link>https://gruchalski.com/tags/firecracker/</link>
+      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/firecracker/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>golang</title>
@@ -26,15 +53,6 @@
       <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/cni/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>firecracker</title>
-      <link>https://gruchalski.com/tags/firecracker/</link>
-      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/firecracker/</guid>
       <description></description>
     </item>
     
@@ -179,15 +197,6 @@
       <pubDate>Sat, 05 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/sso/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://gruchalski.com/tags/docker/</link>
-      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/docker/</guid>
       <description></description>
     </item>
     

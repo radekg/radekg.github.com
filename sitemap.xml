@@ -3,12 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://gruchalski.com/tags/golang/</loc>
-    <lastmod>2021-02-10T00:00:00+00:00</lastmod>
+    <loc>https://gruchalski.com/tags/alpine/</loc>
+    <lastmod>2021-02-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/docker/</loc>
+    <lastmod>2021-02-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/firecracker/</loc>
+    <lastmod>2021-02-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://gruchalski.com/</loc>
+    <lastmod>2021-02-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</loc>
+    <lastmod>2021-02-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-02-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-02-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/golang/</loc>
     <lastmod>2021-02-10T00:00:00+00:00</lastmod>
   </url>
   
@@ -18,22 +48,7 @@
   </url>
   
   <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-02-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2021-02-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://gruchalski.com/tags/cni/</loc>
-    <lastmod>2021-02-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/firecracker/</loc>
     <lastmod>2021-02-07T00:00:00+00:00</lastmod>
   </url>
   
@@ -159,11 +174,6 @@
   
   <url>
     <loc>https://gruchalski.com/about/</loc>
-    <lastmod>2020-09-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/docker/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>
   </url>
   

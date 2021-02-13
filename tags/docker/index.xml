@@ -6,10 +6,20 @@
     <description>Recent content in docker on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Launching Alpine Linux on Firecracker like a boss</title>
+      <link>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</link>
+      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</guid>
+      <description>The quest to launch an ETCD cluster on Firecracker starts here.
+In this post, I&amp;rsquo;m describing how I&amp;rsquo;ve built my initial Alpine 3.13 VMM with OpenSSH and a dedicated sudoer user. In AWS, when one launches a Ubuntu instance, one can access it via ssh ubuntu@&amp;lt;address&amp;gt;, a CentOS VM is ssh centos@&amp;lt;address&amp;gt;. At the end of this write up, I&amp;rsquo;ll have ssh alpine@&amp;lt;address&amp;gt;. This VMM will have access to the outside world so I can install additional software and even ping the BBC!</description>
+    </item>
     
     <item>
       <title>Keycloak With Docker Compose</title>
