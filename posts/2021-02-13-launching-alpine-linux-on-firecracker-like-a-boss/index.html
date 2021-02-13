@@ -108,7 +108,7 @@ if (!doNotTrack) {
   <section id="js-article" class="p-article__body">
     <p>The quest to launch an ETCD cluster on Firecracker starts here.</p>
 <p>In this post, I&rsquo;m describing how I&rsquo;ve built my initial Alpine 3.13 VMM with OpenSSH and a dedicated <code>sudoer</code> user. In AWS, when one launches a Ubuntu instance, one can access it via <code>ssh ubuntu@&lt;address&gt;</code>, a CentOS VM is <code>ssh centos@&lt;address&gt;</code>. At the end of this write up, I&rsquo;ll have <code>ssh alpine@&lt;address&gt;</code>. This VMM will have access to the outside world so I can install additional software and even ping the BBC! For the networking, I&rsquo;ll use the Docker <code>docker0</code> bridge; inspired again by Julia Evans, the <a href="https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/">Day 41: Trying to understand what a bridge is</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> was very helpful. I will look at my own networking setup in future write ups.</p>
-<p>The resulting image is a refinement of the process from my previous Firecracker articles.</p>
+<p>The result is a refinement of the process from my previous Firecracker articles.</p>
 <h2 id="dockerfile">Dockerfile</h2>
 <p>The root file system is built from an Alpine 3.13 Docker image.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.13</span><span style="color:#960050;background-color:#1e0010">
@@ -153,7 +153,7 @@ if (!doNotTrack) {
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">	<span style="color:#f92672">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span style="color:#ae81ff">\
 </span></code></pre></div><ol start="4">
-<li>create the <code>alpine</code> group and the user, assign home directory and init shell and assign the random password; without the password user stays disabled and it&rsquo;s not possible to SSH as that user:</li>
+<li>create the <code>alpine</code> group and the user, assign home directory, init shell and a random password; without the password the user account stays disabled and it&rsquo;s not possible to SSH as that user:</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">	<span style="color:#f92672">&amp;&amp;</span> addgroup -S alpine <span style="color:#f92672">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;alpine:</span><span style="color:#66d9ef">$(</span>cat /dev/urandom | tr -dc <span style="color:#e6db74">&#39;a-zA-Z0-9&#39;</span> | fold -w <span style="color:#ae81ff">32</span> | head -n1<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> | chpasswd <span style="color:#ae81ff">\
@@ -172,14 +172,14 @@ if (!doNotTrack) {
 </span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add sysfs boot <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add local default
 </code></pre></div><ol start="8">
-<li>copy the generated public key to authorized keys:</li>
+<li>copy the generated public key to authorized keys, there&rsquo;s a single key so add directly to <code>authorized_keys</code>:</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><ol start="9">
 <li>finally, apply settings required to access the system via SSH:</li>
 </ol>
 <ul>
-<li>OpenSSH is picky about home and <code>.ssh</code> directory permissions so I make sure these are correct</li>
+<li>OpenSSH is picky about home and <code>.ssh</code> directory permissions so I make sure these are correct: <code>0740</code> for home, <code>0700</code> for <code>$HOME/.ssh</code> and <code>0400</code> for the keys file</li>
 <li>enable OpenSSH and make sure it starts when the system starts</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">RUN</span> chown -R alpine:alpine /home/alpine <span style="color:#ae81ff">\
@@ -189,7 +189,7 @@ if (!doNotTrack) {
 </span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> mkdir -p /run/openrc <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> touch /run/openrc/softlevel <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add sshd<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>I have a <code>/firecracker</code> directory structure which I described in <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. The Dockerfile is saved in <code>/firecracker/docker/alpine-3.13/Dockerfile</code>.</p>
+</span></code></pre></div><p>I have a <code>/firecracker</code> directory structure which I described in <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. The <code>Dockerfile</code> is saved in <code>/firecracker/docker/alpine-3.13/Dockerfile</code>.</p>
 <h2 id="file-system">File system</h2>
 <p>Now I put together the program to start the container and extract the file system. The program is saved as <code>/firecracker/docker/create-alpine-3.13.sh</code> and goes like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
@@ -205,8 +205,8 @@ echo <span style="color:#e6db74">&#34;Generating a keypair...&#34;</span>
 set +e
 ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#34;alpine@firecracker&#34;</span> -f <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/.ssh/</span><span style="color:#e6db74">${</span>key_file<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 set -e
-</code></pre></div><p>First, I&rsquo;m setting up the build context and generating a key pair. <code>ssh-keygen</code> is smart to check if the key pair already exists and answering <code>no</code> will prevent the key pair from being overwritten on every run.</p>
-<p>In the <code>Dockerfile</code>, I was using a build local <code>.key.pub</code> for the image (step 8). Here&rsquo;s how I make sure it exists:</p>
+</code></pre></div><p>First, I&rsquo;m setting up the build context and generating a key pair. <code>ssh-keygen</code> is smart to check if the key pair already exists and answering <code>no</code> will prevent it from overwriting on every run.</p>
+<p>In the <code>Dockerfile</code>, I was using a build local <code>key.pub</code> for the image (step 8). Here&rsquo;s how I make sure it exists:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Creating build directory...&#34;</span>
 mkdir -p <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span> cd <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 
@@ -224,7 +224,7 @@ rm -r <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</sp
         echo <span style="color:#e6db74">&#34; ==&gt; build failed with status </span>$?<span style="color:#e6db74">&#34;</span>
         exit $retVal
 <span style="color:#66d9ef">fi</span>
-</code></pre></div><p>The next step is to prepare the file system file:</p>
+</code></pre></div><p>The next step is to prepare the root file system:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Creating file system...&#34;</span>
 mkdir -p <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/fsmnt&#34;</span>
 dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/rootfs.ext4&#34;</span> bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>
@@ -234,13 +234,13 @@ sudo mount <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$
 </code></pre></div><p>and start the container:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Starting container from new image </span><span style="color:#e6db74">${</span>image_tag<span style="color:#e6db74">}</span><span style="color:#e6db74">...&#34;</span>
 CONTAINER_ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker run --rm -v <span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span>/fsmnt:/export-rootfs -td <span style="color:#e6db74">${</span>image_tag<span style="color:#e6db74">}</span> /bin/sh<span style="color:#66d9ef">)</span>
-</code></pre></div><p>followed by copying everything out of the container to the file system file. I do it the same way as the Vault VMM file system from the previous articles.</p>
+</code></pre></div><p>followed by copying everything out of the container to the file system file. I do it the same way as with the Vault VMM root file system in my previous articles.</p>
 <p>I could combine the first two commands together but I decided to keep the separate to distinguish what&rsquo;s my directory structure and what belongs to the base OS:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Copying Docker file system...&#34;</span>
 docker exec <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span> /bin/sh -c <span style="color:#e6db74">&#39;for d in home; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
 docker exec <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span> /bin/sh -c <span style="color:#e6db74">&#39;for d in bin dev etc lib root sbin usr; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
 docker exec <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span> /bin/sh -c <span style="color:#e6db74">&#39;for dir in proc run sys var; do mkdir /export-rootfs/${dir}; done; exit 0&#39;</span>
-</code></pre></div><p>When everything is copied and configured, unmount the file system, stop the container and clean up:</p>
+</code></pre></div><p>When everything is copied, unmount the file system, stop the container and clean up:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Unmounting file system...&#34;</span>
 sudo umount <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/fsmnt&#34;</span>
 
@@ -257,10 +257,10 @@ echo <span style="color:#e6db74">&#34;Removing Docker image...&#34;</span>
 docker rmi <span style="color:#e6db74">${</span>image_tag<span style="color:#e6db74">}</span>
 
 echo <span style="color:#e6db74">&#34; \\o/ File system written to </span><span style="color:#e6db74">${</span>filesystem_target<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#34;</span>
-</code></pre></div><p>To run it, simply: <code>/firecracker/docker/create-alpine-3.13.sh</code>. On my machine, assuming that I already have <code>alpine:3.13</code> Docker image, the process takes about 20 seconds.</p>
+</code></pre></div><p>To run it simply execute <code>/firecracker/docker/create-alpine-3.13.sh</code>. On my machine, assuming that I already have <code>alpine:3.13</code> Docker image, the process takes about 20 seconds.</p>
 <h2 id="networking">Networking</h2>
-<p>The resulting VMM would be useless without having access to the outside world. My previous write ups didn&rsquo;t touch on any of that and none of those VMMs were able to talk to the outside world.</p>
-<p>Here, I&rsquo;m using the method from Julia&rsquo;s article - use the <code>docker0</code> bridge. This is really straightforward. I have the <code>/firecracker/docker/tap-alpine-3.13.sh</code> program which looks like this:</p>
+<p>The resulting VMM would be useless without access to the outside world. My previous write ups didn&rsquo;t discuss any of that, none of those VMMs were able reach the internet.</p>
+<p>Here, I&rsquo;m using the method from Julia&rsquo;s article - use the <code>docker0</code> bridge. This is really straightforward. I have the following <code>/firecracker/docker/tap-alpine-3.13.sh</code> program:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
 </span><span style="color:#75715e"></span>set -eu
 sudo apt-get install bridge-utils -y
@@ -287,9 +287,9 @@ sudo sysctl -w net.ipv6.conf.<span style="color:#e6db74">${</span>TAP_DEV<span s
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ip link show alpine-test
 13: alpine-test: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc fq_codel master docker0 state DOWN mode DEFAULT group default qlen <span style="color:#ae81ff">1000</span>
     link/ether b6:53:d1:78:ee:2d brd ff:ff:ff:ff:ff:ff
-</code></pre></div><p>We&rsquo;re ready to configure the VMM.</p>
+</code></pre></div><p>Time to configure the VMM.</p>
 <h2 id="vmm-configuration-file">VMM configuration file</h2>
-<p>A couple of things to note here:</p>
+<p>A couple of things to take a note of:</p>
 <ul>
 <li><code>ip=172.17.0.42::172.17.0.1:255.255.255.0::eth0:off</code> is of the format <code>ip=${VMM_IP}::${GATEWAY_IP}:{DOCKER_MASK_LONG}::${VMM_INTERFACE_ID}:off</code></li>
 <li><code>network-interfaces[0].host_dev_name</code> matches the value of <code>$TAP_DEV</code></li>
@@ -325,7 +325,7 @@ sudo sysctl -w net.ipv6.conf.<span style="color:#e6db74">${</span>TAP_DEV<span s
 </code></pre></div><h2 id="run-the-vmm">Run the VMM</h2>
 <p>To start the VMM, simply execute:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo firecracker --no-api --config-file /firecracker/configs/alpine-config.json
-</code></pre></div><p>A couple of seconds later, we have:</p>
+</code></pre></div><p>About two seconds later:</p>
 <pre><code> * Mounting misc binary format filesystem ... [ ok ]
  * Mounting /sys ... [ ok ]
  * Mounting security filesystem ... [ ok ]
@@ -355,11 +355,9 @@ See &lt;http://wiki.alpinelinux.org/&gt;.
 You can setup the system with the command: setup-alpine
 
 You may change this message by editing /etc/motd.
-
-```sh
-172:~$ sudo sh
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:~$ sudo sh
 172:/home/alpine# apk update
-</code></pre><pre><code>fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
+</code></pre></div><pre><code>fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
 fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/APKINDEX.tar.gz
 v3.13.1-115-gf65775dfbc [https://dl-cdn.alpinelinux.org/alpine/v3.13/main]
 v3.13.1-117-g6a5e33f63c [https://dl-cdn.alpinelinux.org/alpine/v3.13/community]
@@ -392,7 +390,7 @@ round-trip min/avg/max = 15.660/17.197/18.995 ms
        valid_lft forever preferred_lft forever
     inet6 fe80::fc:ff:fe00:5/64 scope link
        valid_lft forever preferred_lft forever
-</code></pre></div><p>Nice. Everything is working as expected. The UX is not fully complete, for example, to <code>ping</code> stuff, I do have to <code>sudo</code>. Whatever, if I can <code>ping</code> the BBC, I&rsquo;m good:</p>
+</code></pre></div><p>Nice. Everything is working as expected. The UX is not fully complete, to <code>ping</code> stuff I do have to <code>sudo</code>. Whatever, if I can <code>ping</code> the BBC, I&rsquo;m good:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# ping bbc.co.uk
 </code></pre></div><pre><code>PING bbc.co.uk (151.101.64.81): 56 data bytes
 64 bytes from 151.101.64.81: seq=0 ttl=58 time=23.371 ms
@@ -404,7 +402,7 @@ round-trip min/avg/max = 15.660/17.197/18.995 ms
 4 packets transmitted, 4 packets received, 0% packet loss
 round-trip min/avg/max = 20.238/23.111/24.788 ms
 </code></pre><h2 id="next-steps">Next steps</h2>
-<p>Next time I am going to look at setting up the network with IPAM so the IP addresses is assigned from a given range.</p>
+<p>Next time I am going to look at setting up the network with IPAM so the IP addresses are assigned from a given range.</p>
 <p>That&rsquo;s it for today:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# reboot
 </code></pre></div><pre><code>172:/home/alpine# Connection to 172.17.0.42 closed by remote host.
