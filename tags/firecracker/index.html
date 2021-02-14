@@ -90,7 +90,7 @@ if (!doNotTrack) {
   <div class="c-article__summary">
     Before looking at the networking options, I have looked at adding extra drives to my Firecracker VMMs. Storing data on the root file system will not scale well long term. Additional disks will be a good solution to persist application specific data across reboots and upgrades.
 Create the disk on the host First, create an additional file system on the host:
-dd if=/dev/zero of=&#34;/firecracker/filesystems/alpine-vol2.ext4&#34; bs=1M count=500 mkfs.ext4 &#34;/firecracker/filesystems/alpine-vol2.ext4&#34; Reconfigure the VMM Change the VMM disks configuration:
+dd if=/dev/zero of=&#34;/firecracker/filesystems/alpine-vol2.ext4&#34; bs=1M count=500 mkfs.ext4 &#34;/firecracker/filesystems/alpine-vol2.ext4&#34; Reconfigure the VMM Change the VMM drives configuration:
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/" class="c-article__btn p-list-article__btn">Read more</a>

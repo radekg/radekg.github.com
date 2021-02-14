@@ -105,7 +105,7 @@ if (!doNotTrack) {
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span> bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>
 mkfs.ext4 <span style="color:#e6db74">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span>
 </code></pre></div><h2 id="reconfigure-the-vmm">Reconfigure the VMM</h2>
-<p>Change the VMM <code>disks</code> configuration:</p>
+<p>Change the VMM <code>drives</code> configuration:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">  <span style="color:#e6db74">&#34;drives&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
     {
       <span style="color:#f92672">&#34;drive_id&#34;</span>: <span style="color:#e6db74">&#34;rootfs&#34;</span>,
