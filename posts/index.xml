@@ -6,10 +6,21 @@
     <description>Recent content in Posts on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 14 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Firecracker VMM with additional disks</title>
+      <link>https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/</link>
+      <pubDate>Sun, 14 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/</guid>
+      <description>Before looking at the networking options, I have looked at adding extra drives to my Firecracker VMMs. Storing data on the root file system will not scale well long term. Additional disks will be a good solution to persist application specific data across reboots and upgrades.
+Create the disk on the host First, create an additional file system on the host:
+dd if=/dev/zero of=&amp;#34;/firecracker/filesystems/alpine-vol2.ext4&amp;#34; bs=1M count=500 mkfs.ext4 &amp;#34;/firecracker/filesystems/alpine-vol2.ext4&amp;#34; Reconfigure the VMM Change the VMM configuration disks configuration:</description>
+    </item>
     
     <item>
       <title>Launching Alpine Linux on Firecracker like a boss</title>

@@ -78,6 +78,30 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/">Firecracker VMM with additional disks</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-02-14T00:00:00Z">
+  Feb 14, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    Before looking at the networking options, I have looked at adding extra drives to my Firecracker VMMs. Storing data on the root file system will not scale well long term. Additional disks will be a good solution to persist application specific data across reboots and upgrades.
+Create the disk on the host First, create an additional file system on the host:
+dd if=/dev/zero of=&#34;/firecracker/filesystems/alpine-vol2.ext4&#34; bs=1M count=500 mkfs.ext4 &#34;/firecracker/filesystems/alpine-vol2.ext4&#34; Reconfigure the VMM Change the VMM configuration disks configuration:
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/">Launching Alpine Linux on Firecracker like a boss</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -283,29 +307,6 @@ curl --silent -X POST \  ${KEYCLOAK_TOKEN_URL} \  -H &#34;Authorization: Bearer 
   </div>
   
   <a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/">Introduction to Keycloak Authorization Services</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2020-09-05T00:00:00Z">
-  Sep 5, 2020
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    As the number of applications and websites in the organization grows, the developer will inevitably receive a request to implement Single Sign-On. Single Sign-On (SSO for short) is an authentication scheme allowing the user to log in with a single set of credentials and share the session across multiple, independent, potentially unrelated systems.
-The savvy developer will roll out Keycloak, enable Standard Flow client, maybe enable some of the social login options, like GitHub, Google or Facebook and call it a day.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
