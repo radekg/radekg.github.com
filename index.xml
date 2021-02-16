@@ -6,10 +6,20 @@
     <description>Recent content on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 14 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Live resize Firecracker VMM drive</title>
+      <link>https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/</link>
+      <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/</guid>
+      <description>Towards the end of the Firecracker VMM with additional disks article1 I concluded that I didn&amp;rsquo;t know how to live resize an attached drive. It turns out it is possible and it&amp;rsquo;s very easy to do using the Firecracker VMM API.
+To launch the VMM with the API, I have to drop the --no-api argument (obviously) and use --api-sock with the path to the socket file. In a production system, I&amp;rsquo;d use a directory other than /tmp.</description>
+    </item>
     
     <item>
       <title>Firecracker VMM with additional disks</title>

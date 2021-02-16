@@ -78,6 +78,31 @@ if (!doNotTrack) {
   
   <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/">Keycloak Authorization Services - retrieving the decision only</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2020-09-06T00:00:00Z">
+  Sep 6, 2020
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    In Introduction to Keycloak Authorization Services 1, I have described how to use the Authorization Services to find out if the user has access to certain resources.
+I have done so by asking Keycloak to issue an access token with a special grant_type with the value of urn:ietf:params:oauth:grant-type:uma-ticket which returned a list of permissions the has access to.
+The request looked like this:
+curl --silent -X POST \  ${KEYCLOAK_TOKEN_URL} \  -H &#34;Authorization: Bearer ${access_token}&#34; \  --data &#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34; \  --data &#34;audience=customers&#34; \  --data &#34;permission=CustomerB#customer-b&#34; | jq &#39;.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+  
+    
+  <article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/">Introduction to Keycloak Authorization Services</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -276,29 +301,6 @@ EUC2015 was also a place of first public appearance of Gossiperl.
   </div>
   
   <a href="https://gruchalski.com/posts/2015-01-05-state-of-gossiperl-and-some-javascript-thrift-goodies/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/">Gossiperl   gossip middleware in Erlang</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2014-12-09T00:00:00Z">
-  Dec 9, 2014
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Today I&rsquo;ve released a project called gossiperl. Gossiperl is a language agnostic gossip middleware written in Erlang. The purpose of the project was purely research on gossip based systems, as well as, learning Erlang.
-Main intent was to create a common communication middleware enabled over gossip using a standard binary transport mechanism. Gossiperl is a result of over 6 months of research, reading, learning, planning and implementation. Gossiperl uses Apache Thrift binary serialisation over UDP.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
