@@ -6,10 +6,20 @@
     <description>Recent content in microvm on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 17 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 18 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://gruchalski.com/tags/microvm/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>It&#39;s all about the the Iface name</title>
+      <link>https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/</link>
+      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/</guid>
+      <description>Last night&amp;rsquo;s problem with the second VMM conflicting on the network layer with the first one was indeed the veth0 name hard coded in firectl. I&amp;rsquo;ve added the --veth-iface-name argument to firectl and I am now able to start multiple VMMs on a single bridge.
+sudo firectl \  --firecracker-binary=/usr/bin/firecracker \  --kernel=/firecracker/kernels/vmlinux-v5.8 \  --root-drive=/firecracker/filesystems/alpine-base-root.ext4 \  --cni-network=alpine \  --socket-path=/tmp/alpine.sock \  --ncpus=1 \  --memory=128 \  --veth-iface-name=vethalpine1 sudo firectl \  --firecracker-binary=/usr/bin/firecracker \  --kernel=/firecracker/kernels/vmlinux-v5.</description>
+    </item>
     
     <item>
       <title>Bridging the Firecracker network gap</title>
