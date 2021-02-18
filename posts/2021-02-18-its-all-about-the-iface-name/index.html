@@ -104,7 +104,7 @@ if (!doNotTrack) {
     <img src="/assets/shared/fc_logo_full_white-bg-small.png" alt="thumbnail" class="p-article__thumbnail">
   
   <section id="js-article" class="p-article__body">
-    <p><a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/">Last night&rsquo;s problem with the second VMM conflicting on the network layer with the first one</a> was indeed the <code>veth0</code> name hard coded in <code>firectl</code>. I&rsquo;ve added the <code>--veth-iface-name</code> argument to <code>firectl</code> and I am now able to start multiple VMMs on a single bridge.</p>
+    <p><a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/">Last night&rsquo;s problem with the second VMM conflicting on the network layer with the first one</a> was indeed the <code>veth0</code> name hard coded in <code>firectl</code>. <a href="https://github.com/radekg/firectl/commit/b43ad852ce267c016558d101957d7b2ec1805f3d">I&rsquo;ve added the <code>--veth-iface-name</code> argument</a> to <code>firectl</code> and I am now able to start multiple VMMs on a single bridge.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo firectl <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --firecracker-binary<span style="color:#f92672">=</span>/usr/bin/firecracker <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --kernel<span style="color:#f92672">=</span>/firecracker/kernels/vmlinux-v5.8 <span style="color:#ae81ff">\
