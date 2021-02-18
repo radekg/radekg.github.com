@@ -78,6 +78,30 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/">Bridging the Firecracker network gap</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-02-17T00:00:00Z">
+  Feb 17, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    Today I have looked at creating my own bridge networks for Firecracker VMMs. I have previously used some CNI setups when evaluating the HashiCorp Nomad firecracker task driver1. Back then I have incorrectly stated that Firecracker depends on certain CNI plugins. It doesn&rsquo;t, it can take advantage of any CNI setup as long as the tc-redirect-tap is in the chained plugins.
+The Nomad task driver had some issues, briefly:
+ every now and then, oddly, the task would never shut the VMM down and the only way to make the VMM gow down was to sudo kill nomad I tried updating the task driver to latest SDK version but I was not able to upgrade the Firecracker dependency past a specific commit which makes the VMM unreachable, really weird issue, I reported it here  So today, I took a different route.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/">Live resize Firecracker VMM drive</a></h2>
     <p class="c-article__meta">
       Posted on

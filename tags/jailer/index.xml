@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jailer on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/jailer/</link>
+    <description>Recent content in jailer on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Feb 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://gruchalski.com/tags/jailer/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bridging the Firecracker network gap</title>
+      <link>https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/</link>
+      <pubDate>Wed, 17 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/</guid>
+      <description>Today I have looked at creating my own bridge networks for Firecracker VMMs. I have previously used some CNI setups when evaluating the HashiCorp Nomad firecracker task driver1. Back then I have incorrectly stated that Firecracker depends on certain CNI plugins. It doesn&amp;rsquo;t, it can take advantage of any CNI setup as long as the tc-redirect-tap is in the chained plugins.
+The Nomad task driver had some issues, briefly:
+ every now and then, oddly, the task would never shut the VMM down and the only way to make the VMM gow down was to sudo kill nomad I tried updating the task driver to latest SDK version but I was not able to upgrade the Firecracker dependency past a specific commit which makes the VMM unreachable, really weird issue, I reported it here  So today, I took a different route.</description>
+    </item>
+    
+  </channel>
+</rss>

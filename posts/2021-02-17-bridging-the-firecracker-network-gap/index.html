@@ -4,21 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
-  <title>Firecracker VMM with additional disks</title>
-  <meta property="og:title" content="Firecracker VMM with additional disks" />
-  <meta name="twitter:title" content="Firecracker VMM with additional disks" />
+  <title>Bridging the Firecracker network gap</title>
+  <meta property="og:title" content="Bridging the Firecracker network gap" />
+  <meta name="twitter:title" content="Bridging the Firecracker network gap" />
   
 
   
-  <meta name="description" content="Adding more disks to the Firecracker VMM">
-  <meta property="og:description" content="Adding more disks to the Firecracker VMM">
-  <meta name="twitter:description" content="Adding more disks to the Firecracker VMM">
+  <meta name="description" content="Because docker0 is not the right choice">
+  <meta property="og:description" content="Because docker0 is not the right choice">
+  <meta name="twitter:description" content="Because docker0 is not the right choice">
   
 
   <meta name="author" content="Radek Gruchalski"/>
   <meta property="og:site_name" content="gruchalski.com" />
-  <meta property="og:url" content="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/" />
+  <meta property="og:url" content="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/" />
 
+  
+  <meta property="og:image" content="https://gruchalski.com/assets/shared/fc_logo_full_white-bg-small.png" />
+  <meta name="twitter:image" content="https://gruchalski.com/assets/shared/fc_logo_full_white-bg-small.png" />
   
   <meta name="twitter:card" content="summary" />
 
@@ -79,13 +82,13 @@ if (!doNotTrack) {
 
 <article class="p-article">
   <header>
-    <h1>Firecracker VMM with additional disks</h1>
+    <h1>Bridging the Firecracker network gap</h1>
     <div>
       
         <div class="c-time">
           Posted on
-<time datetime="2021-02-14T00:00:00Z">
-  Feb 14, 2021
+<time datetime="2021-02-17T00:00:00Z">
+  Feb 17, 2021
 </time>
 
         </div>
@@ -93,76 +96,123 @@ if (!doNotTrack) {
       
       <a href="https://gruchalski.com/tags/firecracker" class="c-tag">firecracker</a>
       
+      <a href="https://gruchalski.com/tags/jailer" class="c-tag">jailer</a>
+      
       <a href="https://gruchalski.com/tags/microvm" class="c-tag">microvm</a>
       
     </div>
   </header>
   
+    <img src="/assets/shared/fc_logo_full_white-bg-small.png" alt="thumbnail" class="p-article__thumbnail">
+  
   <section id="js-article" class="p-article__body">
-    <p>Before looking at the networking options, I have looked at adding extra drives to my Firecracker VMMs. Storing data on the root file system will not scale well long term. Additional disks will be a good solution to persist application specific data across reboots and upgrades.</p>
-<h2 id="create-the-disk-on-the-host">Create the disk on the host</h2>
-<p>First, create an additional file system on the host:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span> bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>
-mkfs.ext4 <span style="color:#e6db74">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span>
-</code></pre></div><h2 id="reconfigure-the-vmm">Reconfigure the VMM</h2>
-<p>Change the VMM <code>drives</code> configuration:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">  <span style="color:#e6db74">&#34;drives&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
-    {
-      <span style="color:#f92672">&#34;drive_id&#34;</span>: <span style="color:#e6db74">&#34;rootfs&#34;</span>,
-      <span style="color:#f92672">&#34;path_on_host&#34;</span>: <span style="color:#e6db74">&#34;/firecracker/filesystems/alpine-base-root.ext4&#34;</span>,
-      <span style="color:#f92672">&#34;is_root_device&#34;</span>: <span style="color:#66d9ef">true</span>,
-      <span style="color:#f92672">&#34;is_read_only&#34;</span>: <span style="color:#66d9ef">false</span>
+    <p>Today I have looked at creating my own bridge networks for Firecracker VMMs. I have previously used some CNI setups when <a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/">evaluating the HashiCorp Nomad firecracker task driver</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. Back then I have incorrectly stated that Firecracker <em>depends</em> on certain CNI plugins. It doesn&rsquo;t, it can take advantage of any CNI setup as long as the <code>tc-redirect-tap</code> is in the chained plugins.</p>
+<p>The Nomad task driver had some issues, briefly:</p>
+<ul>
+<li>every now and then, oddly, the task would never shut the VMM down and the only way to make the VMM gow down was to <code>sudo kill nomad</code></li>
+<li>I tried updating the task driver to latest SDK version but I was not able to upgrade the Firecracker dependency past a specific commit which makes the VMM unreachable, really weird issue, <a href="https://github.com/firecracker-microvm/firecracker-go-sdk/issues/311">I reported it here</a></li>
+</ul>
+<p>So today, I took a different route.</p>
+<h2 id="firectl">firectl</h2>
+<p><a href="https://github.com/firecracker-microvm/firectl"><code>firectl</code></a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> is a command line utility for launching VMMs and a reference implementation of an application built on top of the <a href="https://github.com/firecracker-microvm/firecracker-go-sdk">Firecracker Golang SDK</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. I have some exposure to the <code>firectl</code> from when I was trying to upgrade the Nomad task driver. The task driver uses parts of <code>firectl</code> code internally. One thing that the <code>firectl</code> is missing passing the CNI network name. Something similar to this snippet from the SDK readme:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">{
+  <span style="color:#a6e22e">NetworkInterfaces</span>: []<span style="color:#a6e22e">firecracker</span>.<span style="color:#a6e22e">NetworkInterface</span>{{
+    <span style="color:#a6e22e">CNIConfiguration</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">firecracker</span>.<span style="color:#a6e22e">CNIConfiguration</span>{
+      <span style="color:#a6e22e">NetworkName</span>: <span style="color:#e6db74">&#34;fcnet&#34;</span>,
+      <span style="color:#a6e22e">IfName</span>: <span style="color:#e6db74">&#34;veth0&#34;</span>,
     },
-    {
-      <span style="color:#f92672">&#34;drive_id&#34;</span>: <span style="color:#e6db74">&#34;vol2&#34;</span>,
-      <span style="color:#f92672">&#34;path_on_host&#34;</span>: <span style="color:#e6db74">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span>,
-      <span style="color:#f92672">&#34;is_root_device&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;is_read_only&#34;</span>: <span style="color:#66d9ef">false</span>
-    }
-  ]<span style="color:#960050;background-color:#1e0010">,</span>
-</code></pre></div><p>and relaunch the VMM.</p>
-<h2 id="verify-the-configuration">Verify the configuration</h2>
-<p>In another terminal:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:~$ sudo fdisk -l
-</code></pre></div><pre><code>Disk /dev/vda: 500 MiB, 524288000 bytes, 1024000 sectors
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
+  }}
+}
+</code></pre></div><p>The first thing to do was to add support for that. I&rsquo;ve created a <code>firectl</code> fork and pushed my changes <a href="https://github.com/radekg/firectl/compare/master...cni-network">to GitHub, here</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
+<p>I&rsquo;ve added:</p>
+<ol>
+<li>a new argument to declare the <code>--cni-network</code></li>
+<li>add the network interface based on the new argument</li>
+<li>added <code>--netns</code> argument required when using the CNI networks</li>
+</ol>
+<p>Having built my version of <code>firectl</code>, I&rsquo;ve declared this CNI <code>conflist</code> (in <code>/firecracker/cni/conf.d/alpine.conflist</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;alpine&#34;</span>,
+    <span style="color:#f92672">&#34;cniVersion&#34;</span>: <span style="color:#e6db74">&#34;0.4.0&#34;</span>,
+    <span style="color:#f92672">&#34;plugins&#34;</span>: [
+        {
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;bridge&#34;</span>,
+            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;alpine-bridge&#34;</span>,
+            <span style="color:#f92672">&#34;bridge&#34;</span>: <span style="color:#e6db74">&#34;alpinebridge0&#34;</span>,
+            <span style="color:#f92672">&#34;isDefaultGateway&#34;</span>: <span style="color:#66d9ef">true</span>,
+            <span style="color:#f92672">&#34;ipMasq&#34;</span>: <span style="color:#66d9ef">true</span>,
+            <span style="color:#f92672">&#34;hairpinMode&#34;</span>: <span style="color:#66d9ef">true</span>,
+            <span style="color:#f92672">&#34;ipam&#34;</span>: {
+                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;host-local&#34;</span>,
+                <span style="color:#f92672">&#34;subnet&#34;</span>: <span style="color:#e6db74">&#34;192.168.127.0/24&#34;</span>,
+                <span style="color:#f92672">&#34;resolvConf&#34;</span>: <span style="color:#e6db74">&#34;/etc/resolv.conf&#34;</span>
+            }
+        },
+        {
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;firewall&#34;</span>
+        },
+        {
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;tc-redirect-tap&#34;</span>
+        }
+    ]
+}
+</code></pre></div><p>and started the VMM via <code>firectl</code>, like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo ./firectl <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --firecracker-binary<span style="color:#f92672">=</span>/usr/bin/firecracker <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --kernel<span style="color:#f92672">=</span>/firecracker/kernels/vmlinux-v5.8 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --root-drive<span style="color:#f92672">=</span>/firecracker/filesystems/alpine-base-root.ext4 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --cni-network<span style="color:#f92672">=</span>alpine <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --socket-path<span style="color:#f92672">=</span>/tmp/alpine.sock <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --ncpus<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --memory<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>
+</code></pre></div><p>This works line a charm. I can SSH to the VMM via the IP address which can be found with:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat /var/lib/cni/networks/alpine/last_reserved_ip.0
+</code></pre></div><p>The VMM can reach the outside world, no degradation here.</p>
+<h2 id="host-local-ipam">host-local IPAM</h2>
+<p>Reading more about the <code>host-local</code> IPAM, I figured that the <em>issue</em> with IP addresses changing on every start of the VMM is the normal behavior of the <code>host-local</code> IPAM. Basically, it stores the allocations on disk, under the <code>/var/lib/cni/networks/&lt;network-name&gt;</code> directory. This behavior appears to be referred to as <em>IP address leakage</em>. One way to take care of that, is to have a custom operator listening for when the VMM is stopped and removing that IP allocation manually. How, it&rsquo;s undefined but it should be rather straightforward by using a combination of MMDS and some custom agent.</p>
+<h2 id="the-bridge">The bridge</h2>
+<p>The other thing to note is, I&rsquo;m no longer using the <code>ptp</code> plugin. I&rsquo;ve switched to the <code>bridge</code> and I am not using <code>docker0</code>. This was my little attempt at launching two VMMs on the same bridge. Well, this didn&rsquo;t work&hellip;</p>
+<p>Firecracker Golang SDK tries to remove the existing bridge when launching the second VMM configured with that network name and it fails miserably. Here&rsquo;s the error I have seen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo ./firectl <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --firecracker-binary<span style="color:#f92672">=</span>/usr/bin/firecracker <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --kernel<span style="color:#f92672">=</span>/firecracker/kernels/vmlinux-v5.8 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --root-drive<span style="color:#f92672">=</span>/firecracker/filesystems/alpine-base-root.ext4-2 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --cni-network<span style="color:#f92672">=</span>alpine <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --socket-path<span style="color:#f92672">=</span>/tmp/alpine2.sock <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --ncpus<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --memory<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>
+</code></pre></div><pre><code>WARN[0000] Failed handler &quot;fcinit.SetupNetwork&quot;: failure when invoking CNI: failed to delete pre-existing CNI network {NetworkName:alpine NetworkConfig:&lt;nil&gt; IfName:veth0 VMIfName: Args:[] BinPath:[/opt/cni/bin] ConfDir:/etc/cni/conf.d CacheDir:/var/lib/cni/32171e6d-2b1b-4060-9555-e17314972ace containerID:32171e6d-2b1b-4060-9555-e17314972ace netNSPath:/var/run/netns Force:false}: failed to delete CNI network list &quot;alpine&quot;: running [/sbin/iptables -t nat -D POSTROUTING -s 192.168.127.2 -j CNI-166dba6e0b91a8f3d41c9a89 -m comment --comment name: &quot;alpine&quot; id: &quot;32171e6d-2b1b-4060-9555-e17314972ace&quot; --wait]: exit status 2: iptables v1.6.1: Couldn't load target `CNI-166dba6e0b91a8f3d41c9a89':No such file or directory
 
-
-Disk /dev/vdb: 500 MiB, 524288000 bytes, 1024000 sectors
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-</code></pre><p>I can mount it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# mkdir /mnt
-172:/home/alpine# mount /dev/vdb /mnt
-</code></pre></div><p>Firecracker shows me:</p>
-<pre><code>[ 1800.756913] EXT4-fs (vdb): mounted filesystem with ordered data mode. Opts: (null)
-[ 1800.758116] ext4 filesystem being mounted at /mnt supports timestamps until 2038 (0x7fffffff)
-</code></pre><p>I can also write to it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# ls -la /mnt/
-</code></pre></div><pre><code>total 14
-drwxr-xr-x    3 root     root          1024 Feb 14 15:07 .
-drwxr-xr-x   16 root     root          1024 Feb 14 15:49 ..
-drwx------    2 root     root         12288 Feb 14 15:07 lost+found
-</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# echo <span style="color:#ae81ff">1</span> &gt; /mnt/test
-172:/home/alpine# ls -la /mnt/
-</code></pre></div><pre><code>total 15
-drwxr-xr-x    3 root     root          1024 Feb 14 15:50 .
-drwxr-xr-x   16 root     root          1024 Feb 14 15:49 ..
-drwx------    2 root     root         12288 Feb 14 15:07 lost+found
--rw-r--r--    1 root     root             2 Feb 14 15:50 test
-</code></pre><h2 id="live-resize-does-not-work">Live resize does not work</h2>
-<p>Not sure at this stage if this is because of how the system is built or if it&rsquo;s a limitation of the VMM but I am not able to live resize the disk. Executing on the host:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> &gt;&gt; /firecracker/filesystems/alpine-vol2.ext4
-</code></pre></div><pre><code>100+0 records in
-100+0 records out
-104857600 bytes (105 MB, 100 MiB) copied, 0.0798364 s, 1.3 GB/s
-</code></pre><p>and in the VMM:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# sudo blockdev --flushbufs /dev/vdb
-172:/home/alpine# sudo blockdev --rereadpt /dev/vdb
-</code></pre></div><p>does not reflect the change. The change only becomes visible after VMM restart.</p>
+Try `iptables -h' or 'iptables --help' for more information.
+FATA[0000] Failed to start machine: failure when invoking CNI: failed to delete pre-existing CNI network {NetworkName:alpine NetworkConfig:&lt;nil&gt; IfName:veth0 VMIfName: Args:[] BinPath:[/opt/cni/bin] ConfDir:/etc/cni/conf.d CacheDir:/var/lib/cni/32171e6d-2b1b-4060-9555-e17314972ace containerID:32171e6d-2b1b-4060-9555-e17314972ace netNSPath:/var/run/netns Force:false}: failed to delete CNI network list &quot;alpine&quot;: running [/sbin/iptables -t nat -D POSTROUTING -s 192.168.127.2 -j CNI-166dba6e0b91a8f3d41c9a89 -m comment --comment name: &quot;alpine&quot; id: &quot;32171e6d-2b1b-4060-9555-e17314972ace&quot; --wait]: exit status 2: iptables v1.6.1: Couldn't load target `CNI-166dba6e0b91a8f3d41c9a89':No such file or directory
+</code></pre><p>In the process, some of the underlying network configuration for the running VMM was wiped os my SSH connection was handing. Similar to what happens when one disconnects the network cable or disables WiFi.</p>
+<p>Yeah, that will definitely not fly. What one needs is to decouple the network setup into two steps:</p>
+<ol>
+<li>create the bridge before launching VMMs, like what <code>docker network create</code> does</li>
+<li>setup the tap device at the VMM launch time</li>
+</ol>
+<p>Maybe <a href="https://github.com/weaveworks/ignite/blob/master/pkg/network/cni/cni.go">the CNI implementation from Weaveworks Ignite</a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> can serve as an inspiration (thanks, <a href="https://github.com/everesio">Michał</a>&hellip;)</p>
+<p>Food for thought.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/">Vault on Firecracker with CNI plugins and Nomad</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://github.com/firecracker-microvm/firectl"><code>firectl</code> GitHub repository</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://github.com/firecracker-microvm/firecracker-go-sdk">Firecracker Golang SDK GitHub repository</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://github.com/radekg/firectl/compare/master...cni-network">CNI network support for <code>firectl</code></a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p><a href="https://github.com/weaveworks/ignite/blob/master/pkg/network/cni/cni.go">the CNI implementation from Weaveworks Ignite</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 
   </section>
   <footer>
@@ -171,12 +221,11 @@ drwx------    2 root     root         12288 Feb 14 15:07 lost+found
       <div class="c-pagination__ctrl">
         <div class="c-pagination__newer">
           
-          <a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/">Newer</a>
           
         </div>
         <div class="c-pagination__older">
           
-          <a href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/">Older</a>
+          <a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/">Older</a>
           
         </div>
       </div>
@@ -198,6 +247,22 @@ drwx------    2 root     root         12288 Feb 14 15:07 lost+found
 <section class="p-related">
   <h3>See Also</h3>
   <ul id="slider" class="p-related__list">
+    
+    <li class="p-related__item js-related__item">
+      <a href="/posts/2021-02-16-live-resize-firecracker-vmm-drive/"
+        
+          style="background-image: url(https://gruchalski.com//assets/posts/2021-02-16/live-resize.png);"
+        >
+        <span>Live resize Firecracker VMM drive</span>
+      </a>
+    </li>
+    
+    <li class="p-related__item js-related__item">
+      <a href="/posts/2021-02-14-firecracker-vmm-with-additional-disks/"
+        >
+        <span>Firecracker VMM with additional disks</span>
+      </a>
+    </li>
     
     <li class="p-related__item js-related__item">
       <a href="/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/"
