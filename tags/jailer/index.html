@@ -24,7 +24,7 @@
   <meta property="og:type" content="website" />
   
   
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.80.0" />
   
 <script type="application/javascript">
 var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
@@ -78,22 +78,21 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/">Bridging the Firecracker network gap</a></h2>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-19-the-jailer/">The jailer</a></h2>
     <p class="c-article__meta">
       Posted on
-<time datetime="2021-02-17T00:00:00Z">
-  Feb 17, 2021
+<time datetime="2021-02-19T00:00:00Z">
+  Feb 19, 2021
 </time>
 
     </p>
   </header>
   <div class="c-article__summary">
-    Today I have looked at creating my own bridge networks for Firecracker VMMs. I already used CNI setups when evaluating the HashiCorp Nomad firecracker task driver1. Back then I incorrectly stated that Firecracker depends on certain CNI plugins. It doesn&rsquo;t, it can take advantage of any CNI setup as long as the tc-redirect-tap is in the chained plugins.
-The Nomad task driver had some issues, briefly:
- every now and then, oddly, the task would never shut the VMM down and the only way to make the VMM gow down was to sudo kill nomad I tried updating the task driver to latest SDK version but I was not able to upgrade the Firecracker dependency past a specific commit, any version after that specific commit makes the VMM come up, the network setup to be there but the VMM is not reachable, really, really weird issue - reported it here  So today, I took a different route.
+    A Firecracker release comes with two binaries - the firecracker and the jailer programs. The jailer brings even more isolation options to Firecracker by creating and securing a unique execution environment for each VMM.
+what can it do  check the uniqueness and validity of the VMM id, maximum length of 64 characters, alphanumeric only assign NUMA node check the existence of the exec_file run the VMM as a specific user / group assign cgroups assign the VMM into a dedicated network namespace a VMM can be damonized  what does it do This part comes from the jailer documentation1.
   </div>
   
-  <a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/" class="c-article__btn p-list-article__btn">Read more</a>
+  <a href="https://gruchalski.com/posts/2021-02-19-the-jailer/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

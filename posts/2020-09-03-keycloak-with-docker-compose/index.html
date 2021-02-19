@@ -32,7 +32,7 @@
   
   
   
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.80.0" />
   
 <script type="application/javascript">
 var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
@@ -117,38 +117,38 @@ if (!doNotTrack) {
 <h2 id="docker-compose">Docker Compose</h2>
 <p>Docker Hub contains prebuilt Keycloak images. At the time of writing, the most recent version is <code>11.0.2</code>.</p>
 <p>Let&rsquo;s start with the <code>compose.yml</code> file.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#39;3.3&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.3&#39;</span>
 
-<span style="color:#66d9ef">services</span>:
-  <span style="color:#66d9ef">postgres</span>:
-    <span style="color:#66d9ef">image</span>: postgres:<span style="color:#ae81ff">9.6.17</span>
-    <span style="color:#66d9ef">restart</span>: always
-    <span style="color:#66d9ef">environment</span>:
-      <span style="color:#66d9ef">POSTGRES_DB</span>: ${POSTGRESQL_DB}
-      <span style="color:#66d9ef">POSTGRES_USER</span>: ${POSTGRESQL_USER}
-      <span style="color:#66d9ef">POSTGRES_PASSWORD</span>: ${POSTGRESQL_PASS}
-    <span style="color:#66d9ef">networks</span>:
-      - local-keycloak
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">postgres</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">postgres:9.6.17</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">POSTGRES_DB</span>: <span style="color:#ae81ff">${POSTGRESQL_DB}</span>
+      <span style="color:#f92672">POSTGRES_USER</span>: <span style="color:#ae81ff">${POSTGRESQL_USER}</span>
+      <span style="color:#f92672">POSTGRES_PASSWORD</span>: <span style="color:#ae81ff">${POSTGRESQL_PASS}</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">local-keycloak</span>
 
-  <span style="color:#66d9ef">keycloak</span>:
-    <span style="color:#66d9ef">depends_on</span>:
-      - postgres
-    <span style="color:#66d9ef">container_name</span>: local_keycloak
-    <span style="color:#66d9ef">environment</span>:
-      <span style="color:#66d9ef">DB_VENDOR</span>: postgres
-      <span style="color:#66d9ef">DB_ADDR</span>: postgres
-      <span style="color:#66d9ef">DB_DATABASE</span>: ${POSTGRESQL_DB}
-      <span style="color:#66d9ef">DB_USER</span>: ${POSTGRESQL_USER}
-      <span style="color:#66d9ef">DB_PASSWORD</span>: ${POSTGRESQL_PASS}
-    <span style="color:#66d9ef">image</span>: jboss/keycloak:${KEYCLOAK_VERSION}
-    <span style="color:#66d9ef">ports</span>:
+  <span style="color:#f92672">keycloak</span>:
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">postgres</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">local_keycloak</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">DB_VENDOR</span>: <span style="color:#ae81ff">postgres</span>
+      <span style="color:#f92672">DB_ADDR</span>: <span style="color:#ae81ff">postgres</span>
+      <span style="color:#f92672">DB_DATABASE</span>: <span style="color:#ae81ff">${POSTGRESQL_DB}</span>
+      <span style="color:#f92672">DB_USER</span>: <span style="color:#ae81ff">${POSTGRESQL_USER}</span>
+      <span style="color:#f92672">DB_PASSWORD</span>: <span style="color:#ae81ff">${POSTGRESQL_PASS}</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">jboss/keycloak:${KEYCLOAK_VERSION}</span>
+    <span style="color:#f92672">ports</span>:
       - <span style="color:#e6db74">&#34;28080:8080&#34;</span>
-    <span style="color:#66d9ef">restart</span>: always
-    <span style="color:#66d9ef">networks</span>:
-      - local-keycloak
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">local-keycloak</span>
 
-<span style="color:#66d9ef">networks</span>:
-  <span style="color:#66d9ef">local-keycloak</span>:
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">local-keycloak</span>:
 </code></pre></div><p>Next to the <code>compose.yml</code> file, we need the <code>.env</code> file.</p>
 <pre><code>KEYCLOAK_VERSION=11.0.2
 PORT_KEYCLOAK=8080

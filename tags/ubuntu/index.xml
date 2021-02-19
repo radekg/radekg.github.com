@@ -6,11 +6,7 @@
     <description>Recent content in ubuntu on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 May 2014 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 20 May 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>OpenStack Devstack up and running with Vagrant, in 12.5 minutes</title>
       <link>https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/</link>

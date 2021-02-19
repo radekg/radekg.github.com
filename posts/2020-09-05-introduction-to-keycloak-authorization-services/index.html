@@ -29,7 +29,7 @@
   
   
   
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.80.0" />
   
 <script type="application/javascript">
 var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
@@ -115,7 +115,7 @@ if (!doNotTrack) {
 <p>So, further in this article, I am showing a proof of concept of Keycloak as a mechanism to allow Support Team Members to access selected Customers only, without any other database. This will also present how to use Keycloak Authorization Services in real-world scenario and give the reader a glimpse into User Managed Access (UMA).</p>
 <p><a href="https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/">I have described how to start a local development version of Keycloak</a>. Examples here will build on top of the previous write up. <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <h2 id="the-goal">The goal</h2>
-<p>The outcome of this article is to have a Keycloak realm with an OpenID client configured so that a program can be created to query Keycloak for users&rsquo; entitlements and discover all available entitlements of a given type by leveraging Keycloak token and resource set endpoints.</p>
+<p>The outcome of this article is to have a Keycloak realm with an OpenID client configured so that a program can be created to query Keycloak for users' entitlements and discover all available entitlements of a given type by leveraging Keycloak token and resource set endpoints.</p>
 <p>We will configure a realm with required roles and set up Authorization Services resources, policies, scopes and permissions for two different access levels: a regular user, Service Team Member, and a supervisor, the user who is entitled to see all available resources, regardless of the role membership.</p>
 <p>Without any further due, let&rsquo;s start!</p>
 <h2 id="add-a-realm">Add a realm</h2>

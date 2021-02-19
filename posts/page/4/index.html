@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
-  <title>zookeeper</title>
-  <meta property="og:title" content="zookeeper" />
-  <meta name="twitter:title" content="zookeeper" />
+  <title>Posts</title>
+  <meta property="og:title" content="Posts" />
+  <meta name="twitter:title" content="Posts" />
   
 
   
 
   <meta name="author" content=""/>
   <meta property="og:site_name" content="gruchalski.com" />
-  <meta property="og:url" content="https://gruchalski.com/tags/zookeeper/" />
+  <meta property="og:url" content="https://gruchalski.com/posts/" />
 
   
   <meta name="twitter:card" content="summary" />
@@ -71,28 +71,30 @@ if (!doNotTrack) {
 
   <main id="main" class="l-main">
 
-<h2 class="c-title p-tag-title">zookeeper</h2>
+<h2 class="c-title p-tag-title">Posts</h2>
 
 
 
 
 <article class="c-article p-list-article">
   <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/">Apache Zookeeper authentication</a></h2>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2013-03-05-devops-box/">DevOps box</a></h2>
     <p class="c-article__meta">
       Posted on
-<time datetime="2013-06-24T00:00:00Z">
-  Jun 24, 2013
+<time datetime="2013-03-05T00:00:00Z">
+  Mar 5, 2013
 </time>
 
     </p>
   </header>
   <div class="c-article__summary">
-    The problem One of my Zookeeper clusters has to be available to everyone. But I want to make sure only specific known hosts are allowed to connect. The problem was, those known hosts are dynamic and I didn&rsquo;t want any configuration for this component. The servers are running in the cloud, they come and go.
-At Technicolor, we use Chef to manage all our boxes. Every box is registered on the Chef server, we know every private and public IP address of every server within our setup.
+    {% include collecttags.html %}
+ I was asked to build a box with all the monitoring tools required. Chef, Logstash, Ganglia and Monit were selected. Here&rsquo;s a core dump.
+ In this post I&rsquo;m going to describe how to setup a box containing following elements:
+ Opsworks Chef Server Logstash indexer with Redis as an incoming queue Kibana Ganglia collector Monit with the log shipped to logstash M/Monit   I have this nasty habit - this whole thing is running as root.
   </div>
   
-  <a href="https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/" class="c-article__btn p-list-article__btn">Read more</a>
+  <a href="https://gruchalski.com/posts/2013-03-05-devops-box/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
@@ -102,12 +104,14 @@ At Technicolor, we use Chef to manage all our boxes. Every box is registered on 
   <div class="c-pagination__ctrl">
     <div class="c-pagination__newer">
       
+      <a href="/posts/page/3/">Newer</a>
+      
     </div>
     <div class="c-pagination__older">
       
     </div>
   </div>
-  <span class="c-pagination__count p-pagination__count">Page 1 of 1</span>
+  <span class="c-pagination__count p-pagination__count">Page 4 of 4</span>
 </nav>
 
 

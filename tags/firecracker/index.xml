@@ -6,10 +6,16 @@
     <description>Recent content in firecracker on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 18 Feb 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/firecracker/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/firecracker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The jailer</title>
+      <link>https://gruchalski.com/posts/2021-02-19-the-jailer/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-02-19-the-jailer/</guid>
+      <description>A Firecracker release comes with two binaries - the firecracker and the jailer programs. The jailer brings even more isolation options to Firecracker by creating and securing a unique execution environment for each VMM.
+what can it do  check the uniqueness and validity of the VMM id, maximum length of 64 characters, alphanumeric only assign NUMA node check the existence of the exec_file run the VMM as a specific user / group assign cgroups assign the VMM into a dedicated network namespace a VMM can be damonized  what does it do This part comes from the jailer documentation1.</description>
+    </item>
     
     <item>
       <title>It&#39;s all about the the Iface name</title>

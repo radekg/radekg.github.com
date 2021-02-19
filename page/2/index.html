@@ -24,7 +24,7 @@
   <meta property="og:type" content="website" />
   
   
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.80.0" />
   
 <script type="application/javascript">
 var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
@@ -76,6 +76,30 @@ if (!doNotTrack) {
 
 
   
+  <article class="c-article p-list-article">
+  <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/">Authenticate to private JFrog npm registry</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2020-09-09T00:00:00Z">
+  Sep 9, 2020
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    This always gets me, npm publish fails to authenticate:
+npm ERR! code E401 npm ERR! Unable to authenticate, need: Basic realm=&quot;Artifactory Realm&quot; npm ERR! A complete log of this run can be found in: npm ERR! /Users/rad/.npm/_logs/...Z-debug.log The solution is:
+ Sign-in to JFrog. Find Edit profile under the Welcome, ... menu. Put JFrog password in and unlock. Copy the encrypted password. Issue a curl request like this:  curl -u ${JFROG_USER}:${JFROG_ENCRYPTED_PASSWORD} https://${JFROG_ORG}.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+  
+    
   <article class="c-article p-list-article">
   <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/">Multi-tenant Vault PKI with custom root PEM bundles</a></h2>
@@ -284,28 +308,6 @@ EUC2015 was also a place of first public appearance of Gossiperl.
 </article>
 
 
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/">Control Keynote presentation with your mobile browser</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2015-05-11T00:00:00Z">
-  May 11, 2015
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    A little moan to start with&hellip; I owned a mid 2009 MacBook Pro, I never used it for presenting stuff to others but I actually bought a remote control for it. The computer cost me a lot of money, it was top end stuff when it was bought. The remote control cost me the money as well. I also have a copy of Keynote. It also cost me money. A while ago I&rsquo;ve switched to a new MacBook, the Retina one, top end as well.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
 
 <nav class="c-pagination p-pagination">
   <div class="c-pagination__ctrl">
@@ -320,7 +322,7 @@ EUC2015 was also a place of first public appearance of Gossiperl.
       
     </div>
   </div>
-  <span class="c-pagination__count p-pagination__count">Page 2 of 3</span>
+  <span class="c-pagination__count p-pagination__count">Page 2 of 4</span>
 </nav>
  
 

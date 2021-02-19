@@ -6,24 +6,29 @@
     <description>Recent content in Tags on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 18 Feb 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>firecracker</title>
       <link>https://gruchalski.com/tags/firecracker/</link>
-      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/firecracker/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>jailer</title>
+      <link>https://gruchalski.com/tags/jailer/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/jailer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>microvm</title>
       <link>https://gruchalski.com/tags/microvm/</link>
-      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/microvm/</guid>
       <description></description>

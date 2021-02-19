@@ -6,11 +6,7 @@
     <description>Recent content in ca on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/ca/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/ca/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Multi-tenant Vault PKI with custom root PEM bundles</title>
       <link>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</link>

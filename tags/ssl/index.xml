@@ -6,11 +6,7 @@
     <description>Recent content in ssl on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Sep 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/ssl/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 07 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/ssl/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Certificate Authority is not Voodoo</title>
       <link>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</link>

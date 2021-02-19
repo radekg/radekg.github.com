@@ -6,11 +6,7 @@
     <description>Recent content in influxdb on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Dec 2014 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/influxdb/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 09 Dec 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/influxdb/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Gossiperl   gossip middleware in Erlang</title>
       <link>https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/</link>

@@ -6,11 +6,7 @@
     <description>Recent content in nomad on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Feb 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/nomad/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 07 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/nomad/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Vault on Firecracker with CNI plugins and Nomad</title>
       <link>https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/</link>

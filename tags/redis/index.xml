@@ -6,11 +6,7 @@
     <description>Recent content in redis on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Mar 2013 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://gruchalski.com/tags/redis/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 05 Mar 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/redis/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DevOps box</title>
       <link>https://gruchalski.com/posts/2013-03-05-devops-box/</link>
