@@ -78,6 +78,29 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/">Thoughts on creating VMMs from Docker images</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-03-02T00:00:00Z">
+  Mar 2, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    Dockerfiles are awesome There is so much software out there packaged as Docker images. Operating systems, SQL and NoSQL databases, reverse proxies, compilers, everything. Safe to say, most of that software available as Docker containers is built from the common file format - the Dockerfile. Dockerfiles are awesome. They are recipes for getting a bit of software functional.
+how have I been building Firecracker VMMs so far So far, all of my VMMs were built from Docker images using the following steps:
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-19-the-jailer/">The jailer</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -281,30 +304,6 @@ As something coming from AWS and powering AWS Lambda, my original perception was
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/">Keycloak Authorization Services - RPT, permissions or a decision only</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2020-09-16T00:00:00Z">
-  Sep 16, 2020
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    This is a clarification to the previous write up about Keycloak Authorization Services1. The documentation of the response_mode documents the two values which can be used: decision and permissions. In the first Keycloak article2, I have wrongly assumed that no response_mode in the grant_type=urn:ietf:params:oauth:grant-type:uma-ticket call implies the value of permissions.
-Mmm, that was a wrong assumption.
-Now, looking at the documentation and trying it out, the distinction seems pretty obvious. It turns out there are three types of responses for this grant_type.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

@@ -6,13 +6,31 @@
     <description>Recent content in Tags on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker</title>
+      <link>https://gruchalski.com/tags/docker/</link>
+      <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>firecracker</title>
       <link>https://gruchalski.com/tags/firecracker/</link>
-      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/firecracker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>microvm</title>
+      <link>https://gruchalski.com/tags/microvm/</link>
+      <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/microvm/</guid>
       <description></description>
     </item>
     
@@ -26,29 +44,11 @@
     </item>
     
     <item>
-      <title>microvm</title>
-      <link>https://gruchalski.com/tags/microvm/</link>
-      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/microvm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>alpine</title>
       <link>https://gruchalski.com/tags/alpine/</link>
       <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/alpine/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://gruchalski.com/tags/docker/</link>
-      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/docker/</guid>
       <description></description>
     </item>
     
