@@ -124,6 +124,7 @@ if (!doNotTrack) {
 <p>The concept of <code>firebuild</code> is to leverage as much of the existing Docker world as possible. There are thousands of Docker images out there. Docker images are awesome because they encapsulate the software we want to run in our workloads, they also encapsulate dependencies. Dockerfiles are what Docker images are built from. Dockeriles are the blueprints of the modern infrastructure. There are thousands of them for almost anything one can imagine and new ones are very easy to write.</p>
 <h2 id="an-image-is-worth-a-thousand-words">an image is worth a thousand words</h2>
 <p>Ah, but the idea is pretty difficult to visualize with a single image. So, instead, let me walk you though this example of running HashiCorp Consul 1.9.4 on Firecracker. I promise that any questions are answered further.</p>
+<p>Before going all in, <a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/">some prerequisites</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
 <h3 id="create-a-firebuild-profile">create a firebuild profile</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo $GOPATH/bin/firebuild profile-create <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	--profile<span style="color:#f92672">=</span>standard <span style="color:#ae81ff">\
@@ -199,7 +200,7 @@ if (!doNotTrack) {
 <p>It starts by fetching a Dockerfile from a source given via <code>--dockerfile</code> argument. The source can be one of:</p>
 <ul>
 <li>a <code>git+http(s)://</code> style URL pointing at a git repository (does not have to be GitHub)</li>
-<li>a <code>http://</code> of <code>https://</code> URL, be careful here: There Will Be Dragons (<a href="https://github.com/combust-labs/firebuild#caveats-when-building-from-the-url">read more</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>)</li>
+<li>a <code>http://</code> of <code>https://</code> URL, be careful here: There Will Be Dragons (<a href="https://github.com/combust-labs/firebuild#caveats-when-building-from-the-url">read more</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>)</li>
 <li>a local file</li>
 <li>an inline <code>Dockerfile</code></li>
 <li>standard <code>ssh://</code>, <code>git://</code> and <code>git+ssh://</code> URL with a Dockerfile path appended via <code>:/path/to/Dockerfile</code></li>
@@ -262,7 +263,7 @@ if (!doNotTrack) {
     }
   }
 }
-</code></pre></div><p>The metadata contains information about attached drives, network interfaces, simple machine data, entrypoint info and user&rsquo;s SSH keys, if <code>--identity-file</code> and <code>--ssh-user</code> arguments were provided. The component responsible for bootstrapping the VM from this data is called <code>vminit</code> and can be found <a href="https://github.com/combust-labs/firebuild-mmds">in this GitHub repository</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. The compiled binary is deployed to the <code>baseos</code> and invoked as a system service on VM start.</p>
+</code></pre></div><p>The metadata contains information about attached drives, network interfaces, simple machine data, entrypoint info and user&rsquo;s SSH keys, if <code>--identity-file</code> and <code>--ssh-user</code> arguments were provided. The component responsible for bootstrapping the VM from this data is called <code>vminit</code> and can be found <a href="https://github.com/combust-labs/firebuild-mmds">in this GitHub repository</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. The compiled binary is deployed to the <code>baseos</code> and invoked as a system service on VM start.</p>
 <p>Currently, <code>vminit</code> does the following:</p>
 <ul>
 <li>update <code>/etc/hosts</code> file if the VM has a network interface and make sure the VM resolves itself via configured <code>hostname</code> on the interface IP address</li>
@@ -334,10 +335,13 @@ if (!doNotTrack) {
 <p><a href="https://github.com/combust-labs/firebuild">The source code is on GitHub</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://github.com/combust-labs/firebuild#caveats-when-building-from-the-url">Caveats when building from the URL</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/">firebuild prerequisites</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://github.com/combust-labs/firebuild-mmds">firebuild-mmds GitHub repository</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://github.com/combust-labs/firebuild#caveats-when-building-from-the-url">Caveats when building from the URL</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://github.com/combust-labs/firebuild-mmds">firebuild-mmds GitHub repository</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
