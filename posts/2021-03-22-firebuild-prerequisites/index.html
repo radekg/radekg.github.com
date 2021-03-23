@@ -110,8 +110,8 @@ export GOPATH<span style="color:#f92672">=</span>$HOME/dev/golang
 <h2 id="install-cni-plugins">install CNI plugins</h2>
 <p><code>firebuild</code> assumes CNI availability. Installing the plugins is very straightforward. Create <code>/opt/cni/bin/</code> directory and download the plugins:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p /opt/cni/bin
-wget https://github.com/containernetworking/plugins/releases/download/v0.9.1/cni-plugins-linux-amd64-v0.9.1.tgz
-tar -xf cni-plugins-linux-amd64-v0.9.1.tgz -C /opt/cni/bin
+curl -O -L https://github.com/containernetworking/plugins/releases/download/v0.9.1/cni-plugins-linux-amd64-v0.9.1.tgz
+tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-v0.9.1.tgz
 </code></pre></div><p>Firecracker requires also the <a href="https://github.com/awslabs/tc-redirect-tap"><code>tc-redirect-tap</code></a> plugin. Unfortunately, this one does not offer downloadable binaries and has to be built from sources.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p $GOPATH/src/github.com/awslabs/tc-redirect-tap
 cd $GOPATH/src/github.com/awslabs/tc-redirect-tap
