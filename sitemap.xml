@@ -3,22 +3,62 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://gruchalski.com/tags/ca/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/firebuild/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/go/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/grpc/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/pki/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/tls/</loc>
+    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gruchalski.com/tags/docker/</loc>
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gruchalski.com/tags/firebuild/</loc>
-    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://gruchalski.com/tags/firecracker/</loc>
-    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/</loc>
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -29,16 +69,6 @@
   
   <url>
     <loc>https://gruchalski.com/tags/microvm/</loc>
-    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -153,11 +183,6 @@
   </url>
   
   <url>
-    <loc>https://gruchalski.com/tags/ca/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://gruchalski.com/tags/jfrog/</loc>
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
   </url>
@@ -179,16 +204,6 @@
   
   <url>
     <loc>https://gruchalski.com/tags/openssl/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/pki/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/tls/</loc>
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
   </url>
   

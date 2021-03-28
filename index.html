@@ -78,6 +78,29 @@ if (!doNotTrack) {
   
   <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/">firebuild rootfs - gRPC with mTLS</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-03-28T00:00:00Z">
+  Mar 28, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    the problem Currently, when a rootfs is built, the guest is started with an SSH server and the bootstrap process executes via an SSH connection. I don&rsquo;t like this and want to replace the SSH method with an MMDS based solution. MMDS is already present in the firebuild run command.
+run uses the vminit component from firebuild-mmds. When the guest starts, the vminit guest service connects to the MMDS endpoint, downloads the metadata and configures the VM.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+  
+    
+  <article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-23-introducing-firebuild/">Introducing firebuild</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -280,31 +303,6 @@ In this post, I&rsquo;m describing how I&rsquo;ve built my initial Alpine 3.13 V
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/">My golang modules live in Athens</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-10T00:00:00Z">
-  Feb 10, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    So I&rsquo;ve been on the fence with the vendor directory.
-On one hand, it&rsquo;s great to have the modules in the project because it speeds up the build and serves as a safe storage.
-On the other hand, it does increase the churn in the repository and creates a lot of duplication on disk because many projects often contain the same dependencies.
-Since I do like holding on to my dependencies and go mod works great for me, I&rsquo;ve decided to try out The Athens.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

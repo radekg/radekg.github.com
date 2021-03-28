@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>grpc on gruchalski.com</title>
+    <link>https://gruchalski.com/tags/grpc/</link>
+    <description>Recent content in grpc on gruchalski.com</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 28 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>firebuild rootfs - gRPC with mTLS</title>
+      <link>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</link>
+      <pubDate>Sun, 28 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</guid>
+      <description>the problem Currently, when a rootfs is built, the guest is started with an SSH server and the bootstrap process executes via an SSH connection. I don&amp;rsquo;t like this and want to replace the SSH method with an MMDS based solution. MMDS is already present in the firebuild run command.
+run uses the vminit component from firebuild-mmds. When the guest starts, the vminit guest service connects to the MMDS endpoint, downloads the metadata and configures the VM.</description>
+    </item>
+    
+  </channel>
+</rss>
