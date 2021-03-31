@@ -78,6 +78,30 @@ if (!doNotTrack) {
   
   <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/">Kafka 2.8 is out in the wild and does not need ZooKeeper anymore</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-03-31T00:00:00Z">
+  Mar 31, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    Long time coming but the KIP-5001 has finally landed. It&rsquo;s official, Apache Kafka does not require ZooKeeper anymore. The KRaft, the Kafka Raft implementation, is not recommended for production yet. Full announcement from Confluent is here2.
+Regardless, this is a fantastic milestone and a kudos to all the contributors for making this happen as the simplification in the operations will be significant.
+taking it for a test drive First, generate a new cluster ID:
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+  
+    
+  <article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/">firebuild rootfs - gRPC with mTLS</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -280,29 +304,6 @@ dd if=/dev/zero of=&#34;/firecracker/filesystems/alpine-vol2.ext4&#34; bs=1M cou
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/">Launching Alpine Linux on Firecracker like a boss</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-13T00:00:00Z">
-  Feb 13, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    The quest to launch an ETCD cluster on Firecracker starts here.
-In this post, I&rsquo;m describing how I&rsquo;ve built my initial Alpine 3.13 VMM with OpenSSH and a dedicated sudoer user. In AWS, when one launches a Ubuntu instance, one can access it via ssh ubuntu@&lt;address&gt;, a CentOS VM is ssh centos@&lt;address&gt;. At the end of this write up, I&rsquo;ll have ssh alpine@&lt;address&gt;. This VMM will have access to the outside world so I can install additional software and even ping the BBC!
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

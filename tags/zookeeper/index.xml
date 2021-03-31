@@ -6,7 +6,18 @@
     <description>Recent content in zookeeper on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Jun 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/zookeeper/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 31 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/zookeeper/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kafka 2.8 is out in the wild and does not need ZooKeeper anymore</title>
+      <link>https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</link>
+      <pubDate>Wed, 31 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</guid>
+      <description>Long time coming but the KIP-5001 has finally landed. It&amp;rsquo;s official, Apache Kafka does not require ZooKeeper anymore. The KRaft, the Kafka Raft implementation, is not recommended for production yet. Full announcement from Confluent is here2.
+Regardless, this is a fantastic milestone and a kudos to all the contributors for making this happen as the simplification in the operations will be significant.
+taking it for a test drive First, generate a new cluster ID:</description>
+    </item>
+    
     <item>
       <title>Apache Zookeeper authentication</title>
       <link>https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/</link>
