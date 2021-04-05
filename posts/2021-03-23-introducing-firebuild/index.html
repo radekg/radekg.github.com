@@ -164,7 +164,7 @@ if (!doNotTrack) {
 </code></pre></div><p>In my case, the value is <code>wcabty1922gloailwrce</code>. I used it to get the IP address of the VM:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo $GOPATH/bin/firebuild inspect <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --profile<span style="color:#f92672">=</span>standard <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --vmm-id<span style="color:#f92672">=</span>wcabty1922gloailwrce | jq <span style="color:#e6db74">&#39;.&#34;network-interfaces&#34;[0].&#34;static-configuration&#34;.&#34;ip-configuration&#34;.ip&#39;</span> -r
+</span><span style="color:#ae81ff"></span>    --vmm-id<span style="color:#f92672">=</span>wcabty1922gloailwrce | jq <span style="color:#e6db74">&#39;.NetworkInterfaces[0].StaticConfiguration.IPConfiguration.IP&#39;</span> -r
 </code></pre></div><p>The command returned <code>192.168.127.89</code>. I could query Consul via REST API:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl http://192.168.127.89:8500/v1/status/leader
 <span style="color:#e6db74">&#34;127.0.0.1:8300&#34;</span>
@@ -222,45 +222,44 @@ if (!doNotTrack) {
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;latest&#34;</span>: {
     <span style="color:#f92672">&#34;meta-data&#34;</span>: {
-      <span style="color:#f92672">&#34;drives&#34;</span>: {
+      <span style="color:#f92672">&#34;Drives&#34;</span>: {
         <span style="color:#f92672">&#34;1&#34;</span>: {
-          <span style="color:#f92672">&#34;drive-id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
-          <span style="color:#f92672">&#34;is-read-only&#34;</span>: <span style="color:#e6db74">&#34;false&#34;</span>,
-          <span style="color:#f92672">&#34;is-root-device&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
-          <span style="color:#f92672">&#34;partuuid&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-          <span style="color:#f92672">&#34;path-on-host&#34;</span>: <span style="color:#e6db74">&#34;rootfs&#34;</span>
+          <span style="color:#f92672">&#34;DriveID&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+          <span style="color:#f92672">&#34;IsReadOnly&#34;</span>: <span style="color:#e6db74">&#34;false&#34;</span>,
+          <span style="color:#f92672">&#34;IsRootDevice&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+          <span style="color:#f92672">&#34;Partuuid&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+          <span style="color:#f92672">&#34;PathOnHost&#34;</span>: <span style="color:#e6db74">&#34;rootfs&#34;</span>
         }
       },
-      <span style="color:#f92672">&#34;entrypoint-json&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;cmd\&#34;:[\&#34;agent\&#34;,\&#34;-dev\&#34;,\&#34;-client\&#34;,\&#34;0.0.0.0\&#34;],\&#34;entrypoint\&#34;:[\&#34;docker-entrypoint.sh\&#34;],\&#34;env\&#34;:{\&#34;HASHICORP_RELEASES\&#34;:\&#34;https://releases.hashicorp.com\&#34;},\&#34;shell\&#34;:[\&#34;/bin/sh\&#34;,\&#34;-c\&#34;],\&#34;user\&#34;:\&#34;0:0\&#34;,\&#34;workdir\&#34;:\&#34;/\&#34;}&#34;</span>,
-      <span style="color:#f92672">&#34;env&#34;</span>: {},
-      <span style="color:#f92672">&#34;image-tag&#34;</span>: <span style="color:#e6db74">&#34;combust-labs/consul:1.9.4&#34;</span>,
-      <span style="color:#f92672">&#34;local-hostname&#34;</span>: <span style="color:#e6db74">&#34;sharp-mirzakhani&#34;</span>,
-      <span style="color:#f92672">&#34;machine&#34;</span>: {
-        <span style="color:#f92672">&#34;cpu&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
-        <span style="color:#f92672">&#34;cpu-template&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-        <span style="color:#f92672">&#34;ht-enabled&#34;</span>: <span style="color:#e6db74">&#34;false&#34;</span>,
-        <span style="color:#f92672">&#34;kernel-args&#34;</span>: <span style="color:#e6db74">&#34;console=ttyS0 noapic reboot=k panic=1 pci=off nomodules rw&#34;</span>,
-        <span style="color:#f92672">&#34;mem&#34;</span>: <span style="color:#e6db74">&#34;128&#34;</span>,
-        <span style="color:#f92672">&#34;vmlinux&#34;</span>: <span style="color:#e6db74">&#34;vmlinux-v5.8&#34;</span>
+      <span style="color:#f92672">&#34;EntrypointJSON&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;Cmd\&#34;:[\&#34;agent\&#34;,\&#34;-dev\&#34;,\&#34;-client\&#34;,\&#34;0.0.0.0\&#34;],\&#34;EntryPoint\&#34;:[\&#34;docker-entrypoint.sh\&#34;],\&#34;Env\&#34;:{\&#34;HASHICORP_RELEASES\&#34;:\&#34;https://releases.hashicorp.com\&#34;},\&#34;Shell\&#34;:[\&#34;/bin/sh\&#34;,\&#34;-c\&#34;],\&#34;User\&#34;:\&#34;0:0\&#34;,\&#34;Workdir\&#34;:\&#34;/\&#34;}&#34;</span>,
+      <span style="color:#f92672">&#34;Env&#34;</span>: {},
+      <span style="color:#f92672">&#34;ImageTag&#34;</span>: <span style="color:#e6db74">&#34;combust-labs/consul:1.9.4&#34;</span>,
+      <span style="color:#f92672">&#34;LocalHostname&#34;</span>: <span style="color:#e6db74">&#34;sharp-mirzakhani&#34;</span>,
+      <span style="color:#f92672">&#34;Machine&#34;</span>: {
+        <span style="color:#f92672">&#34;CPU&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+        <span style="color:#f92672">&#34;CPUTemplate&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#f92672">&#34;HTEnabled&#34;</span>: <span style="color:#e6db74">&#34;false&#34;</span>,
+        <span style="color:#f92672">&#34;KernelArgs&#34;</span>: <span style="color:#e6db74">&#34;console=ttyS0 noapic reboot=k panic=1 pci=off nomodules rw&#34;</span>,
+        <span style="color:#f92672">&#34;Mem&#34;</span>: <span style="color:#e6db74">&#34;128&#34;</span>,
+        <span style="color:#f92672">&#34;VMLinux&#34;</span>: <span style="color:#e6db74">&#34;vmlinux-v5.8&#34;</span>
       },
-      <span style="color:#f92672">&#34;network&#34;</span>: {
-        <span style="color:#f92672">&#34;cni-network-name&#34;</span>: <span style="color:#e6db74">&#34;machines&#34;</span>,
-        <span style="color:#f92672">&#34;interfaces&#34;</span>: {
+      <span style="color:#f92672">&#34;Network&#34;</span>: {
+        <span style="color:#f92672">&#34;CniNetworkName&#34;</span>: <span style="color:#e6db74">&#34;machines&#34;</span>,
+        <span style="color:#f92672">&#34;Interfaces&#34;</span>: {
           <span style="color:#f92672">&#34;b6:16:f2:3d:29:cf&#34;</span>: {
-            <span style="color:#f92672">&#34;gateway&#34;</span>: <span style="color:#e6db74">&#34;192.168.127.1&#34;</span>,
-            <span style="color:#f92672">&#34;host-dev-name&#34;</span>: <span style="color:#e6db74">&#34;tap0&#34;</span>,
-            <span style="color:#f92672">&#34;ifname&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-            <span style="color:#f92672">&#34;ip&#34;</span>: <span style="color:#e6db74">&#34;192.168.127.89&#34;</span>,
-            <span style="color:#f92672">&#34;ip-addr&#34;</span>: <span style="color:#e6db74">&#34;192.168.127.89/24&#34;</span>,
-            <span style="color:#f92672">&#34;ip-mask&#34;</span>: <span style="color:#e6db74">&#34;ffffff00&#34;</span>,
-            <span style="color:#f92672">&#34;ip-net&#34;</span>: <span style="color:#e6db74">&#34;ip+net&#34;</span>,
-            <span style="color:#f92672">&#34;nameservers&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>
+            <span style="color:#f92672">&#34;Gateway&#34;</span>: <span style="color:#e6db74">&#34;192.168.127.1&#34;</span>,
+            <span style="color:#f92672">&#34;HostDeviceName&#34;</span>: <span style="color:#e6db74">&#34;tap0&#34;</span>,
+            <span style="color:#f92672">&#34;IfName&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#f92672">&#34;IP&#34;</span>: <span style="color:#e6db74">&#34;192.168.127.89&#34;</span>,
+            <span style="color:#f92672">&#34;IPAddr&#34;</span>: <span style="color:#e6db74">&#34;192.168.127.89/24&#34;</span>,
+            <span style="color:#f92672">&#34;IPMask&#34;</span>: <span style="color:#e6db74">&#34;ffffff00&#34;</span>,
+            <span style="color:#f92672">&#34;IPNet&#34;</span>: <span style="color:#e6db74">&#34;ip+net&#34;</span>,
+            <span style="color:#f92672">&#34;NameServers&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>
           }
-        },
-        <span style="color:#f92672">&#34;ssh-port&#34;</span>: <span style="color:#e6db74">&#34;22&#34;</span>
+        }
       },
-      <span style="color:#f92672">&#34;users&#34;</span>: {},
-      <span style="color:#f92672">&#34;vmm-id&#34;</span>: <span style="color:#e6db74">&#34;wcabty1922gloailwrce&#34;</span>
+      <span style="color:#f92672">&#34;Users&#34;</span>: {},
+      <span style="color:#f92672">&#34;VMMID&#34;</span>: <span style="color:#e6db74">&#34;wcabty1922gloailwrce&#34;</span>
     }
   }
 }
@@ -272,9 +271,9 @@ if (!doNotTrack) {
 <li>create an environment variables <code>/etc/profile.d/run-env.sh</code> file for any variables passed via <code>--env</code> and <code>--env-file</code> flags of the <code>run</code> command</li>
 <li>when <code>users</code> contains a user entry with SSH keys, write those SSH keys to the respective <code>authorized_keys</code> file to enable SSH access; an example of a user entry:</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;users&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;Users&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
   <span style="color:#f92672">&#34;alpine&#34;</span>: {
-      <span style="color:#f92672">&#34;ssh_keys&#34;</span>: <span style="color:#e6db74">&#34;ssh-rsa ... \nssh-rsa ...\n&#34;</span>
+    <span style="color:#f92672">&#34;SSHKeys&#34;</span>: <span style="color:#e6db74">&#34;ssh-rsa ... \nssh-rsa ...\n&#34;</span>
   }
 }
 </code></pre></div><ul>
