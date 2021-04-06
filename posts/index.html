@@ -78,6 +78,30 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/">Apache Mesos reaches end of life</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-04-06T00:00:00Z">
+  Apr 6, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    An end of an era. What&rsquo;s the better way to summarise that the maintainers of Apache Mesos are now voting on moving the project to Apache Attic. Attic is a place where Apache projects go when they reach end of life.
+In other words: it&rsquo;s end of the road for Apache Mesos.
+I was first introduced to Mesos in 2011, back at Technicolor Virdata. A colleague, Nathan, has been going on about for a long time.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/">On golang os.Expand and os.ExpandEnv</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -282,30 +306,6 @@ sudo firectl \  --firecracker-binary=/usr/bin/firecracker \  --kernel=/firecrack
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/">Bridging the Firecracker network gap</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-17T00:00:00Z">
-  Feb 17, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Today I have looked at creating my own bridge networks for Firecracker VMMs. I already used CNI setups when evaluating the HashiCorp Nomad firecracker task driver1. Back then I incorrectly stated that Firecracker depends on certain CNI plugins. It doesn&rsquo;t, it can take advantage of any CNI setup as long as the tc-redirect-tap is in the chained plugins.
-The Nomad task driver had some issues, briefly:
- every now and then, oddly, the task would never shut the VMM down and the only way to make the VMM gow down was to sudo kill nomad I tried updating the task driver to latest SDK version but I was not able to upgrade the Firecracker dependency past a specific commit, any version after that specific commit makes the VMM come up, the network setup to be there but the VMM is not reachable, really, really weird issue - reported it here  So today, I took a different route.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
