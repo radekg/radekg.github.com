@@ -6,7 +6,18 @@
     <description>Recent content in kafka on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 31 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I hacked infinite retention into my open source Kafka</title>
+      <link>https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/</link>
+      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/</guid>
+      <description>Well, sort of. But bear with me.
+background A couple of days ago, Confluent announced a ZooKeeper free Kafka 2.8 RC0 available for testing. A fantastic effort, great achievement by all the contributors who made it happen.
+In the typical Hacker News fashion, a post about Kafka always triggers an inevitable “Puslar vs Kafka” discussion. These always remind me of one of my main gripes related to Kafka: no infinite retention.</description>
+    </item>
+    
     <item>
       <title>Kafka 2.8 is out in the wild and does not need ZooKeeper anymore</title>
       <link>https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</link>

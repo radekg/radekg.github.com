@@ -78,6 +78,29 @@ if (!doNotTrack) {
   
   <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/">Live resize Firecracker VMM drive</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-02-16T00:00:00Z">
+  Feb 16, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    Towards the end of the Firecracker VMM with additional disks article1 I concluded that I didn&rsquo;t know how to live resize an attached drive. It turns out it is possible and it&rsquo;s very easy to do using the Firecracker VMM API.
+To launch the VMM with the API, I have to drop the --no-api argument (obviously) and use --api-sock with the path to the socket file. In a production system, I&rsquo;d use a directory other than /tmp.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+  
+    
+  <article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/">Firecracker VMM with additional disks</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -282,31 +305,6 @@ This article documents setting up an imaginary multi-tenant Vault PKI with custo
   </div>
   
   <a href="https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/">Keycloak Authorization Services - retrieving the decision only</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2020-09-06T00:00:00Z">
-  Sep 6, 2020
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    In Introduction to Keycloak Authorization Services 1, I have described how to use the Authorization Services to find out if the user has access to certain resources.
-I have done so by asking Keycloak to issue an access token with a special grant_type with the value of urn:ietf:params:oauth:grant-type:uma-ticket which returned a list of permissions the has access to.
-The request looked like this:
-curl --silent -X POST \  ${KEYCLOAK_TOKEN_URL} \  -H &#34;Authorization: Bearer ${access_token}&#34; \  --data &#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34; \  --data &#34;audience=customers&#34; \  --data &#34;permission=CustomerB#customer-b&#34; | jq &#39;.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
