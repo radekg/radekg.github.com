@@ -6,7 +6,16 @@
     <description>Recent content in Tags on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 31 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang</title>
+      <link>https://gruchalski.com/tags/golang/</link>
+      <pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>kafka</title>
       <link>https://gruchalski.com/tags/kafka/</link>
@@ -121,15 +130,6 @@
       <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/alpine/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>https://gruchalski.com/tags/golang/</link>
-      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/golang/</guid>
       <description></description>
     </item>
     

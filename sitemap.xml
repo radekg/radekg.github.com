@@ -3,8 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://gruchalski.com/tags/golang/</loc>
+    <lastmod>2021-04-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2021-03-31T00:00:00+00:00</lastmod>
+    <lastmod>2021-04-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</loc>
+    <lastmod>2021-04-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-04-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-04-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -14,16 +34,6 @@
   
   <url>
     <loc>https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</loc>
-    <lastmod>2021-03-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-03-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2021-03-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -135,11 +145,6 @@
   <url>
     <loc>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</loc>
     <lastmod>2021-02-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/golang/</loc>
-    <lastmod>2021-02-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>

@@ -6,7 +6,19 @@
     <description>Recent content in golang on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On golang os.Expand and os.ExpandEnv</title>
+      <link>https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</link>
+      <pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</guid>
+      <description>If you are using golang, there&amp;rsquo;s a pretty high chance you have used the os.Expand(s string, mapping func(string) string) function in your code already. Or maybe it&amp;rsquo;s derivative, os.ExpandEnv(s string).
+The former takes an input string and expands the shell variable-like occurrences with actual shell variable values. For example:
+os.Setenv(&amp;#34;VARIABLE&amp;#34;, &amp;#34;hello&amp;#34;) fmt.Println(os.ExpandEnv(&amp;#34;${VARIABLE}, world!&amp;#34;)) // prints &amp;#34;hello, world!&amp;#34; It uses os.Lookup(s string) as the mapping argument to os.Expand.
+Pretty often, that may be what is needed and os.</description>
+    </item>
+    
     <item>
       <title>My golang modules live in Athens</title>
       <link>https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/</link>

@@ -78,6 +78,31 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/">On golang os.Expand and os.ExpandEnv</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-04-06T00:00:00Z">
+  Apr 6, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    If you are using golang, there&rsquo;s a pretty high chance you have used the os.Expand(s string, mapping func(string) string) function in your code already. Or maybe it&rsquo;s derivative, os.ExpandEnv(s string).
+The former takes an input string and expands the shell variable-like occurrences with actual shell variable values. For example:
+os.Setenv(&#34;VARIABLE&#34;, &#34;hello&#34;) fmt.Println(os.ExpandEnv(&#34;${VARIABLE}, world!&#34;)) // prints &#34;hello, world!&#34; It uses os.Lookup(s string) as the mapping argument to os.Expand.
+Pretty often, that may be what is needed and os.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/">Kafka 2.8 is out in the wild and does not need ZooKeeper anymore</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -280,30 +305,6 @@ To launch the VMM with the API, I have to drop the --no-api argument (obviously)
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/">Firecracker VMM with additional disks</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-14T00:00:00Z">
-  Feb 14, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Before looking at the networking options, I have looked at adding extra drives to my Firecracker VMMs. Storing data on the root file system will not scale well long term. Additional disks will be a good solution to persist application specific data across reboots and upgrades.
-Create the disk on the host First, create an additional file system on the host:
-dd if=/dev/zero of=&#34;/firecracker/filesystems/alpine-vol2.ext4&#34; bs=1M count=500 mkfs.ext4 &#34;/firecracker/filesystems/alpine-vol2.ext4&#34; Reconfigure the VMM Change the VMM drives configuration:
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

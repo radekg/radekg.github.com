@@ -78,6 +78,31 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/">On golang os.Expand and os.ExpandEnv</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-04-06T00:00:00Z">
+  Apr 6, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    If you are using golang, there&rsquo;s a pretty high chance you have used the os.Expand(s string, mapping func(string) string) function in your code already. Or maybe it&rsquo;s derivative, os.ExpandEnv(s string).
+The former takes an input string and expands the shell variable-like occurrences with actual shell variable values. For example:
+os.Setenv(&#34;VARIABLE&#34;, &#34;hello&#34;) fmt.Println(os.ExpandEnv(&#34;${VARIABLE}, world!&#34;)) // prints &#34;hello, world!&#34; It uses os.Lookup(s string) as the mapping argument to os.Expand.
+Pretty often, that may be what is needed and os.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/">My golang modules live in Athens</a></h2>
     <p class="c-article__meta">
       Posted on
