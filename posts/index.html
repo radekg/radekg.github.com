@@ -78,6 +78,29 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-10-setting-up-the-ory-platform-from-zero/">ORY reference Docker Compose and thoughts on the platform</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-04-10T00:00:00Z">
+  Apr 10, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    obligatory Keycloak mention Keycloak is awesome because it provides almost everything an organization of almost any size might ever need when it comes to topics like OpenID, SSO, federation or authorization services.
+But Keycloak is a monolith, it doesn&rsquo;t do things the cloud native way1. There&rsquo;s quite a few running modes one needs to fully understand how to operate: standalone, standalone clustered, domain clustered mode, cross data center replication. All very powerful but to many, pretty unapproachable.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-04-10-setting-up-the-ory-platform-from-zero/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/">Apache Mesos reaches end of life</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -284,29 +307,6 @@ what can it do  check the uniqueness and validity of the VMM id, maximum length 
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-19-the-jailer/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/">It&#39;s all about the the Iface name</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-18T00:00:00Z">
-  Feb 18, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Last night&rsquo;s problem with the second VMM conflicting on the network layer with the first one was indeed the veth0 name hard coded in firectl. I&rsquo;ve added the --veth-iface-name argument to firectl and I am now able to start multiple VMMs on a single bridge.
-sudo firectl \  --firecracker-binary=/usr/bin/firecracker \  --kernel=/firecracker/kernels/vmlinux-v5.8 \  --root-drive=/firecracker/filesystems/alpine-base-root.ext4 \  --cni-network=alpine \  --socket-path=/tmp/alpine.sock \  --ncpus=1 \  --memory=128 \  --veth-iface-name=vethalpine1 sudo firectl \  --firecracker-binary=/usr/bin/firecracker \  --kernel=/firecracker/kernels/vmlinux-v5.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
