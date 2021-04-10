@@ -9,10 +9,10 @@
     <lastBuildDate>Sat, 10 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/kratos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ORY reference Docker Compose and thoughts on the platform</title>
-      <link>https://gruchalski.com/posts/2021-04-10-setting-up-the-ory-platform-from-zero/</link>
+      <link>https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/</link>
       <pubDate>Sat, 10 Apr 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://gruchalski.com/posts/2021-04-10-setting-up-the-ory-platform-from-zero/</guid>
+      <guid>https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/</guid>
       <description>obligatory Keycloak mention Keycloak is awesome because it provides almost everything an organization of almost any size might ever need when it comes to topics like OpenID, SSO, federation or authorization services.
 But Keycloak is a monolith, it doesn&amp;rsquo;t do things the cloud native way1. There&amp;rsquo;s quite a few running modes one needs to fully understand how to operate: standalone, standalone clustered, domain clustered mode, cross data center replication. All very powerful but to many, pretty unapproachable.</description>
     </item>
