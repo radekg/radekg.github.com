@@ -13,9 +13,10 @@
       <pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/</guid>
-      <description>An end of an era. What&amp;rsquo;s the better way to summarize that the maintainers of Apache Mesos are now voting on moving the project to Apache Attic. Attic is a place where Apache projects go when they reach end of life.
+      <description>The decision to move Apache Mesos to Attic, has been reversed.
+An end of an era. What&amp;rsquo;s the better way to summarize that the maintainers of Apache Mesos are now voting on moving the project to Apache Attic. Attic is a place where Apache projects go when they reach end of life.
 In other words: it&amp;rsquo;s end of the road for Apache Mesos.
-I was first introduced to Mesos in 2015, back at Technicolor Virdata. A colleague, Nathan, has been going on about for a long time.</description>
+I was first introduced to Mesos in 2015, back at Technicolor Virdata.</description>
     </item>
     
     <item>
