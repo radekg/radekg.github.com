@@ -78,6 +78,29 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-19-the-jailer/">The jailer</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-02-19T00:00:00Z">
+  Feb 19, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    A Firecracker release comes with two binaries - the firecracker and the jailer programs. The jailer brings even more isolation options to Firecracker by creating and securing a unique execution environment for each VMM.
+what can it do  check the uniqueness and validity of the VMM id, maximum length of 64 characters, alphanumeric only assign NUMA node check the existence of the exec_file run the VMM as a specific user / group assign cgroups assign the VMM into a dedicated network namespace a VMM can be damonized  what does it do This part comes from the jailer documentation1.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-02-19-the-jailer/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/">It&#39;s all about the the Iface name</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -287,30 +310,6 @@ Now, looking at the documentation and trying it out, the distinction seems prett
 
 
 
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/">Authenticate to private JFrog npm registry</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2020-09-09T00:00:00Z">
-  Sep 9, 2020
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    This always gets me, npm publish fails to authenticate:
-npm ERR! code E401 npm ERR! Unable to authenticate, need: Basic realm=&quot;Artifactory Realm&quot; npm ERR! A complete log of this run can be found in: npm ERR! /Users/rad/.npm/_logs/...Z-debug.log The solution is:
- Sign-in to JFrog. Find Edit profile under the Welcome, ... menu. Put JFrog password in and unlock. Copy the encrypted password. Issue a curl request like this:  curl -u ${JFROG_USER}:${JFROG_ENCRYPTED_PASSWORD} https://${JFROG_ORG}.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
 <nav class="c-pagination p-pagination">
   <div class="c-pagination__ctrl">
     <div class="c-pagination__newer">
@@ -324,7 +323,7 @@ npm ERR! code E401 npm ERR! Unable to authenticate, need: Basic realm=&quot;Arti
       
     </div>
   </div>
-  <span class="c-pagination__count p-pagination__count">Page 2 of 4</span>
+  <span class="c-pagination__count p-pagination__count">Page 2 of 5</span>
 </nav>
 
 
