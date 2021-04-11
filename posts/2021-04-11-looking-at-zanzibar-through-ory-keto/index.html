@@ -104,13 +104,15 @@ if (!doNotTrack) {
     <img src="/assets/posts/2021-04-11/keto.png" alt="thumbnail" class="p-article__thumbnail">
   
   <section id="js-article" class="p-article__body">
-    <p>Permissions management is an interesting topic. Modern applications are often complex beasts. It doesn&rsquo;t take much time to hit the point where certain functionality must be allowed only to selected users or access to a resource should be granted only under certain conditions.</p>
-<p>Building a flexible permissions management system is not easy. They tend to be tightly coupled with the business logic and executed every time a decision whether to grant or deny access is required. There are as many requirements as software systems out there. A permissions management systems must also perform. If decisions are to be made often, the latency to make a decision must be minimal.</p>
-<p>ORY Keto is one of the ORY platform components and a few days ago it has seen a major upgrade. Versions 0.6.0-alpha.1 is a complete reimplementation of Keto and is marketed as the first open source implementation of <a href="https://research.google/pubs/pub48190/"><em>Zanzibar: Google&rsquo;s Consistent, Global Authorization System</em></a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. From the Zanzibar abstract:</p>
+    <p>Permissions management is an interesting topic. Modern applications are often complex beasts. It doesn&rsquo;t take much time to hit the point where certain functionality must be allowed only to the selected users or access to a resource should be granted only under certain conditions.</p>
+<p>Building a flexible permissions management system is not easy. They tend to be tightly coupled with the business logic and executed every time a decision whether to grant or deny access is required. There are as many requirements as software systems out there. A permissions management systems must also perform. If decisions are to be made often, the latency to make a decision must be minimal.</p>
+<p>ORY Keto is one of the ORY platform components and a few days ago it has seen a major upgrade. Versions 0.6.0-alpha.1 is a complete reimplementation of Keto and is marketed as the first open source implementation of <a href="https://research.google/pubs/pub48190/"><em>Zanzibar: Google&rsquo;s Consistent, Global Authorization System</em></a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>From the Zanzibar abstract:</p>
 <blockquote>
-<p>Determining whether online users are authorized to access digital objects is central to preserving privacy. This paper presents the design, implementation, and deployment of Zanzibar, a global system for storing and evaluating access control lists. Zanzibar provides a uniform data model and configuration language for expressing a wide range of access control policies from hundreds of client services at Google, including Calendar, Cloud, Drive, Maps, Photos, and YouTube. Its authorization decisions respect causal ordering of user actions and thus provide external consistency amid changes to access control lists and object contents. Zanzibar scales to trillions of access control lists and millions of authorization requests per second to support services used by billions of people. It has maintained 95th-percentile latency of less than 10 milliseconds and availability of greater than 99.999% over 3 years of production use.</p>
+<p>Determining whether online users are authorized to access digital objects is central to preserving privacy. This paper presents the design, implementation, and deployment of Zanzibar, a global system for storing and evaluating access control lists. Zanzibar provides a uniform data model and configuration language for expressing a wide range of access control policies from hundreds of client services at Google, including Calendar, Cloud, Drive, Maps, Photos, and YouTube. Its authorization decisions respect causal ordering of user actions and thus provide external consistency amid changes to access control lists and object contents. Zanzibar scales to trillions of access control lists and millions of authorization requests per second to support services used by billions of people. It has maintained 95th-percentile latency of less than 10 milliseconds and availability of greater than 99.999% over 3 years of production use.</p>
 </blockquote>
-<p>I have been using previous Keto versions for some R&amp;D work. The new version has sparked my interest because the <code>firebuild</code> system I am working on is going to be in need of a permissions system at some point in time. To better understand new Keto, I wanted to come up with an imaginary scenario and see how easy would it be to apply Keto to it.</p>
+<p>I have been using previous Keto versions for some R&amp;D work. The new version has sparked my interest because the <code>firebuild</code> system I am working on is going to be in need of a permissions system at some point in time.</p>
+<p>To better understand the new Keto, I wanted a simple, easy to follow scenario so a judgement can be formed quickly.</p>
 <p>In one short sentence: <strong>it was very easy and it&rsquo;s impressive!!</strong></p>
 <h2 id="the-scenario">the scenario</h2>
 <p>The scenario I was evaluating:</p>
@@ -123,7 +125,7 @@ if (!doNotTrack) {
 <p>Here&rsquo;s the rough diagram:</p>
 <p><img src="/assets/posts/2021-04-11/scenario-diagram.png" alt="Scenario"></p>
 <h2 id="ory-keto-in-docker-compose">ORY Keto in Docker Compose</h2>
-<p>I have previously written <a href="https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/">about my reference ORY Docker Compose</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> and that is what I&rsquo;m using further. To start the local installation, assuming the containers are already built, as explained in the <a href="https://github.com/radekg/ory-reference-compose/blob/master/README.md">repository readme</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>:</p>
+<p>I have previously written <a href="https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/">about my reference ORY Docker Compose</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> and that is what I&rsquo;m using further. To start the local installation, assuming the containers are already built, as explained in the <a href="https://github.com/radekg/ory-reference-compose/blob/master/README.md">repository readme</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git clone https://github.com/radekg/ory-reference-compose.git
 cd ory-reference-compose/compose
 docker-compose -f compose.yml up
@@ -132,7 +134,8 @@ docker-compose -f compose.yml up
 <li>the write API: default port is <code>4467</code></li>
 <li>the read API: default port is <code>4466</code></li>
 </ul>
-<p>Before we can start querying Keto for a decision, we have to create a few <a href="https://www.ory.sh/keto/docs/concepts/relation-tuples">relation tuples</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. Keto does not try understanding our data, it infers the decision by inspecting and traversing tuples it knows.</p>
+<p>Before we can start querying Keto for a decision, we have to create a few <a href="https://www.ory.sh/keto/docs/concepts/relation-tuples">relation tuples</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>.</p>
+<p>Keto does not try understanding our data, it infers the decision by inspecting and traversing tuples it knows.</p>
 <p>Relation tuples can be created using <code>cURL</code> via the write API. The Compose setup publishes both Keto APIs so we can start like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl -XPUT --data <span style="color:#e6db74">&#39;{
 </span><span style="color:#e6db74">    &#34;namespace&#34;: &#34;default-namespace&#34;,
@@ -202,7 +205,7 @@ curl -XPUT --data <span style="color:#e6db74">&#39;{
 </span><span style="color:#e6db74">    &#34;relation&#34;: &#34;pays&#34;,
 </span><span style="color:#e6db74">    &#34;subject&#34;: &#34;default-namespace:it-staff#subscribes&#34;
 </span><span style="color:#e6db74">}&#39;</span> http://localhost:4467/relation-tuples
-</code></pre></div><p>That means: <em>the company pays for everything the IT staff subscribes to</em>. If we execute the <code>/expand</code> call again, the output will be:</p>
+</code></pre></div><p>That means: <em>the company pays for everything the IT staff subscribes to</em>. If we execute the <code>/expand</code> call again, the output will be:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;union&#34;</span>,
   <span style="color:#f92672">&#34;subject&#34;</span>: <span style="color:#e6db74">&#34;default-namespace:company-a#pays&#34;</span>,
@@ -242,7 +245,7 @@ curl -XPUT --data <span style="color:#e6db74">&#39;{
   ]
 }
 </code></pre></div><p>Pretty cool, regardless of how many services the IT staff would subscribe to in the future, they will get listed in the output!</p>
-<p>Knowing about the cost of a consultant contracted by the director could be modelled in the following way:</p>
+<p>Knowing about the cost of a consultant contracted by the director could be modelled in the following way:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl -XPUT --data <span style="color:#e6db74">&#39;{
 </span><span style="color:#e6db74">    &#34;namespace&#34;: &#34;default-namespace&#34;,
 </span><span style="color:#e6db74">    &#34;object&#34;: &#34;director&#34;,
@@ -328,7 +331,10 @@ curl -XPUT --data <span style="color:#e6db74">&#39;{
       ]
     }<span style="color:#960050;background-color:#1e0010">,</span>
 <span style="color:#960050;background-color:#1e0010">...</span>
-</code></pre></div><p>Very neat. At some point, we might want to have an answer to the following direct question: <strong>does the company pay for the consultant?</strong></p>
+</code></pre></div><p>Very neat. At some point, we might want to have an answer to the following direct question:</p>
+<blockquote>
+<p><strong>does the company pay for the consultant?</strong></p>
+</blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl -XPOST --data <span style="color:#e6db74">&#39;{
 </span><span style="color:#e6db74">    &#34;namespace&#34;: &#34;default-namespace&#34;,
 </span><span style="color:#e6db74">    &#34;object&#34;: &#34;company-a&#34;,
@@ -339,12 +345,13 @@ curl -XPUT --data <span style="color:#e6db74">&#39;{
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#f92672">&#34;allowed&#34;</span>: <span style="color:#66d9ef">true</span>
 }
-</code></pre></div><p>If we ever had to understand what relation causes the company to pay for the consultant, we would use the <code>expand</code> call with sufficient depth.</p>
+</code></pre></div><p>If we ever had to understand what relation causes the company to pay for the consultant, we would use the <code>expand</code> call with sufficient depth.</p>
 <h2 id="notes-on-the-examples">notes on the examples</h2>
 <p>The examples use literal object identifiers for readability purposes. Keto documentation suggests using UUIDv4 or SHA-1 hashes instead. The concept is better explained on <a href="https://www.ory.sh/keto/docs/concepts/objects">this page</a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.</p>
 <h2 id="conclusion">conclusion</h2>
 <p>This very simple example shows in just few steps how awesome the new version of Keto is.</p>
-<p>The API is very simple to use and understand. The flexibility and applicability is endless. This is something what will greatly benefit <code>firebuild</code> and I am sure we will see Keto being used all over the place.</p>
+<p>The API is very simple to use and understand. The flexibility and applicability is endless.</p>
+<p>This is something what will greatly benefit <code>firebuild</code> and I am sure we will see Keto being used all over the place.</p>
 <p>The ORY team deserves huge applause for making this technology so easily approachable.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
