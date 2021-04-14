@@ -78,6 +78,31 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/">Launching Consul cluster with firebuild and other news</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-04-14T00:00:00Z">
+  Apr 14, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    Some two month ago, when I started the Firecracker journey, I set myself a goal to run en etcd cluster in Firecracker microVMs. Many lines of code later, after tacking the problem the difficult way, I have arrived at the destination.
+Okay, it&rsquo;s not etcd but rather HashiCorp Consul.
+Here&rsquo;s how a 3 node Consul cluster is launched with firebuild:
+# Start Consul 1 with IP 192.168.127.10: sudo firebuild run \  --profile=standard \  --from=combust-labs/consul:1.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-23-introducing-firebuild/">Introducing firebuild</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -283,29 +308,6 @@ Golang CNI plugins and tc-redirect-tap require golang to build. I&rsquo;m using 
 
 
 
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-06T00:00:00Z">
-  Feb 6, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Firecracker1 is recently making rounds on the internet as this relatively new, awesome technology for running lightweight VMs.
-As something coming from AWS and powering AWS Lambda, my original perception was that it&rsquo;s not easy to set up and use. However, this write from Julia Evans2 proved me wrong. So, as I have recently picked up a used Dell R720 with decent amount of RAM and CPUs, it was time to take these two for a spin together.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
 <nav class="c-pagination p-pagination">
   <div class="c-pagination__ctrl">
     <div class="c-pagination__newer">
@@ -313,9 +315,11 @@ As something coming from AWS and powering AWS Lambda, my original perception was
     </div>
     <div class="c-pagination__older">
       
+      <a href="/tags/firecracker/page/2/">Older</a>
+      
     </div>
   </div>
-  <span class="c-pagination__count p-pagination__count">Page 1 of 1</span>
+  <span class="c-pagination__count p-pagination__count">Page 1 of 2</span>
 </nav>
 
 

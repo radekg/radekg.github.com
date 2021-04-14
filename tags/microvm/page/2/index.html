@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
-  <title>Posts</title>
-  <meta property="og:title" content="Posts" />
-  <meta name="twitter:title" content="Posts" />
+  <title>microvm</title>
+  <meta property="og:title" content="microvm" />
+  <meta name="twitter:title" content="microvm" />
   
 
   
 
   <meta name="author" content=""/>
   <meta property="og:site_name" content="gruchalski.com" />
-  <meta property="og:url" content="https://gruchalski.com/posts/" />
+  <meta property="og:url" content="https://gruchalski.com/tags/microvm/" />
 
   
   <meta name="twitter:card" content="summary" />
@@ -71,218 +71,7 @@ if (!doNotTrack) {
 
   <main id="main" class="l-main">
 
-<h2 class="c-title p-tag-title">Posts</h2>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/">Thoughts on creating VMMs from Docker images</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-03-02T00:00:00Z">
-  Mar 2, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Dockerfiles are awesome There is so much software out there packaged as Docker images. Operating systems, SQL and NoSQL databases, reverse proxies, compilers, everything. Safe to say, most of that software available as Docker containers is built from the common file format - the Dockerfile. Dockerfiles are awesome. They are recipes for getting a bit of software functional.
-how have I been building Firecracker VMMs so far So far, all of my VMMs were built from Docker images using the following steps:
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-19-the-jailer/">The jailer</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-19T00:00:00Z">
-  Feb 19, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    A Firecracker release comes with two binaries - the firecracker and the jailer programs. The jailer brings even more isolation options to Firecracker by creating and securing a unique execution environment for each VMM.
-what can it do  check the uniqueness and validity of the VMM id, maximum length of 64 characters, alphanumeric only assign NUMA node check the existence of the exec_file run the VMM as a specific user / group assign cgroups assign the VMM into a dedicated network namespace a VMM can be damonized  what does it do This part comes from the jailer documentation1.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-19-the-jailer/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/">It&#39;s all about the the Iface name</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-18T00:00:00Z">
-  Feb 18, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Last night&rsquo;s problem with the second VMM conflicting on the network layer with the first one was indeed the veth0 name hard coded in firectl. I&rsquo;ve added the --veth-iface-name argument to firectl and I am now able to start multiple VMMs on a single bridge.
-sudo firectl \  --firecracker-binary=/usr/bin/firecracker \  --kernel=/firecracker/kernels/vmlinux-v5.8 \  --root-drive=/firecracker/filesystems/alpine-base-root.ext4 \  --cni-network=alpine \  --socket-path=/tmp/alpine.sock \  --ncpus=1 \  --memory=128 \  --veth-iface-name=vethalpine1 sudo firectl \  --firecracker-binary=/usr/bin/firecracker \  --kernel=/firecracker/kernels/vmlinux-v5.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/">Bridging the Firecracker network gap</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-17T00:00:00Z">
-  Feb 17, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Today I have looked at creating my own bridge networks for Firecracker VMMs. I already used CNI setups when evaluating the HashiCorp Nomad firecracker task driver1. Back then I incorrectly stated that Firecracker depends on certain CNI plugins. It doesn&rsquo;t, it can take advantage of any CNI setup as long as the tc-redirect-tap is in the chained plugins.
-The Nomad task driver had some issues, briefly:
- every now and then, oddly, the task would never shut the VMM down and the only way to make the VMM gow down was to sudo kill nomad I tried updating the task driver to latest SDK version but I was not able to upgrade the Firecracker dependency past a specific commit, any version after that specific commit makes the VMM come up, the network setup to be there but the VMM is not reachable, really, really weird issue - reported it here  So today, I took a different route.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/">Live resize Firecracker VMM drive</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-16T00:00:00Z">
-  Feb 16, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Towards the end of the Firecracker VMM with additional disks article1 I concluded that I didn&rsquo;t know how to live resize an attached drive. It turns out it is possible and it&rsquo;s very easy to do using the Firecracker VMM API.
-To launch the VMM with the API, I have to drop the --no-api argument (obviously) and use --api-sock with the path to the socket file. In a production system, I&rsquo;d use a directory other than /tmp.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/">Firecracker VMM with additional disks</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-14T00:00:00Z">
-  Feb 14, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Before looking at the networking options, I have looked at adding extra drives to my Firecracker VMMs. Storing data on the root file system will not scale well long term. Additional disks will be a good solution to persist application specific data across reboots and upgrades.
-Create the disk on the host First, create an additional file system on the host:
-dd if=/dev/zero of=&#34;/firecracker/filesystems/alpine-vol2.ext4&#34; bs=1M count=500 mkfs.ext4 &#34;/firecracker/filesystems/alpine-vol2.ext4&#34; Reconfigure the VMM Change the VMM drives configuration:
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/">Launching Alpine Linux on Firecracker like a boss</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-13T00:00:00Z">
-  Feb 13, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    The quest to launch an ETCD cluster on Firecracker starts here.
-In this post, I&rsquo;m describing how I&rsquo;ve built my initial Alpine 3.13 VMM with OpenSSH and a dedicated sudoer user. In AWS, when one launches a Ubuntu instance, one can access it via ssh ubuntu@&lt;address&gt;, a CentOS VM is ssh centos@&lt;address&gt;. At the end of this write up, I&rsquo;ll have ssh alpine@&lt;address&gt;. This VMM will have access to the outside world so I can install additional software and even ping the BBC!
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/">My golang modules live in Athens</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-10T00:00:00Z">
-  Feb 10, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    So I&rsquo;ve been on the fence with the vendor directory.
-On one hand, it&rsquo;s great to have the modules in the project because it speeds up the build and serves as a safe storage.
-On the other hand, it does increase the churn in the repository and creates a lot of duplication on disk because many projects often contain the same dependencies.
-Since I do like holding on to my dependencies and go mod works great for me, I&rsquo;ve decided to try out The Athens.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/">Vault on Firecracker with CNI plugins and Nomad</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-07T00:00:00Z">
-  Feb 7, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    It&rsquo;s good to know how to set up Firecracker VM by hand but that&rsquo;s definitely suboptimal long term. So today I am looking at setting up Firecracker with CNI plugins. Firecracker needs four CNI plugins to operate: ptp, firewall, host-local and tc-redirect-tap. First three come from the CNI plugins1 repository, the last one comes from AWS Labs tc-redirect-tap2 repository.
-Golang CNI plugins and tc-redirect-tap require golang to build. I&rsquo;m using 1.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
+<h2 class="c-title p-tag-title">microvm</h2>
 
 
 
@@ -313,16 +102,14 @@ As something coming from AWS and powering AWS Lambda, my original perception was
   <div class="c-pagination__ctrl">
     <div class="c-pagination__newer">
       
-      <a href="/posts/">Newer</a>
+      <a href="/tags/microvm/">Newer</a>
       
     </div>
     <div class="c-pagination__older">
       
-      <a href="/posts/page/3/">Older</a>
-      
     </div>
   </div>
-  <span class="c-pagination__count p-pagination__count">Page 2 of 5</span>
+  <span class="c-pagination__count p-pagination__count">Page 2 of 2</span>
 </nav>
 
 

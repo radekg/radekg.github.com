@@ -3,8 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://gruchalski.com/tags/consul/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/firebuild/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/firecracker/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2021-04-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/microvm/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-04-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -19,16 +54,6 @@
   
   <url>
     <loc>https://gruchalski.com/tags/ory/</loc>
-    <lastmod>2021-04-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-04-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2021-04-11T00:00:00+00:00</lastmod>
   </url>
   
@@ -128,11 +153,6 @@
   </url>
   
   <url>
-    <loc>https://gruchalski.com/tags/firebuild/</loc>
-    <lastmod>2021-03-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</loc>
     <lastmod>2021-03-28T00:00:00+00:00</lastmod>
   </url>
@@ -163,17 +183,7 @@
   </url>
   
   <url>
-    <loc>https://gruchalski.com/tags/firecracker/</loc>
-    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://gruchalski.com/posts/2021-03-23-introducing-firebuild/</loc>
-    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/microvm/</loc>
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url>
   
