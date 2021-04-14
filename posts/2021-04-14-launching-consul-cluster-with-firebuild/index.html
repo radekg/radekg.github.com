@@ -103,7 +103,7 @@ if (!doNotTrack) {
   </header>
   
   <section id="js-article" class="p-article__body">
-    <p>Some two month ago, when I started the Firecracker journey, I set myself a goal to run en etcd cluster in Firecracker microVMs. Many lines of code later, after tacking the problem <em>the difficult way</em>, I have arrived at the destination.</p>
+    <p>Some two months ago, when I started the Firecracker journey, I set myself a goal to run en etcd cluster in Firecracker microVMs. Many lines of code later, after tackling the problem <em>the hard way</em>, there&rsquo;s an outcome.</p>
 <p>Okay, it&rsquo;s <strong>not etcd</strong> but <strong>rather HashiCorp Consul</strong>.</p>
 <p><strong>Here&rsquo;s how a 3 node Consul cluster is launched with firebuild</strong>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># Start Consul 1 with IP 192.168.127.10:</span>
@@ -142,7 +142,7 @@ sudo firebuild run <span style="color:#ae81ff">\
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ curl http://192.168.127.12:8500/v1/status/leader
 </code></pre></div><p>The output will be similar to:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#e6db74">&#34;192.168.127.10:8300&#34;</span>
-</code></pre></div><p><strong>What about the DNS?</strong> Consul nodes were launched with with the <code>-node</code> flags set. The cluster uses the default <code>8600</code> DNS port and default data center name of <code>dc1</code>.</p>
+</code></pre></div><p><strong>What about the DNS?</strong> Consul nodes were launched with with <code>-node</code> flags. The cluster uses the default <code>8600</code> DNS port and default data center name of <code>dc1</code>.</p>
 <p>Hence, we can query for a specific node:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ dig @192.168.127.10 -p <span style="color:#ae81ff">8600</span> consul1.node.dc1.consul
 </code></pre></div><p>The response looks similar to:</p>
@@ -174,9 +174,9 @@ consul1.node.dc1.consul. 0	IN	TXT	&quot;consul-network-segment=&quot;
 <p>There is a new firebuild documentation website online. It&rsquo;s not complete but it&rsquo;s a step forward from maintaining a huge readme file in a GitHub repository. <a href="https://combust-labs.github.io/firebuild-docs/">The documentation is available here</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <h3 id="docker-image-based-builds">Docker image based builds</h3>
 <p><img src="/assets/posts/2021-04-14/why-not-both.png" alt="why not both"></p>
-<p>Apart from that, there was a bit more work down in the trenches. From the very beginning, it was possible to create a root file system from Dockerfiles. But sometimes a Dockerfile is not sufficient, especially in case of a multi-stage build where the actual build happens outside of a Dockerfile.</p>
-<p>An example is the Jaeger tracing Dockerfile with binary artifacts built in a separate <code>make</code> step.</p>
-<p>Now, it is also possible to build a root file system directly from a Docker image. Here&rsquo;s an example of building Jaeger 1.22:</p>
+<p>Apart from that, there was a bit more work down in the trenches. From the very beginning, it was possible to create a root file system from a Dockerfile. But sometimes a Dockerfile is not sufficient, especially in case of a multi-stage build where the actual build happens outside of a Dockerfile.</p>
+<p>An example of this is the Jaeger tracing Dockerfile with binary artifacts built in a separate <code>make</code> step.</p>
+<p>It is now possible to build a root file system directly from a Docker image. Here&rsquo;s an example of building Jaeger 1.22:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo firebuild rootfs <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --profile<span style="color:#f92672">=</span>standard <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --docker-image<span style="color:#f92672">=</span>jaegertracing/all-in-one:1.22 <span style="color:#ae81ff">\
@@ -187,20 +187,20 @@ consul1.node.dc1.consul. 0	IN	TXT	&quot;consul-network-segment=&quot;
 </span><span style="color:#ae81ff"></span>    --tag<span style="color:#f92672">=</span>combust-labs/jaeger-all-in-one:1.22
 </code></pre></div><p>Right now, <a href="https://github.com/combust-labs/firebuild#build-directly-from-a-docker-image">more details only in the huge readme</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. Documentation will be updated in the following weeks.</p>
 <h3 id="vminit-rootfs-bootstrap-now-with-mmds">vminit rootfs bootstrap now with MMDS</h3>
-<p>The next big update is the vminit rootfs MMDS based bootstrap. In the first version, the rootfs was build via an SSH connection opened to the VM. This has been replaced with MMDS based bootstrap and the SSH code has been removed from firebuild. <a href="https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/">More about that in this article</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p>The next big update is the vminit rootfs MMDS based bootstrap. Until now, the rootfs was build via an SSH connection. This has been replaced with MMDS based bootstrap and the SSH code has been removed from firebuild. <a href="https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/">More about that in this article</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
 <h3 id="vms-can-be-named">vms can be named</h3>
-<p>As seen in the Consul cluster example at the top, the VMs can be named so it is much easier to inspect them. No need to hunt the random VM ID anymore. Just start the VM with <code>--name=unique1</code> and this is possible:</p>
+<p>As seen in the Consul cluster example at the top, the VMs can be named so it is much easier to refer to them later. No need to hunt the random VM ID anymore. Just start the VM with <code>--name=unique1</code> and this is possible:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">VMIP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>sudo firebuild inspect <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --profile<span style="color:#f92672">=</span>standard <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --vmm-id<span style="color:#f92672">=</span>unique1 | jq <span style="color:#e6db74">&#39;.NetworkInterfaces[0].StaticConfiguration.IPConfiguration.IP&#39;</span> -r<span style="color:#66d9ef">)</span>
 </code></pre></div><p>By the way, the metadata JSON uses camel case for easier integration with tools like <code>jq</code>.</p>
-<p>There are caveats. The name can be only 20 characters in the following ranges: <code>[a-zA-Z0-9]</code> due to the socket file path length kernel limits.</p>
+<p>There are caveats related to names. The name can be maximum 20 characters long and only alphanumeric characters are allowed.</p>
 <h3 id="test-coverage">test coverage</h3>
 <p>There have been many tests written and the coverage, especially for builds and resource discovery, has been increased significantly.</p>
 <h2 id="whats-coming">what&rsquo;s coming</h2>
-<p>The next big updates over the coming weeks will be, in no particular order:</p>
+<p>The next big research areas over the coming weeks, in no particular order:</p>
 <ul>
-<li>expose guest ports via command line flags on the host through iptables integration</li>
+<li>expose guest ports via command line flags on the host through <code>iptables</code> integration</li>
 <li>run command to have support for adding files to the VM on boot</li>
 <li>additional volumes for long lived data persistence</li>
 <li>service discovery integration; first step is to integrate with Consul service catalog and DNS - this will open the door for launching more complex infrastructures with firebuild</li>
