@@ -195,6 +195,8 @@ if (!doNotTrack) {
 <h2 id="potential-downsides">potential downsides?</h2>
 <p>Testing using external CI/CD might get complicated because third-party CI/CD platforms very often do not allow controlling of the Docker daemon by the unit under test but integration tests have often different testing pipelines anyway.</p>
 <p>Writing tests using containers requires testing code hygiene. To cover potential dependency change, not too much of the test setup logic should live outside of the library. To what extent this is a downside, one has to answer themself.</p>
+<h2 id="closing-words">closing words</h2>
+<p>With Docker and <code>dockertest</code>, I was able to achieve quicker turn around when testing different configurations and approaches. That&rsquo;s not only proving to be a great method for maintaining a reliable system but also enables quick exploration. A test can be also a scratch pad.</p>
 
   </section>
   <footer>
