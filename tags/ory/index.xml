@@ -6,7 +6,16 @@
     <description>Recent content in ory on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/ory/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 24 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/ory/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On software testing with dockertest</title>
+      <link>https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/</guid>
+      <description>Software almost never runs in isolation. Today&amp;rsquo;s systems integrate with a vast number of external services. Ensuring reliability is difficult because the external dependencies, be it a database or an authentication system, adds an element of unpredictability which is difficult to emulate in isolation. A reliable system should account for the behavior of its dependencies. What does it help that an API is up and running when the underlying service it talks to hasn&amp;rsquo;t been accounted for a specific edge case and is causing an unexpected latency to my clients under certain conditions?</description>
+    </item>
+    
     <item>
       <title>Looking at Zanzibar through ORY Keto</title>
       <link>https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/</link>

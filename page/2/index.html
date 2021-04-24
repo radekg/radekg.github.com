@@ -78,6 +78,31 @@ if (!doNotTrack) {
   
   <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/">firebuild prerequisites</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-03-22T00:00:00Z">
+  Mar 22, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    This article describes the prerequisites to the Introducing firebuild.
+install Firecracker and Jailer on the host Firecracker works only on Linux. You can use this program to install and link the binaries on your system.
+install and configure golang 1.16+ The tc-redirect-tap CNI plugin (mentioned below) requires golang to build, as does firebuild. firebuild requires golang 1.16+ so install it:
+rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.16.2.linux-amd64.tar.gz mkdir -p $HOME/dev/golang/{bin,src} export PATH=$PATH:/usr/local/go/bin:$HOME/dev/golang/bin export GOPATH=$HOME/dev/golang The most recent version can be downloaded from golang website.
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+  
+    
+  <article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/">Thoughts on creating VMMs from Docker images</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -281,29 +306,6 @@ Golang CNI plugins and tc-redirect-tap require golang to build. I&rsquo;m using 
   </div>
   
   <a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-  
-    
-  <article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-02-06T00:00:00Z">
-  Feb 6, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    Firecracker1 is recently making rounds on the internet as this relatively new, awesome technology for running lightweight VMs.
-As something coming from AWS and powering AWS Lambda, my original perception was that it&rsquo;s not easy to set up and use. However, this write from Julia Evans2 proved me wrong. So, as I have recently picked up a used Dell R720 with decent amount of RAM and CPUs, it was time to take these two for a spin together.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 

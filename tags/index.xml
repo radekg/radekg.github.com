@@ -6,7 +6,34 @@
     <description>Recent content in Tags on gruchalski.com</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 14 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 24 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gruchalski.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker</title>
+      <link>https://gruchalski.com/tags/docker/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ory</title>
+      <link>https://gruchalski.com/tags/ory/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/ory/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>testing</title>
+      <link>https://gruchalski.com/tags/testing/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gruchalski.com/tags/testing/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>consul</title>
       <link>https://gruchalski.com/tags/consul/</link>
@@ -49,15 +76,6 @@
       <pubDate>Sun, 11 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/keto/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ory</title>
-      <link>https://gruchalski.com/tags/ory/</link>
-      <pubDate>Sun, 11 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/ory/</guid>
       <description></description>
     </item>
     
@@ -220,15 +238,6 @@
       <pubDate>Sun, 28 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gruchalski.com/tags/tls/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://gruchalski.com/tags/docker/</link>
-      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gruchalski.com/tags/docker/</guid>
       <description></description>
     </item>
     

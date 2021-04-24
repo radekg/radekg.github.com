@@ -78,6 +78,28 @@ if (!doNotTrack) {
 
 <article class="c-article p-list-article">
   <header>
+    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/">On software testing with dockertest</a></h2>
+    <p class="c-article__meta">
+      Posted on
+<time datetime="2021-04-24T00:00:00Z">
+  Apr 24, 2021
+</time>
+
+    </p>
+  </header>
+  <div class="c-article__summary">
+    Software almost never runs in isolation. Today&rsquo;s systems integrate with a vast number of external services. Ensuring reliability is difficult because the external dependencies, be it a database or an authentication system, adds an element of unpredictability which is difficult to emulate in isolation. A reliable system should account for the behavior of its dependencies. What does it help that an API is up and running when the underlying service it talks to hasn&rsquo;t been accounted for a specific edge case and is causing an unexpected latency to my clients under certain conditions?
+  </div>
+  
+  <a href="https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/" class="c-article__btn p-list-article__btn">Read more</a>
+  
+</article>
+
+
+
+
+<article class="c-article p-list-article">
+  <header>
     <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/">Launching Consul cluster with firebuild and other news</a></h2>
     <p class="c-article__meta">
       Posted on
@@ -284,31 +306,6 @@ run uses the vminit component from firebuild-mmds. When the guest starts, the vm
   </div>
   
   <a href="https://gruchalski.com/posts/2021-03-23-introducing-firebuild/" class="c-article__btn p-list-article__btn">Read more</a>
-  
-</article>
-
-
-
-
-<article class="c-article p-list-article">
-  <header>
-    <h2 class="c-title c-article__title"><a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/">firebuild prerequisites</a></h2>
-    <p class="c-article__meta">
-      Posted on
-<time datetime="2021-03-22T00:00:00Z">
-  Mar 22, 2021
-</time>
-
-    </p>
-  </header>
-  <div class="c-article__summary">
-    This article describes the prerequisites to the Introducing firebuild.
-install Firecracker and Jailer on the host Firecracker works only on Linux. You can use this program to install and link the binaries on your system.
-install and configure golang 1.16+ The tc-redirect-tap CNI plugin (mentioned below) requires golang to build, as does firebuild. firebuild requires golang 1.16+ so install it:
-rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf go1.16.2.linux-amd64.tar.gz mkdir -p $HOME/dev/golang/{bin,src} export PATH=$PATH:/usr/local/go/bin:$HOME/dev/golang/bin export GOPATH=$HOME/dev/golang The most recent version can be downloaded from golang website.
-  </div>
-  
-  <a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/" class="c-article__btn p-list-article__btn">Read more</a>
   
 </article>
 
