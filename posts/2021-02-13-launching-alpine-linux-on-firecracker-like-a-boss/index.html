@@ -1,142 +1,333 @@
 <!DOCTYPE html>
-<html lang="en-us">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-  
-  <title>Launching Alpine Linux on Firecracker like a boss</title>
-  <meta property="og:title" content="Launching Alpine Linux on Firecracker like a boss" />
-  <meta name="twitter:title" content="Launching Alpine Linux on Firecracker like a boss" />
-  
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
 
-  
-  <meta name="description" content="One step back, two steps forward; create a base image to investigate Firecracker further">
-  <meta property="og:description" content="One step back, two steps forward; create a base image to investigate Firecracker further">
-  <meta name="twitter:description" content="One step back, two steps forward; create a base image to investigate Firecracker further">
-  
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-  <meta name="author" content="Radek Gruchalski"/>
-  <meta property="og:site_name" content="gruchalski.com" />
-  <meta property="og:url" content="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" />
+    <title>Launching Alpine Linux on Firecracker like a boss | gruchalski.com</title>
 
-  
-  <meta property="og:image" content="https://gruchalski.com/assets/shared/fc_logo_full_white-bg-small.png" />
-  <meta name="twitter:image" content="https://gruchalski.com/assets/shared/fc_logo_full_white-bg-small.png" />
-  
-  <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/css/meme.min.c52d01779616c51cf9e5645a858d46e5aeb85f3cf186b96d11f0e45b87171345.css"/>
 
-  
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
 
-  
-  <meta property="og:type" content="article" />
-  
-  
-  
-  <meta name="generator" content="Hugo 0.80.0" />
-  
-<script type="application/javascript">
-var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-var doNotTrack = (dnt == "1" || dnt == "yes");
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	if (window.sessionStorage) {
-		var GA_SESSION_STORAGE_KEY = 'ga:clientId';
-		ga('create', 'UA-39073034-1', {
-	    'storage': 'none',
-	    'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
-	   });
-	   ga(function(tracker) {
-	    sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
-	   });
-   }
-	ga('set', 'anonymizeIp', true);
-	ga('send', 'pageview');
-}
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="One step back, two steps forward; create a base image to investigate Firecracker further" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2021-02-13T00:00:00+00:00",
+        "dateModified": "2021-02-17T22:44:47+01:00",
+        "url": "https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/",
+        "headline": "Launching Alpine Linux on Firecracker like a boss",
+        "description": "One step back, two steps forward; create a base image to investigate Firecracker further",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  2068 ,
+        "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 
-  
+    
 
-  <link rel="stylesheet" href="https://gruchalski.com/css/style.css" />
-  <link rel="stylesheet" href="https://gruchalski.com/css/custom.css" />
-  
-  
-  
-  <script type="text/javascript" src="https://gruchalski.com/js/bundle.js"></script>
-  
+<meta name="twitter:card" content="summary" />
 
+
+    
+
+
+
+<meta property="og:title" content="Launching Alpine Linux on Firecracker like a boss" />
+<meta property="og:description" content="One step back, two steps forward; create a base image to investigate Firecracker further" />
+<meta property="og:url" content="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/shared/fc_logo_full_white-bg-small.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2021-02-13T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2021-02-17T22:44:47&#43;01:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+        <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+        
+
+
+
+
+    
+    <script>
+        var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+        var doNotTrack = (dnt == "1" || dnt == "yes");
+        if (!doNotTrack) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            if (window.sessionStorage) {
+                var GA_SESSION_STORAGE_KEY = 'ga:clientId';
+                ga('create', 'UA-39073034-1', {
+                'storage': 'none',
+                'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
+               });
+               ga(function(tracker) {
+                sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
+               });
+           }
+            ga('set', 'anonymizeIp', true);
+            ga('send', 'pageview');
+        }
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    
+
+
+    
+    
+
+    
 </head>
 
-<body>
-  <a href="#main" class="skip-link p-screen-reader-text">Skip to content</a>
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;" aria-hidden="true"> <symbol id="icon-500px" viewBox="0 0 16 16"><g> <path d="M3.953 10.512a5.24 5.24 0 0 0 6.996 3.141c.625-.262 1.184-.641 1.666-1.122s.859-1.041 1.122-1.666c.272-.647.412-1.331.412-2.037s-.137-1.394-.412-2.037c-.262-.625-.641-1.184-1.122-1.666s-1.041-.859-1.666-1.122a5.226 5.226 0 0 0-2.037-.413c-.716 0-1.431.144-2.066.413-.509.216-1.372.769-1.875 1.291l-.003.003V.984h7.241c.262-.003.262-.372.262-.491 0-.122 0-.487-.266-.491H4.377a.343.343 0 0 0-.344.341v6.066c0 .197.244.338.472.384.444.094.544-.047.653-.197l.016-.019c.166-.247.681-.766.688-.772a4.262 4.262 0 0 1 3.037-1.25c1.147 0 2.222.444 3.028 1.25a4.245 4.245 0 0 1 1.256 3.019 4.236 4.236 0 0 1-1.25 3.019 4.336 4.336 0 0 1-3.047 1.25 4.136 4.136 0 0 1-2.159-.597l.003-3.688c0-.491.213-1.028.572-1.431a2.09 2.09 0 0 1 1.588-.716c.594 0 1.15.225 1.566.634.409.406.637.95.637 1.528a2.179 2.179 0 0 1-2.206 2.197c-.238 0-.672-.106-.691-.109-.25-.075-.356.272-.391.387-.134.441.069.528.109.541.397.125.659.147 1.003.147a3.173 3.173 0 0 0 3.169-3.169c0-1.734-1.422-3.144-3.166-3.144-.856 0-1.659.328-2.263.919-.575.566-.903 1.319-.903 2.069v.019c-.003.094-.003 2.306-.006 3.031l-.003-.003c-.328-.363-.653-.919-.869-1.488-.084-.222-.275-.184-.534-.103-.125.034-.469.141-.391.394zm3.722-.865c0 .106.097.2.156.253l.019.019c.1.097.194.147.281.147a.181.181 0 0 0 .131-.05c.044-.041.537-.544.588-.591l.553.55c.05.056.106.088.172.088.088 0 .184-.053.284-.156.238-.244.119-.375.063-.438l-.559-.559.584-.588c.128-.137.016-.284-.097-.397-.162-.162-.322-.206-.422-.112l-.581.581-.588-.588a.16.16 0 0 0-.113-.047c-.078 0-.172.053-.275.156-.181.181-.219.306-.125.406l.588.584-.584.584c-.053.05-.078.103-.075.156zm1.278-7.931c-.938 0-1.938.191-2.669.506a.207.207 0 0 0-.134.181.753.753 0 0 0 .069.337c.047.116.166.425.4.334a6.689 6.689 0 0 1 2.334-.444 6.35 6.35 0 0 1 2.469.497c.622.263 1.206.644 1.844 1.194a.22.22 0 0 0 .147.059c.125 0 .244-.122.347-.237.169-.191.287-.35.119-.509a6.858 6.858 0 0 0-2.1-1.356 7.326 7.326 0 0 0-2.825-.563zM14.006 13.3c-.113-.113-.209-.178-.294-.203s-.162-.006-.222.053l-.056.056a6.32 6.32 0 0 1-6.938 1.356 6.336 6.336 0 0 1-2.013-1.356 6.046 6.046 0 0 1-1.356-2.012c-.288-.713-.381-1.247-.413-1.422-.003-.016-.006-.028-.006-.037-.041-.206-.231-.222-.503-.178-.112.019-.459.072-.428.319v.006a7.261 7.261 0 0 0 2.04 3.994 7.266 7.266 0 0 0 10.288 0l.059-.059c.069-.084.134-.225-.159-.516z"/> </g></symbol> <symbol id="icon-codepen" viewBox="0 0 16 16"><g> <path d="M14.777 5.751l-7-4.667a.5.5 0 0 0-.555 0l-7 4.667a.501.501 0 0 0-.223.416v4.667c0 .167.084.323.223.416l7 4.667a.5.5 0 0 0 .554 0l7-4.667a.501.501 0 0 0 .223-.416V6.167a.501.501 0 0 0-.223-.416zM7.5 10.232L4.901 8.5 7.5 6.768 10.099 8.5 7.5 10.232zM8 5.899V2.434l5.599 3.732L11 7.898l-3-2zm-1 0l-3 2-2.599-1.732L7 2.435V5.9zM3.099 8.5L1 9.899V7.101L3.099 8.5zM4 9.101l3 2v3.465l-5.599-3.732L4 9.102zm4 2l3-2 2.599 1.732L8 14.565V11.1zM11.901 8.5L14 7.101v2.798L11.901 8.5z"/> </g></symbol> <symbol id="icon-dribbble" viewBox="0 0 16 16"><g> <path d="M8 16c-4.412 0-8-3.588-8-8s3.587-8 8-8c4.412 0 8 3.587 8 8s-3.588 8-8 8zm6.747-6.906c-.234-.075-2.116-.634-4.256-.291a29.7 29.7 0 0 1 1.328 4.872 6.845 6.845 0 0 0 2.928-4.581zM10.669 14.3c-.103-.6-.497-2.688-1.456-5.181-.016.006-.031.009-.044.016-3.856 1.344-5.241 4.016-5.362 4.266a6.807 6.807 0 0 0 6.863.9zm-7.747-1.722c.156-.266 2.031-3.369 5.553-4.509a7.04 7.04 0 0 1 .269-.081 24.04 24.04 0 0 0-.553-1.159c-3.409 1.022-6.722.978-7.022.975-.003.069-.003.138-.003.209 0 1.753.666 3.356 1.756 4.566zM1.313 6.609c.306.003 3.122.016 6.319-.831a43.092 43.092 0 0 0-2.534-3.953 6.854 6.854 0 0 0-3.784 4.784zM6.4 1.366a36.612 36.612 0 0 1 2.55 4c2.431-.909 3.459-2.294 3.581-2.469A6.799 6.799 0 0 0 6.4 1.366zm6.891 2.325c-.144.194-1.291 1.663-3.816 2.694.159.325.313.656.453.991.05.119.1.234.147.353 2.275-.284 4.534.172 4.759.219a6.816 6.816 0 0 0-1.544-4.256z"/> </g></symbol> <symbol id="icon-facebook" viewBox="0 0 16 16"><g> <path d="M9.5 3H12V0H9.5C7.57 0 6 1.57 6 3.5V5H4v3h2v8h3V8h2.5l.5-3H9V3.5c0-.271.229-.5.5-.5z"/> </g></symbol> <symbol id="icon-feed" viewBox="0 0 16 16"><g> <path d="M2.13 11.733c-1.175 0-2.13.958-2.13 2.126 0 1.174.955 2.122 2.13 2.122a2.126 2.126 0 0 0 2.133-2.122 2.133 2.133 0 0 0-2.133-2.126zM.002 5.436v3.067c1.997 0 3.874.781 5.288 2.196a7.45 7.45 0 0 1 2.192 5.302h3.08c0-5.825-4.739-10.564-10.56-10.564zM.006 0v3.068C7.128 3.068 12.924 8.87 12.924 16H16C16 7.18 8.824 0 .006 0z"/> </g></symbol> <symbol id="icon-flickr" viewBox="0 0 16 16"><g> <path d="M0 8.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0zm9 0a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/> </g></symbol> <symbol id="icon-github" viewBox="0 0 16 16"><g> <path d="M8 .198a8 8 0 0 0-2.529 15.591c.4.074.547-.174.547-.385 0-.191-.008-.821-.011-1.489-2.226.484-2.695-.944-2.695-.944-.364-.925-.888-1.171-.888-1.171-.726-.497.055-.486.055-.486.803.056 1.226.824 1.226.824.714 1.223 1.872.869 2.328.665.072-.517.279-.87.508-1.07-1.777-.202-3.645-.888-3.645-3.954 0-.873.313-1.587.824-2.147-.083-.202-.357-1.015.077-2.117 0 0 .672-.215 2.201.82A7.672 7.672 0 0 1 8 4.066c.68.003 1.365.092 2.004.269 1.527-1.035 2.198-.82 2.198-.82.435 1.102.162 1.916.079 2.117.513.56.823 1.274.823 2.147 0 3.073-1.872 3.749-3.653 3.947.287.248.543.735.543 1.481 0 1.07-.009 1.932-.009 2.195 0 .213.144.462.55.384A8 8 0 0 0 8.001.196z"/> </g></symbol> <symbol id="icon-gitlab" viewBox="0 0 28 28"><g> <path d="M1.625 11.031L14 26.89.437 17.046a1.092 1.092 0 0 1-.391-1.203l1.578-4.813zm7.219 0h10.313L14.001 26.89zM5.75 1.469l3.094 9.562H1.625l3.094-9.562a.548.548 0 0 1 1.031 0zm20.625 9.562l1.578 4.813a1.09 1.09 0 0 1-.391 1.203l-13.563 9.844 12.375-15.859zm0 0h-7.219l3.094-9.562a.548.548 0 0 1 1.031 0z"/> </g></symbol> <symbol id="icon-google-plus" viewBox="0 0 16 16"><g> <path d="M5.091 7.147v1.747h2.888c-.116.75-.872 2.197-2.888 2.197-1.737 0-3.156-1.441-3.156-3.216s1.419-3.216 3.156-3.216c.991 0 1.65.422 2.028.784L8.5 4.112c-.888-.828-2.037-1.331-3.409-1.331C2.275 2.784 0 5.059 0 7.875s2.275 5.091 5.091 5.091c2.937 0 4.888-2.066 4.888-4.975 0-.334-.037-.591-.081-.844H5.092zM16 7h-1.5V5.5H13V7h-1.5v1.5H13V10h1.5V8.5H16z"/> </g></symbol> <symbol id="icon-instagram" viewBox="0 0 22 22"><g> <path d="M15.445 0H6.554A6.559 6.559 0 0 0 0 6.554v8.891A6.559 6.559 0 0 0 6.554 22h8.891a6.56 6.56 0 0 0 6.554-6.555V6.554A6.557 6.557 0 0 0 15.445 0zm4.342 15.445a4.343 4.343 0 0 1-4.342 4.342H6.554a4.341 4.341 0 0 1-4.341-4.342V6.554a4.34 4.34 0 0 1 4.341-4.341h8.891a4.342 4.342 0 0 1 4.341 4.341l.001 8.891z"/> <path d="M11 5.312A5.693 5.693 0 0 0 5.312 11 5.694 5.694 0 0 0 11 16.688 5.694 5.694 0 0 0 16.688 11 5.693 5.693 0 0 0 11 5.312zm0 9.163a3.475 3.475 0 1 1-.001-6.95 3.475 3.475 0 0 1 .001 6.95zm5.7-10.484a1.363 1.363 0 1 1-1.364 1.364c0-.752.51-1.364 1.364-1.364z"/> </g></symbol> <symbol id="icon-linkedin" viewBox="0 0 16 16"><g> <path d="M6 6h2.767v1.418h.04C9.192 6.727 10.134 6 11.539 6 14.46 6 15 7.818 15 10.183V15h-2.885v-4.27c0-1.018-.021-2.329-1.5-2.329-1.502 0-1.732 1.109-1.732 2.255V15H6V6zM1 6h3v9H1V6zM4 3.5a1.5 1.5 0 1 1-3.001-.001A1.5 1.5 0 0 1 4 3.5z"/> </g></symbol> <symbol id="icon-mail" viewBox="0 0 22 18"><g> <path fill="#000" d="M0 17.225V.776h22v16.447H0v.002zm3.011-1.815h15.978l-5.111-5.115L11 13.179l-2.877-2.883-5.112 5.114zm-1.216-1.275l5.077-5.09L1.795 3.98v10.155zm13.332-5.09l5.079 5.09V3.979l-5.079 5.066zm-4.126 1.588l8.022-8.027-16.045-.001 8.023 8.028z"/> </g></symbol> <symbol id="icon-medium" viewBox="0 0 24 24"><g> <path d="M22.085 4.733L24 2.901V2.5h-6.634l-4.728 11.768L7.259 2.5H.303v.401L2.54 5.594c.218.199.332.49.303.783V16.96c.069.381-.055.773-.323 1.05L0 21.064v.396h7.145v-.401l-2.52-3.049a1.244 1.244 0 0 1-.347-1.05V7.806l6.272 13.659h.729l5.393-13.659v10.881c0 .287 0 .346-.188.534l-1.94 1.877v.402h9.412v-.401l-1.87-1.831a.556.556 0 0 1-.214-.534V5.267a.554.554 0 0 1 .213-.534z"/> </g></symbol> <symbol id="icon-npm" viewBox="0 0 16 16"><g> <path d="M0 0v16h16V0H0zm13 13h-2V5H8v8H3V3h10v10z"/> </g></symbol> <symbol id="icon-pinterest" viewBox="0 0 16 16"><g> <path d="M8 1.069a6.93 6.93 0 0 0-2.525 13.384c-.059-.547-.116-1.391.025-1.988.125-.541.813-3.444.813-3.444s-.206-.416-.206-1.028c0-.963.559-1.684 1.253-1.684.591 0 .878.444.878.975 0 .594-.378 1.484-.575 2.306-.166.691.344 1.253 1.025 1.253 1.231 0 2.178-1.3 2.178-3.175 0-1.659-1.194-2.819-2.894-2.819-1.972 0-3.128 1.478-3.128 3.009 0 .597.228 1.234.516 1.581.056.069.066.128.047.2a95.89 95.89 0 0 1-.194.787c-.031.128-.1.153-.231.094-.866-.403-1.406-1.669-1.406-2.684 0-2.188 1.587-4.194 4.578-4.194 2.403 0 4.272 1.712 4.272 4.003 0 2.388-1.506 4.313-3.597 4.313-.703 0-1.362-.366-1.588-.797 0 0-.347 1.322-.431 1.647-.156.603-.578 1.356-.862 1.816a6.93 6.93 0 0 0 8.984-6.622 6.931 6.931 0 0 0-6.931-6.934z"/> </g></symbol> <symbol id="icon-search" viewBox="0 0 16 16"><g> <path d="M15.504 13.616l-3.79-3.223c-.392-.353-.811-.514-1.149-.499a6 6 0 1 0-.672.672c-.016.338.146.757.499 1.149l3.223 3.79c.552.613 1.453.665 2.003.115s.498-1.452-.115-2.003zM6 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/> </g></symbol> <symbol id="icon-strava" viewBox="0 0 24 24"><g> <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/> </g></symbol> <symbol id="icon-tumblr" viewBox="0 0 16 16"><g> <path d="M9.001 7v3.659c0 .928-.012 1.463.086 1.727.098.262.342.534.609.691.354.212.758.318 1.214.318.81 0 1.289-.107 2.09-.633v2.405a9.089 9.089 0 0 1-1.833.639A7.93 7.93 0 0 1 9.369 16a4.9 4.9 0 0 1-1.725-.276 4.195 4.195 0 0 1-1.438-.79c-.398-.343-.672-.706-.826-1.091s-.23-.944-.23-1.676V6.556H3.003V4.29c.628-.204 1.331-.497 1.778-.877a4.386 4.386 0 0 0 1.08-1.374C6.133 1.505 6.32.825 6.422 0h2.579v4H13v3H9.001z"/> </g></symbol> <symbol id="icon-twitter" viewBox="0 0 16 16"><g> <path d="M16 3.538a6.461 6.461 0 0 1-1.884.516 3.301 3.301 0 0 0 1.444-1.816 6.607 6.607 0 0 1-2.084.797 3.28 3.28 0 0 0-2.397-1.034 3.28 3.28 0 0 0-3.197 4.028 9.321 9.321 0 0 1-6.766-3.431 3.284 3.284 0 0 0 1.015 4.381A3.301 3.301 0 0 1 .643 6.57v.041A3.283 3.283 0 0 0 3.277 9.83a3.291 3.291 0 0 1-1.485.057 3.293 3.293 0 0 0 3.066 2.281 6.586 6.586 0 0 1-4.862 1.359 9.286 9.286 0 0 0 5.034 1.475c6.037 0 9.341-5.003 9.341-9.341 0-.144-.003-.284-.009-.425a6.59 6.59 0 0 0 1.637-1.697z"/> </g></symbol> <symbol id="icon-vimeo" viewBox="0 0 16 16"><g> <path d="M15.994 4.281c-.072 1.556-1.159 3.691-3.263 6.397-2.175 2.825-4.016 4.241-5.522 4.241-.931 0-1.722-.859-2.366-2.581-.431-1.578-.859-3.156-1.291-4.734-.478-1.722-.991-2.581-1.541-2.581-.119 0-.538.253-1.256.753l-.753-.969c.791-.694 1.569-1.388 2.334-2.081 1.053-.909 1.844-1.387 2.372-1.438 1.244-.119 2.013.731 2.3 2.553.309 1.966.525 3.188.647 3.666.359 1.631.753 2.447 1.184 2.447.334 0 .838-.528 1.509-1.588.669-1.056 1.028-1.862 1.078-2.416.097-.912-.262-1.372-1.078-1.372a2.98 2.98 0 0 0-1.184.263c.787-2.575 2.287-3.825 4.506-3.753 1.641.044 2.416 1.109 2.322 3.194z"/> </g></symbol> <symbol id="icon-wordpress" viewBox="0 0 16 16"><g> <path d="M2 8c0 2.313 1.38 4.312 3.382 5.259L2.52 5.622A5.693 5.693 0 0 0 2 8zm10.05-.295c0-.722-.266-1.222-.495-1.612-.304-.482-.589-.889-.589-1.371 0-.537.418-1.037 1.008-1.037.027 0 .052.003.078.005A6.064 6.064 0 0 0 8 2.156 6.036 6.036 0 0 0 2.987 4.79c.141.004.274.007.386.007.627 0 1.599-.074 1.599-.074.323-.018.361.444.038.482 0 0-.325.037-.687.055l2.185 6.33 1.313-3.835-.935-2.495a12.304 12.304 0 0 1-.629-.055c-.323-.019-.285-.5.038-.482 0 0 .991.074 1.58.074.627 0 1.599-.074 1.599-.074.323-.018.362.444.038.482 0 0-.326.037-.687.055l2.168 6.282.599-1.947c.259-.809.457-1.389.457-1.889zm-3.945.806l-1.8 5.095a6.148 6.148 0 0 0 3.687-.093.52.52 0 0 1-.043-.081L8.105 8.511zm5.16-3.315c.026.186.04.386.04.601 0 .593-.114 1.259-.456 2.093l-1.833 5.16c1.784-1.013 2.983-2.895 2.983-5.051a5.697 5.697 0 0 0-.735-2.803zM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14z"/> </g></symbol> <symbol id="icon-youtube" viewBox="0 0 16 16"><g> <path d="M15.841 4.8s-.156-1.103-.637-1.587c-.609-.637-1.291-.641-1.603-.678-2.237-.163-5.597-.163-5.597-.163h-.006s-3.359 0-5.597.163c-.313.038-.994.041-1.603.678C.317 3.697.164 4.8.164 4.8S.005 6.094.005 7.391v1.213c0 1.294.159 2.591.159 2.591s.156 1.103.634 1.588c.609.637 1.409.616 1.766.684 1.281.122 5.441.159 5.441.159s3.363-.006 5.6-.166c.313-.037.994-.041 1.603-.678.481-.484.637-1.588.637-1.588s.159-1.294.159-2.591V7.39c-.003-1.294-.162-2.591-.162-2.591zm-9.494 5.275V5.578l4.322 2.256-4.322 2.241z"/> </g></symbol></svg>
-  <header class="l-header">
-    
-    <p class="c-title p-title"><a href="https://gruchalski.com/" class="p-title__link">gruchalski.com</a></p>
-    
-    
-  </header>
-
-  <main id="main" class="l-main">
-
-
-<article class="p-article">
-  <header>
-    <h1>Launching Alpine Linux on Firecracker like a boss</h1>
-    <div>
-      
-        <div class="c-time">
-          Posted on
-<time datetime="2021-02-13T00:00:00Z">
-  Feb 13, 2021
-</time>
-
-        </div>
-      
-      
-      <a href="https://gruchalski.com/tags/firecracker" class="c-tag">firecracker</a>
-      
-      <a href="https://gruchalski.com/tags/microvm" class="c-tag">microvm</a>
-      
-      <a href="https://gruchalski.com/tags/alpine" class="c-tag">alpine</a>
-      
-      <a href="https://gruchalski.com/tags/docker" class="c-tag">docker</a>
-      
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
     </div>
-  </header>
-  
-    <img src="/assets/shared/fc_logo_full_white-bg-small.png" alt="thumbnail" class="p-article__thumbnail">
-  
-  <section id="js-article" class="p-article__body">
-    <p>The quest to launch an ETCD cluster on Firecracker starts here.</p>
-<p>In this post, I&rsquo;m describing how I&rsquo;ve built my initial Alpine 3.13 VMM with OpenSSH and a dedicated <code>sudoer</code> user. In AWS, when one launches a Ubuntu instance, one can access it via <code>ssh ubuntu@&lt;address&gt;</code>, a CentOS VM is <code>ssh centos@&lt;address&gt;</code>. At the end of this write up, I&rsquo;ll have <code>ssh alpine@&lt;address&gt;</code>. This VMM will have access to the outside world so I can install additional software and even ping the BBC! For the networking, I&rsquo;ll use the Docker <code>docker0</code> bridge; inspired again by Julia Evans, the <a href="https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/">Day 41: Trying to understand what a bridge is</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> was very helpful. I will look at my own networking setup in future write ups.</p>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Launching Alpine Linux on Firecracker like a boss</h1>
+
+            
+
+            
+                <div class="post-description p-summary">One step back, two steps forward; create a base image to investigate Firecracker further</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2021-02-13T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;February 13, 2021</time>
+    
+    
+    
+    
+        
+        
+        
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2068</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;10&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+                <img src="/assets/shared/fc_logo_full_white-bg-small.png" alt="thumbnail" class="p-article__thumbnail">
+            
+
+            <div class="post-body e-content">
+              <p>The quest to launch an ETCD cluster on Firecracker starts here.</p>
+<p>In this post, I&rsquo;m describing how I&rsquo;ve built my initial Alpine 3.13 VMM with OpenSSH and a dedicated <code>sudoer</code> user. In AWS, when one launches a Ubuntu instance, one can access it via <code>ssh ubuntu@&lt;address&gt;</code>, a CentOS VM is <code>ssh centos@&lt;address&gt;</code>. At the end of this write up, I&rsquo;ll have <code>ssh alpine@&lt;address&gt;</code>. This VMM will have access to the outside world so I can install additional software and even ping the BBC! For the networking, I&rsquo;ll use the Docker <code>docker0</code> bridge; inspired again by Julia Evans, the <a href="https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/" target="_blank" rel="noopener">Day 41: Trying to understand what a bridge is</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> was very helpful. I will look at my own networking setup in future write ups.</p>
 <p>The result is a refinement of the process from my previous Firecracker articles.</p>
-<h2 id="dockerfile">Dockerfile</h2>
+<h2 id="dockerfile"><a href="#dockerfile" class="anchor-link">§</a>Dockerfile</h2>
 <p>The root file system is built from an Alpine 3.13 Docker image.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.13</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk update <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> ssh-keygen -A <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> addgroup -S alpine <span style="color:#f92672">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;alpine:</span><span style="color:#66d9ef">$(</span>cat /dev/urandom | tr -dc <span style="color:#e6db74">&#39;a-zA-Z0-9&#39;</span> | fold -w <span style="color:#ae81ff">32</span> | head -n1<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> | chpasswd <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> echo ttyS0 &gt; /etc/securetty <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add devfs boot <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add procfs boot <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add sysfs boot <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add local default<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chown -R alpine:alpine /home/alpine <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> chmod <span style="color:#ae81ff">0740</span> /home/alpine <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> chmod <span style="color:#ae81ff">0700</span> /home/alpine/.ssh <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> chmod <span style="color:#ae81ff">0400</span> /home/alpine/.ssh/authorized_keys <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> mkdir -p /run/openrc <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> touch /run/openrc/softlevel <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add sshd<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>Plenty but rather straightforward, let&rsquo;s break it down:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.13</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> apk update <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default<span class="err">
+</span><span class="err"></span><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>Plenty but rather straightforward, let&rsquo;s break it down:</p>
 <ol>
 <li>update the source packages and install required packages:</li>
 </ol>
@@ -144,190 +335,441 @@ if (!doNotTrack) {
 <li><code>openrc</code> because an init system in required</li>
 <li><code>openssh</code> and other other packages so there is a minimalistic system that can be accessed and used after launch</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">apk update <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span style="color:#ae81ff">\
-</span></code></pre></div><ol start="2">
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">apk update <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
+</span></code></pre></td></tr></table></div>
+</div>
+</div><ol start="2">
 <li>generate host keys:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">    <span style="color:#f92672">&amp;&amp;</span> ssh-keygen -A <span style="color:#ae81ff">\
-</span></code></pre></div><ol start="3">
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">    <span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
+</span></code></pre></td></tr></table></div>
+</div>
+</div><ol start="3">
 <li>create the home directory structure for the <code>alpine</code> user:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">	<span style="color:#f92672">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span style="color:#ae81ff">\
-</span></code></pre></div><ol start="4">
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
+</span></code></pre></td></tr></table></div>
+</div>
+</div><ol start="4">
 <li>create the <code>alpine</code> group and the user, assign home directory, init shell and a random password; without the password the user account stays disabled and it&rsquo;s not possible to SSH as that user:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">	<span style="color:#f92672">&amp;&amp;</span> addgroup -S alpine <span style="color:#f92672">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;alpine:</span><span style="color:#66d9ef">$(</span>cat /dev/urandom | tr -dc <span style="color:#e6db74">&#39;a-zA-Z0-9&#39;</span> | fold -w <span style="color:#ae81ff">32</span> | head -n1<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> | chpasswd <span style="color:#ae81ff">\
-</span></code></pre></div><ol start="6">
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
+</span></code></pre></td></tr></table></div>
+</div>
+</div><ol start="6">
 <li>make the user a password-less <code>sudoer</code>:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">	<span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span style="color:#ae81ff">\
-</span></code></pre></div><ol start="7">
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
+</span></code></pre></td></tr></table></div>
+</div>
+</div><ol start="7">
 <li>mount special file systems on boot and enable local services:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">	<span style="color:#f92672">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> echo ttyS0 &gt; /etc/securetty <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add devfs boot <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add procfs boot <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add sysfs boot <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add local default
-</code></pre></div><ol start="8">
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default
+</code></pre></td></tr></table></div>
+</div>
+</div><ol start="8">
 <li>copy the generated public key to authorized keys, there&rsquo;s a single key so add directly to <code>authorized_keys</code>:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><ol start="9">
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><ol start="9">
 <li>finally, apply settings required to access the system via SSH:</li>
 </ol>
 <ul>
 <li>OpenSSH is picky about home and <code>.ssh</code> directory permissions so I make sure these are correct: <code>0740</code> for home, <code>0700</code> for <code>$HOME/.ssh</code> and <code>0400</code> for the keys file</li>
 <li>enable OpenSSH and make sure it starts when the system starts</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">RUN</span> chown -R alpine:alpine /home/alpine <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> chmod <span style="color:#ae81ff">0740</span> /home/alpine <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> chmod <span style="color:#ae81ff">0700</span> /home/alpine/.ssh <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> chmod <span style="color:#ae81ff">0400</span> /home/alpine/.ssh/authorized_keys <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> mkdir -p /run/openrc <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> touch /run/openrc/softlevel <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	<span style="color:#f92672">&amp;&amp;</span> rc-update add sshd<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>I have a <code>/firecracker</code> directory structure which I described in <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. The <code>Dockerfile</code> is saved in <code>/firecracker/docker/alpine-3.13/Dockerfile</code>.</p>
-<h2 id="file-system">File system</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
+</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>I have a <code>/firecracker</code> directory structure which I described in <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>. The <code>Dockerfile</code> is saved in <code>/firecracker/docker/alpine-3.13/Dockerfile</code>.</p>
+<h2 id="file-system"><a href="#file-system" class="anchor-link">§</a>File system</h2>
 <p>Now I put together the program to start the container and extract the file system. The program is saved as <code>/firecracker/docker/create-alpine-3.13.sh</code> and goes like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
-</span><span style="color:#75715e"></span>set -eu
-build_dir<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/tmp/alpine-build&#34;</span>
-dockerfile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/firecracker/docker/alpine-3.13/Dockerfile&#34;</span>
-filesystem_target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/firecracker/filesystems/alpine-base-root.ext4&#34;</span>
-key_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alpine&#34;</span>
-image_tag<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;local/alpine-base:latest&#34;</span>
-pre_build_dir<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nb">set</span> -eu
+<span class="nv">build_dir</span><span class="o">=</span><span class="s2">&#34;/tmp/alpine-build&#34;</span>
+<span class="nv">dockerfile</span><span class="o">=</span><span class="s2">&#34;/firecracker/docker/alpine-3.13/Dockerfile&#34;</span>
+<span class="nv">filesystem_target</span><span class="o">=</span><span class="s2">&#34;/firecracker/filesystems/alpine-base-root.ext4&#34;</span>
+<span class="nv">key_file</span><span class="o">=</span><span class="s2">&#34;alpine&#34;</span>
+<span class="nv">image_tag</span><span class="o">=</span><span class="s2">&#34;local/alpine-base:latest&#34;</span>
+<span class="nv">pre_build_dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
 
-echo <span style="color:#e6db74">&#34;Generating a keypair...&#34;</span>
-set +e
-ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -C <span style="color:#e6db74">&#34;alpine@firecracker&#34;</span> -f <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/.ssh/</span><span style="color:#e6db74">${</span>key_file<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-set -e
-</code></pre></div><p>First, I&rsquo;m setting up the build context and generating a key pair. <code>ssh-keygen</code> is smart to check if the key pair already exists and answering <code>no</code> will prevent it from overwriting on every run.</p>
+<span class="nb">echo</span> <span class="s2">&#34;Generating a keypair...&#34;</span>
+<span class="nb">set</span> +e
+ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;alpine@firecracker&#34;</span> -f <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/</span><span class="si">${</span><span class="nv">key_file</span><span class="si">}</span><span class="s2">&#34;</span>
+<span class="nb">set</span> -e
+</code></pre></td></tr></table></div>
+</div>
+</div><p>First, I&rsquo;m setting up the build context and generating a key pair. <code>ssh-keygen</code> is smart to check if the key pair already exists and answering <code>no</code> will prevent it from overwriting on every run.</p>
 <p>In the <code>Dockerfile</code>, I was using a build local <code>key.pub</code> for the image (step 8). Here&rsquo;s how I make sure it exists:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Creating build directory...&#34;</span>
-mkdir -p <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span> cd <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Creating build directory...&#34;</span>
+mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
 
-echo <span style="color:#e6db74">&#34;Copying public key to the build directory...&#34;</span>
-cp <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span><span style="color:#e6db74">/.ssh/</span><span style="color:#e6db74">${</span>key_file<span style="color:#e6db74">}</span><span style="color:#e6db74">.pub&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/key.pub&#34;</span>
-</code></pre></div><p>Next, bring the <code>Dockerfile</code> to the build directory and build the Docker image. Tag the image with a known name. If the <code>docker build</code> fails, the program will report that fact and exit.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Building Docker image...&#34;</span>
-cp <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>dockerfile<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/Dockerfile&#34;</span>
-docker build -t <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>image_tag<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> .
-retVal<span style="color:#f92672">=</span>$?
-cd <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>pre_build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-rm -r <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;Copying public key to the build directory...&#34;</span>
+cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/</span><span class="si">${</span><span class="nv">key_file</span><span class="si">}</span><span class="s2">.pub&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/key.pub&#34;</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Next, bring the <code>Dockerfile</code> to the build directory and build the Docker image. Tag the image with a known name. If the <code>docker build</code> fails, the program will report that fact and exit.</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Building Docker image...&#34;</span>
+cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">dockerfile</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/Dockerfile&#34;</span>
+docker build -t <span class="s2">&#34;</span><span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span><span class="s2">&#34;</span> .
+<span class="nv">retVal</span><span class="o">=</span><span class="nv">$?</span>
+<span class="nb">cd</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">pre_build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
+rm -r <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
 
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $retVal -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-        echo <span style="color:#e6db74">&#34; ==&gt; build failed with status </span>$?<span style="color:#e6db74">&#34;</span>
-        exit $retVal
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><p>The next step is to prepare the root file system:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Creating file system...&#34;</span>
-mkdir -p <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/fsmnt&#34;</span>
-dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/rootfs.ext4&#34;</span> bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>
-mkfs.ext4 <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/rootfs.ext4&#34;</span>
-echo <span style="color:#e6db74">&#34;Mounting file system...&#34;</span>
-sudo mount <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/rootfs.ext4&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/fsmnt&#34;</span>
-</code></pre></div><p>and start the container:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Starting container from new image </span><span style="color:#e6db74">${</span>image_tag<span style="color:#e6db74">}</span><span style="color:#e6db74">...&#34;</span>
-CONTAINER_ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker run --rm -v <span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span>/fsmnt:/export-rootfs -td <span style="color:#e6db74">${</span>image_tag<span style="color:#e6db74">}</span> /bin/sh<span style="color:#66d9ef">)</span>
-</code></pre></div><p>followed by copying everything out of the container to the file system file. I do it the same way as with the Vault VMM root file system in my previous articles.</p>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$retVal</span> -ne <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&#34; ==&gt; build failed with status </span><span class="nv">$?</span><span class="s2">&#34;</span>
+        <span class="nb">exit</span> <span class="nv">$retVal</span>
+<span class="k">fi</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>The next step is to prepare the root file system:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Creating file system...&#34;</span>
+mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
+dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">500</span>
+mkfs.ext4 <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;Mounting file system...&#34;</span>
+sudo mount <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>and start the container:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Starting container from new image </span><span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span><span class="s2">...&#34;</span>
+<span class="nv">CONTAINER_ID</span><span class="o">=</span><span class="k">$(</span>docker run --rm -v <span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span>/fsmnt:/export-rootfs -td <span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span> /bin/sh<span class="k">)</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>followed by copying everything out of the container to the file system file. I do it the same way as with the Vault VMM root file system in my previous articles.</p>
 <p>I could combine the first two commands together but I decided to keep them separate to distinguish what belongs to the file system and what&rsquo;s mine, in this case that&rsquo;s the <code>/home</code> directory alone:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Copying Docker file system...&#34;</span>
-docker exec <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span> /bin/sh -c <span style="color:#e6db74">&#39;for d in home; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
-docker exec <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span> /bin/sh -c <span style="color:#e6db74">&#39;for d in bin dev etc lib root sbin usr; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
-docker exec <span style="color:#e6db74">${</span>CONTAINER_ID<span style="color:#e6db74">}</span> /bin/sh -c <span style="color:#e6db74">&#39;for dir in proc run sys var; do mkdir /export-rootfs/${dir}; done; exit 0&#39;</span>
-</code></pre></div><p>When everything is copied, unmount the file system, stop the container and clean up:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;Unmounting file system...&#34;</span>
-sudo umount <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/fsmnt&#34;</span>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Copying Docker file system...&#34;</span>
+docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for d in home; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
+docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for d in bin dev etc lib root sbin usr; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
+docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for dir in proc run sys var; do mkdir /export-rootfs/${dir}; done; exit 0&#39;</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>When everything is copied, unmount the file system, stop the container and clean up:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Unmounting file system...&#34;</span>
+sudo umount <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
 
-echo <span style="color:#e6db74">&#34;Removing docker container...&#34;</span>
-docker stop $CONTAINER_ID
+<span class="nb">echo</span> <span class="s2">&#34;Removing docker container...&#34;</span>
+docker stop <span class="nv">$CONTAINER_ID</span>
 
-echo <span style="color:#e6db74">&#34;Moving file system...&#34;</span>
-mv <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/rootfs.ext4&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>filesystem_target<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;Moving file system...&#34;</span>
+mv <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">filesystem_target</span><span class="si">}</span><span class="s2">&#34;</span>
 
-echo <span style="color:#e6db74">&#34;Cleaning up build directory...&#34;</span>
-rm -r <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>build_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;Cleaning up build directory...&#34;</span>
+rm -r <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
 
-echo <span style="color:#e6db74">&#34;Removing Docker image...&#34;</span>
-docker rmi <span style="color:#e6db74">${</span>image_tag<span style="color:#e6db74">}</span>
+<span class="nb">echo</span> <span class="s2">&#34;Removing Docker image...&#34;</span>
+docker rmi <span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span>
 
-echo <span style="color:#e6db74">&#34; \\o/ File system written to </span><span style="color:#e6db74">${</span>filesystem_target<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#34;</span>
-</code></pre></div><p>To run it simply execute <code>/firecracker/docker/create-alpine-3.13.sh</code>. On my machine, assuming that I already have <code>alpine:3.13</code> Docker image, the process takes about 20 seconds.</p>
-<h2 id="networking">Networking</h2>
+<span class="nb">echo</span> <span class="s2">&#34; \\o/ File system written to </span><span class="si">${</span><span class="nv">filesystem_target</span><span class="si">}</span><span class="s2">.&#34;</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>To run it simply execute <code>/firecracker/docker/create-alpine-3.13.sh</code>. On my machine, assuming that I already have <code>alpine:3.13</code> Docker image, the process takes about 20 seconds.</p>
+<h2 id="networking"><a href="#networking" class="anchor-link">§</a>Networking</h2>
 <p>The resulting VMM would be useless without access to the outside world. My previous write ups didn&rsquo;t discuss any of that, none of those VMMs were able reach the internet.</p>
 <p>Here, I&rsquo;m using the method from Julia&rsquo;s article - use the <code>docker0</code> bridge. This is really straightforward. I have the following <code>/firecracker/docker/tap-alpine-3.13.sh</code> program:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
-</span><span style="color:#75715e"></span>set -eu
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nb">set</span> -eu
 sudo apt-get install bridge-utils -y
-<span style="color:#75715e"># create and configure a tap device</span>
-<span style="color:#75715e"># to launch firecracker VMM on the docker0 bridge</span>
-TAP_DEV<span style="color:#f92672">=</span>alpine-test
-CONTAINER_IP<span style="color:#f92672">=</span>172.17.0.42
-GATEWAY_IP<span style="color:#f92672">=</span>172.17.0.1
-DOCKER_MASK_LONG<span style="color:#f92672">=</span>255.255.255.0
-sudo ip tuntap add dev <span style="color:#e6db74">&#34;</span>$TAP_DEV<span style="color:#e6db74">&#34;</span> mode tap
-sudo brctl addif docker0 $TAP_DEV
-sudo ip link set dev <span style="color:#e6db74">&#34;</span>$TAP_DEV<span style="color:#e6db74">&#34;</span> up
-<span style="color:#75715e"># as Julia Evans, I also need to figure out the meaning of this:</span>
-sudo sysctl -w net.ipv4.conf.<span style="color:#e6db74">${</span>TAP_DEV<span style="color:#e6db74">}</span>.proxy_arp<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> &gt; /dev/null
-sudo sysctl -w net.ipv6.conf.<span style="color:#e6db74">${</span>TAP_DEV<span style="color:#e6db74">}</span>.disable_ipv6<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> &gt; /dev/null
-</code></pre></div><p>The gateway IP and mask come from the <code>docker0</code> bridge:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ip addr show docker0
-6: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc noqueue state DOWN group default
+<span class="c1"># create and configure a tap device</span>
+<span class="c1"># to launch firecracker VMM on the docker0 bridge</span>
+<span class="nv">TAP_DEV</span><span class="o">=</span>alpine-test
+<span class="nv">CONTAINER_IP</span><span class="o">=</span>172.17.0.42
+<span class="nv">GATEWAY_IP</span><span class="o">=</span>172.17.0.1
+<span class="nv">DOCKER_MASK_LONG</span><span class="o">=</span>255.255.255.0
+sudo ip tuntap add dev <span class="s2">&#34;</span><span class="nv">$TAP_DEV</span><span class="s2">&#34;</span> mode tap
+sudo brctl addif docker0 <span class="nv">$TAP_DEV</span>
+sudo ip link <span class="nb">set</span> dev <span class="s2">&#34;</span><span class="nv">$TAP_DEV</span><span class="s2">&#34;</span> up
+<span class="c1"># as Julia Evans, I also need to figure out the meaning of this:</span>
+sudo sysctl -w net.ipv4.conf.<span class="si">${</span><span class="nv">TAP_DEV</span><span class="si">}</span>.proxy_arp<span class="o">=</span><span class="m">1</span> &gt; /dev/null
+sudo sysctl -w net.ipv6.conf.<span class="si">${</span><span class="nv">TAP_DEV</span><span class="si">}</span>.disable_ipv6<span class="o">=</span><span class="m">1</span> &gt; /dev/null
+</code></pre></td></tr></table></div>
+</div>
+</div><p>The gateway IP and mask come from the <code>docker0</code> bridge:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">$ ip addr show docker0
+6: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc noqueue state DOWN group default
     link/ether 02:42:3c:de:fe:d5 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
-</code></pre></div><p>The IP address of the VMM is an arbitrary selection.</p>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>The IP address of the VMM is an arbitrary selection.</p>
 <p>Run it with <code>/firecracker/docker/tap-alpine-3.13.sh</code>, the outcome will be similar to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ip link show alpine-test
-13: alpine-test: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc fq_codel master docker0 state DOWN mode DEFAULT group default qlen <span style="color:#ae81ff">1000</span>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">$ ip link show alpine-test
+13: alpine-test: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc fq_codel master docker0 state DOWN mode DEFAULT group default qlen <span class="m">1000</span>
     link/ether b6:53:d1:78:ee:2d brd ff:ff:ff:ff:ff:ff
-</code></pre></div><p>Time to configure the VMM.</p>
-<h2 id="vmm-configuration-file">VMM configuration file</h2>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Time to configure the VMM.</p>
+<h2 id="vmm-configuration-file"><a href="#vmm-configuration-file" class="anchor-link">§</a>VMM configuration file</h2>
 <p>A couple of things to take a note of:</p>
 <ul>
 <li><code>ip=172.17.0.42::172.17.0.1:255.255.255.0::eth0:off</code> is of the format <code>ip=${VMM_IP}::${GATEWAY_IP}:{DOCKER_MASK_LONG}::${VMM_INTERFACE_ID}:off</code></li>
 <li><code>network-interfaces[0].host_dev_name</code> matches the value of <code>$TAP_DEV</code></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat <span style="color:#e6db74">&lt;&lt;EOF &gt; /firecracker/configs/alpine-config.json
-</span><span style="color:#e6db74">{
-</span><span style="color:#e6db74">  &#34;boot-source&#34;: {
-</span><span style="color:#e6db74">    &#34;kernel_image_path&#34;: &#34;/firecracker/kernels/vmlinux-v5.8&#34;,
-</span><span style="color:#e6db74">    &#34;boot_args&#34;: &#34;ro console=ttyS0 noapic reboot=k panic=1 pci=off nomodules random.trust_cpu=on ip=172.17.0.42::172.17.0.1:255.255.255.0::eth0:off&#34;
-</span><span style="color:#e6db74">  },
-</span><span style="color:#e6db74">  &#34;drives&#34;: [
-</span><span style="color:#e6db74">    {
-</span><span style="color:#e6db74">      &#34;drive_id&#34;: &#34;rootfs&#34;,
-</span><span style="color:#e6db74">      &#34;path_on_host&#34;: &#34;/firecracker/filesystems/alpine-base-root.ext4&#34;,
-</span><span style="color:#e6db74">      &#34;is_root_device&#34;: true,
-</span><span style="color:#e6db74">      &#34;is_read_only&#34;: false
-</span><span style="color:#e6db74">    }
-</span><span style="color:#e6db74">  ],
-</span><span style="color:#e6db74">  &#34;network-interfaces&#34;: [
-</span><span style="color:#e6db74">      {
-</span><span style="color:#e6db74">          &#34;iface_id&#34;: &#34;eth0&#34;,
-</span><span style="color:#e6db74">          &#34;guest_mac&#34;: &#34;02:FC:00:00:00:05&#34;,
-</span><span style="color:#e6db74">          &#34;host_dev_name&#34;: &#34;alpine-test&#34;
-</span><span style="color:#e6db74">      }
-</span><span style="color:#e6db74">  ],
-</span><span style="color:#e6db74">  &#34;machine-config&#34;: {
-</span><span style="color:#e6db74">    &#34;vcpu_count&#34;: 1,
-</span><span style="color:#e6db74">    &#34;mem_size_mib&#34;: 128,
-</span><span style="color:#e6db74">    &#34;ht_enabled&#34;: false
-</span><span style="color:#e6db74">  }
-</span><span style="color:#e6db74">}
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><h2 id="run-the-vmm">Run the VMM</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">cat <span class="s">&lt;&lt;EOF &gt; /firecracker/configs/alpine-config.json
+</span><span class="s">{
+</span><span class="s">  &#34;boot-source&#34;: {
+</span><span class="s">    &#34;kernel_image_path&#34;: &#34;/firecracker/kernels/vmlinux-v5.8&#34;,
+</span><span class="s">    &#34;boot_args&#34;: &#34;ro console=ttyS0 noapic reboot=k panic=1 pci=off nomodules random.trust_cpu=on ip=172.17.0.42::172.17.0.1:255.255.255.0::eth0:off&#34;
+</span><span class="s">  },
+</span><span class="s">  &#34;drives&#34;: [
+</span><span class="s">    {
+</span><span class="s">      &#34;drive_id&#34;: &#34;rootfs&#34;,
+</span><span class="s">      &#34;path_on_host&#34;: &#34;/firecracker/filesystems/alpine-base-root.ext4&#34;,
+</span><span class="s">      &#34;is_root_device&#34;: true,
+</span><span class="s">      &#34;is_read_only&#34;: false
+</span><span class="s">    }
+</span><span class="s">  ],
+</span><span class="s">  &#34;network-interfaces&#34;: [
+</span><span class="s">      {
+</span><span class="s">          &#34;iface_id&#34;: &#34;eth0&#34;,
+</span><span class="s">          &#34;guest_mac&#34;: &#34;02:FC:00:00:00:05&#34;,
+</span><span class="s">          &#34;host_dev_name&#34;: &#34;alpine-test&#34;
+</span><span class="s">      }
+</span><span class="s">  ],
+</span><span class="s">  &#34;machine-config&#34;: {
+</span><span class="s">    &#34;vcpu_count&#34;: 1,
+</span><span class="s">    &#34;mem_size_mib&#34;: 128,
+</span><span class="s">    &#34;ht_enabled&#34;: false
+</span><span class="s">  }
+</span><span class="s">}
+</span><span class="s">EOF</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><h2 id="run-the-vmm"><a href="#run-the-vmm" class="anchor-link">§</a>Run the VMM</h2>
 <p>To start the VMM, simply execute:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo firecracker --no-api --config-file /firecracker/configs/alpine-config.json
-</code></pre></div><p>About two seconds later:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firecracker --no-api --config-file /firecracker/configs/alpine-config.json
+</code></pre></td></tr></table></div>
+</div>
+</div><p>About two seconds later:</p>
 <pre><code> * Mounting misc binary format filesystem ... [ ok ]
  * Mounting /sys ... [ ok ]
  * Mounting security filesystem ... [ ok ]
@@ -340,10 +782,17 @@ Welcome to Alpine Linux 3.13
 Kernel 5.8.0 on an x86_64 (ttyS0)
 
 172 login:
-</code></pre><h2 id="ssh-into-the-vmm">SSH into the VMM</h2>
+</code></pre><h2 id="ssh-into-the-vmm"><a href="#ssh-into-the-vmm" class="anchor-link">§</a>SSH into the VMM</h2>
 <p>In another terminal:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh -i ~/.ssh/alpine alpine@172.17.0.42
-</code></pre></div><pre><code>The authenticity of host '172.17.0.42 (172.17.0.42)' can't be established.
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">ssh -i ~/.ssh/alpine alpine@172.17.0.42
+</code></pre></td></tr></table></div>
+</div>
+</div><pre><code>The authenticity of host '172.17.0.42 (172.17.0.42)' can't be established.
 ECDSA key fingerprint is SHA256:gYxEJdQIXM3242/yV/RV9qVQBaGSdLoUtpFSmBKEyHE.
 Are you sure you want to continue connecting (yes/no)? yes
 Warning: Permanently added '172.17.0.42' (ECDSA) to the list of known hosts.
@@ -357,15 +806,30 @@ See &lt;http://wiki.alpinelinux.org/&gt;.
 You can setup the system with the command: setup-alpine
 
 You may change this message by editing /etc/motd.
-</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:~$ sudo sh
+</code></pre><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:~$ sudo sh
 172:/home/alpine# apk update
-</code></pre></div><pre><code>fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
+</code></pre></td></tr></table></div>
+</div>
+</div><pre><code>fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
 fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/APKINDEX.tar.gz
 v3.13.1-115-gf65775dfbc [https://dl-cdn.alpinelinux.org/alpine/v3.13/main]
 v3.13.1-117-g6a5e33f63c [https://dl-cdn.alpinelinux.org/alpine/v3.13/community]
 OK: 13880 distinct packages available
-</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# ping 1.1.1.1
-</code></pre></div><pre><code>PING 1.1.1.1 (1.1.1.1): 56 data bytes
+</code></pre><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ping 1.1.1.1
+</code></pre></td></tr></table></div>
+</div>
+</div><pre><code>PING 1.1.1.1 (1.1.1.1): 56 data bytes
 64 bytes from 1.1.1.1: seq=0 ttl=58 time=18.995 ms
 64 bytes from 1.1.1.1: seq=1 ttl=58 time=15.660 ms
 64 bytes from 1.1.1.1: seq=2 ttl=58 time=16.246 ms
@@ -374,27 +838,60 @@ OK: 13880 distinct packages available
 --- 1.1.1.1 ping statistics ---
 4 packets transmitted, 4 packets received, 0% packet loss
 round-trip min/avg/max = 15.660/17.197/18.995 ms
-</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# ip link
-</code></pre></div><pre><code>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+</code></pre><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ip link
+</code></pre></td></tr></table></div>
+</div>
+</div><pre><code>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
     link/ether 02:fc:00:00:00:05 brd ff:ff:ff:ff:ff:ff
-</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# ip addr
-1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">65536</span> qdisc noqueue state UNKNOWN qlen <span style="color:#ae81ff">1000</span>
+</code></pre><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ip addr
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class="m">65536</span> qdisc noqueue state UNKNOWN qlen <span class="m">1000</span>
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
     inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc pfifo_fast state UP qlen <span style="color:#ae81ff">1000</span>
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc pfifo_fast state UP qlen <span class="m">1000</span>
     link/ether 02:fc:00:00:00:05 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.42/24 brd 172.17.0.255 scope global eth0
        valid_lft forever preferred_lft forever
     inet6 fe80::fc:ff:fe00:5/64 scope link
        valid_lft forever preferred_lft forever
-</code></pre></div><p>Nice. Everything is working as expected. The UX is not fully complete, to <code>ping</code> stuff I do have to <code>sudo</code>. Whatever, if I can <code>ping</code> the BBC, I&rsquo;m good:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# ping bbc.co.uk
-</code></pre></div><pre><code>PING bbc.co.uk (151.101.64.81): 56 data bytes
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Nice. Everything is working as expected. The UX is not fully complete, to <code>ping</code> stuff I do have to <code>sudo</code>. Whatever, if I can <code>ping</code> the BBC, I&rsquo;m good:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ping bbc.co.uk
+</code></pre></td></tr></table></div>
+</div>
+</div><pre><code>PING bbc.co.uk (151.101.64.81): 56 data bytes
 64 bytes from 151.101.64.81: seq=0 ttl=58 time=23.371 ms
 64 bytes from 151.101.64.81: seq=1 ttl=58 time=20.238 ms
 64 bytes from 151.101.64.81: seq=2 ttl=58 time=24.788 ms
@@ -403,140 +900,310 @@ round-trip min/avg/max = 15.660/17.197/18.995 ms
 --- bbc.co.uk ping statistics ---
 4 packets transmitted, 4 packets received, 0% packet loss
 round-trip min/avg/max = 20.238/23.111/24.788 ms
-</code></pre><h2 id="next-steps">Next steps</h2>
+</code></pre><h2 id="next-steps"><a href="#next-steps" class="anchor-link">§</a>Next steps</h2>
 <p>Next time I am going to look at setting up the network with IPAM so the IP addresses are assigned from a given range.</p>
 <p>That&rsquo;s it for today:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">172:/home/alpine# reboot
-</code></pre></div><pre><code>172:/home/alpine# Connection to 172.17.0.42 closed by remote host.
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# reboot
+</code></pre></td></tr></table></div>
+</div>
+</div><pre><code>172:/home/alpine# Connection to 172.17.0.42 closed by remote host.
 Connection to 172.17.0.42 closed.
 </code></pre><section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/">Day 41: Trying to understand what a bridge is</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/" target="_blank" rel="noopener">Day 41: Trying to understand what a bridge is</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/">Taking Firecracker for a spin</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>
 
-  </section>
-  <footer>
-    
-    <nav class="p-pagination c-pagination">
-      <div class="c-pagination__ctrl">
-        <div class="c-pagination__newer">
-          
-          <a href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/">Newer</a>
-          
-        </div>
-        <div class="c-pagination__older">
-          
-          <a href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/">Older</a>
-          
-        </div>
-      </div>
-    </nav>
-    <div class="issues">
-      <h3>Comments</h3>
-      <p>
-        This website does not offer direct commenting feature. That does not mean I am not open for a discussion. 
-        If you have comments or questions regarding an article posted on this website, 
-        please open an issue on GitHub, where this website is currently hosted.</p>
-      <p>Direct links:</p>
-      <ul>
-        <li><a href="https://github.com/radekg/radekg.github.com/issues">existing issues</a></li>
-        <li><a href="https://github.com/radekg/radekg.github.com/issues/new">create a new issue</a></li>
-      </ul>
+            </div>
+
+            <div class="subscribe-container">
+
+    <h2 class="subscribe">Never miss a post</h2>
+    <p class="subscribe">Interested in similar content? Get it right into your mailbox. <strong>Sign up now.</strong></p>
+
+    <div class="inner">
+        <form action="https://gruchalski.us1.list-manage.com/subscribe/post?u=7cc31051b7ae9b4636244cbb2&amp;id=80eb233246"
+            method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+            
+            <div class="away" aria-hidden="true"><input type="text" name="b_7cc31051b7ae9b4636244cbb2_80eb233246" tabindex="-1" value=""></div>
+            <div class="form-fields">
+                <input type="email" value="" name="EMAIL" placeholder="email address" />
+                <input type="submit" value="Subscribe" name="subscribe" />
+            </div>
+        </form>
     </div>
+
+</div>
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
     
 
-<section class="p-related">
-  <h3>See Also</h3>
-  <ul id="slider" class="p-related__list">
-    
-    <li class="p-related__item js-related__item">
-      <a href="/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/"
+
+
+        </article>
+
         
-          style="background-image: url(https://gruchalski.com//assets/posts/2021-02-07/firecracker-and-cni.png);"
-        >
-        <span>Vault on Firecracker with CNI plugins and Nomad</span>
-      </a>
-    </li>
-    
-    <li class="p-related__item js-related__item">
-      <a href="/posts/2021-02-06-taking-firecracker-for-a-spin/"
-        >
-        <span>Taking Firecracker for a spin</span>
-      </a>
-    </li>
-    
-    <li class="p-related__item js-related__item">
-      <a href="/posts/2020-09-03-keycloak-with-docker-compose/"
+
         
-          style="background-image: url(https://gruchalski.com//assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg);"
-        >
-        <span>Keycloak With Docker Compose</span>
-      </a>
-    </li>
-    
-    <li class="p-related__item js-related__item">
-      <a href="/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/"
-        >
-        <span>Apache Spark on Mesos with Docker bridge networking</span>
-      </a>
-    </li>
-    
-  </ul>
-</section>
 
 
-    
-<aside class="p-author">
-  
-  
-  <div class="p-author__body">
-    
-    <p class="c-title p-author__name ">Radek Gruchalski</p>
-    
-    
-    
-  </div>
-  
-</aside>
-
-
-  </footer>
-</article>
-  </main>
-  
-
-  <footer class="l-footer">
-    
-
-
-    <p class="p-copyright">
-      
-        &copy; 2021
         
-          &nbsp;&bull;&nbsp;
-          <a href="https://gruchalski.com/">gruchalski.com</a>
-        
-      
-    </p>
-    <p class="p-copyright">
-      about <a href="/about">Radek Gruchalski</a>
-      &nbsp;&bull;&nbsp;<a href="/tags">tags</a>
-      &nbsp;&bull;&nbsp;<a href="https://github.com/radekg/">radekg</a> on <img src="/assets/github.png" alt="GitHub" style="vertical-align: bottom;" /> GitHub
-      &nbsp;|&nbsp;<a href="https://www.linkedin.com/in/radgruchalski/">radgruchalski</a> on <img src="/assets/linkedin.png" alt="LinkedIn" style="vertical-align: bottom;" /> LinkedIn
-    </p>
-    <p class="p-copyright">
-      this website uses Google Analytics but<br/>
-      it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses
-    </p>
-  </footer>
 
-</body>
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/&amp;text=Launching%20Alpine%20Linux%20on%20Firecracker%20like%20a%20boss&amp;hashtags=firecracker,microvm,alpine,docker,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/&amp;title=Launching%20Alpine%20Linux%20on%20Firecracker%20like%20a%20boss&amp;summary=One%20step%20back,%20two%20steps%20forward;%20create%20a%20base%20image%20to%20investigate%20Firecracker%20further&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-03-23-introducing-firebuild/" class="related-link">Introducing firebuild</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/" class="related-link">Thoughts on creating VMMs from Docker images</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-04-14-launching-consul-cluster-with-firebuild/" class="related-link">Launching Consul cluster with firebuild and other news</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-02-19-the-jailer/" class="related-link">The jailer</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-02-18-its-all-about-the-iface-name/" class="related-link">It&rsquo;s all about the the Iface name</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/firecracker/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>firecracker</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/microvm/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>microvm</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/alpine/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>alpine</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/docker/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>docker</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+                <li class="post-nav-prev">
+                    <a href="/posts/2021-02-14-firecracker-vmm-with-additional-disks/" rel="prev">&lt; Firecracker VMM with additional disks</a>
+                </li>
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2021-02-10-my-golang-modules-live-in-athens/" rel="next">My golang modules live in Athens &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2021&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            <p>this website uses Google Analytics but<br />
+    it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses </p>
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
 </html>
-
