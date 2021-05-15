@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 15 May 2021 19:43:10 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 16 May 2021 00:11:30 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -9776,12 +9776,13 @@ It enables a resource owner to control the authorization of data sharing and oth
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
-                    <description>&lt;p&gt;Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.&lt;/p&gt;
+                    <description>&lt;p&gt;&lt;strong&gt;Updated on 15th of May 2021&lt;/strong&gt; for Keycloak 13.0.0 with Postgres 13.2.&lt;/p&gt;
+&lt;p&gt;Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.&lt;/p&gt;
 &lt;p&gt;Out of the box, we get things like Single Sign-On, Identity Brokering and Social Login, User Federation and Authorization Services.&lt;/p&gt;
 &lt;p&gt;With little to no code, we can give users of our apps the ability to sign in with Identity Providers like GitHub, Twitter or Google. Well, anything that&amp;rsquo;s capable of talking OpenID or SAML. On the other hand, we can easily connect to existing LDAP or Active Directory servers to integrate with corporate services of this world.&lt;/p&gt;
 &lt;p&gt;Here, I&amp;rsquo;m going to show how can we launch and configure a local Keycloak server to play with. The only dependency is &lt;code&gt;docker&lt;/code&gt; with &lt;code&gt;docker-compose&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;docker-compose&#34;&gt;Docker Compose&lt;/h2&gt;
-&lt;p&gt;Docker Hub contains prebuilt Keycloak images. At the time of writing, the most recent version is &lt;code&gt;11.0.2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Docker Hub contains prebuilt Keycloak images. The version deployed here is &lt;code&gt;13.0.0&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s start with the &lt;code&gt;compose.yml&lt;/code&gt; file.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -9819,12 +9820,12 @@ It enables a resource owner to control the authorization of data sharing and oth
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;3.3&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;version&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;3.9&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;services&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;postgres&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;postgres:9.6.17&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;restart&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;always&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;postgres:13.2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;restart&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;unless-stopped&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;POSTGRES_DB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;${POSTGRESQL_DB}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;POSTGRES_USER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;${POSTGRESQL_USER}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
@@ -9845,7 +9846,7 @@ It enables a resource owner to control the authorization of data sharing and oth
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;jboss/keycloak:${KEYCLOAK_VERSION}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;s2&#34;&gt;&amp;#34;28080:8080&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;restart&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;always&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;restart&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;unless-stopped&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;networks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;local-keycloak&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
@@ -9854,7 +9855,7 @@ It enables a resource owner to control the authorization of data sharing and oth
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Next to the &lt;code&gt;compose.yml&lt;/code&gt; file, we need the &lt;code&gt;.env&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;KEYCLOAK_VERSION=11.0.2
+&lt;pre&gt;&lt;code&gt;KEYCLOAK_VERSION=13.0.0
 PORT_KEYCLOAK=8080
 POSTGRESQL_USER=keycloak
 POSTGRESQL_PASS=keycloak
@@ -9866,8 +9867,8 @@ POSTGRESQL_DB=keycloak
 &lt;h2 id=&#34;intermission&#34;&gt;Intermission&lt;/h2&gt;
 &lt;p&gt;Before we move on, let&amp;rsquo;s quickly figure out what has happened so far.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;With Docker Compose, we have started a Keycloak server with PostgreSQL 9.6.17 as a database.&lt;/li&gt;
-&lt;li&gt;Using the &lt;code&gt;.env&lt;/code&gt; file, we have specified that we want Keycloak &lt;code&gt;11.0.2&lt;/code&gt; and our Keycloak shall connect to Postgres using &lt;code&gt;keycloak&lt;/code&gt; username and &lt;code&gt;keycloak&lt;/code&gt; password as the credential.&lt;/li&gt;
+&lt;li&gt;With Docker Compose, we have started a Keycloak server with PostgreSQL 13.2 as a database. PostgreSQL protocol is at a stable version 3 since PostgeSQL 8 days so it does not really matter which newer version is used.&lt;/li&gt;
+&lt;li&gt;Using the &lt;code&gt;.env&lt;/code&gt; file, we have specified that we want Keycloak &lt;code&gt;13.0.0&lt;/code&gt; and our Keycloak shall connect to Postgres using &lt;code&gt;keycloak&lt;/code&gt; username and &lt;code&gt;keycloak&lt;/code&gt; password as the credential.&lt;/li&gt;
 &lt;li&gt;The database used by Keycloak is also called &lt;code&gt;keycloak&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;The same variables are used for the &lt;code&gt;postgres&lt;/code&gt; service.&lt;/li&gt;
 &lt;li&gt;The Postgres container will automagically create a user identified by &lt;code&gt;POSTGRES_USER&lt;/code&gt; variable, authenticated by the value of &lt;code&gt;POSTGRES_PASSWORD&lt;/code&gt;.&lt;/li&gt;

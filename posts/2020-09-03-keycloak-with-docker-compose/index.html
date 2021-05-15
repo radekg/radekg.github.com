@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-09-03T00:00:00+00:00",
-        "dateModified": "2020-09-04T23:57:26+02:00",
+        "dateModified": "2021-05-16T00:10:48+02:00",
         "url": "https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/",
         "headline": "Keycloak With Docker Compose",
         "description": "Start and configure Keycloak with Docker Compose",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  555 ,
+        "wordCount":  585 ,
         "image": ["https://gruchalski.com/assets/posts/2020-09-03-keycloak-with-docker-compose/clean-install.png","https://gruchalski.com/assets/posts/2020-09-03-keycloak-with-docker-compose/with-login.png"],
         "author": {
             "@type": "Person",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-09-03T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2020-09-04T23:57:26&#43;02:00" />
+    <meta property="article:modified_time" content="2021-05-16T00:10:48&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -254,7 +254,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;555</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;585</span>
     
     
         
@@ -271,12 +271,13 @@
             
 
             <div class="post-body e-content">
-              <p>Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.</p>
+              <p><strong>Updated on 15th of May 2021</strong> for Keycloak 13.0.0 with Postgres 13.2.</p>
+<p>Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.</p>
 <p>Out of the box, we get things like Single Sign-On, Identity Brokering and Social Login, User Federation and Authorization Services.</p>
 <p>With little to no code, we can give users of our apps the ability to sign in with Identity Providers like GitHub, Twitter or Google. Well, anything that&rsquo;s capable of talking OpenID or SAML. On the other hand, we can easily connect to existing LDAP or Active Directory servers to integrate with corporate services of this world.</p>
 <p>Here, I&rsquo;m going to show how can we launch and configure a local Keycloak server to play with. The only dependency is <code>docker</code> with <code>docker-compose</code>.</p>
 <h2 id="docker-compose"><a href="#docker-compose" class="anchor-link">§</a>Docker Compose</h2>
-<p>Docker Hub contains prebuilt Keycloak images. At the time of writing, the most recent version is <code>11.0.2</code>.</p>
+<p>Docker Hub contains prebuilt Keycloak images. The version deployed here is <code>13.0.0</code>.</p>
 <p>Let&rsquo;s start with the <code>compose.yml</code> file.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -314,12 +315,12 @@
 </span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.3&#39;</span><span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
 </span><span class="w">
 </span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:9.6.17</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13.2</span><span class="w">
+</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
 </span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
 </span><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_DB}</span><span class="w">
 </span><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_USER}</span><span class="w">
@@ -340,7 +341,7 @@
 </span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">jboss/keycloak:${KEYCLOAK_VERSION}</span><span class="w">
 </span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
 </span><span class="w">      </span>- <span class="s2">&#34;28080:8080&#34;</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
 </span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span><span class="w">      </span>- <span class="l">local-keycloak</span><span class="w">
 </span><span class="w">
@@ -349,7 +350,7 @@
 </span></code></pre></td></tr></table></div>
 </div>
 </div><p>Next to the <code>compose.yml</code> file, we need the <code>.env</code> file.</p>
-<pre><code>KEYCLOAK_VERSION=11.0.2
+<pre><code>KEYCLOAK_VERSION=13.0.0
 PORT_KEYCLOAK=8080
 POSTGRESQL_USER=keycloak
 POSTGRESQL_PASS=keycloak
@@ -361,8 +362,8 @@ POSTGRESQL_DB=keycloak
 <h2 id="intermission"><a href="#intermission" class="anchor-link">§</a>Intermission</h2>
 <p>Before we move on, let&rsquo;s quickly figure out what has happened so far.</p>
 <ol>
-<li>With Docker Compose, we have started a Keycloak server with PostgreSQL 9.6.17 as a database.</li>
-<li>Using the <code>.env</code> file, we have specified that we want Keycloak <code>11.0.2</code> and our Keycloak shall connect to Postgres using <code>keycloak</code> username and <code>keycloak</code> password as the credential.</li>
+<li>With Docker Compose, we have started a Keycloak server with PostgreSQL 13.2 as a database. PostgreSQL protocol is at a stable version 3 since PostgeSQL 8 days so it does not really matter which newer version is used.</li>
+<li>Using the <code>.env</code> file, we have specified that we want Keycloak <code>13.0.0</code> and our Keycloak shall connect to Postgres using <code>keycloak</code> username and <code>keycloak</code> password as the credential.</li>
 <li>The database used by Keycloak is also called <code>keycloak</code>.</li>
 <li>The same variables are used for the <code>postgres</code> service.</li>
 <li>The Postgres container will automagically create a user identified by <code>POSTGRES_USER</code> variable, authenticated by the value of <code>POSTGRES_PASSWORD</code>.</li>
