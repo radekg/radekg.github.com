@@ -23,10 +23,650 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Thu, 29 Apr 2021 20:54:51 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sat, 15 May 2021 19:43:10 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>RBAC with Ory Keto</title>
+                <link>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</guid>
+                <pubDate>Sat, 15 May 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;Role-base Access Control is an access control method whereby the entity roles define the level of access. Usually when talking about RBAC, the entity is a person and the object is a resource or a task (function) granted to a person. The usual example goes like this:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In an organization, the job functions define the roles of employees. Only employees in specific roles are allowed to execute certain tasks. The employees are given permissions to execute these tasks. Sometimes the employees may gain additional permissions to execute more tasks, sometimes certain permissions are taken away and the employees cannot execute selected tasks anymore.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;theory-rbac&#34;&gt;theory RBAC&lt;/h2&gt;
+&lt;p&gt;The English Wikipedia has &lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control#Design&#34;&gt;a very good, comprehensive entry on RBAC&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. We can find a number of relevant RBAC related definitions, mainly:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Role assignment: A subject can exercise a permission only if the subject has selected or been assigned a role.&lt;/li&gt;
+&lt;li&gt;Role authorization: A subject&amp;rsquo;s active role must be authorized for the subject. With rule 1 above, this rule ensures that users can take on only roles for which they are authorized.&lt;/li&gt;
+&lt;li&gt;Permission authorization: A subject can exercise a permission only if the permission is authorized for the subject&amp;rsquo;s active role. With rules 1 and 2, this rule ensures that users can exercise only permissions for which they are authorized.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These can be a subject to additional organizational hierarchy where higher-level roles incorporate the ones of the subordinates. With this in mind, we find the conventions useful:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;S = Subject = A person or automated agent&lt;/li&gt;
+&lt;li&gt;R = Role = Job function or title which defines an authority level&lt;/li&gt;
+&lt;li&gt;P = Permissions = An approval of a mode of access to a resource&lt;/li&gt;
+&lt;li&gt;SE = Session = A mapping involving S, R and/or P&lt;/li&gt;
+&lt;li&gt;SA = Subject Assignment&lt;/li&gt;
+&lt;li&gt;PA = Permission Assignment&lt;/li&gt;
+&lt;li&gt;RH = Partially ordered Role Hierarchy. RH can also be written: ≥ (The notation: x ≥ y means that x inherits the permissions of y.)
+&lt;ul&gt;
+&lt;li&gt;A subject can have multiple roles.&lt;/li&gt;
+&lt;li&gt;A role can have multiple subjects.&lt;/li&gt;
+&lt;li&gt;A role can have many permissions.&lt;/li&gt;
+&lt;li&gt;A permission can be assigned to many roles.&lt;/li&gt;
+&lt;li&gt;An operation can be assigned to many permissions.&lt;/li&gt;
+&lt;li&gt;A permission can be assigned to many operations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Further, Wikipedia suggests the following set theory notation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PA ⊆ P × R&lt;/li&gt;
+&lt;li&gt;SA ⊆ S × R&lt;/li&gt;
+&lt;li&gt;RH ⊆ R × R&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Grokking these is straightforward, in order:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;permission assignment is a subset of permissions multiplied by roles&lt;/li&gt;
+&lt;li&gt;subject assignment is a subset of subjects multiplied by roles&lt;/li&gt;
+&lt;li&gt;role hierarchy is a subset of roles multiplied by other roles&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In other words:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;the subject (a user) is allowed (has the permission) to execute certain action (on an object) when they have certain roles; the roles can inherit permissions of other roles&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The second part is important because it suggests that the permissions of certain roles in the hierarchy can change.&lt;/p&gt;
+&lt;p&gt;What&amp;rsquo;s crucial, we can parse the first statement in reverse:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;an action can be performed on an object by a subject holding specific roles&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s hold on to that thought and proceed.&lt;/p&gt;
+&lt;h2 id=&#34;theory-keto&#34;&gt;the&amp;hellip;ory keto&lt;/h2&gt;
+&lt;p&gt;Keto is an implementation of the &lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar whitepaper&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; from Google. Zanzibar, thus Keto, is used to implement Access Control Lists (ACL). RBAC differs from ACL in that RBAC assigns permissions to operations instead of objects. Keto (Zanzibar) does not have any knowledge of the system it controls the access on behalf of. There are four major terms in the Zanzibar whitepaper:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a relation tuple&lt;/li&gt;
+&lt;li&gt;an object&lt;/li&gt;
+&lt;li&gt;a relation&lt;/li&gt;
+&lt;li&gt;a subject&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;where the relation tuple is a result of an object, permission and a subject. Straight from the whitepaper:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;〈tuple〉::=〈object〉‘#’〈relation〉‘@’〈user〉
+〈object〉::=〈namespace〉‘:’〈objectid〉
+〈user〉::=〈userid〉|〈userset〉
+〈userset〉::=〈object〉‘#’〈relation〉
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is the notation you can see in the Keto examples on the internet. Today, Keto does not yet implement the &lt;em&gt;userset&lt;/em&gt; part. For now, I will ignore the &lt;em&gt;namespace&lt;/em&gt; part and use a single namespace for the example further down.&lt;/p&gt;
+&lt;p&gt;In the relation tuple, the &lt;em&gt;user&lt;/em&gt; and &lt;em&gt;relation&lt;/em&gt; are pretty obvious. The &lt;em&gt;object&lt;/em&gt; part leaves room for improvisation. A little bit higher up, we have discussed that RBAC assigns permissions to operations instead of objects. Before moving on, we need to establish a couple of facts for the purpose of this article:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the Zanzibar object implies an RBAC operation,&lt;/li&gt;
+&lt;li&gt;the Zanzibar subject is the RBAC object,&lt;/li&gt;
+&lt;li&gt;the relation defines the permission.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;so-rbac-with-acl&#34;&gt;so, RBAC with ACL?&lt;/h2&gt;
+&lt;p&gt;I hear you say. But why not. Zanzibar is the outcome of Google&amp;rsquo;s work on the global access control system powering things like Calendar, Cloud, Drive and so on.&lt;/p&gt;
+&lt;p&gt;Their Cloud products alone contain dozens of sub-products, each defining own roles. Each of those roles carries object permissions (general service actions or individual object actions) the user can be granted.&lt;/p&gt;
+&lt;h3 id=&#34;how-to-proceed&#34;&gt;how to proceed&lt;/h3&gt;
+&lt;p&gt;From the previous theory, two statements are the strongest signals of how to move forward:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;RBAC differs from ACL in that RBAC assigns permissions to operations instead of objects.&lt;/li&gt;
+&lt;li&gt;An action can be performed on an object by a subject holding specific roles.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first one is a constraint. Actions, say granular &lt;em&gt;read&lt;/em&gt; or &lt;em&gt;write&lt;/em&gt;, should not be assigned to individual objects.&lt;/p&gt;
+&lt;p&gt;This makes sense because if a certain action should no longer be allowed for a certain role, there should be no need to iterate over every object to remove a permission. Instead, a permission should be revoked from a role and the users holding these roles should no longer be allowed to perform the revoked action.&lt;/p&gt;
+&lt;p&gt;The second statement is more of a clue. At the time of the decision making, two criteria are known:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the object on which the action is to be performed&lt;/li&gt;
+&lt;li&gt;the user (subject) for which the decision has to be reached&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It is safe to assume that knowing the user implies knowing the roles the user belongs to. The second statement stems from the first one and shows that asking &lt;em&gt;is the user allowed to execute this action&lt;/em&gt; is the wrong thing to do.&lt;/p&gt;
+&lt;p&gt;The correct question to ask is: &lt;strong&gt;can an action be performed on this object by someone holding these roles&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;the-scenario&#34;&gt;the scenario&lt;/h2&gt;
+&lt;p&gt;To visualize a PoC RBAC with Keto, let&amp;rsquo;s consider the following imaginary scenario.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;There is a &lt;em&gt;SaaS&lt;/em&gt; business offering &lt;em&gt;compute&lt;/em&gt; services.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Compute&lt;/em&gt; resources can be &lt;em&gt;created&lt;/em&gt;, &lt;em&gt;viewed&lt;/em&gt; and &lt;em&gt;deleted&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;Company&lt;/em&gt; is the client of &lt;em&gt;SaaS&lt;/em&gt; and has a &lt;em&gt;compute&lt;/em&gt; environment called &lt;em&gt;production&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;IT director&lt;/em&gt;, Hermes, can &lt;em&gt;create&lt;/em&gt;, &lt;em&gt;view&lt;/em&gt; and &lt;em&gt;delete&lt;/em&gt; &lt;em&gt;compute&lt;/em&gt; resources.&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;Company&lt;/em&gt; employs two &lt;em&gt;development directors&lt;/em&gt;: Fry and Bender. Both of them can only view the resources in &lt;em&gt;production&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;As the time passes, the &lt;em&gt;Company&lt;/em&gt; asks Fry to speed up the deployment to &lt;em&gt;production&lt;/em&gt; and gives him the permissions to &lt;em&gt;create&lt;/em&gt; and &lt;em&gt;delete&lt;/em&gt; resources in &lt;em&gt;production&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The &lt;em&gt;SaaS&lt;/em&gt; and the &lt;em&gt;Company&lt;/em&gt; will not be included in the implementation, they&amp;rsquo;re irrelevant to this example.&lt;/p&gt;
+&lt;h2 id=&#34;implementation&#34;&gt;implementation&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s start by launching the Ory stack locally:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;git clone https://github.com/radekg/ory-reference-compose.git
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; ory-reference-compose/compose
+docker-compose -f compose.yml up psql keto-migrate keto
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Keto read API runs on &lt;code&gt;localhost:4466&lt;/code&gt; and the write API is reachable via &lt;code&gt;localhost:4467&lt;/code&gt;. The compose stack creates a single namespace called &lt;code&gt;default-namespace&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s start with defining the &lt;em&gt;production&lt;/em&gt; platform by creating the following relation tuples:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;create&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:production-creator#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;view&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:production-viewer#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;delete&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:production-deleter#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In the Zanzibar notation, these are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;production#create@(default-namespace:production-creator#member)&lt;/code&gt;: roughly translates to: &lt;code&gt;production&lt;/code&gt; allows &lt;code&gt;create&lt;/code&gt; by anybody bound as a &lt;code&gt;member&lt;/code&gt; of &lt;code&gt;production-creator&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;production#view@(default-namespace:production-viewer#member)&lt;/code&gt;: &lt;code&gt;production&lt;/code&gt; allows &lt;code&gt;view&lt;/code&gt; by anybody bound as a &lt;code&gt;member&lt;/code&gt; of &lt;code&gt;production-viewer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;production#delete@(default-namespace:production-deleter#member)&lt;/code&gt;: &lt;code&gt;production&lt;/code&gt; allows &lt;code&gt;delete&lt;/code&gt; by anybody bound as a &lt;code&gt;member&lt;/code&gt; of &lt;code&gt;production-deleter&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These &lt;em&gt;relations&lt;/em&gt; can be read as &lt;em&gt;properties&lt;/em&gt; (or capabilities) of the &lt;em&gt;production&lt;/em&gt; platform. The &lt;code&gt;production-[creator|viewer|deleter]&lt;/code&gt; is a handle for a referencing object, these referencing objects, called &lt;code&gt;production-[creator|viewer|deleter]&lt;/code&gt; respectively, can be seen as &lt;em&gt;the bindings&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s bind the &lt;em&gt;IT director&lt;/em&gt; first. The following relation tuples together define a role called &lt;em&gt;it-director&lt;/em&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;production-creator#member@default-namespace:it-director#member
+production-viewer#member@default-namespace:it-director#member
+production-deleter#member@default-namespace:it-director#member
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;What we are saying here is that any person who is a &lt;em&gt;member&lt;/em&gt; of the &lt;em&gt;it-director&lt;/em&gt; role will be treated as a member of the respective &lt;em&gt;production-X&lt;/em&gt; role, which we have already bound to respective &lt;em&gt;create&lt;/em&gt;, &lt;em&gt;view&lt;/em&gt; and &lt;em&gt;delete&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production-creator&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:it-director#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production-viewer&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:it-director#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production-deleter&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:it-director#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;If there was a higher level system responsible for actual role management, the tool could present a role object called &lt;em&gt;IT Director&lt;/em&gt; with these granular tuples hidden from view. The role management operator would be working with that abstraction instead of these granular items.&lt;/p&gt;
+&lt;p&gt;Next, we can bind the &lt;em&gt;development director&lt;/em&gt;. Originally, this role should only be allowed the &lt;em&gt;view&lt;/em&gt; of the &lt;em&gt;production&lt;/em&gt; resources:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;production-viewer#member@default-namespace:dev-director#member
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production-viewer&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:dev-director#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s put the people in their actual positions:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;it-director#member@Hermes
+dev-director#member@Fry
+dev-director#member@Bender
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;it-director&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Hermes&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;dev-director&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Fry&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;dev-director&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Bender&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;We can now ask Keto if the respective people can perform their tasks, for example, can Hermes create resources in production?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;create&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Hermes&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;What about Fry?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;delete&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Fry&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;But, both him and Bender, should be able to &lt;em&gt;view&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;view&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Bender&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;So far, so good.&lt;/p&gt;
+&lt;h3 id=&#34;frys-opportunity&#34;&gt;Fry&amp;rsquo;s opportunity&lt;/h3&gt;
+&lt;p&gt;The &lt;em&gt;Company&lt;/em&gt; has finally decided to give Fry the opportunity and improve the production delivery speed.&lt;/p&gt;
+&lt;p&gt;A new role has been carved out just for Fry:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;fast-dev-director&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Fry&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;He can&amp;rsquo;t yet &lt;em&gt;create&lt;/em&gt; or &lt;em&gt;delete&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;create&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Fry&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;For that, the &lt;em&gt;fast-dev-director#member&lt;/em&gt; must be explicitly allowed by the respective &lt;em&gt;production-X&lt;/em&gt; role.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production-creator&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:fast-dev-director#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production-deleter&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;member&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;default-namespace:fast-dev-director#member&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4467/relation-tuples
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Can he now &lt;em&gt;create&lt;/em&gt; and &lt;em&gt;delete&lt;/em&gt;?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;create&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Fry&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;delete&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Fry&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;He should still be able to &lt;em&gt;view&lt;/em&gt; through the &lt;em&gt;dev-director&lt;/em&gt; role:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;view&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Fry&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;He can, indeed. What about Bender?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl -XPOST --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;object&amp;#34;: &amp;#34;production&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;relation&amp;#34;: &amp;#34;delete&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;    &amp;#34;subject&amp;#34;: &amp;#34;Bender&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;}&amp;#39;&lt;/span&gt; http://localhost:4466/check
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;#34;allowed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This works as expected.&lt;/p&gt;
+&lt;h2 id=&#34;fry-has-fried-the-production&#34;&gt;Fry has fried the production&lt;/h2&gt;
+&lt;p&gt;As Fry isn&amp;rsquo;t very smart, he did fry the production system and the &lt;em&gt;Company&lt;/em&gt; was forced to remove his access. It was done like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl --silent -X DELETE &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;amp;object=fast-dev-director&amp;amp;relation=member&amp;amp;subject=Fry&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;And Fry could no longer &lt;em&gt;create&lt;/em&gt; and &lt;em&gt;delete&lt;/em&gt; in &lt;em&gt;production&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alternatively&lt;/strong&gt;, the &lt;em&gt;Company&lt;/em&gt; should have been able to remove the role binding, like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl --silent -X DELETE &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;amp;object=production-creator&amp;amp;relation=member&amp;amp;subject=default-namespace:fast-dev-director#member&amp;#39;&lt;/span&gt;
+curl --silent -X DELETE &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;amp;object=production-deleter&amp;amp;relation=member&amp;amp;subject=default-namespace:fast-dev-director#member&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Which would leave Fry the &lt;em&gt;fast-dev-director&lt;/em&gt; role assignment but the missing binding would no longer allow him to &lt;em&gt;create&lt;/em&gt; and &lt;em&gt;delete&lt;/em&gt; resources. &lt;strong&gt;However, these two delete statements do not seem to be removing the actual binding&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;summary&lt;/h2&gt;
+&lt;p&gt;How does this example compare to the RBAC theory from the beginning of the article?&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Role assignment: A subject can exercise a permission only if the subject has selected or been assigned a role: &lt;strong&gt;check&lt;/strong&gt;, Fry had to be explicitly assigned using the &lt;em&gt;member&lt;/em&gt; relation to the &lt;em&gt;fast-dev-director&lt;/em&gt; role.&lt;/li&gt;
+&lt;li&gt;Role authorization: A subject&amp;rsquo;s active role must be authorized for the subject. With rule 1 above, this rule ensures that users can take on only roles for which they are authorized: &lt;strong&gt;check&lt;/strong&gt;, respective &lt;em&gt;production-X&lt;/em&gt; explicitly allows &lt;em&gt;fast-dev-director#member&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Permission authorization: A subject can exercise a permission only if the permission is authorized for the subject&amp;rsquo;s active role. With rules 1 and 2, this rule ensures that users can exercise only permissions for which they are authorized: &lt;strong&gt;check&lt;/strong&gt;, we have verified that even though Fry was given the &lt;em&gt;fast-dev-director&lt;/em&gt; role, he could not &lt;em&gt;create&lt;/em&gt; nor &lt;em&gt;delete&lt;/em&gt; before the relevant &lt;em&gt;production-X&lt;/em&gt; binding was established; the non-functional &lt;code&gt;curl -XDELETE&lt;/code&gt; throws a spanner in the works but it&amp;rsquo;s unrelated to the fact that Keto does provide this capability and the core issue can be fixed&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;wrapping-up&#34;&gt;wrapping up&lt;/h2&gt;
+&lt;p&gt;This simple example shows that a simple RBAC is doable with Ory Keto. Without the &lt;em&gt;usersets&lt;/em&gt;, the configuration can be quite verbose but the example shows that different relation tuples can be chained together to form a more complex decision tree.&lt;/p&gt;
+&lt;p&gt;The example with deletes not removing the expected tuples indicate that Keto might still not be totally bulletproof but things can only get better.&lt;/p&gt;
+&lt;p&gt;Working directly with tuples can probably lead to a big headache. An efficient way of working would definitely require a tool managing and verifying the relation tuples based on some higher level role and membership abstraction.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control&#34;&gt;Role-based Access Control&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar: Consistent, Global Authorization System&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/ory/">ory</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/keto/">keto</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/iam/">iam</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/rbac/">rbac</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>On software testing with dockertest</title>
