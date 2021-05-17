@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-05-17T23:43:04&#43;02:00</updated>
+    <updated>2021-05-17T23:47:14&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">RBAC with Ory Keto</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/" />
             <id>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</id>
-            <updated>2021-05-17T23:42:46&#43;02:00</updated>
+            <updated>2021-05-17T23:46:27&#43;02:00</updated>
             <published>2021-05-15T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -33,7 +33,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;In an organization, the job functions define the roles of employees. Only employees in specific roles are allowed to execute certain tasks. The employees are given permissions to execute these tasks. Sometimes the employees may gain additional permissions to execute more tasks, sometimes certain permissions are taken away and the employees cannot execute selected tasks anymore.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Update, 17th of May 2021&lt;/strong&gt;: When publishing this article yesterday, I have incorrectly assumed that &lt;em&gt;usersets&lt;/em&gt; aren&amp;rsquo;t implemented by Keto. The &lt;em&gt;usersets&lt;/em&gt; are implemented, &lt;a href=&#34;https://github.com/ory/keto/issues/598#issuecomment-842301138&#34;&gt;as explained by Patrick from the Ory team here&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. What is not yet implemented is the &lt;em&gt;rewrites&lt;/em&gt; functionality. I have updated the article to reflect this new fact.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update, 17th of May 2021&lt;/strong&gt;: When publishing this article yesterday, I have incorrectly assumed that &lt;em&gt;usersets&lt;/em&gt; aren&amp;rsquo;t implemented by Keto. The &lt;em&gt;usersets&lt;/em&gt; are implemented, &lt;a href=&#34;https://github.com/ory/keto/issues/598#issuecomment-842301138&#34;&gt;as explained by Patrik from the Ory team here&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. What is not yet implemented is the &lt;em&gt;rewrites&lt;/em&gt; functionality. I have updated the article to reflect this new fact.&lt;/p&gt;
 &lt;h2 id=&#34;theory-rbac&#34;&gt;theory RBAC&lt;/h2&gt;
 &lt;p&gt;The English Wikipedia has &lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control#Design&#34;&gt;a very good, comprehensive entry on RBAC&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. We can find a number of relevant RBAC related definitions, mainly:&lt;/p&gt;
 &lt;ol&gt;
