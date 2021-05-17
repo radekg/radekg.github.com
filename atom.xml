@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-05-16T00:11:30&#43;02:00</updated>
+    <updated>2021-05-17T23:43:04&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">RBAC with Ory Keto</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/" />
             <id>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</id>
-            <updated>2021-05-15T19:42:11&#43;02:00</updated>
+            <updated>2021-05-17T23:42:46&#43;02:00</updated>
             <published>2021-05-15T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -33,8 +33,9 @@
 &lt;blockquote&gt;
 &lt;p&gt;In an organization, the job functions define the roles of employees. Only employees in specific roles are allowed to execute certain tasks. The employees are given permissions to execute these tasks. Sometimes the employees may gain additional permissions to execute more tasks, sometimes certain permissions are taken away and the employees cannot execute selected tasks anymore.&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Update, 17th of May 2021&lt;/strong&gt;: When publishing this article yesterday, I have incorrectly assumed that &lt;em&gt;usersets&lt;/em&gt; aren&amp;rsquo;t implemented by Keto. The &lt;em&gt;usersets&lt;/em&gt; are implemented, &lt;a href=&#34;https://github.com/ory/keto/issues/598#issuecomment-842301138&#34;&gt;as explained by Patrick from the Ory team here&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. What is not yet implemented is the &lt;em&gt;rewrites&lt;/em&gt; functionality. I have updated the article to reflect this new fact.&lt;/p&gt;
 &lt;h2 id=&#34;theory-rbac&#34;&gt;theory RBAC&lt;/h2&gt;
-&lt;p&gt;The English Wikipedia has &lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control#Design&#34;&gt;a very good, comprehensive entry on RBAC&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. We can find a number of relevant RBAC related definitions, mainly:&lt;/p&gt;
+&lt;p&gt;The English Wikipedia has &lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control#Design&#34;&gt;a very good, comprehensive entry on RBAC&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. We can find a number of relevant RBAC related definitions, mainly:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Role assignment: A subject can exercise a permission only if the subject has selected or been assigned a role.&lt;/li&gt;
 &lt;li&gt;Role authorization: A subject&amp;rsquo;s active role must be authorized for the subject. With rule 1 above, this rule ensures that users can take on only roles for which they are authorized.&lt;/li&gt;
@@ -78,7 +79,7 @@
 &lt;p&gt;&lt;strong&gt;an action can be performed on an object by a subject holding specific roles&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s hold on to that thought and proceed.&lt;/p&gt;
 &lt;h2 id=&#34;theory-keto&#34;&gt;the&amp;hellip;ory keto&lt;/h2&gt;
-&lt;p&gt;Keto is an implementation of the &lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar whitepaper&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; from Google. Zanzibar, thus Keto, is used to implement Access Control Lists (ACL). RBAC differs from ACL in that RBAC assigns permissions to operations instead of objects. Keto (Zanzibar) does not have any knowledge of the system it controls the access on behalf of. There are four major terms in the Zanzibar whitepaper:&lt;/p&gt;
+&lt;p&gt;Keto is an implementation of the &lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar whitepaper&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; from Google. Zanzibar, thus Keto, is used to implement Access Control Lists (ACL). RBAC differs from ACL in that RBAC assigns permissions to operations instead of objects. Keto (Zanzibar) does not have any knowledge of the system it controls the access on behalf of. There are four major terms in the Zanzibar whitepaper:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;a relation tuple&lt;/li&gt;
 &lt;li&gt;an object&lt;/li&gt;
@@ -90,7 +91,7 @@
 〈object〉::=〈namespace〉‘:’〈objectid〉
 〈user〉::=〈userid〉|〈userset〉
 〈userset〉::=〈object〉‘#’〈relation〉
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is the notation you can see in the Keto examples on the internet. Today, Keto does not yet implement the &lt;em&gt;userset&lt;/em&gt; part. For now, I will ignore the &lt;em&gt;namespace&lt;/em&gt; part and use a single namespace for the example further down.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is the notation you can see in the Keto examples on the internet. For now, I will ignore the &lt;em&gt;namespace&lt;/em&gt; part and use a single namespace for the example further down.&lt;/p&gt;
 &lt;p&gt;In the relation tuple, the &lt;em&gt;user&lt;/em&gt; and &lt;em&gt;relation&lt;/em&gt; are pretty obvious. The &lt;em&gt;object&lt;/em&gt; part leaves room for improvisation. A little bit higher up, we have discussed that RBAC assigns permissions to operations instead of objects. Before moving on, we need to establish a couple of facts for the purpose of this article:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;the Zanzibar object implies an RBAC operation,&lt;/li&gt;
@@ -605,17 +606,20 @@ curl --silent -X DELETE &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://localhost
 &lt;li&gt;Permission authorization: A subject can exercise a permission only if the permission is authorized for the subject&amp;rsquo;s active role. With rules 1 and 2, this rule ensures that users can exercise only permissions for which they are authorized: &lt;strong&gt;check&lt;/strong&gt;, we have verified that even though Fry was given the &lt;em&gt;fast-dev-director&lt;/em&gt; role, he could not &lt;em&gt;create&lt;/em&gt; nor &lt;em&gt;delete&lt;/em&gt; before the relevant &lt;em&gt;production-X&lt;/em&gt; binding was established; the non-functional &lt;code&gt;curl -XDELETE&lt;/code&gt; throws a spanner in the works but it&amp;rsquo;s unrelated to the fact that Keto does provide this capability and the core issue can be fixed&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;wrapping-up&#34;&gt;wrapping up&lt;/h2&gt;
-&lt;p&gt;This simple example shows that a simple RBAC is doable with Ory Keto. Without the &lt;em&gt;usersets&lt;/em&gt;, the configuration can be quite verbose but the example shows that different relation tuples can be chained together to form a more complex decision tree.&lt;/p&gt;
+&lt;p&gt;This simple example shows that a simple RBAC is doable with Ory Keto. Without the &lt;em&gt;rewrites&lt;/em&gt;, the configuration can be quite verbose but the example shows that different relation tuples can be chained together to form a more complex decision tree.&lt;/p&gt;
 &lt;p&gt;The example with deletes not removing the expected tuples indicate that Keto might still not be totally bulletproof but things can only get better.&lt;/p&gt;
 &lt;p&gt;Working directly with tuples can probably lead to a big headache. An efficient way of working would definitely require a tool managing and verifying the relation tuples based on some higher level role and membership abstraction.&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control&#34;&gt;Role-based Access Control&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/ory/keto/issues/598#issuecomment-842301138&#34;&gt;usersets vs rewrites clarification&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar: Consistent, Global Authorization System&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control&#34;&gt;Role-based Access Control&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar: Consistent, Global Authorization System&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/section&gt;
@@ -652,6 +656,12 @@ curl --silent -X DELETE &lt;span class=&#34;s1&#34;&gt;&amp;#39;http://localhost
                             
                             
                                 <category scheme="https://gruchalski.com/tags/rbac/" term="rbac" label="rbac" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/zanzibar/" term="zanzibar" label="zanzibar" />
                             
                         
                     
@@ -1127,7 +1137,7 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;quot;consul-network-segment=&amp;quot;
             <title type="text">Looking at Zanzibar through ORY Keto</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/" />
             <id>https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/</id>
-            <updated>2021-04-11T22:04:23&#43;02:00</updated>
+            <updated>2021-05-17T23:42:54&#43;02:00</updated>
             <published>2021-04-11T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -1724,6 +1734,12 @@ curl -XPUT --data &lt;span class=&#34;s1&#34;&gt;&amp;#39;{
                             
                             
                                 <category scheme="https://gruchalski.com/tags/keto/" term="keto" label="keto" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/zanzibar/" term="zanzibar" label="zanzibar" />
                             
                         
                     
