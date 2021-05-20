@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Figuring out Ory Oathkeeper | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.c52d01779616c51cf9e5645a858d46e5aeb85f3cf186b96d11f0e45b87171345.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="I must admin—I struggled to understand Ory Oathkeeper. Looking back, I think the reason was, I was comparing it one for one to things like Traefik or Envoy. Turns out, Oathkeeper does not intend to replace a reverse proxy, although many people probably use it as such." />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2021-05-20T00:00:00+00:00",
+        "dateModified": "2021-05-20T02:08:55+02:00",
+        "url": "https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/",
+        "headline": "Figuring out Ory Oathkeeper",
+        "description": "I must admin—I struggled to understand Ory Oathkeeper. Looking back, I think the reason was, I was comparing it one for one to things like Traefik or Envoy. Turns out, Oathkeeper does not intend to replace a reverse proxy, although many people probably use it as such.",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  1886 ,
+        "image": ["https://gruchalski.com/assets/posts/2021-05-20/oathkeeper-proxy-mode.png","https://gruchalski.com/assets/posts/2021-05-20/oathkeeper-decisions-mode.png"],
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+
+    
+
+
+
+<meta property="og:title" content="Figuring out Ory Oathkeeper" />
+<meta property="og:description" content="I must admin—I struggled to understand Ory Oathkeeper. Looking back, I think the reason was, I was comparing it one for one to things like Traefik or Envoy. Turns out, Oathkeeper does not intend to replace a reverse proxy, although many people probably use it as such." />
+<meta property="og:url" content="https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-05-20/oathkeeper.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2021-05-20T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2021-05-20T02:08:55&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+        <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+        
+
+
+
+
+    
+    <script>
+        var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+        var doNotTrack = (dnt == "1" || dnt == "yes");
+        if (!doNotTrack) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            if (window.sessionStorage) {
+                var GA_SESSION_STORAGE_KEY = 'ga:clientId';
+                ga('create', 'UA-39073034-1', {
+                'storage': 'none',
+                'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
+               });
+               ga(function(tracker) {
+                sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
+               });
+           }
+            ga('set', 'anonymizeIp', true);
+            ga('send', 'pageview');
+        }
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Figuring out Ory Oathkeeper</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2021-05-20T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;May 20, 2021</time>
+    
+    
+    
+    
+        
+        
+        
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1886</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;9&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+                <img src="/assets/posts/2021-05-20/oathkeeper.png" alt="thumbnail" class="p-article__thumbnail">
+            
+
+            <div class="post-body e-content">
+              <p>I must admin—I struggled to understand Ory Oathkeeper. Looking back, I think the reason was, I was comparing it one for one to things like Traefik or Envoy. Turns out, Oathkeeper does not intend to replace a reverse proxy, although many people probably use it as such.</p>
+<p>I was glossing over Oathkeeper for a long time and recently decided to came back to it. While reading the <a href="https://www.ory.sh/oathkeeper/docs/" target="_blank" rel="noopener">Oathkeeper Docs</a> <em>Introduction</em> section, the part about using Oathkeeper as a decision API for Envoy, Ambassador and Nginx started working.</p>
+<p>Digging through old pull requests, I found some recent commits mentioning Traefik ForwardAuth support. Little bit more digging and I found this little gem:</p>
+<pre><code>GET /decisions HTTP/1.1
+Accept: application/json
+</code></pre><p>with the following description:</p>
+<blockquote>
+<p>This endpoint mirrors the proxy capability of ORY Oathkeeper&rsquo;s proxy functionality but instead of forwarding the request to the upstream server, returns 200 (request should be allowed), 401 (unauthorized), or 403 (forbidden) status codes.</p>
+</blockquote>
+<p>Yes, that&rsquo;s it.</p>
+<h2 id="what-is-oathkeeper"><a href="#what-is-oathkeeper" class="anchor-link">§</a>what is Oathkeeper</h2>
+<p>Oathkeeper authorizes HTTP requests by matching a request to a rule from a set of defined rules, applying some guarding logic and allowing or denying a request. Oathkeeper has two modes of work:</p>
+<ul>
+<li>a proxy: if a request is allowed, it is forwarded to the upstream</li>
+<li>an arbiter validating a request and returning HTTP success status or an error</li>
+</ul>
+<p>In both cases a request originating from the HTTP client must, at least, touch Oathkeeper. In the proxy mode, it flows completely through it.</p>
+<p>Oathkeeper applies a maximum of four internal steps to each request:</p>
+<ul>
+<li>first, it finds if there is any rule matching the request URL and eventually a HTTP method, the matches can be either <em>regexp</em> or <em>glob</em></li>
+<li>if there are no matching rules, the request is denied</li>
+<li>otherwise, the request passes through a pipeline of maximum three types of, let&rsquo;s call them <em>filters</em>, for a lack of better word:
+<ul>
+<li>authenticators: responsible for validating credentials</li>
+<li>authorizers: permissions the subject, basically: is the user behind the request allowed to execute this request</li>
+<li>mutators: transforms input credentials into upstream credentials</li>
+</ul>
+</li>
+</ul>
+<h2 id="rules"><a href="#rules" class="anchor-link">§</a>rules</h2>
+<p>The rules are always defined as references to JSON or YAML files in the main Oathkeeper YAML configuration. For example <code>/etc/config/ok/oathkeeper.yaml</code> (furhter always referred to as global configuration):</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">access_rules</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">repositories</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="l">file:///etc/config/ok/rules.json</span><span class="w">
+</span><span class="w">        </span>- <span class="l">https://example.com/ok.yaml</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>More than one repository can be defined, rules can be loaded from Azure Blob Storage, Google Storage, S3, HTTPS, local files and more.</p>
+<p>Sadly, there is no support for ETCD or Consul.</p>
+<p>An example might look like this:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;some-id&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;v0.36.0-beta.4&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;upstream&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-backend-service&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;preserve_host&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&#34;strip_path&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1&#34;</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;match&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-app/some-route/&lt;.*&gt;&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;methods&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;GET&#34;</span><span class="p">,</span> <span class="s2">&#34;POST&#34;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;authenticators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+        <span class="nt">&#34;authorizer&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;allow&#34;</span> <span class="p">},</span>
+        <span class="nt">&#34;mutators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+        <span class="nt">&#34;errors&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;json&#34;</span> <span class="p">}]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Rules have unique IDs, can be optionally tagged with a supported Oathekeeper version and are matched according to the <em>match</em> section of the rule.</p>
+<p>In the case above, any <em>GET</em> or <em>POST</em> request to any URL starting with <em>http://my-app/some-route/</em> would be matched and authenticators, the authorizer and mutators would be applied. In this case, the request would be automatically allowed because there is only one <em>noop</em> authenticator. This rule appears to be used as a proxy rule because the <em>upstream</em> is defined.</p>
+<p>The decision to allow or deny the request is made based on the evaluation of authenticators and optionally the authorizer. Mutators allow amending the credentials for the authenticator. For example, it could read a bearer token out of a cookie and place it in an <em>Authorization</em> header instead.</p>
+<p>In order to use an authenticator, authorizer or a mutator in a rule, the respective item must be enabled in the main Oathkeeper YAML configuration.</p>
+<p>If the respective item type requires additional configuration, the minimum configuration must be specified in the global configuration but can be overridden in individual rules.</p>
+<h2 id="authenticators"><a href="#authenticators" class="anchor-link">§</a>authenticators</h2>
+<p>An authenticator inspects the HTTP request and returns a boolean decision based on the implementation logic. At the time of writing, there are following authenticators available:</p>
+<ul>
+<li><em>noop</em>: bypass authentication, authorization and mutation, forward or allow the request further downstream outright</li>
+<li><em>unauthorized</em>: outright reject the request</li>
+<li><em>anonymous</em>: if there is no Authorization header, set the subject to anonymous (subject can be configured)</li>
+<li><em>cookie_session</em>: forwards the request headers, path and method to a session store, basically: validate session based on headers (cookies, these are headers after all&hellip;)</li>
+<li><em>bearer_token</em>: similar to <em>cookie_session</em> but allows configuring the source of the token: cookie, header or query parameter</li>
+<li><em>oauth2_client_credentials</em>: uses the <code>Authorization: Basic</code> to perform OAuth 2.0 credentials grant to check if the credentials are valid, with a bit of reverse proxy trickery, if could potentially facilitate Hydra with credentials grant</li>
+<li><em>oauth2_introspection</em>: uses the token introspection endpoint to validate the token and required scopes</li>
+<li><em>jwt</em>: requires an <code>Authorization: Bearer</code> and assumes a JWT token, validates the signature of the token</li>
+</ul>
+<p>Every authenticator type has its dedicated configuration parameters. The configuration can be specified in the rule. As mentioned earlier, to be able to use an authenticator in the rule, the authenticator must be enabled globally.</p>
+<p>For example, to use <em>noop</em>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">authenticators</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">noop</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="authorizers"><a href="#authorizers" class="anchor-link">§</a>authorizers</h2>
+<p>An authorizer ensures that the subject (the entity behind the request) has sufficient permissions to issue the request. There are currently five different authorizers with one of them being a Keto 0.5 specific legacy authorizer:</p>
+<ul>
+<li><em>allow</em>: permits outright</li>
+<li><em>deny</em>: denies outright</li>
+<li><em>remote</em>: this one issues a POST request to the configured remote authorization endpoint and sends the original request body, if the remote returns <em>200 OK</em>, the request is allowed, if the endpoint returns <em>403 Forbidden</em>, the request is denied</li>
+<li><em>remote_json</em>: this one issues a POST request to the configured remote authorization endpoint and sends configured JSON payload in the POST body, if the remote returns <em>200 OK</em>, the request is allowed, if the endpoint returns <em>403 Forbidden</em>, the request is denied</li>
+<li><em>keto_engine_acp_ory</em>: is the Keto 0.5 specific authorizer, unless you are already using Keto 0.5, you&rsquo;ll never use this one</li>
+</ul>
+<p>As with authenticators, the authorizers have to be explicitly enabled in the global configuration.</p>
+<p>For example:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">authorizers</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">noop</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>The <em>remote_json</em> authorizer can be used to authorize the request with Keto 0.6 Zanzibar fanciness:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">authorizer</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">handler</span><span class="p">:</span><span class="w"> </span><span class="l">remote_json</span><span class="w">
+</span><span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">remote</span><span class="p">:</span><span class="w"> </span><span class="l">http://keto:4466/check</span><span class="w">
+</span><span class="w">        </span><span class="nt">payload</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span><span class="sd">            {
+</span><span class="sd">                &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span><span class="sd">                &#34;subject&#34;: &#34;{{ print .Subject }}&#34;,
+</span><span class="sd">                &#34;object&#34;: &#34;reports&#34;,
+</span><span class="sd">                &#34;relation&#34;: &#34;edit&#34;
+</span><span class="sd">            }</span><span class="w">            
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>The example shows that it is possible to use templating to populate the JSON payload from an <code>AuthenticationSession</code> object, where the respective golang code is:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">AuthenticationSession</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Subject</span>      <span class="kt">string</span>                 <span class="s">`json:&#34;subject&#34;`</span>
+	<span class="nx">Extra</span>        <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}</span> <span class="s">`json:&#34;extra&#34;`</span>
+	<span class="nx">Header</span>       <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span>            <span class="s">`json:&#34;header&#34;`</span>
+	<span class="nx">MatchContext</span> <span class="nx">MatchContext</span>           <span class="s">`json:&#34;match_context&#34;`</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">MatchContext</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">RegexpCaptureGroups</span> <span class="p">[]</span><span class="kt">string</span>    <span class="s">`json:&#34;regexp_capture_groups&#34;`</span>
+	<span class="nx">URL</span>                 <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span>    <span class="s">`json:&#34;url&#34;`</span>
+	<span class="nx">Method</span>              <span class="kt">string</span>      <span class="s">`json:&#34;method&#34;`</span>
+	<span class="nx">Header</span>              <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span> <span class="s">`json:&#34;header&#34;`</span>
+<span class="p">}</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Frankly, <strong>this bit lacks proper documentation</strong> because it is totally not clear <strong>where is this constructed, based on what data, how exactly is the subject extracted and when the rest of the data is available</strong>.</p>
+<p>At least in the context of a JWT bearer token, the subject appears to be the JWT token subject.</p>
+<h2 id="mutators"><a href="#mutators" class="anchor-link">§</a>mutators</h2>
+<p>Mutators transform an incoming credential into an outgoing credential. Following mutators are available:</p>
+<ul>
+<li><em>noop</em>: no mutation, forward headers as they came in</li>
+<li><em>id_token</em>: converts the subject into a signed ID Token, the back end service can verify this token using the public key of Oathkeeper JWKS</li>
+<li><em>header</em>: allows constructing additional headers from the HTTP request</li>
+<li><em>cookie</em>: similar to header but constructs named cookies</li>
+<li><em>hydrator</em>: allows fetching additional data from an external API and populates the mysterious <code>AuthenticationSession</code> object mentioned earlier, hmmm&hellip; maybe this can somehow be used to dynamically populate <em>object</em> and <em>relation</em> in the <em>remote_json</em> authorizer?</li>
+</ul>
+<h2 id="error-handlers"><a href="#error-handlers" class="anchor-link">§</a>error handlers</h2>
+<p>Optionally, as the last step of a rule, a method of handling the authorization error can be specified using the <em>errors</em> rule section. Following handlers are available:</p>
+<ul>
+<li><em>json</em>: returns the error as a JSON payload with <em>application/json</em> content type</li>
+<li><em>redirect</em>: redirect the request to the location using HTTP 301 or 302 status, configurable</li>
+<li><em>www_authenticate</em>: responds with HTTP 401 status and the <em>WWW-Authenticate</em> header</li>
+</ul>
+<p>The default handler is <em>json</em>. The order of the default handlers can be changed in the global configuration, for example:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">errors</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">fallback</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="l">redirect</span><span class="w">
+</span><span class="w">        </span>- <span class="l">json</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>As with any other object type, the error handler type has to be explicitly enabled in the global config, for example:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">errors</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">handlers</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">json</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>Error handlers can be conditionally matched using <em>when</em> clauses:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">errors</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">redirect</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">        </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="l">https://bad.robot</span><span class="w">
+</span><span class="w">            </span><span class="nt">when</span><span class="p">:</span><span class="w">
+</span><span class="w">                </span>- <span class="nt">request</span><span class="p">:</span><span class="w">
+</span><span class="w">                    </span><span class="nt">header</span><span class="p">:</span><span class="w">
+</span><span class="w">                        </span><span class="nt">accept</span><span class="p">:</span><span class="w">
+</span><span class="w">                            </span>- <span class="l">application/json</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="two-modes-of-operation"><a href="#two-modes-of-operation" class="anchor-link">§</a>two modes of operation</h2>
+<p>I have briefly mentioned that Oathkeeper has two modes of operation: the proxy and the pure decision API.</p>
+<h3 id="the-proxy"><a href="#the-proxy" class="anchor-link">§</a>the proxy</h3>
+<p>The flow goes roughly like this:</p>
+<p><img src="/assets/posts/2021-05-20/oathkeeper-proxy-mode.png" alt="Oathkeeper proxy mode"></p>
+<p>The request is validated via Oathkeeper. When found okay, it is proxied upstream. It&rsquo;s possible to instruct Oathkeeper to keep the original request host and strip a path prefix. These request go via the proxy server. The proxy server is configured in the global configuration, for example:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">serve</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">proxy</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
+</span><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">4455</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>The proxy server does not define any custom routes, it serves as a catch all router, as you&rsquo;d expect from, well, a proxy.</p>
+<h3 id="the-decision-api"><a href="#the-decision-api" class="anchor-link">§</a>the decision API</h3>
+<p>This is the interesting one. In the simplest case, it works like this:</p>
+<p><img src="/assets/posts/2021-05-20/oathkeeper-decisions-mode.png" alt="Oathkeeper decision API"></p>
+<p>In this mode, Oathkeeper never sends the requests to upstream. In fact, a rule used with the decision mode does not need to define the <em>upstream</em> section. This would work perfectly fine:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;some-decision-id&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;match&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-app/some-route/&lt;.*&gt;&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;methods&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;GET&#34;</span><span class="p">,</span> <span class="s2">&#34;POST&#34;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;authenticators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+        <span class="nt">&#34;authorizer&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;allow&#34;</span> <span class="p">},</span>
+        <span class="nt">&#34;mutators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+        <span class="nt">&#34;errors&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;json&#34;</span> <span class="p">}]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Assuming that the client wants to authorize a <em>GET /some-route/abc</em> request, it would send a <em>GET /decisions/some-route/abc</em> request to Oathkeeper in API mode. Oathkeeper would then look up the <em>/some-route/abc</em> rule for <em>GET</em> method and run its regular pipeline on it.</p>
+<p>If the request was authorized, a HTTP <em>200 OK</em> would be returned, otherwise the result would be HTTP <em>403 Forbidden</em>.</p>
+<p>It&rsquo;s exactly the same as proxy mode but there is no proxying going on.</p>
+<p>The API server is configured in the global configuration:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">serve</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">api</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
+</span><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">4456</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>and would normally be placed behind a reverse proxy. For example, the following Nginx configuration could take advantage of this:</p>
+<pre><code class="language-conf" data-lang="conf">http {
+    #...
+    server {
+        #...
+        location /private/ {
+            auth_request /auth;
+            auth_request_set $auth_status $upstream_status;
+        }
+        location = /auth {
+            internal;
+            proxy_pass http://oathkeeper:4456/decisions$request_uri;
+            #...
+        }
+    }
+}
+</code></pre><h2 id="summary"><a href="#summary" class="anchor-link">§</a>summary</h2>
+<p>This was a quick, 10 minute-like, introduction into Oathkeeper. A brain dump of sorts.</p>
+<p>I&rsquo;m not sure if I&rsquo;d ever use it as a pure proxy but the decision API looks very neat. Putting it behind Traefik would be an awesome feat but first investigations imply that a custom <em>ForwardAuth</em> plugin would be required.</p>
+<p>Traefik would be an awesome choice because of automatic ACME and the ability to use a single <em>ForwardAuth</em> to serve multiple sites via single Oathkeeper.</p>
+<p>The reason why a custom <em>ForwardAuth</em> might be required, is that Traefik forwards the original request data in headers. The custom <em>ForwardAuth</em> would have to issue the Oathkeeper request constructed from those headers.</p>
+<p>Well, it&rsquo;s not so complicated after all&hellip;</p>
+
+            </div>
+
+            <div class="subscribe-container">
+
+    <h2 class="subscribe">Never miss a post</h2>
+    <p class="subscribe">Interested in similar content? Get it right into your mailbox. <strong>Sign up now.</strong></p>
+
+    <div class="inner">
+        <form action="https://gruchalski.us1.list-manage.com/subscribe/post?u=7cc31051b7ae9b4636244cbb2&amp;id=80eb233246"
+            method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+            
+            <div class="away" aria-hidden="true"><input type="text" name="b_7cc31051b7ae9b4636244cbb2_80eb233246" tabindex="-1" value=""></div>
+            <div class="form-fields">
+                <input type="email" value="" name="EMAIL" placeholder="email address" />
+                <input type="submit" value="Subscribe" name="subscribe" />
+            </div>
+        </form>
+    </div>
+
+</div>
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-05-20-figuring-out-oathkeeper/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/&amp;text=Figuring%20out%20Ory%20Oathkeeper&amp;hashtags=ory,oathkeeper,traefik,iap,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/&amp;title=Figuring%20out%20Ory%20Oathkeeper&amp;summary=I%20must%20admin%e2%80%94I%20struggled%20to%20understand%20Ory%20Oathkeeper.%20Looking%20back,%20I%20think%20the%20reason%20was,%20I%20was%20comparing%20it%c2%a0one%20for%20one%20to%20things%20like%20Traefik%20or%20Envoy.%20Turns%20out,%20Oathkeeper%20does%20not%20intend%20to%20replace%20a%20reverse%20proxy,%20although%20many%20people%20probably%20use%20it%20as%20such.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2021-05-20-figuring-out-oathkeeper\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/" class="related-link">ORY reference Docker Compose and thoughts on the platform</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/" class="related-link">Keto RBAC - listing roles of a user</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-05-15-rbac-with-ory-keto/" class="related-link">RBAC with Ory Keto</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-04-24-on-software-testing-with-dockertest/" class="related-link">On software testing with dockertest</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/" class="related-link">Looking at Zanzibar through ORY Keto</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/ory/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>ory</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/oathkeeper/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>oathkeeper</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/traefik/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>traefik</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/iap/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>iap</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/" rel="next">Keto RBAC - listing roles of a user &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2021&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            <p>this website uses Google Analytics but<br />
+    it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses </p>
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>

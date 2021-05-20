@@ -3,8 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</loc>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2021-05-18T01:48:39+02:00</lastmod>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/iap/</loc>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/oathkeeper/</loc>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/ory/</loc>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/traefik/</loc>
+    <lastmod>2021-05-20T02:08:55+02:00</lastmod>
   </url>
   
   <url>
@@ -28,22 +63,7 @@
   </url>
   
   <url>
-    <loc>https://gruchalski.com/tags/ory/</loc>
-    <lastmod>2021-05-18T01:48:39+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-05-18T01:48:39+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://gruchalski.com/tags/rbac/</loc>
-    <lastmod>2021-05-18T01:48:39+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2021-05-18T01:48:39+02:00</lastmod>
   </url>
   
@@ -109,11 +129,6 @@
   
   <url>
     <loc>https://gruchalski.com/tags/kratos/</loc>
-    <lastmod>2021-04-10T22:03:28+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/oathkeeper/</loc>
     <lastmod>2021-04-10T22:03:28+02:00</lastmod>
   </url>
   

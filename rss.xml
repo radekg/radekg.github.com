@@ -23,10 +23,440 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Tue, 18 May 2021 01:49:15 &#43;0200</lastBuildDate>
+        <lastBuildDate>Thu, 20 May 2021 02:10:21 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>Figuring out Ory Oathkeeper</title>
+                <link>https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</guid>
+                <pubDate>Thu, 20 May 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;I must admin—I struggled to understand Ory Oathkeeper. Looking back, I think the reason was, I was comparing it one for one to things like Traefik or Envoy. Turns out, Oathkeeper does not intend to replace a reverse proxy, although many people probably use it as such.&lt;/p&gt;
+&lt;p&gt;I was glossing over Oathkeeper for a long time and recently decided to came back to it. While reading the &lt;a href=&#34;https://www.ory.sh/oathkeeper/docs/&#34;&gt;Oathkeeper Docs&lt;/a&gt; &lt;em&gt;Introduction&lt;/em&gt; section, the part about using Oathkeeper as a decision API for Envoy, Ambassador and Nginx started working.&lt;/p&gt;
+&lt;p&gt;Digging through old pull requests, I found some recent commits mentioning Traefik ForwardAuth support. Little bit more digging and I found this little gem:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GET /decisions HTTP/1.1
+Accept: application/json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;with the following description:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This endpoint mirrors the proxy capability of ORY Oathkeeper&amp;rsquo;s proxy functionality but instead of forwarding the request to the upstream server, returns 200 (request should be allowed), 401 (unauthorized), or 403 (forbidden) status codes.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Yes, that&amp;rsquo;s it.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-oathkeeper&#34;&gt;what is Oathkeeper&lt;/h2&gt;
+&lt;p&gt;Oathkeeper authorizes HTTP requests by matching a request to a rule from a set of defined rules, applying some guarding logic and allowing or denying a request. Oathkeeper has two modes of work:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a proxy: if a request is allowed, it is forwarded to the upstream&lt;/li&gt;
+&lt;li&gt;an arbiter validating a request and returning HTTP success status or an error&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In both cases a request originating from the HTTP client must, at least, touch Oathkeeper. In the proxy mode, it flows completely through it.&lt;/p&gt;
+&lt;p&gt;Oathkeeper applies a maximum of four internal steps to each request:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;first, it finds if there is any rule matching the request URL and eventually a HTTP method, the matches can be either &lt;em&gt;regexp&lt;/em&gt; or &lt;em&gt;glob&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;if there are no matching rules, the request is denied&lt;/li&gt;
+&lt;li&gt;otherwise, the request passes through a pipeline of maximum three types of, let&amp;rsquo;s call them &lt;em&gt;filters&lt;/em&gt;, for a lack of better word:
+&lt;ul&gt;
+&lt;li&gt;authenticators: responsible for validating credentials&lt;/li&gt;
+&lt;li&gt;authorizers: permissions the subject, basically: is the user behind the request allowed to execute this request&lt;/li&gt;
+&lt;li&gt;mutators: transforms input credentials into upstream credentials&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;rules&#34;&gt;rules&lt;/h2&gt;
+&lt;p&gt;The rules are always defined as references to JSON or YAML files in the main Oathkeeper YAML configuration. For example &lt;code&gt;/etc/config/ok/oathkeeper.yaml&lt;/code&gt; (furhter always referred to as global configuration):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;access_rules&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;repositories&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;file:///etc/config/ok/rules.json&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;https://example.com/ok.yaml&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;More than one repository can be defined, rules can be loaded from Azure Blob Storage, Google Storage, S3, HTTPS, local files and more.&lt;/p&gt;
+&lt;p&gt;Sadly, there is no support for ETCD or Consul.&lt;/p&gt;
+&lt;p&gt;An example might look like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;some-id&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;v0.36.0-beta.4&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;upstream&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://my-backend-service&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;&amp;#34;preserve_host&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;&amp;#34;strip_path&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;/api/v1&amp;#34;&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;match&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://my-app/some-route/&amp;lt;.*&amp;gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;&amp;#34;methods&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;GET&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;POST&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;authenticators&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;noop&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;authorizer&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;allow&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;mutators&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;noop&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;errors&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}]&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Rules have unique IDs, can be optionally tagged with a supported Oathekeeper version and are matched according to the &lt;em&gt;match&lt;/em&gt; section of the rule.&lt;/p&gt;
+&lt;p&gt;In the case above, any &lt;em&gt;GET&lt;/em&gt; or &lt;em&gt;POST&lt;/em&gt; request to any URL starting with &lt;em&gt;http://my-app/some-route/&lt;/em&gt; would be matched and authenticators, the authorizer and mutators would be applied. In this case, the request would be automatically allowed because there is only one &lt;em&gt;noop&lt;/em&gt; authenticator. This rule appears to be used as a proxy rule because the &lt;em&gt;upstream&lt;/em&gt; is defined.&lt;/p&gt;
+&lt;p&gt;The decision to allow or deny the request is made based on the evaluation of authenticators and optionally the authorizer. Mutators allow amending the credentials for the authenticator. For example, it could read a bearer token out of a cookie and place it in an &lt;em&gt;Authorization&lt;/em&gt; header instead.&lt;/p&gt;
+&lt;p&gt;In order to use an authenticator, authorizer or a mutator in a rule, the respective item must be enabled in the main Oathkeeper YAML configuration.&lt;/p&gt;
+&lt;p&gt;If the respective item type requires additional configuration, the minimum configuration must be specified in the global configuration but can be overridden in individual rules.&lt;/p&gt;
+&lt;h2 id=&#34;authenticators&#34;&gt;authenticators&lt;/h2&gt;
+&lt;p&gt;An authenticator inspects the HTTP request and returns a boolean decision based on the implementation logic. At the time of writing, there are following authenticators available:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;noop&lt;/em&gt;: bypass authentication, authorization and mutation, forward or allow the request further downstream outright&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;unauthorized&lt;/em&gt;: outright reject the request&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;anonymous&lt;/em&gt;: if there is no Authorization header, set the subject to anonymous (subject can be configured)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;cookie_session&lt;/em&gt;: forwards the request headers, path and method to a session store, basically: validate session based on headers (cookies, these are headers after all&amp;hellip;)&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;bearer_token&lt;/em&gt;: similar to &lt;em&gt;cookie_session&lt;/em&gt; but allows configuring the source of the token: cookie, header or query parameter&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;oauth2_client_credentials&lt;/em&gt;: uses the &lt;code&gt;Authorization: Basic&lt;/code&gt; to perform OAuth 2.0 credentials grant to check if the credentials are valid, with a bit of reverse proxy trickery, if could potentially facilitate Hydra with credentials grant&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;oauth2_introspection&lt;/em&gt;: uses the token introspection endpoint to validate the token and required scopes&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;jwt&lt;/em&gt;: requires an &lt;code&gt;Authorization: Bearer&lt;/code&gt; and assumes a JWT token, validates the signature of the token&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Every authenticator type has its dedicated configuration parameters. The configuration can be specified in the rule. As mentioned earlier, to be able to use an authenticator in the rule, the authenticator must be enabled globally.&lt;/p&gt;
+&lt;p&gt;For example, to use &lt;em&gt;noop&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;authenticators&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;noop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;authorizers&#34;&gt;authorizers&lt;/h2&gt;
+&lt;p&gt;An authorizer ensures that the subject (the entity behind the request) has sufficient permissions to issue the request. There are currently five different authorizers with one of them being a Keto 0.5 specific legacy authorizer:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;allow&lt;/em&gt;: permits outright&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;deny&lt;/em&gt;: denies outright&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;remote&lt;/em&gt;: this one issues a POST request to the configured remote authorization endpoint and sends the original request body, if the remote returns &lt;em&gt;200 OK&lt;/em&gt;, the request is allowed, if the endpoint returns &lt;em&gt;403 Forbidden&lt;/em&gt;, the request is denied&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;remote_json&lt;/em&gt;: this one issues a POST request to the configured remote authorization endpoint and sends configured JSON payload in the POST body, if the remote returns &lt;em&gt;200 OK&lt;/em&gt;, the request is allowed, if the endpoint returns &lt;em&gt;403 Forbidden&lt;/em&gt;, the request is denied&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;keto_engine_acp_ory&lt;/em&gt;: is the Keto 0.5 specific authorizer, unless you are already using Keto 0.5, you&amp;rsquo;ll never use this one&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As with authenticators, the authorizers have to be explicitly enabled in the global configuration.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;authorizers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;noop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The &lt;em&gt;remote_json&lt;/em&gt; authorizer can be used to authorize the request with Keto 0.6 Zanzibar fanciness:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;authorizer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;remote_json&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;remote&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;http://keto:4466/check&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;payload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;            {
+&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;                &amp;#34;namespace&amp;#34;: &amp;#34;default-namespace&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;                &amp;#34;subject&amp;#34;: &amp;#34;{{ print .Subject }}&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;                &amp;#34;object&amp;#34;: &amp;#34;reports&amp;#34;,
+&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;                &amp;#34;relation&amp;#34;: &amp;#34;edit&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;            }&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The example shows that it is possible to use templating to populate the JSON payload from an &lt;code&gt;AuthenticationSession&lt;/code&gt; object, where the respective golang code is:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;AuthenticationSession&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;Subject&lt;/span&gt;      &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;                 &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;subject&amp;#34;`&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;Extra&lt;/span&gt;        &lt;span class=&#34;kd&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{}&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;extra&amp;#34;`&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;Header&lt;/span&gt;       &lt;span class=&#34;nx&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Header&lt;/span&gt;            &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;header&amp;#34;`&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;MatchContext&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;MatchContext&lt;/span&gt;           &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;match_context&amp;#34;`&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;MatchContext&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;RegexpCaptureGroups&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;    &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;regexp_capture_groups&amp;#34;`&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;URL&lt;/span&gt;                 &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;URL&lt;/span&gt;    &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;url&amp;#34;`&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;Method&lt;/span&gt;              &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;      &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;method&amp;#34;`&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;Header&lt;/span&gt;              &lt;span class=&#34;nx&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Header&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;`json:&amp;#34;header&amp;#34;`&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Frankly, &lt;strong&gt;this bit lacks proper documentation&lt;/strong&gt; because it is totally not clear &lt;strong&gt;where is this constructed, based on what data, how exactly is the subject extracted and when the rest of the data is available&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;At least in the context of a JWT bearer token, the subject appears to be the JWT token subject.&lt;/p&gt;
+&lt;h2 id=&#34;mutators&#34;&gt;mutators&lt;/h2&gt;
+&lt;p&gt;Mutators transform an incoming credential into an outgoing credential. Following mutators are available:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;noop&lt;/em&gt;: no mutation, forward headers as they came in&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;id_token&lt;/em&gt;: converts the subject into a signed ID Token, the back end service can verify this token using the public key of Oathkeeper JWKS&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;header&lt;/em&gt;: allows constructing additional headers from the HTTP request&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;cookie&lt;/em&gt;: similar to header but constructs named cookies&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;hydrator&lt;/em&gt;: allows fetching additional data from an external API and populates the mysterious &lt;code&gt;AuthenticationSession&lt;/code&gt; object mentioned earlier, hmmm&amp;hellip; maybe this can somehow be used to dynamically populate &lt;em&gt;object&lt;/em&gt; and &lt;em&gt;relation&lt;/em&gt; in the &lt;em&gt;remote_json&lt;/em&gt; authorizer?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;error-handlers&#34;&gt;error handlers&lt;/h2&gt;
+&lt;p&gt;Optionally, as the last step of a rule, a method of handling the authorization error can be specified using the &lt;em&gt;errors&lt;/em&gt; rule section. Following handlers are available:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;json&lt;/em&gt;: returns the error as a JSON payload with &lt;em&gt;application/json&lt;/em&gt; content type&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;redirect&lt;/em&gt;: redirect the request to the location using HTTP 301 or 302 status, configurable&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;www_authenticate&lt;/em&gt;: responds with HTTP 401 status and the &lt;em&gt;WWW-Authenticate&lt;/em&gt; header&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The default handler is &lt;em&gt;json&lt;/em&gt;. The order of the default handlers can be changed in the global configuration, for example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;fallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;redirect&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;As with any other object type, the error handler type has to be explicitly enabled in the global config, for example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;handlers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Error handlers can be conditionally matched using &lt;em&gt;when&lt;/em&gt; clauses:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;redirect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;to&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;https://bad.robot&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;when&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;                &lt;/span&gt;- &lt;span class=&#34;nt&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;                    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;header&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;                        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;accept&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;                            &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;application/json&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;two-modes-of-operation&#34;&gt;two modes of operation&lt;/h2&gt;
+&lt;p&gt;I have briefly mentioned that Oathkeeper has two modes of operation: the proxy and the pure decision API.&lt;/p&gt;
+&lt;h3 id=&#34;the-proxy&#34;&gt;the proxy&lt;/h3&gt;
+&lt;p&gt;The flow goes roughly like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2021-05-20/oathkeeper-proxy-mode.png&#34; alt=&#34;Oathkeeper proxy mode&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The request is validated via Oathkeeper. When found okay, it is proxied upstream. It&amp;rsquo;s possible to instruct Oathkeeper to keep the original request host and strip a path prefix. These request go via the proxy server. The proxy server is configured in the global configuration, for example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;serve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;proxy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;host&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0.0.0.0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4455&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The proxy server does not define any custom routes, it serves as a catch all router, as you&amp;rsquo;d expect from, well, a proxy.&lt;/p&gt;
+&lt;h3 id=&#34;the-decision-api&#34;&gt;the decision API&lt;/h3&gt;
+&lt;p&gt;This is the interesting one. In the simplest case, it works like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2021-05-20/oathkeeper-decisions-mode.png&#34; alt=&#34;Oathkeeper decision API&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In this mode, Oathkeeper never sends the requests to upstream. In fact, a rule used with the decision mode does not need to define the &lt;em&gt;upstream&lt;/em&gt; section. This would work perfectly fine:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;some-decision-id&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;match&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;http://my-app/some-route/&amp;lt;.*&amp;gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+            &lt;span class=&#34;nt&#34;&gt;&amp;#34;methods&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;GET&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;POST&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;authenticators&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;noop&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;authorizer&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;allow&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;mutators&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;noop&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;
+        &lt;span class=&#34;nt&#34;&gt;&amp;#34;errors&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}]&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Assuming that the client wants to authorize a &lt;em&gt;GET /some-route/abc&lt;/em&gt; request, it would send a &lt;em&gt;GET /decisions/some-route/abc&lt;/em&gt; request to Oathkeeper in API mode. Oathkeeper would then look up the &lt;em&gt;/some-route/abc&lt;/em&gt; rule for &lt;em&gt;GET&lt;/em&gt; method and run its regular pipeline on it.&lt;/p&gt;
+&lt;p&gt;If the request was authorized, a HTTP &lt;em&gt;200 OK&lt;/em&gt; would be returned, otherwise the result would be HTTP &lt;em&gt;403 Forbidden&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s exactly the same as proxy mode but there is no proxying going on.&lt;/p&gt;
+&lt;p&gt;The API server is configured in the global configuration:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;serve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;api&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;host&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0.0.0.0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4456&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;and would normally be placed behind a reverse proxy. For example, the following Nginx configuration could take advantage of this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt;http {
+    #...
+    server {
+        #...
+        location /private/ {
+            auth_request /auth;
+            auth_request_set $auth_status $upstream_status;
+        }
+        location = /auth {
+            internal;
+            proxy_pass http://oathkeeper:4456/decisions$request_uri;
+            #...
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;summary&#34;&gt;summary&lt;/h2&gt;
+&lt;p&gt;This was a quick, 10 minute-like, introduction into Oathkeeper. A brain dump of sorts.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m not sure if I&amp;rsquo;d ever use it as a pure proxy but the decision API looks very neat. Putting it behind Traefik would be an awesome feat but first investigations imply that a custom &lt;em&gt;ForwardAuth&lt;/em&gt; plugin would be required.&lt;/p&gt;
+&lt;p&gt;Traefik would be an awesome choice because of automatic ACME and the ability to use a single &lt;em&gt;ForwardAuth&lt;/em&gt; to serve multiple sites via single Oathkeeper.&lt;/p&gt;
+&lt;p&gt;The reason why a custom &lt;em&gt;ForwardAuth&lt;/em&gt; might be required, is that Traefik forwards the original request data in headers. The custom &lt;em&gt;ForwardAuth&lt;/em&gt; would have to issue the Oathkeeper request constructed from those headers.&lt;/p&gt;
+&lt;p&gt;Well, it&amp;rsquo;s not so complicated after all&amp;hellip;&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/ory/">ory</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/oathkeeper/">oathkeeper</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/traefik/">traefik</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/iap/">iap</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Keto RBAC - listing roles of a user</title>
