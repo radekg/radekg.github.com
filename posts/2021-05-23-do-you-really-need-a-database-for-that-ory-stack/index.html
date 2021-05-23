@@ -12,7 +12,7 @@
     
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <title>ORY reference Docker Compose and thoughts on the platform | gruchalski.com</title>
+    <title>Do you really need a database for that Ory stack? | gruchalski.com</title>
 
     <link rel="stylesheet" href="/css/meme.min.c52d01779616c51cf9e5645a858d46e5aeb85f3cf186b96d11f0e45b87171345.css"/>
 
@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
-    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="Thought on the ORY platform and a reference Docker compose " />
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="S3, Azure Blob, Google Storage and Minio, they&#39;re all a K/V storage at the core" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -47,7 +47,7 @@
 
     
     
-        <link rel="canonical" href="https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/" />
+        <link rel="canonical" href="https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/" />
     
 
     
@@ -56,14 +56,14 @@
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "datePublished": "2021-04-10T00:00:00+00:00",
-        "dateModified": "2021-04-10T22:03:28+02:00",
-        "url": "https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/",
-        "headline": "ORY reference Docker Compose and thoughts on the platform",
-        "description": "Thought on the ORY platform and a reference Docker compose ",
+        "datePublished": "2021-05-23T00:00:00+00:00",
+        "dateModified": "2021-05-23T20:22:38+02:00",
+        "url": "https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/",
+        "headline": "Do you really need a database for that Ory stack?",
+        "description": "S3, Azure Blob, Google Storage and Minio, they're all a K/V storage at the core",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  613 ,
+        "wordCount":  1476 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -98,14 +98,14 @@
 
 
 
-<meta property="og:title" content="ORY reference Docker Compose and thoughts on the platform" />
-<meta property="og:description" content="Thought on the ORY platform and a reference Docker compose " />
-<meta property="og:url" content="https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/" />
+<meta property="og:title" content="Do you really need a database for that Ory stack?" />
+<meta property="og:description" content="S3, Azure Blob, Google Storage and Minio, they&#39;re all a K/V storage at the core" />
+<meta property="og:url" content="https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/" />
 <meta property="og:site_name" content="gruchalski.com" />
-<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-04-10/ory.png" />
-<meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2021-04-10T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-04-10T22:03:28&#43;02:00" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
+        <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2021-05-23T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2021-05-23T20:22:38&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -225,12 +225,12 @@
 
         <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
 
-            <h1 class="post-title p-name">ORY reference Docker Compose and thoughts on the platform</h1>
+            <h1 class="post-title p-name">Do you really need a database for that Ory stack?</h1>
 
             
 
             
-                <div class="post-description p-summary">Thought on the ORY platform and a reference Docker compose</div>
+                <div class="post-description p-summary">S3, Azure Blob, Google Storage and Minio, they&rsquo;re all a K/V storage at the core</div>
                 
             
 
@@ -240,7 +240,7 @@
 <div class="post-meta">
     
         
-        <time datetime="2021-04-10T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;April 10, 2021</time>
+        <time datetime="2021-05-23T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;May 23, 2021</time>
     
     
     
@@ -253,11 +253,11 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;613</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1476</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;3&nbsp;mins</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;7&nbsp;mins</span>
     
     
     
@@ -266,85 +266,106 @@
             
 
             
-                <img src="/assets/posts/2021-04-10/ory.png" alt="thumbnail" class="p-article__thumbnail">
-            
 
             <div class="post-body e-content">
-              <h2 id="obligatory-keycloak-mention"><a href="#obligatory-keycloak-mention" class="anchor-link">§</a>obligatory Keycloak mention</h2>
-<p>Keycloak is awesome because it provides almost everything an organization of almost any size might ever need when it comes to topics like OpenID, SSO, federation or authorization services.</p>
-<p>But Keycloak is a monolith, it doesn&rsquo;t do things <a href="https://en.wikipedia.org/wiki/Cloud_native_computing" target="_blank" rel="noopener">the <em>cloud native</em> way</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>. There&rsquo;s quite a few running modes one needs to fully understand how to operate: standalone, standalone clustered, domain clustered mode, cross data center replication. All very powerful but to many, pretty unapproachable. XML files, JBoss, WildFly, Java - heavyweight technologies associated with slow startup times and difficulty in scaling.</p>
-<p>Keycloak doesn&rsquo;t provide OpenAPI specification. There are many client libraries but a lot of them are incomplete and do not cover every aspect.</p>
-<p>Integration can be frustrating, especially when using more obscure Keycloak features. Upgrades can be a pain.</p>
-<blockquote>
-<p>It&rsquo;s not surprising that alternatives appear left and right.</p>
-</blockquote>
-<h2 id="ory"><a href="#ory" class="anchor-link">§</a>ory</h2>
-<p>One of them is <a href="https://www.ory.sh" target="_blank" rel="noopener">ORY</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>. Unlike Keycloak, ORY is a bunch of building blocks. In contrast to Keycloak, ORY is written in golang and the pieces are relatively small footprint, zero dependency binaries.</p>
-<p>They are designed to run in containers and start very fast. This makes them a perfect fit for cloud native applications. There are four major components, each providing and <strong>OpenAPI 2.0 specification</strong> allowing for relatively easy post deployment operations:</p>
-<ul>
-<li><strong>Hydra</strong>: OpenID Certified OAuth 2.0 Server and OpenID Connect Provider</li>
-<li><strong>Keto</strong>: is the open source implementation of <a href="https://research.google/pubs/pub48190/" target="_blank" rel="noopener"><em>Zanzibar: Google&rsquo;s Consistent, Global Authorization System</em></a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>; basically an access management system</li>
-<li><strong>Kratos</strong>: Identity and User Management System</li>
-<li><strong>Oathkeeper</strong>: an Identity &amp; Access Proxy (IAP) and Access Control Decision API</li>
-</ul>
-<p>ORY is not a one to one alternative to Keycloak. A number of examples:</p>
-<ul>
-<li>Kratos does not provide any account searching functionality</li>
-<li>there is no way to attach user account metadata in Kratos</li>
-<li>there are no groups and roles in Kratos
-<ul>
-<li>in theory this can be built out on Keto but there is no standard method</li>
-</ul>
-</li>
-<li>Keto does not provide user managed access</li>
-<li>Oathkeeper is okay for simple authentication but complex authentication flows get hairy pretty fast
-<ul>
-<li>a lot of JSON rule files to manage</li>
-<li>multi-tenant deployment with ad-hoc OpenID clients would be much better served using Traefik with ForwardAuth plugins</li>
-<li>Oathkeeper appears to have some aspirations to be a reverse proxy too but it&rsquo;s not exactly Traefik</li>
-</ul>
-</li>
-<li>gluing Kratos, Hydra and Keto together is a lot of one-off work</li>
-<li>there are no plugins in ORY
-<ul>
-<li>adding 2FA is a custom job</li>
-<li>creating custom authentication flows is a one-off job</li>
-<li>using Keycloak mappers? there&rsquo;s is nothing like this in ORY</li>
-<li>custom claims? only by using Hydra administrative Login Accept API</li>
-</ul>
-</li>
-<li>no SAML, no LDAP support</li>
-<li>scalability through the database</li>
-</ul>
-<p>The individual components are pretty easy to get going. Using all four is actually a lot of work. Integration will require writing a lot of code.</p>
-<p>Like with Keycloak, starting with ORY is overwhelming. Individual components are documented rather okay but diving deep in Dockerfiles and examples on GitHub will be necessary.</p>
-<h2 id="the-docker-compose-ory-reference-setup"><a href="#the-docker-compose-ory-reference-setup" class="anchor-link">§</a>the Docker Compose ORY reference setup</h2>
-<p>I&rsquo;ve been maintaining my own reference setup for more than a year.</p>
-<p><a href="https://github.com/radekg/ory-reference-compose" target="_blank" rel="noopener">It is available on GitHub today</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>. The reference integrates all four components and provides a couple of simple scenarios visualizing the interactions. It starts with building Docker images from sources and goes through the configuration of individual components, sometimes on purpose <em>the hard way</em>. The reference uses the most recent components at the time of writing:</p>
-<ul>
-<li>Hydra v1.10.1</li>
-<li>Keto v0.6.0-alpha.1</li>
-<li>Kratos v0.5.5-alpha.1</li>
-<li>Oathkeeper v0.38.9-beta.1; <a href="https://github.com/ory/oathkeeper/issues/689" target="_blank" rel="noopener">v0.38.10-beta.1 does not build from sources</a></li>
-</ul>
-<p>The reference is kept up to date on a best effort basis.</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
+              <p>S3, Azure Blob, Google Storage and Minio, they&rsquo;re all a K/V storage at the core. Yes, of course, they provide much, much more functionality beyond that but—at the core—object storage systems, S3, GCS, Minio and the likes, are K/V stores.</p>
+<p>Each one provides a HTTP interface. Putting the data in object storage is done via HTTP <em>PUT</em> or <em>POST</em> requests, fetching is available via <em>GET</em>. To check if an object under the key exists, that&rsquo;s a <em>HEAD</em> request. Deleting is a single HTTP <em>DELETE</em> away.</p>
+<p>It is somewhat interesting that we usually don&rsquo;t think about S3 or GCS as key/value systems. They&rsquo;re hidden behind a HTTP layer and our perception tells us they&rsquo;re some sort of directories and files. They&rsquo;re certainly not file systems.</p>
+<p>If we start treating object storage as K/V, we can quickly find resemblance to other K/V systems. For example Redis or Cassandra. Or a PostgreSQL table with a primary key.</p>
+<p>Like S3 or Azure Blob, these dedicated systems provide functionality beyond just K/V. If the item to be fetched is identifiable by a well known ID and that fetch is one hop away, there&rsquo;s no need to filter or join over anything else, that&rsquo;s definitely K/V like!</p>
+<h2 id="ory-hydra-as-an-example"><a href="#ory-hydra-as-an-example" class="anchor-link">§</a>Ory Hydra as an example</h2>
+<p>The lifecycle of an OAuth token is not very complex. Once a token is generated, it lives for some period of time. Maybe 10 minutes, maybe a month. They&rsquo;re handed over to an external application which holds on to them until a new token is needed. A token serves a couple of major purposes:</p>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p><a href="https://en.wikipedia.org/wiki/Cloud_native_computing" target="_blank" rel="noopener">Cloud native computing</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
-</li>
-<li id="fn:2" role="doc-endnote">
-<p><a href="https://www.ory.sh" target="_blank" rel="noopener">ORY</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
-</li>
-<li id="fn:3" role="doc-endnote">
-<p><a href="https://research.google/pubs/pub48190/" target="_blank" rel="noopener">Zanzibar: Google&rsquo;s Consistent, Global Authorization System</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
-</li>
-<li id="fn:4" role="doc-endnote">
-<p><a href="https://github.com/radekg/ory-reference-compose" target="_blank" rel="noopener">Reference ORY Docker Compose setup on GitHub</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
-</li>
+<li>it assures the holder that the data in the token comes from the issuer; this fact can be proven by validating the token&rsquo;s signature,</li>
+<li>it can be sent to another application which can also—in turn—itself validate that the middleman has not tampered with the original data.</li>
 </ol>
-</section>
+<p>There are two major types of tokens:</p>
+<ul>
+<li>JWT tokens: contains readable content, anybody can decode them, the information is readable,</li>
+<li>opaque tokens: these are not meant to be read, only the issuer understands what&rsquo;s inside.</li>
+</ul>
+<p>Either type is issued in response to some event requiring assurance of a successful action on the issuer side. Most often, that&rsquo;s an authentication or authorization. <strong>Tokens are idempotent</strong>. Once issued, they do not change.</p>
+<p>Most often, the following actions are performed on the tokens:</p>
+<ul>
+<li>signature validation: token does not need to be sent to the issuer, the signature can be validated on the consumer side by loading public keys from issuer&rsquo;s JWKS</li>
+<li>verification: is the token active?
+<ul>
+<li>usually validated by checking the expiry timestamp and verifying that the server has not <em>invalidated</em> the token yet</li>
+</ul>
+</li>
+<li>invalidation: the token should not be recognized anymore</li>
+<li>refreshing a token: in return for a valid refresh token, a new access token is issued</li>
+</ul>
+<p>Even if the token is forwarded to a third party and used for some fancy application specific logic, the <nobr>third-party</nobr> will essentially do one of the four of actions listed above.</p>
+<h2 id="the-big-question"><a href="#the-big-question" class="anchor-link">§</a>the big question</h2>
+<p>So the big question this write up asks: <strong>is the database system even needed to store them</strong>?</p>
+<p>The signature validation does not require a look up. Even the issuer does not need to look anything up. Verification, in case of a database system, usually implies checking if the row for the token exists. Eventually, if there is an invalidation row in another table. Invalidation usually means removing the token from the table or creating the invalidation row in another table.</p>
+<p>These operations are the same for a refresh token but a new token is generated, if refresh token is still valid.</p>
+<p><strong>This looks awfully close to K/V</strong>.</p>
+<p>So what&rsquo;s the point of having a database for that at all? Why not using globally distributed object storage instead?</p>
+<h2 id="mental-exercise"><a href="#mental-exercise" class="anchor-link">§</a>mental exercise</h2>
+<p>Testing for expired token can be done in two complementary ways:</p>
+<ul>
+<li>issue a <em>HEAD</em> request against the key with the token object, <em>404 Not Found</em> means the token is not valid,</li>
+<li>eventually, a <em>HEAD</em> request can be issued to test if there is an invalidation object for the respective token.</li>
+</ul>
+<p>Maybe these operations can be reversed depending on how probable the invalidation of a token is. Additionally, all of the object storage systems provide object expiration so the cleanup of old tokens comes for free, as in.</p>
+<p>Invalidation is an operation fulfilling the criteria for the conditions above.</p>
+<h3 id="some-numbers"><a href="#some-numbers" class="anchor-link">§</a>some numbers</h3>
+<p>Let&rsquo;s go through some numbers based on a semi-real example. A client with roughly 1000 accounts, each account logging in once a week or so. That&rsquo;s about 4000 tokens a month with further, say, <em>600K</em> token verifications a month. If we wanted to run a cheapest version of HA database in the public cloud, options are (among other, of course):</p>
+<ul>
+<li>Cloud SQL: <code>$0.0966</code> per vCPU / GB RAM, that&rsquo;s <code>$69.552</code> / month based on 30 days</li>
+<li>AWS RDS Multi-zone: <code>$0.36</code> for 2 vCPU with 1GB RAM burstable <code>db.t3.micro</code> instances: <code>$25.92</code> / month</li>
+</ul>
+<p>It&rsquo;s definitely not easy to run a HA database system with reasonable performance for less than <code>$25</code> / month, even if we consider the likes of Hetzner.</p>
+<p>Neither of these could be recommended for a production public facing system. The prices above are compute only. There is no:</p>
+<ul>
+<li>data transfer cost,</li>
+<li>maintenance cost,</li>
+<li>backup / restore,</li>
+<li>storage and snapshots.</li>
+</ul>
+<p>My point is, neither of these prices reflects reality and the actual cost will be definitely higher.</p>
+<p>Let&rsquo;s compare this with some back-of-the-envelope calculations for object storage operations.</p>
+<p>AWS S3 storage cost, for a few thousand tokens, is going to be negligible. We are taking about data in megabytes, not gigabytes. Azure, GCS would be the same. Object storage operations are by far the most expensive. S3 charges <code>$0.005</code> / 1000 <em>PUT</em> requests and <code>$0.004</code> / 1000 <em>GET</em> and other (including <em>HEAD</em>) requests.</p>
+<p>GCS divides the operation in 2 classes. <em>storage.object.put</em> belongs to class A, these are <code>$0.05</code> / 10000 operations, <em>storage.object.get</em> is a class B operation and these are priced at <code>$0.004</code> per 10000 operations, effectively 10 times cheaper than S3.</p>
+<p>In terms of number of operations:</p>
+<ul>
+<li>issuing a token is 1 <em>PUT</em> request,</li>
+<li>token verification is at most 2 <em>HEAD</em> requests</li>
+<li>token refresh is at most 2 <em>HEAD</em> requests and 1 <em>PUT</em> request.</li>
+</ul>
+<p>That&rsquo;s respectively:</p>
+<ul>
+<li>S3 Standard:
+<ul>
+<li><code>$0.000005</code> for issuing a token</li>
+<li><code>$0.000008</code> for a token verification worst case scenario and <code>$0.000004</code> for best case</li>
+<li><code>$0.000008+$0.000005</code> per token refresh worst case scenario and <code>$0.000004+$0.000005</code> for best case</li>
+</ul>
+</li>
+<li>GCS:
+<ul>
+<li><code>$0.000005</code> for issuing a token (price the same as S3)</li>
+<li><code>$0.0000008</code> for a token verification worst case scenario and <code>$0.0000004</code> for best case (10 times cheaper than S3)</li>
+<li><code>$0.0000008+$0.000005</code> per token refresh worst case scenario and <code>$0.0000004+$0.000005</code> for best case (<em>PUT</em> has the same price as S3 but <em>GET</em> is 10 times cheaper)</li>
+</ul>
+</li>
+</ul>
+<p>If there is no need to support invalidation and expiry can be checked at the edge, there is no need to touch storage at all. If invalidation check is opportunistic, not every token will be checked for invalidation. However, for the most pessimistic usage, this client could run their token storage for:</p>
+<ul>
+<li>S3 Standard: <code>$0.000005</code> * 4000 tokens + <code>$0.000008</code> * 600K verifications = <code>$4.82</code> / month</li>
+<li>GCS: <code>$0.000005</code> * 4000 tokens + <code>$0.0000008</code> * 600K verifications = <code>$0.50</code> / month</li>
+</ul>
+<h3 id="what-about-compute"><a href="#what-about-compute" class="anchor-link">§</a>what about compute</h3>
+<p>Aha, I&rsquo;m glad this question came up. Turns out that running Ory Hydra on AWS Lambda using a Docker container results in an end to end request latency of ~100ms / request and it fits easily within the minimum 128MB execution runtime. That&rsquo;s a mere <code>$0.000000021</code> per request. The ~600K requests a month would cost that client a whopping <code>$0.0126</code>.</p>
+<p>Cold start takes around 1.5 second but with 600K verifications, there is a request roughly every ~4 seconds so the cold start would not be frequent. They can be be minimized by trimming Hydra down, if there was no need to initialize ORM for example.</p>
+<p>It&rsquo;s fair to say that maybe $30 or $70 / month is not a lot of money. But consider that there are places where that might not be the case. Or maybe it&rsquo;s a side project in an evaluation phase and that $70 becomes $840 / year. Finally, simply compare the number of requests per month and imagine that your $70 / month is used for a mostly idle resource. Why paying for a mostly idle resource at all?</p>
+<p>There&rsquo;s definitely a clear cut off point where a database becomes a reasonable choice worth paying for.</p>
+<p><strong>Mmm, how far away is it, though</strong>.</p>
+<h2 id="no-infrastructure"><a href="#no-infrastructure" class="anchor-link">§</a>no infrastructure</h2>
+<p>The side effect here is: <strong>it is possible to run all this authentication and authorization stuff without any permanent compute resources</strong>. The same principle applies to Keto and Oathkepeer. All the decision related data can be easily put in a container, if it needs to be.</p>
+<p>There is no need for a database in any of these systems. Kratos is the only difficult case.</p>
 
             </div>
 
@@ -376,7 +397,7 @@
                 
                 
                 
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/</a></li>
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</a></li>
             
             <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
             
@@ -404,7 +425,7 @@
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/&amp;text=ORY%20reference%20Docker%20Compose%20and%20thoughts%20on%20the%20platform&amp;hashtags=sso,iam,ory,hydra,keto,kratos,oathkeeper,keycloak,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/&amp;text=Do%20you%20really%20need%20a%20database%20for%20that%20Ory%20stack?&amp;hashtags=ory,hydra,kratos,keto,oathkeeper,serverless,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -413,7 +434,7 @@
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/&amp;title=ORY%20reference%20Docker%20Compose%20and%20thoughts%20on%20the%20platform&amp;summary=Thought%20on%20the%20ORY%20platform%20and%20a%20reference%20Docker%20compose%20&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/&amp;title=Do%20you%20really%20need%20a%20database%20for%20that%20Ory%20stack?&amp;summary=S3,%20Azure%20Blob,%20Google%20Storage%20and%20Minio,%20they%27re%20all%20a%20K/V%20storage%20at%20the%20core&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
@@ -437,7 +458,7 @@
     var typeNumber = 0;
     var errorCorrectionLevel = 'L';
     var qr = qrcode(typeNumber, errorCorrectionLevel);
-    qr.addData('https:\/\/gruchalski.com\/posts\/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform\/');
+    qr.addData('https:\/\/gruchalski.com\/posts\/2021-05-23-do-you-really-need-a-database-for-that-ory-stack\/');
     qr.make();
     document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
 </script>
@@ -460,7 +481,11 @@
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/" class="related-link">Do you really need a database for that Ory stack?</a>
+                        <a href="/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/" class="related-link">ORY reference Docker Compose and thoughts on the platform</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-05-20-figuring-out-oathkeeper/" class="related-link">Figuring out Ory Oathkeeper</a>
                     </li>
                 
                     <li class="related-item">
@@ -472,11 +497,7 @@
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2020-09-05-introduction-to-keycloak-authorization-services/" class="related-link">Introduction to Keycloak Authorization Services</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/2020-09-03-keycloak-with-docker-compose/" class="related-link">Keycloak With Docker Compose</a>
+                        <a href="/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/" class="related-link">Looking at Zanzibar through ORY Keto</a>
                     </li>
                 
             </ul>
@@ -488,22 +509,6 @@
         
     
         <div class="post-tags">
-            
-                
-                
-                
-                
-                    
-                    <a href="/tags/sso/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>sso</a>
-                
-            
-                
-                
-                
-                
-                    
-                    <a href="/tags/iam/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>iam</a>
-                
             
                 
                 
@@ -526,7 +531,7 @@
                 
                 
                     
-                    <a href="/tags/keto/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keto</a>
+                    <a href="/tags/kratos/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>kratos</a>
                 
             
                 
@@ -534,7 +539,7 @@
                 
                 
                     
-                    <a href="/tags/kratos/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>kratos</a>
+                    <a href="/tags/keto/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keto</a>
                 
             
                 
@@ -550,7 +555,7 @@
                 
                 
                     
-                    <a href="/tags/keycloak/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keycloak</a>
+                    <a href="/tags/serverless/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>serverless</a>
                 
             
         </div>
@@ -574,13 +579,9 @@
     
         <ul class="post-nav">
             
-                <li class="post-nav-prev">
-                    <a href="/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/" rel="prev">&lt; Looking at Zanzibar through ORY Keto</a>
-                </li>
-            
             
                 <li class="post-nav-next">
-                    <a href="/posts/2021-04-06-apache-mesos-reaches-end-of-life/" rel="next">Apache Mesos reaches end of life &gt;</a>
+                    <a href="/posts/2021-05-20-figuring-out-oathkeeper/" rel="next">Figuring out Ory Oathkeeper &gt;</a>
                 </li>
             
         </ul>

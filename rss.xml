@@ -23,10 +23,170 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Thu, 20 May 2021 02:20:20 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 23 May 2021 20:24:34 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>Do you really need a database for that Ory stack?</title>
+                <link>https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</guid>
+                <pubDate>Sun, 23 May 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;S3, Azure Blob, Google Storage and Minio, they&amp;rsquo;re all a K/V storage at the core. Yes, of course, they provide much, much more functionality beyond that but—at the core—object storage systems, S3, GCS, Minio and the likes, are K/V stores.&lt;/p&gt;
+&lt;p&gt;Each one provides a HTTP interface. Putting the data in object storage is done via HTTP &lt;em&gt;PUT&lt;/em&gt; or &lt;em&gt;POST&lt;/em&gt; requests, fetching is available via &lt;em&gt;GET&lt;/em&gt;. To check if an object under the key exists, that&amp;rsquo;s a &lt;em&gt;HEAD&lt;/em&gt; request. Deleting is a single HTTP &lt;em&gt;DELETE&lt;/em&gt; away.&lt;/p&gt;
+&lt;p&gt;It is somewhat interesting that we usually don&amp;rsquo;t think about S3 or GCS as key/value systems. They&amp;rsquo;re hidden behind a HTTP layer and our perception tells us they&amp;rsquo;re some sort of directories and files. They&amp;rsquo;re certainly not file systems.&lt;/p&gt;
+&lt;p&gt;If we start treating object storage as K/V, we can quickly find resemblance to other K/V systems. For example Redis or Cassandra. Or a PostgreSQL table with a primary key.&lt;/p&gt;
+&lt;p&gt;Like S3 or Azure Blob, these dedicated systems provide functionality beyond just K/V. If the item to be fetched is identifiable by a well known ID and that fetch is one hop away, there&amp;rsquo;s no need to filter or join over anything else, that&amp;rsquo;s definitely K/V like!&lt;/p&gt;
+&lt;h2 id=&#34;ory-hydra-as-an-example&#34;&gt;Ory Hydra as an example&lt;/h2&gt;
+&lt;p&gt;The lifecycle of an OAuth token is not very complex. Once a token is generated, it lives for some period of time. Maybe 10 minutes, maybe a month. They&amp;rsquo;re handed over to an external application which holds on to them until a new token is needed. A token serves a couple of major purposes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;it assures the holder that the data in the token comes from the issuer; this fact can be proven by validating the token&amp;rsquo;s signature,&lt;/li&gt;
+&lt;li&gt;it can be sent to another application which can also—in turn—itself validate that the middleman has not tampered with the original data.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;There are two major types of tokens:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JWT tokens: contains readable content, anybody can decode them, the information is readable,&lt;/li&gt;
+&lt;li&gt;opaque tokens: these are not meant to be read, only the issuer understands what&amp;rsquo;s inside.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Either type is issued in response to some event requiring assurance of a successful action on the issuer side. Most often, that&amp;rsquo;s an authentication or authorization. &lt;strong&gt;Tokens are idempotent&lt;/strong&gt;. Once issued, they do not change.&lt;/p&gt;
+&lt;p&gt;Most often, the following actions are performed on the tokens:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;signature validation: token does not need to be sent to the issuer, the signature can be validated on the consumer side by loading public keys from issuer&amp;rsquo;s JWKS&lt;/li&gt;
+&lt;li&gt;verification: is the token active?
+&lt;ul&gt;
+&lt;li&gt;usually validated by checking the expiry timestamp and verifying that the server has not &lt;em&gt;invalidated&lt;/em&gt; the token yet&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;invalidation: the token should not be recognized anymore&lt;/li&gt;
+&lt;li&gt;refreshing a token: in return for a valid refresh token, a new access token is issued&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Even if the token is forwarded to a third party and used for some fancy application specific logic, the &lt;nobr&gt;third-party&lt;/nobr&gt; will essentially do one of the four of actions listed above.&lt;/p&gt;
+&lt;h2 id=&#34;the-big-question&#34;&gt;the big question&lt;/h2&gt;
+&lt;p&gt;So the big question this write up asks: &lt;strong&gt;is the database system even needed to store them&lt;/strong&gt;?&lt;/p&gt;
+&lt;p&gt;The signature validation does not require a look up. Even the issuer does not need to look anything up. Verification, in case of a database system, usually implies checking if the row for the token exists. Eventually, if there is an invalidation row in another table. Invalidation usually means removing the token from the table or creating the invalidation row in another table.&lt;/p&gt;
+&lt;p&gt;These operations are the same for a refresh token but a new token is generated, if refresh token is still valid.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;This looks awfully close to K/V&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;So what&amp;rsquo;s the point of having a database for that at all? Why not using globally distributed object storage instead?&lt;/p&gt;
+&lt;h2 id=&#34;mental-exercise&#34;&gt;mental exercise&lt;/h2&gt;
+&lt;p&gt;Testing for expired token can be done in two complementary ways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;issue a &lt;em&gt;HEAD&lt;/em&gt; request against the key with the token object, &lt;em&gt;404 Not Found&lt;/em&gt; means the token is not valid,&lt;/li&gt;
+&lt;li&gt;eventually, a &lt;em&gt;HEAD&lt;/em&gt; request can be issued to test if there is an invalidation object for the respective token.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Maybe these operations can be reversed depending on how probable the invalidation of a token is. Additionally, all of the object storage systems provide object expiration so the cleanup of old tokens comes for free, as in.&lt;/p&gt;
+&lt;p&gt;Invalidation is an operation fulfilling the criteria for the conditions above.&lt;/p&gt;
+&lt;h3 id=&#34;some-numbers&#34;&gt;some numbers&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s go through some numbers based on a semi-real example. A client with roughly 1000 accounts, each account logging in once a week or so. That&amp;rsquo;s about 4000 tokens a month with further, say, &lt;em&gt;600K&lt;/em&gt; token verifications a month. If we wanted to run a cheapest version of HA database in the public cloud, options are (among other, of course):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cloud SQL: &lt;code&gt;$0.0966&lt;/code&gt; per vCPU / GB RAM, that&amp;rsquo;s &lt;code&gt;$69.552&lt;/code&gt; / month based on 30 days&lt;/li&gt;
+&lt;li&gt;AWS RDS Multi-zone: &lt;code&gt;$0.36&lt;/code&gt; for 2 vCPU with 1GB RAM burstable &lt;code&gt;db.t3.micro&lt;/code&gt; instances: &lt;code&gt;$25.92&lt;/code&gt; / month&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It&amp;rsquo;s definitely not easy to run a HA database system with reasonable performance for less than &lt;code&gt;$25&lt;/code&gt; / month, even if we consider the likes of Hetzner.&lt;/p&gt;
+&lt;p&gt;Neither of these could be recommended for a production public facing system. The prices above are compute only. There is no:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;data transfer cost,&lt;/li&gt;
+&lt;li&gt;maintenance cost,&lt;/li&gt;
+&lt;li&gt;backup / restore,&lt;/li&gt;
+&lt;li&gt;storage and snapshots.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;My point is, neither of these prices reflects reality and the actual cost will be definitely higher.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s compare this with some back-of-the-envelope calculations for object storage operations.&lt;/p&gt;
+&lt;p&gt;AWS S3 storage cost, for a few thousand tokens, is going to be negligible. We are taking about data in megabytes, not gigabytes. Azure, GCS would be the same. Object storage operations are by far the most expensive. S3 charges &lt;code&gt;$0.005&lt;/code&gt; / 1000 &lt;em&gt;PUT&lt;/em&gt; requests and &lt;code&gt;$0.004&lt;/code&gt; / 1000 &lt;em&gt;GET&lt;/em&gt; and other (including &lt;em&gt;HEAD&lt;/em&gt;) requests.&lt;/p&gt;
+&lt;p&gt;GCS divides the operation in 2 classes. &lt;em&gt;storage.object.put&lt;/em&gt; belongs to class A, these are &lt;code&gt;$0.05&lt;/code&gt; / 10000 operations, &lt;em&gt;storage.object.get&lt;/em&gt; is a class B operation and these are priced at &lt;code&gt;$0.004&lt;/code&gt; per 10000 operations, effectively 10 times cheaper than S3.&lt;/p&gt;
+&lt;p&gt;In terms of number of operations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;issuing a token is 1 &lt;em&gt;PUT&lt;/em&gt; request,&lt;/li&gt;
+&lt;li&gt;token verification is at most 2 &lt;em&gt;HEAD&lt;/em&gt; requests&lt;/li&gt;
+&lt;li&gt;token refresh is at most 2 &lt;em&gt;HEAD&lt;/em&gt; requests and 1 &lt;em&gt;PUT&lt;/em&gt; request.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That&amp;rsquo;s respectively:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;S3 Standard:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$0.000005&lt;/code&gt; for issuing a token&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$0.000008&lt;/code&gt; for a token verification worst case scenario and &lt;code&gt;$0.000004&lt;/code&gt; for best case&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$0.000008+$0.000005&lt;/code&gt; per token refresh worst case scenario and &lt;code&gt;$0.000004+$0.000005&lt;/code&gt; for best case&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;GCS:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$0.000005&lt;/code&gt; for issuing a token (price the same as S3)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$0.0000008&lt;/code&gt; for a token verification worst case scenario and &lt;code&gt;$0.0000004&lt;/code&gt; for best case (10 times cheaper than S3)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$0.0000008+$0.000005&lt;/code&gt; per token refresh worst case scenario and &lt;code&gt;$0.0000004+$0.000005&lt;/code&gt; for best case (&lt;em&gt;PUT&lt;/em&gt; has the same price as S3 but &lt;em&gt;GET&lt;/em&gt; is 10 times cheaper)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If there is no need to support invalidation and expiry can be checked at the edge, there is no need to touch storage at all. If invalidation check is opportunistic, not every token will be checked for invalidation. However, for the most pessimistic usage, this client could run their token storage for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;S3 Standard: &lt;code&gt;$0.000005&lt;/code&gt; * 4000 tokens + &lt;code&gt;$0.000008&lt;/code&gt; * 600K verifications = &lt;code&gt;$4.82&lt;/code&gt; / month&lt;/li&gt;
+&lt;li&gt;GCS: &lt;code&gt;$0.000005&lt;/code&gt; * 4000 tokens + &lt;code&gt;$0.0000008&lt;/code&gt; * 600K verifications = &lt;code&gt;$0.50&lt;/code&gt; / month&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;what-about-compute&#34;&gt;what about compute&lt;/h3&gt;
+&lt;p&gt;Aha, I&amp;rsquo;m glad this question came up. Turns out that running Ory Hydra on AWS Lambda using a Docker container results in an end to end request latency of ~100ms / request and it fits easily within the minimum 128MB execution runtime. That&amp;rsquo;s a mere &lt;code&gt;$0.000000021&lt;/code&gt; per request. The ~600K requests a month would cost that client a whopping &lt;code&gt;$0.0126&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Cold start takes around 1.5 second but with 600K verifications, there is a request roughly every ~4 seconds so the cold start would not be frequent. They can be be minimized by trimming Hydra down, if there was no need to initialize ORM for example.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s fair to say that maybe $30 or $70 / month is not a lot of money. But consider that there are places where that might not be the case. Or maybe it&amp;rsquo;s a side project in an evaluation phase and that $70 becomes $840 / year. Finally, simply compare the number of requests per month and imagine that your $70 / month is used for a mostly idle resource. Why paying for a mostly idle resource at all?&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s definitely a clear cut off point where a database becomes a reasonable choice worth paying for.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Mmm, how far away is it, though&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;no-infrastructure&#34;&gt;no infrastructure&lt;/h2&gt;
+&lt;p&gt;The side effect here is: &lt;strong&gt;it is possible to run all this authentication and authorization stuff without any permanent compute resources&lt;/strong&gt;. The same principle applies to Keto and Oathkepeer. All the decision related data can be easily put in a container, if it needs to be.&lt;/p&gt;
+&lt;p&gt;There is no need for a database in any of these systems. Kratos is the only difficult case.&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/ory/">ory</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/hydra/">hydra</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/kratos/">kratos</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/keto/">keto</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/oathkeeper/">oathkeeper</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/serverless/">serverless</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Figuring out Ory Oathkeeper</title>
