@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-05-30T00:00:00+00:00",
-        "dateModified": "2021-05-30T16:38:31+02:00",
+        "dateModified": "2021-05-30T16:43:07+02:00",
         "url": "https://gruchalski.com/posts/2021-05-30-on-yugabytedb/",
         "headline": "On YugabyteDB",
         "description": "It's like PostgreSQL with the storage part ripped out and RAFT plugged in",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1641 ,
+        "wordCount":  1642 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-05-30/yugabytedb-logo.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-05-30T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-05-30T16:38:31&#43;02:00" />
+    <meta property="article:modified_time" content="2021-05-30T16:43:07&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -253,7 +253,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1641</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1642</span>
     
     
         
@@ -271,7 +271,7 @@
 
             <div class="post-body e-content">
               <p>Oh boy, 20 years of software engineering definitely makes you tune your BS radar when reading claims about how awesome and mature a relatively new technology is. Every new project claims to solve all the problems for the current itch on hand. Do you know that feeling? You spend a week reading the documentation, prepare the test deployment, find out that documentation doesn&rsquo;t match reality, look at GitHub and find dozens open issues. Finally, you throw it out in anger and curse at yourself because you just wasted a week of time.</p>
-<p>Recently, I&rsquo;ve been on a hunt for a PostgreSQL (optionally distributed) database for one of the work tasks. It&rsquo;s an awesome task because it forced me to look deep into the current database ecosystem. Other than occasional Postgres Docker image pull, I haven&rsquo;t touched a traditional SQL database since 2012. This exercise is a good opportunity to figure out what&rsquo;s new in the relational databases world since my last experiences with Microsoft SQL Server 2008, which I enjoyed very much!</p>
+<p>Recently, I&rsquo;ve been on a hunt for a PostgreSQL (optionally distributed) compatible database for one of the work tasks. It&rsquo;s an awesome task because it forced me to look deep into the current database ecosystem. Other than occasional Postgres Docker image pull, I haven&rsquo;t touched a traditional SQL database since 2012. This exercise is a good opportunity to figure out what&rsquo;s new in the relational databases world since my last experiences with Microsoft SQL Server 2008, which I enjoyed very much!</p>
 <p>Looking at <em>just</em> PostgreSQL was much fun. PostgreSQL is simply amazing. Fast, just works, JSON operations included and the grant system is outstanding. Permissions can be managed on a database, tablespace, schema, column and row level. With tablespaces, I can tell Postgres where the particular bit of data resides on disk. It&rsquo;s a solid, ubiquitous database available in every cloud and very easy to deploy on premise. The tooling is mature, the operations are pretty well understood. Some claim that setting up replication and automatic failover can be a <em>pita</em>. I don&rsquo;t know, I haven&rsquo;t had a chance to go that far yet. However, when I was contracting for <em>Saywell International</em> back in 2010, we were running running an <em>active-active</em> MSSQL setup with log shipping over Dropbox. Crazy idea but it worked and was a lot of fun, ha! 2021 Postgres cannot be more difficult than that.</p>
 <p>PostgreSQL is an <a href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener"><em>ACID</em></a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> (atomic, consistent, isolated, durable) <em>RDBMS</em> (relational database management system). There&rsquo;s a catch with RDBMS. Data must fit on a single server. If the data outgrows a server, it can be <em>manually shareded</em> (partitioned) or moved to a bigger server. Well, we can can get pretty big servers today, for sure. 256BG RAM? 44 cores? 12TB disks? Sure. But when that bad boy has a hiccup, things go bad fast. The cost of these servers, even in the cloud, is mind-boggling. Triple that when you&rsquo;re in need of replicas.</p>
 <p>A database article without mentioning the <a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener"><em>CAP</em> theorem</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> is not a database article. The CAP theorem describes the three major properties of a database system: consistency, availability and partition tolerance. The CAP theorem also says that it is not possible to have all three properties fulfilled by one system, choose any of the two properties but all three is not possible. An RDMBS satisfies the <em>C</em> and <em>A</em> properties: data is consistent and available but not partition tolerant.</p>
