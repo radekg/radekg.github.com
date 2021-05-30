@@ -23,10 +23,98 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sun, 23 May 2021 20:24:34 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 30 May 2021 16:32:04 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>On YugabyteDB</title>
+                <link>https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</guid>
+                <pubDate>Sun, 30 May 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;Oh boy, 20 years of software engineering definitely makes you tune your BS radar when reading claims about how awesome and mature a relatively new technology is. Every new project claims to solve all the problems for the current itch on hand. Do you know that feeling? You spend a week reading the documentation, prepare the test deployment, find out that documentation doesn&amp;rsquo;t match reality, look at GitHub and find dozens open issues. Finally, you throw it out in anger and curse at yourself because you just wasted a week of time.&lt;/p&gt;
+&lt;p&gt;Recently, I&amp;rsquo;ve been on a hunt for a PostgreSQL (optionally distributed) database for one of the work tasks. It&amp;rsquo;s an awesome task because it forced me to look deep into the current database ecosystem. Other than occasional Postgres Docker image pull, I haven&amp;rsquo;t touched a traditional SQL database since 2012. This project is a good opportunity to figure out what&amp;rsquo;s new in the relational databases world happened since my last experiences with Microsoft SQL Server 2008, which I enjoyed very much!&lt;/p&gt;
+&lt;p&gt;Looking at &lt;em&gt;just&lt;/em&gt; PostgreSQL was much fun. PostgreSQL is simply amazing. Fast, just works, JSON operations included and the grant system is outstanding. Permissions can be managed on a database, tablespace, schema, column and row level. With tablespaces, I can tell Postgres where the particular bit of data resides on disk. It&amp;rsquo;s a solid, ubiquitous database available in every cloud and very easy to deploy on premise. The tooling is mature, the operations are pretty well understood. Some claim that setting up replication and automatic failover can be a &lt;em&gt;pita&lt;/em&gt;. I don&amp;rsquo;t know, I haven&amp;rsquo;t had a chance to go that far yet. However, when I was contracting for &lt;em&gt;Saywell International&lt;/em&gt; back in 2010, we were running running an &lt;em&gt;active-active&lt;/em&gt; MSSQL setup with log shipping over Dropbox. Crazy idea but it worked and was a lot of fun, ha! 2021 Postgres cannot be more difficult than that.&lt;/p&gt;
+&lt;p&gt;PostgreSQL is an &lt;a href=&#34;https://en.wikipedia.org/wiki/ACID&#34;&gt;&lt;em&gt;ACID&lt;/em&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; (atomic, consistent, isolated, durable) &lt;em&gt;RDBMS&lt;/em&gt; (relational database management system). There&amp;rsquo;s a catch with RDBMS. Data must fit on a single server. If the data outgrows a server, it can be &lt;em&gt;manually shareded&lt;/em&gt; (partitioned) or moved to a bigger server. Well, we can can get pretty big servers today, for sure. 256BG RAM? 44 cores? 12TB disks? Sure. But when that bad boy has a hiccup, things go bad fast. The cost of these servers, even in the cloud, is mind-boggling. Triple that when you&amp;rsquo;re in need of replicas.&lt;/p&gt;
+&lt;p&gt;A database article without mentioning the &lt;a href=&#34;https://en.wikipedia.org/wiki/CAP_theorem&#34;&gt;&lt;em&gt;CAP&lt;/em&gt; theorem&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; is not a database article. The CAP theorem describes the three major properties of a database system: consistency, availability and partition tolerance. The CAP theorem also says that it is not possible to have all three properties fulfilled by one system, choose any of the two properties but all three is not possible. An RDMBS satisfies the &lt;em&gt;C&lt;/em&gt; and &lt;em&gt;A&lt;/em&gt; properties: data is consistent and available but not partition tolerant.&lt;/p&gt;
+&lt;p&gt;The last few years, and especially the last couple of years, has seen some really interesting new developments in the database space. New SQL databases are popping up left and right and many of them attempt to crack the hard problem of distributed querying, distributed transactions and data replication. This is an interesting development, most likely, rooted in &lt;em&gt;NoSQL&lt;/em&gt; (not only SQL). Databases like Cassandra or Riak brought the concept of Amazon&amp;rsquo;s Dynamo to the masses. These new databases took advantage of and introduced many new concepts. &lt;a href=&#34;https://en.wikipedia.org/wiki/Consistent_hashing&#34;&gt;Consistent hashing&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Distributed_hash_table&#34;&gt;distributed hash tables&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; (&lt;em&gt;DHT&lt;/em&gt;) for data storage being probably most crucial ones.&lt;/p&gt;
+&lt;p&gt;DHTs made the automatic partitioning possible. Consistent hashing makes it possible to identify the location of the partition the data belongs to within the cluster with &lt;em&gt;O(1)&lt;/em&gt; complexity. These new databases replicate the data within the cluster. Data is available, a loss of a node does not imply service interruption. These databases fulfill the &lt;em&gt;A&lt;/em&gt; and &lt;em&gt;P&lt;/em&gt; properties of CAP.&lt;/p&gt;
+&lt;p&gt;On a hand-wavy, high conceptual level, the storage mechanism wasn&amp;rsquo;t different than RDBMS sharding with manual replication configuration. However, with regular RDBMS, it isn&amp;rsquo;t possible to treat a sharded table as one. Querying across shards is not straightforward, transactions across shards are not possible.&lt;/p&gt;
+&lt;p&gt;Solving one problem often implies introducing another. These new databases are in fact key/value stores with an SQL layer on top. There are no transactions, there are no joins, distributed consistent counters are difficult. Due to the nature of replication, the replicas are &lt;a href=&#34;https://en.wikipedia.org/wiki/Eventual_consistency&#34;&gt;&lt;em&gt;eventually consistent&lt;/em&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;; it takes time for the replica to catch up with the main partition (hence no &lt;em&gt;C&lt;/em&gt; property). Using databases like Cassandra or Riak implied plenty of write overhead. For performance reasons, it&amp;rsquo;s often better to store the data in the format intended for reading. It&amp;rsquo;s a common pattern to write the data multiple multiple times to different tables, depending on the context it would be used when querying. Capacity planning is difficult, what sits where in the database is difficult to track by just looking at the schema. There are no foreign keys, constraints are not not always possible. Plenty of the database logic is shifted to the application layer.&lt;/p&gt;
+&lt;p&gt;As the world was figuring out NoSQL, on the other side of the spectrum, the smart folks at Google and Amazon had a crack at the &lt;em&gt;number one RDBMS problem&lt;/em&gt;. How to make a global, scalable, distributed, highly available ACID database a reality. The result of that work is—respectively—Google Spanner and Amazon Aurora. Both are available, consistent, isolated and durable global scale, distributed SQL databases featuring distributed transactions, joins and majority of the niceties of an RDBMS. Both can be used with existing RDBMS tools and often are a drop-in replacement. Things don&amp;rsquo;t always work like in the real implementation because of the design trade-offs of the distributed implementation, but things are often close enough. The problem with those? They&amp;rsquo;re proprietary and prohibitively expensive when using from the outside of the respective cloud provider.&lt;/p&gt;
+&lt;p&gt;As it usually happens with those clever whitepapers from the big players, other smart people pick them up and go on to build interesting products. It&amp;rsquo;s no different with Spanner / Aurora thing. The two most interesting products currently available are CockroachDB and YugabyteDB. They are roughly similar in what problems they tackle. Both are &lt;em&gt;CP&lt;/em&gt; databases but both achieve high availability. Both are ACID and both are PostgreSQL compatible. Both have a roughly similar architecture. CockroachDB is written in &lt;em&gt;go&lt;/em&gt; and reimplements the Postgres protocol from scratch, YugabyteDB is C++ and lifts the complete original C++ PostgreSQL engine.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;It&amp;rsquo;s like PostgreSQL with storage ripped out and new RAFT based storage layer added&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;I have briefly looked at CockroachDB but rejected it almost immediately due to the licensing constraints. It&amp;rsquo;s not really clear what becomes Apache 2 licensed when and it explicitly disallows &lt;em&gt;as-a-service&lt;/em&gt; use.&lt;/p&gt;
+&lt;p&gt;YugabyteDB is Apache 2 licensed with no strings attached. The database core has no use restrictions. The cloud control plane is not Apache 2 licensed but YugabyteDB can be deployed without it.&lt;/p&gt;
+&lt;h2 id=&#34;yugabytedb&#34;&gt;YugabyteDB&lt;/h2&gt;
+&lt;p&gt;Here&amp;rsquo;s the description:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;YugabyteDB is a free and open-source, distributed, relational, NewSQL database management system designed to handle large amounts of data spanning across multiple availability zones and geographic regions while providing single-digit latency, high availability, and no single point of failure.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Basically, the magic pixie dust. I was very reluctant giving it a try. My BS radar was fully tuned.&lt;/p&gt;
+&lt;p&gt;But&amp;hellip; wow&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;This was different than anxiously anticipated! It does deliver everything what it claims it does&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Databases, schemas, tables, views, triggers, foreign data wrapper, and tablespaces, it&amp;rsquo;s all in there. Permission management comes from PostgreSQL and works exactly as expected. Roles can be restricted to databases, schemas, tablesspaces. Access to tables, views, functions, triggers, even individual columns and rows, can be controlled exactly like in Postgres—it&amp;rsquo;s all in there and working.&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s more. YugabyteDB is a distributed system for a reason. The underlying DocDB layer automatically replicates and shards the data for high availability while leaving full control over those aspects to the operator. This is great because the replication is the first backup layer, a loss of a node does not mean data loss. Of course, take your backups&amp;hellip;&lt;/p&gt;
+&lt;p&gt;YugabyteDB uses RAFT replication per table. Different tables can have different replication factor. Different tables can be tied to different regions. Wow, even specific rows of specific tables can be placed in exact geographical locations, for example for legal compliance. There are distributed queries, joins, triggers, transactions, everything.&lt;/p&gt;
+&lt;p&gt;My first Postgres compatibility tests used a single YB master and YB TServer setup. The next day, I had a 30 node cluster with latency on par with PostgreSQL.&lt;/p&gt;
+&lt;p&gt;Maybe I&amp;rsquo;m still in the honeymoon period with YugabyteDB. Whatever, so far I love the product and the execution. It behaves like PostgreSQL. For the tooling, it&amp;rsquo;s basically PostgreSQL with a lot of muscle behind. Like the new tablespaces implementation taking the Postgres concept one step further to allow geo-aware placement.&lt;/p&gt;
+&lt;p&gt;While the Postgres layer is amazing in itself, YugabyteDB is not only about Postgres. There&amp;rsquo;s also the YCQL layer which is basically Cassandra on steroids and there&amp;rsquo;s the Yedis layer—Redis on steroids. There&amp;rsquo;s change data capture, point in time restore, Kafka ingest integration and many more features adding up to a very solid all round database solution ready for the cloud-native XXI century.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s clear that the team behind the product understands the problem space and is focused on solving their clients problems in open source rather than chasing an ever longer feature list. There does not seem to be a secondary agenda. There are two commercial products next to the open source version: the enterprise fully managed solution and the self-managed licensed solution. The company behind clearly knowns &lt;em&gt;what&lt;/em&gt;, &lt;em&gt;how&lt;/em&gt; and &lt;em&gt;for whom&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;If you enjoy using PostgreSQL, you&amp;rsquo;ll love YugabyteDB.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/ACID&#34;&gt;ACID&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/CAP_theorem&#34;&gt;&lt;em&gt;CAP&lt;/em&gt; theorem&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Consistent_hashing&#34;&gt;Consistent hashing&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Distributed_hash_table&#34;&gt;Distributed hash table&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Eventual_consistency&#34;&gt;Eventual consistency&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/yugabytedb/">yugabytedb</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/postgresql/">postgresql</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Do you really need a database for that Ory stack?</title>

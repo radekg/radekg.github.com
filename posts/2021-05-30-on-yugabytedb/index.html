@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>On YugabyteDB | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.c52d01779616c51cf9e5645a858d46e5aeb85f3cf186b96d11f0e45b87171345.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="It&#39;s like PostgreSQL with the storage part ripped out and RAFT plugged in" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2021-05-30-on-yugabytedb/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2021-05-30T00:00:00+00:00",
+        "dateModified": "2021-05-30T16:31:15+02:00",
+        "url": "https://gruchalski.com/posts/2021-05-30-on-yugabytedb/",
+        "headline": "On YugabyteDB",
+        "description": "It's like PostgreSQL with the storage part ripped out and RAFT plugged in",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  1640 ,
+        "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+
+    
+
+
+
+<meta property="og:title" content="On YugabyteDB" />
+<meta property="og:description" content="It&#39;s like PostgreSQL with the storage part ripped out and RAFT plugged in" />
+<meta property="og:url" content="https://gruchalski.com/posts/2021-05-30-on-yugabytedb/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-05-30/yugabytedb-logo.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2021-05-30T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2021-05-30T16:31:15&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+        <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+        
+
+
+
+
+    
+    <script>
+        var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+        var doNotTrack = (dnt == "1" || dnt == "yes");
+        if (!doNotTrack) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            if (window.sessionStorage) {
+                var GA_SESSION_STORAGE_KEY = 'ga:clientId';
+                ga('create', 'UA-39073034-1', {
+                'storage': 'none',
+                'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
+               });
+               ga(function(tracker) {
+                sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
+               });
+           }
+            ga('set', 'anonymizeIp', true);
+            ga('send', 'pageview');
+        }
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">On YugabyteDB</h1>
+
+            
+
+            
+                <div class="post-description p-summary">It&rsquo;s like PostgreSQL with the storage part ripped out and RAFT plugged in</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2021-05-30T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;May 30, 2021</time>
+    
+    
+    
+    
+        
+        
+        
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1640</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;8&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+                <img src="/assets/posts/2021-05-30/yugabytedb-logo.png" alt="thumbnail" class="p-article__thumbnail">
+            
+
+            <div class="post-body e-content">
+              <p>Oh boy, 20 years of software engineering definitely makes you tune your BS radar when reading claims about how awesome and mature a relatively new technology is. Every new project claims to solve all the problems for the current itch on hand. Do you know that feeling? You spend a week reading the documentation, prepare the test deployment, find out that documentation doesn&rsquo;t match reality, look at GitHub and find dozens open issues. Finally, you throw it out in anger and curse at yourself because you just wasted a week of time.</p>
+<p>Recently, I&rsquo;ve been on a hunt for a PostgreSQL (optionally distributed) database for one of the work tasks. It&rsquo;s an awesome task because it forced me to look deep into the current database ecosystem. Other than occasional Postgres Docker image pull, I haven&rsquo;t touched a traditional SQL database since 2012. This project is a good opportunity to figure out what&rsquo;s new in the relational databases world happened since my last experiences with Microsoft SQL Server 2008, which I enjoyed very much!</p>
+<p>Looking at <em>just</em> PostgreSQL was much fun. PostgreSQL is simply amazing. Fast, just works, JSON operations included and the grant system is outstanding. Permissions can be managed on a database, tablespace, schema, column and row level. With tablespaces, I can tell Postgres where the particular bit of data resides on disk. It&rsquo;s a solid, ubiquitous database available in every cloud and very easy to deploy on premise. The tooling is mature, the operations are pretty well understood. Some claim that setting up replication and automatic failover can be a <em>pita</em>. I don&rsquo;t know, I haven&rsquo;t had a chance to go that far yet. However, when I was contracting for <em>Saywell International</em> back in 2010, we were running running an <em>active-active</em> MSSQL setup with log shipping over Dropbox. Crazy idea but it worked and was a lot of fun, ha! 2021 Postgres cannot be more difficult than that.</p>
+<p>PostgreSQL is an <a href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener"><em>ACID</em></a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> (atomic, consistent, isolated, durable) <em>RDBMS</em> (relational database management system). There&rsquo;s a catch with RDBMS. Data must fit on a single server. If the data outgrows a server, it can be <em>manually shareded</em> (partitioned) or moved to a bigger server. Well, we can can get pretty big servers today, for sure. 256BG RAM? 44 cores? 12TB disks? Sure. But when that bad boy has a hiccup, things go bad fast. The cost of these servers, even in the cloud, is mind-boggling. Triple that when you&rsquo;re in need of replicas.</p>
+<p>A database article without mentioning the <a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener"><em>CAP</em> theorem</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> is not a database article. The CAP theorem describes the three major properties of a database system: consistency, availability and partition tolerance. The CAP theorem also says that it is not possible to have all three properties fulfilled by one system, choose any of the two properties but all three is not possible. An RDMBS satisfies the <em>C</em> and <em>A</em> properties: data is consistent and available but not partition tolerant.</p>
+<p>The last few years, and especially the last couple of years, has seen some really interesting new developments in the database space. New SQL databases are popping up left and right and many of them attempt to crack the hard problem of distributed querying, distributed transactions and data replication. This is an interesting development, most likely, rooted in <em>NoSQL</em> (not only SQL). Databases like Cassandra or Riak brought the concept of Amazon&rsquo;s Dynamo to the masses. These new databases took advantage of and introduced many new concepts. <a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">Consistent hashing</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> and <a href="https://en.wikipedia.org/wiki/Distributed_hash_table" target="_blank" rel="noopener">distributed hash tables</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup> (<em>DHT</em>) for data storage being probably most crucial ones.</p>
+<p>DHTs made the automatic partitioning possible. Consistent hashing makes it possible to identify the location of the partition the data belongs to within the cluster with <em>O(1)</em> complexity. These new databases replicate the data within the cluster. Data is available, a loss of a node does not imply service interruption. These databases fulfill the <em>A</em> and <em>P</em> properties of CAP.</p>
+<p>On a hand-wavy, high conceptual level, the storage mechanism wasn&rsquo;t different than RDBMS sharding with manual replication configuration. However, with regular RDBMS, it isn&rsquo;t possible to treat a sharded table as one. Querying across shards is not straightforward, transactions across shards are not possible.</p>
+<p>Solving one problem often implies introducing another. These new databases are in fact key/value stores with an SQL layer on top. There are no transactions, there are no joins, distributed consistent counters are difficult. Due to the nature of replication, the replicas are <a href="https://en.wikipedia.org/wiki/Eventual_consistency" target="_blank" rel="noopener"><em>eventually consistent</em></a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup>; it takes time for the replica to catch up with the main partition (hence no <em>C</em> property). Using databases like Cassandra or Riak implied plenty of write overhead. For performance reasons, it&rsquo;s often better to store the data in the format intended for reading. It&rsquo;s a common pattern to write the data multiple multiple times to different tables, depending on the context it would be used when querying. Capacity planning is difficult, what sits where in the database is difficult to track by just looking at the schema. There are no foreign keys, constraints are not not always possible. Plenty of the database logic is shifted to the application layer.</p>
+<p>As the world was figuring out NoSQL, on the other side of the spectrum, the smart folks at Google and Amazon had a crack at the <em>number one RDBMS problem</em>. How to make a global, scalable, distributed, highly available ACID database a reality. The result of that work is—respectively—Google Spanner and Amazon Aurora. Both are available, consistent, isolated and durable global scale, distributed SQL databases featuring distributed transactions, joins and majority of the niceties of an RDBMS. Both can be used with existing RDBMS tools and often are a drop-in replacement. Things don&rsquo;t always work like in the real implementation because of the design trade-offs of the distributed implementation, but things are often close enough. The problem with those? They&rsquo;re proprietary and prohibitively expensive when using from the outside of the respective cloud provider.</p>
+<p>As it usually happens with those clever whitepapers from the big players, other smart people pick them up and go on to build interesting products. It&rsquo;s no different with Spanner / Aurora thing. The two most interesting products currently available are CockroachDB and YugabyteDB. They are roughly similar in what problems they tackle. Both are <em>CP</em> databases but both achieve high availability. Both are ACID and both are PostgreSQL compatible. Both have a roughly similar architecture. CockroachDB is written in <em>go</em> and reimplements the Postgres protocol from scratch, YugabyteDB is C++ and lifts the complete original C++ PostgreSQL engine.</p>
+<p><strong>It&rsquo;s like PostgreSQL with storage ripped out and new RAFT based storage layer added</strong>.</p>
+<p>I have briefly looked at CockroachDB but rejected it almost immediately due to the licensing constraints. It&rsquo;s not really clear what becomes Apache 2 licensed when and it explicitly disallows <em>as-a-service</em> use.</p>
+<p>YugabyteDB is Apache 2 licensed with no strings attached. The database core has no use restrictions. The cloud control plane is not Apache 2 licensed but YugabyteDB can be deployed without it.</p>
+<h2 id="yugabytedb"><a href="#yugabytedb" class="anchor-link">§</a>YugabyteDB</h2>
+<p>Here&rsquo;s the description:</p>
+<blockquote>
+<p>YugabyteDB is a free and open-source, distributed, relational, NewSQL database management system designed to handle large amounts of data spanning across multiple availability zones and geographic regions while providing single-digit latency, high availability, and no single point of failure.</p>
+</blockquote>
+<p>Basically, the magic pixie dust. I was very reluctant giving it a try. My BS radar was fully tuned.</p>
+<p>But&hellip; wow&hellip;</p>
+<p><strong>This was different than anxiously anticipated! It does deliver everything what it claims it does</strong>.</p>
+<p>Databases, schemas, tables, views, triggers, foreign data wrapper, and tablespaces, it&rsquo;s all in there. Permission management comes from PostgreSQL and works exactly as expected. Roles can be restricted to databases, schemas, tablesspaces. Access to tables, views, functions, triggers, even individual columns and rows, can be controlled exactly like in Postgres—it&rsquo;s all in there and working.</p>
+<p>There&rsquo;s more. YugabyteDB is a distributed system for a reason. The underlying DocDB layer automatically replicates and shards the data for high availability while leaving full control over those aspects to the operator. This is great because the replication is the first backup layer, a loss of a node does not mean data loss. Of course, take your backups&hellip;</p>
+<p>YugabyteDB uses RAFT replication per table. Different tables can have different replication factor. Different tables can be tied to different regions. Wow, even specific rows of specific tables can be placed in exact geographical locations, for example for legal compliance. There are distributed queries, joins, triggers, transactions, everything.</p>
+<p>My first Postgres compatibility tests used a single YB master and YB TServer setup. The next day, I had a 30 node cluster with latency on par with PostgreSQL.</p>
+<p>Maybe I&rsquo;m still in the honeymoon period with YugabyteDB. Whatever, so far I love the product and the execution. It behaves like PostgreSQL. For the tooling, it&rsquo;s basically PostgreSQL with a lot of muscle behind. Like the new tablespaces implementation taking the Postgres concept one step further to allow geo-aware placement.</p>
+<p>While the Postgres layer is amazing in itself, YugabyteDB is not only about Postgres. There&rsquo;s also the YCQL layer which is basically Cassandra on steroids and there&rsquo;s the Yedis layer—Redis on steroids. There&rsquo;s change data capture, point in time restore, Kafka ingest integration and many more features adding up to a very solid all round database solution ready for the cloud-native XXI century.</p>
+<p>It&rsquo;s clear that the team behind the product understands the problem space and is focused on solving their clients problems in open source rather than chasing an ever longer feature list. There does not seem to be a secondary agenda. There are two commercial products next to the open source version: the enterprise fully managed solution and the self-managed licensed solution. The company behind clearly knowns <em>what</em>, <em>how</em> and <em>for whom</em>.</p>
+<p>If you enjoy using PostgreSQL, you&rsquo;ll love YugabyteDB.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener">ACID</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener"><em>CAP</em> theorem</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">Consistent hashing</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://en.wikipedia.org/wiki/Distributed_hash_table" target="_blank" rel="noopener">Distributed hash table</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p><a href="https://en.wikipedia.org/wiki/Eventual_consistency" target="_blank" rel="noopener">Eventual consistency</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
+</section>
+
+            </div>
+
+            <div class="subscribe-container">
+
+    <h2 class="subscribe">Never miss a post</h2>
+    <p class="subscribe">Interested in similar content? Get it right into your mailbox. <strong>Sign up now.</strong></p>
+
+    <div class="inner">
+        <form action="https://gruchalski.us1.list-manage.com/subscribe/post?u=7cc31051b7ae9b4636244cbb2&amp;id=80eb233246"
+            method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+            
+            <div class="away" aria-hidden="true"><input type="text" name="b_7cc31051b7ae9b4636244cbb2_80eb233246" tabindex="-1" value=""></div>
+            <div class="form-fields">
+                <input type="email" value="" name="EMAIL" placeholder="email address" />
+                <input type="submit" value="Subscribe" name="subscribe" />
+            </div>
+        </form>
+    </div>
+
+</div>
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-05-30-on-yugabytedb/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-05-30-on-yugabytedb/&amp;text=On%20YugabyteDB&amp;hashtags=yugabytedb,postgresql,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-05-30-on-yugabytedb/&amp;title=On%20YugabyteDB&amp;summary=It%27s%20like%20PostgreSQL%20with%20the%20storage%20part%20ripped%20out%20and%20RAFT%20plugged%20in&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2021-05-30-on-yugabytedb\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/yugabytedb/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>yugabytedb</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/postgresql/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>postgresql</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/" rel="next">Do you really need a database for that Ory stack? &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2021&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            <p>this website uses Google Analytics but<br />
+    it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses </p>
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
