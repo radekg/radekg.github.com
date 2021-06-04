@@ -12,7 +12,7 @@
     
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <title>It’s all about the the Iface name | gruchalski.com</title>
+    <title>Let’s Encrypt certificates for local development | gruchalski.com</title>
 
     <link rel="stylesheet" href="/css/meme.min.c52d01779616c51cf9e5645a858d46e5aeb85f3cf186b96d11f0e45b87171345.css"/>
 
@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
-    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="Multiple VMMs on a single bridge are working" />
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="LEGO client with Docker and AWS Route53 DNS" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -47,7 +47,7 @@
 
     
     
-        <link rel="canonical" href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/" />
+        <link rel="canonical" href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" />
     
 
     
@@ -56,14 +56,14 @@
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "datePublished": "2021-02-18T00:00:00+00:00",
-        "dateModified": "2021-02-18T21:07:45+01:00",
-        "url": "https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/",
-        "headline": "It’s all about the the Iface name",
-        "description": "Multiple VMMs on a single bridge are working",
+        "datePublished": "2021-06-04T00:00:00+00:00",
+        "dateModified": "2021-06-04T17:45:29+02:00",
+        "url": "https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/",
+        "headline": "Let’s Encrypt certificates for local development",
+        "description": "LEGO client with Docker and AWS Route53 DNS",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  125 ,
+        "wordCount":  413 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -98,14 +98,14 @@
 
 
 
-<meta property="og:title" content="It’s all about the the Iface name" />
-<meta property="og:description" content="Multiple VMMs on a single bridge are working" />
-<meta property="og:url" content="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/" />
+<meta property="og:title" content="Let’s Encrypt certificates for local development" />
+<meta property="og:description" content="LEGO client with Docker and AWS Route53 DNS" />
+<meta property="og:url" content="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" />
 <meta property="og:site_name" content="gruchalski.com" />
-<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/shared/fc_logo_full_white-bg-small.png" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-06-04/lego.png" />
 <meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2021-02-18T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-02-18T21:07:45&#43;01:00" />
+    <meta property="article:published_time" content="2021-06-04T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2021-06-04T17:45:29&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -225,12 +225,12 @@
 
         <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
 
-            <h1 class="post-title p-name">It&rsquo;s all about the the Iface name</h1>
+            <h1 class="post-title p-name">Let&rsquo;s Encrypt certificates for local development</h1>
 
             
 
             
-                <div class="post-description p-summary">Multiple VMMs on a single bridge are working</div>
+                <div class="post-description p-summary">LEGO client with Docker and AWS Route53 DNS</div>
                 
             
 
@@ -240,7 +240,7 @@
 <div class="post-meta">
     
         
-        <time datetime="2021-02-18T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;February 18, 2021</time>
+        <time datetime="2021-06-04T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;June 4, 2021</time>
     
     
     
@@ -253,11 +253,11 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;125</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;413</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;1&nbsp;min</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;2&nbsp;mins</span>
     
     
     
@@ -266,61 +266,125 @@
             
 
             
-                <img src="/assets/shared/fc_logo_full_white-bg-small.png" alt="thumbnail" class="p-article__thumbnail">
+                <img src="/assets/posts/2021-06-04/lego.png" alt="thumbnail" class="p-article__thumbnail">
             
 
             <div class="post-body e-content">
-              <p><a href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/" target="_blank" rel="noopener">Last night&rsquo;s problem with the second VMM conflicting on the network layer with the first one</a> was indeed the <code>veth0</code> name hard coded in <code>firectl</code>. <a href="https://github.com/radekg/firectl/commit/b43ad852ce267c016558d101957d7b2ec1805f3d" target="_blank" rel="noopener">I&rsquo;ve added the <code>--veth-iface-name</code> argument</a> to <code>firectl</code> and I am now able to start multiple VMMs on a single bridge.</p>
+              <p>While building a couple of browser based prototypes, I&rsquo;ve hit an interesting problem. Basically, I am trying to replicate a full remote setup with a reverse proxy and TLS SNI while running everything on <em>localhost</em>. Getting the DNS functioning is pretty easy—I just add the required hosts to the <em>/etc/hosts</em> file and I&rsquo;m done with it.</p>
+<p>However, I still need actual certificates trusted by the browser. In 2021, Let&rsquo;s Encrypt is the way to go. Turns out, this is also pretty easy to do. There&rsquo;s a <a href="https://github.com/go-acme/lego" target="_blank" rel="noopener">Let&rsquo;s Encrypt client and ACME library written in Go</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> which can be used via Docker on any operating system.</p>
+<p>Here&rsquo;s how to use it with AWS Route53:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firectl <span class="se">\
-</span><span class="se"></span>    --firecracker-binary<span class="o">=</span>/usr/bin/firecracker <span class="se">\
-</span><span class="se"></span>    --kernel<span class="o">=</span>/firecracker/kernels/vmlinux-v5.8 <span class="se">\
-</span><span class="se"></span>    --root-drive<span class="o">=</span>/firecracker/filesystems/alpine-base-root.ext4 <span class="se">\
-</span><span class="se"></span>    --cni-network<span class="o">=</span>alpine <span class="se">\
-</span><span class="se"></span>    --socket-path<span class="o">=</span>/tmp/alpine.sock <span class="se">\
-</span><span class="se"></span>    --ncpus<span class="o">=</span><span class="m">1</span> <span class="se">\
-</span><span class="se"></span>    --memory<span class="o">=</span><span class="m">128</span> <span class="se">\
-</span><span class="se"></span>    --veth-iface-name<span class="o">=</span>vethalpine1
+<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /tmp/certs <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /tmp/certs
+docker run --rm <span class="se">\
+</span><span class="se"></span>    -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/lego <span class="se">\
+</span><span class="se"></span>    -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.aws/credentials:/root/.aws/credentials <span class="se">\
+</span><span class="se"></span>    -e <span class="nv">AWS_PROFILE</span><span class="o">=</span>lego <span class="se">\
+</span><span class="se"></span>    -ti goacme/lego <span class="se">\
+</span><span class="se"></span>    --accept-tos <span class="se">\
+</span><span class="se"></span>    --domains<span class="o">=</span>subdomain1.example.com <span class="se">\
+</span><span class="se"></span>    --domains<span class="o">=</span>subdomain2.example.com <span class="se">\
+</span><span class="se"></span>    --server<span class="o">=</span>https://acme-staging-v02.api.letsencrypt.org/directory <span class="se">\
+</span><span class="se"></span>    --email<span class="o">=</span>info@example.com <span class="se">\
+</span><span class="se"></span>    --path<span class="o">=</span>/lego <span class="se">\
+</span><span class="se"></span>    --dns<span class="o">=</span>route53 run
 </code></pre></td></tr></table></div>
 </div>
-</div><div class="highlight"><div class="chroma">
+</div><p>This command starts a Docker container using thr latest <em>LEGO</em> Docker image and requests a certificate for two subdomains. It mounts two volumes:</p>
+<ul>
+<li><em>current working directory</em> as <em>/lego</em> in the container, this is where the retrieved data will land</li>
+<li><em>${HOME}/.aws/credentials</em> as <em>/root/.aws/credentials</em></li>
+</ul>
+<p>The command assumes that AWS profiles are used and there is a profile named <em>lego</em>. The profile must have the following IAM permissions:</p>
+<div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firectl <span class="se">\
-</span><span class="se"></span>    --firecracker-binary<span class="o">=</span>/usr/bin/firecracker <span class="se">\
-</span><span class="se"></span>    --kernel<span class="o">=</span>/firecracker/kernels/vmlinux-v5.8 <span class="se">\
-</span><span class="se"></span>    --root-drive<span class="o">=</span>/firecracker/filesystems/alpine-base-root.ext4-2 <span class="se">\
-</span><span class="se"></span>    --cni-network<span class="o">=</span>alpine <span class="se">\
-</span><span class="se"></span>    --socket-path<span class="o">=</span>/tmp/alpine2.sock <span class="se">\
-</span><span class="se"></span>    --ncpus<span class="o">=</span><span class="m">1</span> <span class="se">\
-</span><span class="se"></span>    --memory<span class="o">=</span><span class="m">128</span> <span class="se">\
-</span><span class="se"></span>    --veth-iface-name<span class="o">=</span>vethalpine2
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+   <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2012-10-17&#34;</span><span class="p">,</span>
+   <span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
+       <span class="p">{</span>
+           <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+           <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+           <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="s2">&#34;route53:GetChange&#34;</span><span class="p">,</span>
+               <span class="s2">&#34;route53:ChangeResourceRecordSets&#34;</span><span class="p">,</span>
+               <span class="s2">&#34;route53:ListResourceRecordSets&#34;</span>
+           <span class="p">],</span>
+           <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="s2">&#34;arn:aws:route53:::hostedzone/*&#34;</span><span class="p">,</span>
+               <span class="s2">&#34;arn:aws:route53:::change/*&#34;</span>
+           <span class="p">]</span>
+       <span class="p">},</span>
+       <span class="p">{</span>
+           <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+           <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+           <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="s2">&#34;route53:ListHostedZonesByName&#34;</span><span class="p">,</span>
+           <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;*&#34;</span>
+       <span class="p">}</span>
+   <span class="p">]</span>
+<span class="p">}</span>
 </code></pre></td></tr></table></div>
 </div>
-</div><p>The bit to looks at is the way to handle multiple copies of the root file system.</p>
-<p>One step closer to the ETCD cluster on Firecracker.</p>
+</div><p>As I have not specified the hosted zone ID in the command, <em>LEGO</em> client will figure it out based on the domain name established from the <em>--domain</em> flags. The output directory is configured with the <em>--path</em> flag pointing to the first volume target.</p>
+<p>To fetch the real production certificate, use <code>https://acme-v02.api.letsencrypt.org/directory</code> as the <em>--server</em> value.</p>
+<p>Pretty neat. I now have LE real certificates without messing with remote HTTP servers.</p>
+<p><a href="https://go-acme.github.io/lego/" target="_blank" rel="noopener">Full documentation is available here</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>.</p>
+<h2 id="use-as-a-library"><a href="#use-as-a-library" class="anchor-link">§</a>use as a library</h2>
+<p>The <em>LEGO</em> client can be used as a library in any <em>go</em> program. <a href="github.com/eggsampler/acme">Here&rsquo;s a repository</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> wrapping the library in a more high level client. Very decent sample can be found in the <em>examples</em> folder.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://github.com/go-acme/lego" target="_blank" rel="noopener">Let&rsquo;s Encrypt client and ACME library written in Go</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://go-acme.github.io/lego/" target="_blank" rel="noopener">LEGO documentation</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="github.com/eggsampler/acme">eggsampler/acme</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
+</section>
 
             </div>
 
@@ -352,7 +416,7 @@
                 
                 
                 
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-02-18-its-all-about-the-iface-name/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/</a></li>
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-06-04-letsencrypt-certificates-for-local-development/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</a></li>
             
             <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
             
@@ -380,7 +444,7 @@
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/&amp;text=It%e2%80%99s%20all%20about%20the%20the%20Iface%20name&amp;hashtags=firecracker,microvm,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/&amp;text=Let%e2%80%99s%20Encrypt%20certificates%20for%20local%20development&amp;hashtags=letsencrypt,tls,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -389,7 +453,7 @@
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/&amp;title=It%e2%80%99s%20all%20about%20the%20the%20Iface%20name&amp;summary=Multiple%20VMMs%20on%20a%20single%20bridge%20are%20working&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/&amp;title=Let%e2%80%99s%20Encrypt%20certificates%20for%20local%20development&amp;summary=LEGO%20client%20with%20Docker%20and%20AWS%20Route53%20DNS&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
@@ -413,7 +477,7 @@
     var typeNumber = 0;
     var errorCorrectionLevel = 'L';
     var qr = qrcode(typeNumber, errorCorrectionLevel);
-    qr.addData('https:\/\/gruchalski.com\/posts\/2021-02-18-its-all-about-the-iface-name\/');
+    qr.addData('https:\/\/gruchalski.com\/posts\/2021-06-04-letsencrypt-certificates-for-local-development\/');
     qr.make();
     document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
 </script>
@@ -436,23 +500,15 @@
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/2021-04-14-launching-consul-cluster-with-firebuild/" class="related-link">Launching Consul cluster with firebuild and other news</a>
+                        <a href="/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/" class="related-link">firebuild rootfs - gRPC with mTLS</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-03-23-introducing-firebuild/" class="related-link">Introducing firebuild</a>
+                        <a href="/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/" class="related-link">Multi-tenant Vault PKI with custom root PEM bundles</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/" class="related-link">Thoughts on creating VMMs from Docker images</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/2021-02-19-the-jailer/" class="related-link">The jailer</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/2021-02-17-bridging-the-firecracker-network-gap/" class="related-link">Bridging the Firecracker network gap</a>
+                        <a href="/posts/2020-09-07-certificate-authority-is-not-voodoo/" class="related-link">Certificate Authority is not Voodoo</a>
                     </li>
                 
             </ul>
@@ -470,7 +526,7 @@
                 
                 
                     
-                    <a href="/tags/firecracker/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>firecracker</a>
+                    <a href="/tags/letsencrypt/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>letsencrypt</a>
                 
             
                 
@@ -478,7 +534,7 @@
                 
                 
                     
-                    <a href="/tags/microvm/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>microvm</a>
+                    <a href="/tags/tls/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>tls</a>
                 
             
         </div>
@@ -502,13 +558,9 @@
     
         <ul class="post-nav">
             
-                <li class="post-nav-prev">
-                    <a href="/posts/2021-02-19-the-jailer/" rel="prev">&lt; The jailer</a>
-                </li>
-            
             
                 <li class="post-nav-next">
-                    <a href="/posts/2021-02-17-bridging-the-firecracker-network-gap/" rel="next">Bridging the Firecracker network gap &gt;</a>
+                    <a href="/posts/2021-05-30-on-yugabytedb/" rel="next">On YugabyteDB &gt;</a>
                 </li>
             
         </ul>

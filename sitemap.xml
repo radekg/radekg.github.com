@@ -4,7 +4,32 @@
   
   <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2021-05-30T16:43:07+02:00</lastmod>
+    <lastmod>2021-06-04T17:45:29+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</loc>
+    <lastmod>2021-06-04T17:45:29+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/letsencrypt/</loc>
+    <lastmod>2021-06-04T17:45:29+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-06-04T17:45:29+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-06-04T17:45:29+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/tls/</loc>
+    <lastmod>2021-06-04T17:45:29+02:00</lastmod>
   </url>
   
   <url>
@@ -14,16 +39,6 @@
   
   <url>
     <loc>https://gruchalski.com/tags/postgresql/</loc>
-    <lastmod>2021-05-30T16:43:07+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-05-30T16:43:07+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2021-05-30T16:43:07+02:00</lastmod>
   </url>
   
@@ -249,11 +264,6 @@
   
   <url>
     <loc>https://gruchalski.com/tags/pki/</loc>
-    <lastmod>2021-03-28T03:01:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/tls/</loc>
     <lastmod>2021-03-28T03:01:51+02:00</lastmod>
   </url>
   
