@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Fri, 04 Jun 2021 17:46:57 &#43;0200</lastBuildDate>
+        <lastBuildDate>Fri, 04 Jun 2021 17:51:14 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -133,7 +133,7 @@ docker run --rm &lt;span class=&#34;se&#34;&gt;\
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;As I have not specified the hosted zone ID in the command, &lt;em&gt;LEGO&lt;/em&gt; client will figure it out based on the domain name established from the &lt;em&gt;--domain&lt;/em&gt; flags. The output directory is configured with the &lt;em&gt;--path&lt;/em&gt; flag pointing to the first volume target.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;As I have not specified the hosted zone ID in the command, &lt;em&gt;LEGO&lt;/em&gt; client will figure it out from the &lt;em&gt;--domains&lt;/em&gt; flags. The output directory is configured with the &lt;em&gt;--path&lt;/em&gt; flag pointing to the first volume target.&lt;/p&gt;
 &lt;p&gt;To fetch the real production certificate, use &lt;code&gt;https://acme-v02.api.letsencrypt.org/directory&lt;/code&gt; as the &lt;em&gt;--server&lt;/em&gt; value.&lt;/p&gt;
 &lt;p&gt;Pretty neat. I now have LE real certificates without messing with remote HTTP servers.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://go-acme.github.io/lego/&#34;&gt;Full documentation is available here&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;

@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-06-04T00:00:00+00:00",
-        "dateModified": "2021-06-04T17:45:29+02:00",
+        "dateModified": "2021-06-04T17:50:44+02:00",
         "url": "https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/",
         "headline": "Let’s Encrypt certificates for local development",
         "description": "LEGO client with Docker and AWS Route53 DNS",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  413 ,
+        "wordCount":  407 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-06-04/lego.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-06-04T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-06-04T17:45:29&#43;02:00" />
+    <meta property="article:modified_time" content="2021-06-04T17:50:44&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -253,7 +253,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;413</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;407</span>
     
     
         
@@ -365,7 +365,7 @@ docker run --rm <span class="se">\
 <span class="p">}</span>
 </code></pre></td></tr></table></div>
 </div>
-</div><p>As I have not specified the hosted zone ID in the command, <em>LEGO</em> client will figure it out based on the domain name established from the <em>--domain</em> flags. The output directory is configured with the <em>--path</em> flag pointing to the first volume target.</p>
+</div><p>As I have not specified the hosted zone ID in the command, <em>LEGO</em> client will figure it out from the <em>--domains</em> flags. The output directory is configured with the <em>--path</em> flag pointing to the first volume target.</p>
 <p>To fetch the real production certificate, use <code>https://acme-v02.api.letsencrypt.org/directory</code> as the <em>--server</em> value.</p>
 <p>Pretty neat. I now have LE real certificates without messing with remote HTTP servers.</p>
 <p><a href="https://go-acme.github.io/lego/" target="_blank" rel="noopener">Full documentation is available here</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>.</p>

@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-06-04T17:46:57&#43;02:00</updated>
+    <updated>2021-06-04T17:51:13&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Let’s Encrypt certificates for local development</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" />
             <id>https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</id>
-            <updated>2021-06-04T17:45:29&#43;02:00</updated>
+            <updated>2021-06-04T17:50:44&#43;02:00</updated>
             <published>2021-06-04T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -124,7 +124,7 @@ docker run --rm &lt;span class=&#34;se&#34;&gt;\
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;As I have not specified the hosted zone ID in the command, &lt;em&gt;LEGO&lt;/em&gt; client will figure it out based on the domain name established from the &lt;em&gt;--domain&lt;/em&gt; flags. The output directory is configured with the &lt;em&gt;--path&lt;/em&gt; flag pointing to the first volume target.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;As I have not specified the hosted zone ID in the command, &lt;em&gt;LEGO&lt;/em&gt; client will figure it out from the &lt;em&gt;--domains&lt;/em&gt; flags. The output directory is configured with the &lt;em&gt;--path&lt;/em&gt; flag pointing to the first volume target.&lt;/p&gt;
 &lt;p&gt;To fetch the real production certificate, use &lt;code&gt;https://acme-v02.api.letsencrypt.org/directory&lt;/code&gt; as the &lt;em&gt;--server&lt;/em&gt; value.&lt;/p&gt;
 &lt;p&gt;Pretty neat. I now have LE real certificates without messing with remote HTTP servers.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://go-acme.github.io/lego/&#34;&gt;Full documentation is available here&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
