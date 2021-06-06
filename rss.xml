@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sun, 06 Jun 2021 06:01:08 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 06 Jun 2021 18:19:17 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -347,7 +347,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You might ask &lt;em&gt;what is this config file doing&lt;/em&gt; so let&amp;rsquo;s look at it from top to bottom.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;First, we define a listener bound to &lt;em&gt;0.0.0.0&lt;/em&gt; on port &lt;em&gt;443&lt;/em&gt; - standard HTTPS stuff.&lt;/li&gt;
-&lt;li&gt;Next, we create a &lt;em&gt;filter chain&lt;/em&gt; matching the &lt;em&gt;idp.gruchalski.com&lt;/em&gt; domain name - this is the TLS SNI matching. The TLS SNI implies that our service, here Keycloak, will be accessed over HTTPS only and the common name from the certificate is used to find the upstream (&lt;em&gt;cluster&lt;/em&gt;) target to forward the traffic to. As you can probably already imagine, I will be accessing Keycloak via &lt;a href=&#34;https://idp.gruchalski.com&#34;&gt;https://idp.gruchalski.com&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Next, we create a &lt;em&gt;filter chain&lt;/em&gt; matching the &lt;em&gt;idp.gruchalski.com&lt;/em&gt; domain name - this is the TLS SNI matching. The TLS SNI implies that our service, here Keycloak, will be accessed over HTTPS only and hostname advertised during the TLS handshake is used to find the upstream (&lt;em&gt;cluster&lt;/em&gt;) target to forward the traffic to. As you can probably already imagine, I will be accessing Keycloak via &lt;a href=&#34;https://idp.gruchalski.com&#34;&gt;https://idp.gruchalski.com&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;The connections matching the filtered domain will be forwarded to the &lt;em&gt;proxy-domain1&lt;/em&gt; &lt;em&gt;cluster&lt;/em&gt; via the &lt;em&gt;http_filter&lt;/em&gt;.&lt;/li&gt;
 &lt;li&gt;The &lt;em&gt;cluster&lt;/em&gt; forwards the requests to the &lt;em&gt;load balancer&lt;/em&gt; endpoints, in this, we have one at &lt;em&gt;keycloak:8080&lt;/em&gt;. This is the name of the container on Docker network used for this setup.&lt;/li&gt;
 &lt;/ul&gt;

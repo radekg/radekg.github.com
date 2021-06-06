@@ -58,7 +58,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-06-06T00:00:00+00:00",
-        "dateModified": "2021-06-06T06:00:53+02:00",
+        "dateModified": "2021-06-06T18:18:41+02:00",
         "url": "https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/",
         "headline": "Keycloak with TLS in Docker compose behind Envoy proxy",
         "description": "The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That’s a perfect opportunity to add TLS to my Keycloak Docker Compose setup described previously here1.\nThere are multiple ways of setting up TLS for Keycloak, one of them being the native Java JKS key store / trust store gymnastics.",
@@ -107,7 +107,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-06-06T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-06-06T06:00:53&#43;02:00" />
+    <meta property="article:modified_time" content="2021-06-06T18:18:41&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -581,7 +581,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 </code></pre><p>You might ask <em>what is this config file doing</em> so let&rsquo;s look at it from top to bottom.</p>
 <ul>
 <li>First, we define a listener bound to <em>0.0.0.0</em> on port <em>443</em> - standard HTTPS stuff.</li>
-<li>Next, we create a <em>filter chain</em> matching the <em>idp.gruchalski.com</em> domain name - this is the TLS SNI matching. The TLS SNI implies that our service, here Keycloak, will be accessed over HTTPS only and the common name from the certificate is used to find the upstream (<em>cluster</em>) target to forward the traffic to. As you can probably already imagine, I will be accessing Keycloak via <a href="https://idp.gruchalski.com" target="_blank" rel="noopener">https://idp.gruchalski.com</a>.</li>
+<li>Next, we create a <em>filter chain</em> matching the <em>idp.gruchalski.com</em> domain name - this is the TLS SNI matching. The TLS SNI implies that our service, here Keycloak, will be accessed over HTTPS only and hostname advertised during the TLS handshake is used to find the upstream (<em>cluster</em>) target to forward the traffic to. As you can probably already imagine, I will be accessing Keycloak via <a href="https://idp.gruchalski.com" target="_blank" rel="noopener">https://idp.gruchalski.com</a>.</li>
 <li>The connections matching the filtered domain will be forwarded to the <em>proxy-domain1</em> <em>cluster</em> via the <em>http_filter</em>.</li>
 <li>The <em>cluster</em> forwards the requests to the <em>load balancer</em> endpoints, in this, we have one at <em>keycloak:8080</em>. This is the name of the container on Docker network used for this setup.</li>
 </ul>

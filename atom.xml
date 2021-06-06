@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-06-06T06:01:08&#43;02:00</updated>
+    <updated>2021-06-06T18:19:17&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Keycloak with TLS in Docker compose behind Envoy proxy</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" />
             <id>https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</id>
-            <updated>2021-06-06T06:00:53&#43;02:00</updated>
+            <updated>2021-06-06T18:18:41&#43;02:00</updated>
             <published>2021-06-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -339,7 +339,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You might ask &lt;em&gt;what is this config file doing&lt;/em&gt; so let&amp;rsquo;s look at it from top to bottom.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;First, we define a listener bound to &lt;em&gt;0.0.0.0&lt;/em&gt; on port &lt;em&gt;443&lt;/em&gt; - standard HTTPS stuff.&lt;/li&gt;
-&lt;li&gt;Next, we create a &lt;em&gt;filter chain&lt;/em&gt; matching the &lt;em&gt;idp.gruchalski.com&lt;/em&gt; domain name - this is the TLS SNI matching. The TLS SNI implies that our service, here Keycloak, will be accessed over HTTPS only and the common name from the certificate is used to find the upstream (&lt;em&gt;cluster&lt;/em&gt;) target to forward the traffic to. As you can probably already imagine, I will be accessing Keycloak via &lt;a href=&#34;https://idp.gruchalski.com&#34;&gt;https://idp.gruchalski.com&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Next, we create a &lt;em&gt;filter chain&lt;/em&gt; matching the &lt;em&gt;idp.gruchalski.com&lt;/em&gt; domain name - this is the TLS SNI matching. The TLS SNI implies that our service, here Keycloak, will be accessed over HTTPS only and hostname advertised during the TLS handshake is used to find the upstream (&lt;em&gt;cluster&lt;/em&gt;) target to forward the traffic to. As you can probably already imagine, I will be accessing Keycloak via &lt;a href=&#34;https://idp.gruchalski.com&#34;&gt;https://idp.gruchalski.com&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;The connections matching the filtered domain will be forwarded to the &lt;em&gt;proxy-domain1&lt;/em&gt; &lt;em&gt;cluster&lt;/em&gt; via the &lt;em&gt;http_filter&lt;/em&gt;.&lt;/li&gt;
 &lt;li&gt;The &lt;em&gt;cluster&lt;/em&gt; forwards the requests to the &lt;em&gt;load balancer&lt;/em&gt; endpoints, in this, we have one at &lt;em&gt;keycloak:8080&lt;/em&gt;. This is the name of the container on Docker network used for this setup.&lt;/li&gt;
 &lt;/ul&gt;
