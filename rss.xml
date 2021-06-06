@@ -23,10 +23,262 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sun, 06 Jun 2021 18:19:17 &#43;0200</lastBuildDate>
+        <lastBuildDate>Mon, 07 Jun 2021 01:04:42 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>Extending Keycloak—required actions: user must be approved</title>
+                <link>https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/</guid>
+                <pubDate>Sun, 06 Jun 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;After some insightful weeks of diving into the Ory platform, I am reverting back to Keycloak to investigate some other of its interesting features. The last few weeks spent in the Ory-land were enlightening.&lt;/p&gt;
+&lt;p&gt;One of my previous post, &lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services&#34;&gt;Introduction to Keycloak Authorization Services&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, gets about 20 daily reads but authorization services isn&amp;rsquo;t the only awesome thing about Keycloak.&lt;/p&gt;
+&lt;h2 id=&#34;service-provider-interfaces&#34;&gt;service provider interfaces&lt;/h2&gt;
+&lt;p&gt;Keycloak&amp;rsquo;s extensibility is what absolutely blows my mind. Keycloak defines &lt;a href=&#34;https://www.keycloak.org/docs/latest/server_development/#_providers&#34;&gt;a number of &lt;em&gt;service provider interfaces&lt;/em&gt; (SPI)&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; which allow the developer to tap into and add completely new functionality. &lt;strong&gt;Authorization is a bit like CRM or ERP, every organization has their own quirks.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;SPI implementations are written in Java—any language targeting the JVM, really—and deployed to the Keycloak instance by placing them in a predefined directory.&lt;/p&gt;
+&lt;p&gt;The SPI deployment supports hot reloading, SPIs can be updated while the server is running.&lt;/p&gt;
+&lt;h2 id=&#34;testing-the-waters&#34;&gt;testing the waters&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m going to start this little series by looking at a &lt;em&gt;required action provider&lt;/em&gt;. A required action provider hooks into the registration and login process and executes an action which allows amending the flow and conditionally allow or reject the login attempt.&lt;/p&gt;
+&lt;p&gt;The question: &lt;em&gt;how difficult would it be to implement the following scenario&lt;/em&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The user registers via self service.&lt;/li&gt;
+&lt;li&gt;The user is not allowed to log in via self service until a specific attribute is set; this attribute would be set by an administrative operator; effectively requires a registration approval.&lt;/li&gt;
+&lt;li&gt;If the user account does not have the required attribute, the user is forwarded to an information page outside of Keycloak.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I&amp;rsquo;m not implementing the actual approval process because this is way out of scope of this article.&lt;/p&gt;
+&lt;h2 id=&#34;the-java-code&#34;&gt;the Java code&lt;/h2&gt;
+&lt;p&gt;Any Keycloak provider requires, at minimum, two implementation classes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A provider factory: a class implementing a specific SPI factory interface.&lt;/li&gt;
+&lt;li&gt;An implementation of the SPI initialized by the previously written factory.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The required action provider is one of the simplest SPIs available, but it does allow for some pretty wild implementations. For example, the out of the box &lt;em&gt;WebAuthn&lt;/em&gt; support is one of those.&lt;/p&gt;
+&lt;p&gt;Here, the &lt;em&gt;User must be approved&lt;/em&gt; factory, is pretty straightforward:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.gruchalski.idp.spi.actions&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.keycloak.Config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.keycloak.authentication.RequiredActionFactory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.keycloak.authentication.RequiredActionProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.keycloak.models.KeycloakSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.keycloak.models.KeycloakSessionFactory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;UserMustBeApprovedActionFactory&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;implements&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RequiredActionFactory&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;final&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UserMustBeApprovedAction&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SINGLETON&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UserMustBeApprovedAction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RequiredActionProvider&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;create&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;KeycloakSession&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SINGLETON&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;init&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;Scope&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;postInit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;KeycloakSessionFactory&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;keycloakSessionFactory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;getId&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UserMustBeApprovedAction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;PROVIDER_ID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;getDisplayText&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;User must be approved&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This class implements the &lt;em&gt;org.keycloak.authentication.RequiredActionFactory&lt;/em&gt; and creates a &lt;em&gt;static&lt;/em&gt; action instance. The &lt;em&gt;create&lt;/em&gt;, &lt;em&gt;init&lt;/em&gt; and &lt;em&gt;postInit&lt;/em&gt; methods are pretty neat because they allow us to configure the action based on whatever the Keycloak status is. They enable full integration with Keycloak runtime. This pattern exists across all of the Keycloak SPIs.&lt;/p&gt;
+&lt;p&gt;The actual action looks like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;com.gruchalski.idp.spi.actions&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.keycloak.authentication.RequiredActionContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.keycloak.authentication.RequiredActionProvider&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;UserMustBeApprovedAction&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;implements&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RequiredActionProvider&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PROVIDER_ID&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;USER_MUST_BE_APPROVED&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;;&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;evaluateTriggers&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequiredActionContext&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requiredActionContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;requiredActionChallenge&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequiredActionContext&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requiredActionContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;requiredActionContext&lt;/span&gt;
+                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getUser&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getAttributes&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;containsKey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;x-approved&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;requiredActionContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;success&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;requiredActionContext&lt;/span&gt;
+                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getAuthenticationSession&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+                &lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setRedirectUri&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://account.gruchalski.com/errors/approval-required/&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;);&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;requiredActionContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;failure&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;processAction&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequiredActionContext&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requiredActionContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;
+
+    &lt;span class=&#34;nd&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The &lt;em&gt;requiredActionChallenge(RequiredActionContext)&lt;/em&gt; method is where the action happens. This method is called when the user enters the &lt;em&gt;User must be approved&lt;/em&gt; login step; usually after submitting the login form. The &lt;em&gt;requiredActionContext&lt;/em&gt; argument provides a number of interesting methods. For example, we can create forms with arbitrary fields asking the user for additional input. If we did that, we could process that input in the &lt;em&gt;processAction(RequiredActionContext)&lt;/em&gt; method.&lt;/p&gt;
+&lt;p&gt;This action, however, is a binary decision - the user either has or does not have the attribute assigned. We can inspect the logging in user by looking up various details using the &lt;em&gt;requiredActionContext.getUser()&lt;/em&gt; method. Here, the program checks whether the user account has the &lt;em&gt;x-approved&lt;/em&gt;. If yes, the context is approved using the &lt;em&gt;success()&lt;/em&gt; method. Otherwise, the request is redirected to an arbitrary URI which could provide detailed explanation of the reason.&lt;/p&gt;
+&lt;p&gt;To have this action available in Keycloak, a third file is required. The file is called &lt;em&gt;org.keycloak.authentication.RequiredActionFactory&lt;/em&gt; and must be placed in &lt;em&gt;resources/META-INF/services&lt;/em&gt; directory of the Java project. The content is simply:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;com.gruchalski.idp.spi.actions.UserMustBeApprovedActionFactory
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;deployment&#34;&gt;deployment&lt;/h2&gt;
+&lt;p&gt;Regardless on your Java packaging tool of choice, the outcome is a &lt;em&gt;jar&lt;/em&gt; file containing the compiled classes and the resources directory. The &lt;em&gt;jar&lt;/em&gt; file must be copied to the Keycloak &lt;em&gt;/opt/jboss/keycloak/standalone/deployments&lt;/em&gt; directory. Give Keycloak a couple of seconds to load the classes, the status will be printed in the logs.&lt;/p&gt;
+&lt;h2 id=&#34;enabling-and-testing&#34;&gt;enabling and testing&lt;/h2&gt;
+&lt;p&gt;Sign in to Keycloak and navigate to the realm &lt;em&gt;Authentication&lt;/em&gt; (left menu) &lt;em&gt;/ Required Actions&lt;/em&gt; tab. Click the &lt;em&gt;Register&lt;/em&gt; button in top left table corner and select the &lt;em&gt;User must be approved&lt;/em&gt; action from the list. Click &lt;em&gt;Ok&lt;/em&gt;. The action will be added to the list.&lt;/p&gt;
+&lt;p&gt;If you want to enforce this action for every user in the realm, tick the &lt;em&gt;Default action&lt;/em&gt; checkbox. &lt;strong&gt;Be careful, if you do this, make sure your current user you are logged in as, has the &lt;em&gt;x-approved&lt;/em&gt; attribute assigned - otherwise you will lock yourself out!&lt;/strong&gt; If in doubt, test on a temporary realm or on a Keycloak instance you can easily wipe.&lt;/p&gt;
+&lt;p&gt;The action can be enforced for individual users only. To do so, go to realm &lt;em&gt;Users&lt;/em&gt;, find the account for which the action should be enforced and select it in the &lt;em&gt;Required User Actions&lt;/em&gt;. Save the changes.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s it. Now, when the user tries to sign in and there is no required attribute, they will be redirected to the information page. This action also takes effect when using the &lt;em&gt;direct password grant&lt;/em&gt;. Without the attribute, the response is:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;#34;error&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;invalid_grant&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;#34;error_description&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Account is not fully set up&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In one of the future posts, I am going to look at adding custom forms to the action.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services&#34;&gt;Introduction to Keycloak Authorization Services&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/docs/latest/server_development/#_providers&#34;&gt;Keycloak Service Provider Interfaces&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/keycloak/">Keycloak</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/keycloak/">keycloak</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Keycloak with TLS in Docker compose behind Envoy proxy</title>
