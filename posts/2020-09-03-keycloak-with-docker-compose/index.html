@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-09-03T00:00:00+00:00",
-        "dateModified": "2021-06-06T00:43:19+02:00",
+        "dateModified": "2021-06-06T05:44:46+02:00",
         "url": "https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/",
         "headline": "Keycloak With Docker Compose",
         "description": "Start and configure Keycloak with Docker Compose",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  585 ,
+        "wordCount":  599 ,
         "image": ["https://gruchalski.com/assets/posts/2020-09-03-keycloak-with-docker-compose/clean-install.png","https://gruchalski.com/assets/posts/2020-09-03-keycloak-with-docker-compose/with-login.png"],
         "author": {
             "@type": "Person",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-09-03T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-06-06T00:43:19&#43;02:00" />
+    <meta property="article:modified_time" content="2021-06-06T05:44:46&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -257,7 +257,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;585</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;599</span>
     
     
         
@@ -275,6 +275,7 @@
 
             <div class="post-body e-content">
               <p><strong>Updated on 15th of May 2021</strong> for Keycloak 13.0.0 with Postgres 13.2.</p>
+<p><strong>6th of June 2021</strong>: Follow up: <a href="/posts/2021-06-06-keycloak-with-tls-behind-envoy/">setting up Keycloak with TLS for local development</a>.</p>
 <p>Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.</p>
 <p>Out of the box, we get things like Single Sign-On, Identity Brokering and Social Login, User Federation and Authorization Services.</p>
 <p>With little to no code, we can give users of our apps the ability to sign in with Identity Providers like GitHub, Twitter or Google. Well, anything that&rsquo;s capable of talking OpenID or SAML. On the other hand, we can easily connect to existing LDAP or Active Directory servers to integrate with corporate services of this world.</p>
@@ -529,7 +530,7 @@ POSTGRESQL_DB=keycloak
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/" class="related-link">Keto RBAC - listing roles of a user</a>
+                        <a href="/posts/2021-06-06-keycloak-with-tls-behind-envoy/" class="related-link">Keycloak with TLS in Docker compose behind Envoy proxy</a>
                     </li>
                 
             </ul>

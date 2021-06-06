@@ -2,22 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://gruchalski.com/categories/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/envoy/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2021-06-06T00:49:09+02:00</lastmod>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/categories/keycloak/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/keycloak/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/tls/</loc>
+    <lastmod>2021-06-06T06:00:53+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</loc>
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/letsencrypt/</loc>
-    <lastmod>2021-06-06T00:28:19+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-06-06T00:49:09+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2021-06-06T00:49:09+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/tls/</loc>
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</loc>
@@ -28,9 +43,6 @@
   </url><url>
     <loc>https://gruchalski.com/tags/yugabytedb/</loc>
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/categories/</loc>
-    <lastmod>2021-06-06T00:49:09+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</loc>
     <lastmod>2021-06-06T00:49:09+02:00</lastmod>
@@ -66,12 +78,9 @@
     <lastmod>2021-06-06T00:47:47+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/iam/</loc>
-    <lastmod>2021-06-06T00:48:02+02:00</lastmod>
+    <lastmod>2021-06-06T05:44:46+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/</loc>
-    <lastmod>2021-06-06T00:47:57+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/keycloak/</loc>
     <lastmod>2021-06-06T00:47:57+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/rbac/</loc>
@@ -84,7 +93,7 @@
     <lastmod>2021-06-06T00:48:02+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/docker/</loc>
-    <lastmod>2021-06-06T00:43:19+02:00</lastmod>
+    <lastmod>2021-06-06T05:44:46+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/</loc>
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
@@ -114,7 +123,7 @@
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/sso/</loc>
-    <lastmod>2021-06-06T00:46:33+02:00</lastmod>
+    <lastmod>2021-06-06T05:44:46+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/</loc>
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
@@ -215,9 +224,6 @@
     <loc>https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/</loc>
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/categories/keycloak/</loc>
-    <lastmod>2021-06-06T00:46:50+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/</loc>
     <lastmod>2021-06-06T00:46:50+02:00</lastmod>
   </url><url>
@@ -261,10 +267,10 @@
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/idp/</loc>
-    <lastmod>2021-06-06T00:43:19+02:00</lastmod>
+    <lastmod>2021-06-06T05:44:46+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/</loc>
-    <lastmod>2021-06-06T00:43:19+02:00</lastmod>
+    <lastmod>2021-06-06T05:44:46+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/central/</loc>
     <lastmod>2021-06-06T00:28:19+02:00</lastmod>
