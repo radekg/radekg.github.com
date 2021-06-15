@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-06-16T00:57:44&#43;02:00</updated>
+    <updated>2021-06-16T01:08:48&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,14 +20,14 @@
             <title type="text">YugabyteDB Docker image</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/" />
             <id>https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/</id>
-            <updated>2021-06-16T00:57:16&#43;02:00</updated>
+            <updated>2021-06-16T01:08:40&#43;02:00</updated>
             <published>2021-06-15T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
                     <uri>https://io-oi.me/</uri>
                     <email>radek@gruchalski.com</email>
                     </author>
-            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">create a Yugabyte Docker image with custom uid / gid</summary>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">create a YugabyteDB Docker image with custom uid / gid</summary>
             
                 <content type="html">&lt;p&gt;The default YugabyteDB Docker image from Docker Hub runs the database as a &lt;em&gt;root&lt;/em&gt; user.&lt;/p&gt;
 &lt;p&gt;I need to run it as a non-root user and &lt;strong&gt;there is no release Docker image &lt;em&gt;Dockerfile&lt;/em&gt; available in YugabyteDB repositories&lt;/strong&gt;.&lt;/p&gt;
