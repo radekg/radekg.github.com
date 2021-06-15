@@ -23,10 +23,124 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Wed, 16 Jun 2021 00:50:02 &#43;0200</lastBuildDate>
+        <lastBuildDate>Wed, 16 Jun 2021 00:57:44 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>YugabyteDB Docker image</title>
+                <link>https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/</guid>
+                <pubDate>Tue, 15 Jun 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;The default YugabyteDB Docker image from Docker Hub runs the database as a &lt;em&gt;root&lt;/em&gt; user.&lt;/p&gt;
+&lt;p&gt;I need to run it as a non-root user and &lt;strong&gt;there is no release Docker image &lt;em&gt;Dockerfile&lt;/em&gt; available in YugabyteDB repositories&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;So I&amp;rsquo;ve created my own and here it is.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/radekg/3f749cba86e91a8c88eb0e88c8b8754c.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;To build the image, run this command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;curl --silent https://gist.githubusercontent.com/radekg/3f749cba86e91a8c88eb0e88c8b8754c/raw &amp;gt; Dockerfile
+docker build -t yb-test:latest .
+...
+ &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; naming to docker.io/library/yb-test:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Start the container:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;docker run --rm -ti yb-test:latest bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Run this in the the container to start the cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;myybuser@0fb8cfa7c3d0 /&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;$ yugabyted start
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The output:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Starting yugabyted...
+✅ System checks
+
++--------------------------------------------------------------------------------------------------+
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;                                            yugabyted                                             &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
++--------------------------------------------------------------------------------------------------+
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Status              : Running. Leader Master is present                                          &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Web console         : http://127.0.0.1:7000                                                      &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; JDBC                : jdbc:postgresql://127.0.0.1:5433/yugabyte?user&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;yugabyte&lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;yugabyte  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; YSQL                : bin/ysqlsh   -U yugabyte -d yugabyte                                       &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; YCQL                : bin/ycqlsh   -u cassandra                                                  &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Data Dir            : /home/myybuser/var/data                                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Log Dir             : /home/myybuser/var/logs                                                    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; Universe UUID       : c9e704e3-ff8b-46df-8921-6c5bbd6de2f8                                       &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;
++--------------------------------------------------------------------------------------------------+
+🚀 yugabyted started successfully! To load a sample dataset, try &lt;span class=&#34;s1&#34;&gt;&amp;#39;yugabyted demo&amp;#39;&lt;/span&gt;.
+🎉 Join us on Slack at https://www.yugabyte.com/slack
+👕 Claim your free t-shirt at https://www.yugabyte.com/community-rewards/
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;That&amp;rsquo;s about it.&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/yugabytedb/">yugabytedb</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Extending Keycloak—required actions: user must be approved</title>
