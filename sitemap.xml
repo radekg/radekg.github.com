@@ -3,18 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://gruchalski.com/tags/docker/</loc>
+    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2021-06-16T01:13:30+02:00</lastmod>
+    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/postgres/</loc>
+    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</loc>
+    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-06-16T01:13:30+02:00</lastmod>
+    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2021-06-16T01:13:30+02:00</lastmod>
+    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
   </url>
   
   <url>
@@ -159,11 +174,6 @@
   
   <url>
     <loc>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/docker/</loc>
     <lastmod>2021-06-16T00:28:17+02:00</lastmod>
   </url>
   
