@@ -3,38 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://gruchalski.com/tags/docker/</loc>
-    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
+    <lastmod>2021-11-08T21:54:08+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://gruchalski.com/tags/postgres/</loc>
+    <lastmod>2021-11-08T21:54:08+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2021-11-08T21:54:08+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2021-11-08T21:54:08+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
+    <lastmod>2021-11-08T21:54:08+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/</loc>
+    <lastmod>2021-11-08T21:54:08+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://gruchalski.com/tags/docker/</loc>
     <lastmod>2021-07-12T22:05:17+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</loc>
     <lastmod>2021-07-12T22:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
-    <lastmod>2021-06-16T01:08:40+02:00</lastmod>
   </url>
   
   <url>
@@ -89,12 +94,12 @@
   
   <url>
     <loc>https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</loc>
-    <lastmod>2021-05-30T16:43:07+02:00</lastmod>
+    <lastmod>2021-11-08T20:02:32+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://gruchalski.com/tags/postgresql/</loc>
-    <lastmod>2021-05-30T16:43:07+02:00</lastmod>
+    <lastmod>2021-11-08T20:02:32+01:00</lastmod>
   </url>
   
   <url>
