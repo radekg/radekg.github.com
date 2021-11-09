@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Mon, 08 Nov 2021 21:55:48 &#43;0100</lastBuildDate>
+        <lastBuildDate>Tue, 09 Nov 2021 22:40:33 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -69,7 +69,7 @@
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; .docker/
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; .docker/yugabyte-db/
 docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; -
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
@@ -91,8 +91,8 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    -f compose-tservers-tenant2.yml up
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;This will most likely take some time to settle.&lt;/p&gt;
-&lt;p&gt;Mind you, this cluster needs about 25GB RAM to operate rather reasonably. There are 12 containers, each reserving 2GB RAM and some load Envoy proxies. On my lab server, the cluster is usable within about a minute.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;This will most likely take some time to settle. On my lab server, this takes about 15 seconds.&lt;/p&gt;
+&lt;p&gt;Mind you, this cluster needs about 25GB RAM to operate rather reasonably. There are 12 containers, each reserving 2GB RAM and some load Envoy proxies.&lt;/p&gt;
 &lt;h2 id=&#34;whats-the-plan&#34;&gt;what&amp;rsquo;s the plan&lt;/h2&gt;
 &lt;p&gt;The plan of action goes like this:&lt;/p&gt;
 &lt;ul&gt;
@@ -110,6 +110,7 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;p&gt;All tooling for this setup is already within the repository. All commands should be executed from the directory where compose files live.&lt;/p&gt;
 &lt;h3 id=&#34;setup-tenants&#34;&gt;setup tenants&lt;/h3&gt;
 &lt;p&gt;The password for the &lt;em&gt;yugabyte&lt;/em&gt; user is &lt;em&gt;yugabyte&lt;/em&gt; (default). Passwords for those new accounts are the same as usernames: &lt;em&gt;tenant1&lt;/em&gt; and &lt;em&gt;tenant2&lt;/em&gt; respectively.&lt;/p&gt;
+&lt;p&gt;Extension related errors can be ignored.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -126,7 +127,18 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  bash -c &lt;span class=&#34;s1&#34;&gt;&amp;#39;psql &amp;#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=yugabyte&amp;#34; -f /init.sql&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Password for user yugabyte:
+CREATE ROLE
+CREATE DATABASE
+CREATE TABLESPACE
+REVOKE
+REVOKE
+GRANT
+ALTER ROLE
+ALTER ROLE
+You are now connected to database &amp;quot;tenant1db&amp;quot; as user &amp;quot;yugabyte&amp;quot;.
+psql:/init.sql:12: ERROR:  could not open extension control file ...
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -142,9 +154,19 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  bash -c &lt;span class=&#34;s1&#34;&gt;&amp;#39;psql &amp;#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=yugabyte&amp;#34; -f /init.sql&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;Extension related errors can be ignored.&lt;/p&gt;
-&lt;h3 id=&#34;create-tenant2-table&#34;&gt;create tenant2 table&lt;/h3&gt;
-&lt;p&gt;As &lt;em&gt;tenant2&lt;/em&gt;:&lt;/p&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Password for user yugabyte:
+CREATE ROLE
+CREATE DATABASE
+CREATE TABLESPACE
+REVOKE
+REVOKE
+GRANT
+ALTER ROLE
+ALTER ROLE
+You are now connected to database &amp;quot;tenant1db&amp;quot; as user &amp;quot;yugabyte&amp;quot;.
+psql:/init.sql:12: ERROR:  could not open extension control file ...
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;create-tenant2-table&#34;&gt;create tenant2 table&lt;/h3&gt;
+&lt;p&gt;Connect as &lt;em&gt;tenant2&lt;/em&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -159,14 +181,28 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  bash -c &lt;span class=&#34;s1&#34;&gt;&amp;#39;psql &amp;#34;host=envoy-yb-tenant2 port=35432 user=tenant2 dbname=tenant2db&amp;#34;&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Password for user tenant2:
+psql (11.2 (Debian 11.2-1.pgdg90+1))
+Type &amp;quot;help&amp;quot; for help.
+
+tenant2db=&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And create a table:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;create&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;table&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharedtableexample&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rowid&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;rowval&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;split&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;into&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tablets&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;CREATE TABLE
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Close the connection:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;I&amp;rsquo;ve noticed that all-lower-case names are the easiest to work with.&lt;/p&gt;
@@ -186,7 +222,13 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  bash -c &lt;span class=&#34;s1&#34;&gt;&amp;#39;psql &amp;#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=tenant1db&amp;#34;&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Password for user yugabyte:
+psql (11.2 (Debian 11.2-1.pgdg90+1))
+Type &amp;quot;help&amp;quot; for help.
+
+tenant1db=#
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Run these commands to create the extension, create a server and setup use mapping with permissions:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -205,10 +247,10 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
   &lt;span class=&#34;k&#34;&gt;host&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;envoy-yb-tenant2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
   &lt;span class=&#34;n&#34;&gt;port&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;35432&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
   &lt;span class=&#34;n&#34;&gt;dbname&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;tenant2db&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;grant&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;usage&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;foreign&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fdw_tenant2shares&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;to&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tenant1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;create&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;user&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mapping&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tenant1&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fdw_tenant2shares&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;options&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
   &lt;span class=&#34;k&#34;&gt;user&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;tenant2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
   &lt;span class=&#34;n&#34;&gt;password&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;tenant2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;grant&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;usage&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;foreign&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fdw_tenant2shares&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;to&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tenant1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
@@ -229,7 +271,13 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  bash -c &lt;span class=&#34;s1&#34;&gt;&amp;#39;psql &amp;#34;host=envoy-yb-tenant1 port=35432 user=tenant1 dbname=tenant1db&amp;#34;&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Password for user tenant1:
+psql (11.2 (Debian 11.2-1.pgdg90+1))
+Type &amp;quot;help&amp;quot; for help.
+
+tenant1db=&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;List existing foreign servers and create the foreign table:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -263,7 +311,44 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;voila&#34;&gt;voila!&lt;/h2&gt;
+&lt;/div&gt;&lt;h3 id=&#34;verify&#34;&gt;verify&lt;/h3&gt;
+&lt;p&gt;Connect back to &lt;em&gt;tenant2db&lt;/em&gt; as &lt;em&gt;tenant2&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;docker run --rm &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --net&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;yb-dbnet &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  -ti postgres:11.2 &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  bash -c &lt;span class=&#34;s1&#34;&gt;&amp;#39;psql &amp;#34;host=envoy-yb-tenant2 port=35432 user=tenant2 dbname=tenant2db&amp;#34;&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Password for user tenant2:
+psql (11.2 (Debian 11.2-1.pgdg90+1))
+Type &amp;quot;help&amp;quot; for help.
+
+tenant2db=&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And select the data from the original table:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;k&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sharedtableexample&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;order&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;by&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;rowid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;All records are in:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; rowid |    rowval
+-------+---------------
+     1 | hello, world!
+     2 | hello, world!
+     3 | hello, world!
+(3 rows)
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;voila&#34;&gt;voila!&lt;/h2&gt;
 &lt;p&gt;The beauty of YugabyteDB. Because it is PostgreSQL under the hood, &lt;em&gt;postgres_fdw&lt;/em&gt; is simply working.&lt;/p&gt;
 </description>
                 
