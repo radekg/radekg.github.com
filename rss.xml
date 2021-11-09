@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Tue, 09 Nov 2021 23:28:44 &#43;0100</lastBuildDate>
+        <lastBuildDate>Tue, 09 Nov 2021 23:45:46 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -92,7 +92,7 @@ docker build -t local/yugabyte:2.9.1.0-b140 .
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;This will most likely take some time to settle. On my lab server, this takes about 15 seconds.&lt;/p&gt;
-&lt;p&gt;Mind you, this cluster needs about 25GB RAM to operate rather reasonably. There are 12 containers, each reserving 2GB RAM and some load Envoy proxies.&lt;/p&gt;
+&lt;p&gt;Mind you, this cluster needs about 25GB RAM to operate rather reasonably. There are 12 containers, each reserving 2GB RAM and some Envoy proxies.&lt;/p&gt;
 &lt;h2 id=&#34;whats-the-plan&#34;&gt;what&amp;rsquo;s the plan&lt;/h2&gt;
 &lt;p&gt;The plan of action goes like this:&lt;/p&gt;
 &lt;ul&gt;
