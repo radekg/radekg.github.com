@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Thu, 11 Nov 2021 02:34:52 &#43;0100</lastBuildDate>
+        <lastBuildDate>Thu, 11 Nov 2021 02:40:11 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -68,7 +68,7 @@
 &lt;p&gt;Suddenly I was toying with the idea of writing something similar about YugabyteDB. And then, about a month ago, Jonathan from Apress reached out on LinkedIn asking if I would be interested in writing a book on YugabyteDB.&lt;/p&gt;
 &lt;p&gt;That gave it focus. The answer is: yes. Someone I used to work with, who also wrote a book, said:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Writing a book takes you out of the comfort zone and forces you to look at every corner of the product, things you&amp;rsquo;d never touch in your daily work.&lt;/p&gt;
+&lt;p&gt;Writing a book takes you out of your comfort zone and forces you to look at every corner of the product, things you&amp;rsquo;d never touch in your daily work.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Sounds like a fantastic way to learn YugabyteDB inside out. And yes, I know there&amp;rsquo;s no money in writing technical books but money isn&amp;rsquo;t the driver for me here.&lt;/p&gt;
 &lt;p&gt;As I learned later, Jonathan also reached out to Franck Pachot—Developer Advocate at Yugabyte.&lt;/p&gt;
