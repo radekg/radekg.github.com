@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-11-09T23:45:46&#43;01:00</updated>
+    <updated>2021-11-11T02:34:52&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -16,6 +16,118 @@
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
     <generator uri="https://gohugo.io/" version="0.80.0">Hugo</generator>
+        <entry>
+            <title type="text">YugabyteDB: the book</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/" />
+            <id>https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</id>
+            <updated>2021-11-11T02:33:04&#43;01:00</updated>
+            <published>2021-11-11T00:00:00&#43;00:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">I know there&#39;s no money in writing technical books but money isn&#39;t the driver for me here</summary>
+            
+                <content type="html">&lt;p&gt;I’ve been deep in YugabyteDB trenches for the last 6 months. At Klarrio, we are building a Database as a Service solution for the Data Services Hub. This is a self-managed, multi-tenant solution designed to run on top of Apache Mesos. We have a small team doing all kinds of integration work. I am focusing on the core database rollout.&lt;/p&gt;
+&lt;p&gt;Working with new technology, for me, often means going all in, deep into the darkness of the source code. I like to know how things work. It&amp;rsquo;s no different with YugbyteDB. I’m not the kind of guy who takes an upstream component and just runs it in production without understanding how it breaks. The best way to figure out how things work is to take them apart and put back together.&lt;/p&gt;
+&lt;p&gt;In the last 6 months, I’ve been doing all sorts of crazy things with YugabyteDB. To some, it might look like procrastinating but I truly believe that running a complex system in production without understanding how that system works is a very bad idea. And so, I’ve been doing things like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-multi-tenant-paas-demo&#34;&gt;Building a number of Docker&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, Mesos and Kubernetes based clusters,&lt;/li&gt;
+&lt;li&gt;Running them at different sizes and in different configurations,&lt;/li&gt;
+&lt;li&gt;Building my own Docker images with all sorts of bells and whistles included,&lt;/li&gt;
+&lt;li&gt;Digging deep in the source code of YugabyteDB and PostgreSQL,&lt;/li&gt;
+&lt;li&gt;First time ever writing PostgreSQL extensions and figuring out how to build YugabyteDB targeted extensions or soft PostgreSQL multi-tenancy,&lt;/li&gt;
+&lt;li&gt;Contributed a couple of features:
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/pull/9650&#34;&gt;Foreign Data Wrapper&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/pull/9576&#34;&gt;shared_preload_libraries&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabytedb-extensions-build-infrastructure&#34;&gt;Building my own bench for working with YugabyetDB source code&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; and built it from sources so many times, in my dreams, I sometimes hear all 44 cores of my lab server blasting out at full speed at 3am,&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client&#34;&gt;Writing a bunch of tools&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; for YugabyteDB, looked into monitoring, observability, logging, and operation of a cluster,&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://vimeo.com/609759675&#34;&gt;Speaking at the Distributed SQL Summit 2021&lt;/a&gt;&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I cannot thank the Yugabyte team enough for the help they have provided me along the way. They’ve been patient, supportive, professional. The depth of technical answers to my questions is outstanding.&lt;/p&gt;
+&lt;p&gt;Credit also has to go to the client and my employer, who supported me on this journey.&lt;/p&gt;
+&lt;p&gt;It’s fair to say that I’ve learned a lot. But I am in no way an expert. You see, the nature of my work is to deliver up to spec projects to clients. I do R&amp;amp;D, architectural work, implementation, full delivery: functional tests, openrations and en user documentation, sometimes day two operations for a bit.&lt;/p&gt;
+&lt;p&gt;But once the project is finished, I move to another one. What I learn never goes to waste. To a certain extent what I learn will always be relevant in future projects. I often find myself building all sorts of crazy stuff with technology from previous projects. A false premise, building stuff I dream about becoming products but it always lacks focus and I am not really in a position to build a product today. I very much enjoy doing all that crazy lab work but let’s face it: that’s actually procrastinating.&lt;/p&gt;
+&lt;p&gt;I learn a lot, I love it, it keeps me honest. But it is procrastinating. All that lab stuff ends up behind closed doors and rots away.&lt;/p&gt;
+&lt;p&gt;While working on this huge YugabyteDB rollout, I could observe those same emotions again. What can I do differently this time? Around August an idea started growing in my head that maybe instead of building imaginary products, I should write a book.&lt;/p&gt;
+&lt;p&gt;Have you ever seen &lt;a href=&#34;https://books.japila.pl/apache-spark-internals/&#34;&gt;the book from Jacek Laskowski on Spark internals&lt;/a&gt;&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;? This book describes each individual Spark internal component so one can really get to know how Spark works.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Sidetrack&lt;/em&gt;: back in 2015 I’ve spent good six months bending Spark in all sorts of ways. &lt;a href=&#34;https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/&#34;&gt;I made it work in Mesos with Docker bridge networking with the patched Akka build&lt;/a&gt;&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt; before it was all hip.&lt;/p&gt;
+&lt;p&gt;Suddenly I was toying with the idea of writing something similar about YugabyteDB. And then, about a month ago, Jonathan from Apress reached out on LinkedIn asking if I would be interested in writing a book on YugabyteDB.&lt;/p&gt;
+&lt;p&gt;That gave it focus. The answer is: yes. Someone I used to work with, who also wrote a book, said:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Writing a book takes you out of the comfort zone and forces you to look at every corner of the product, things you&amp;rsquo;d never touch in your daily work.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Sounds like a fantastic way to learn YugabyteDB inside out. And yes, I know there&amp;rsquo;s no money in writing technical books but money isn&amp;rsquo;t the driver for me here.&lt;/p&gt;
+&lt;p&gt;As I learned later, Jonathan also reached out to Franck Pachot—Developer Advocate at Yugabyte.&lt;/p&gt;
+&lt;p&gt;So I&amp;rsquo;ve spoken to Franck and we agreed to co-author a book. It&amp;rsquo;s all very early stages, the proposal is being written, priorities have to be taken care of, everybody has be aligned, everyone has to feel comfortable with choices being made. It can still go in every direction.&lt;/p&gt;
+&lt;p&gt;Stay tuned.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-multi-tenant-paas-demo&#34;&gt;YugabyteDB multi-tenant-paas&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/pull/9650&#34;&gt;[YSQL] Foreign Data Wrapper support&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/pull/9576&#34;&gt;[YSQL] Merge user provided shared_preload_libraries to enable custom PSQL extensions&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabytedb-extensions-build-infrastructure&#34;&gt;YugabyteDB build infrastructure&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client&#34;&gt;YugabyteDB client for go&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://vimeo.com/609759675&#34;&gt;Workload isolation in a multi-tenant container based architecture - DSS21&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://books.japila.pl/apache-spark-internals/&#34;&gt;The Internals of Apache Spark 3.2.0&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/&#34;&gt;Apache Spark on Mesos with Docker bridge networking&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/yugabytedb/" term="yugabytedb" label="yugabytedb" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/yugabyte/" term="yugabyte" label="yugabyte" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/writing/" term="writing" label="writing" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">YugabyteDB: Postgres foreign data wrapper</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/" />
