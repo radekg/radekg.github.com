@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-11-11T03:27:10&#43;01:00</updated>
+    <updated>2021-11-11T03:29:06&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">YugabyteDB: the book</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/" />
             <id>https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</id>
-            <updated>2021-11-11T03:27:03&#43;01:00</updated>
+            <updated>2021-11-11T03:29:02&#43;01:00</updated>
             <published>2021-11-11T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -61,7 +61,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;Writing a book takes you out of your comfort zone and forces you to look at every corner of the product, things you&amp;rsquo;d never touch in your daily work.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Sounds like a fantastic way to learn YugabyteDB inside out. And yes, I know there&amp;rsquo;s no money in writing technical books but money isn&amp;rsquo;t the driver for me here. For once to have continuity and contribute in a meaningful way—those are the drivers.&lt;/p&gt;
+&lt;p&gt;Sounds like a fantastic way to learn YugabyteDB inside out. And yes, I know there&amp;rsquo;s no money in writing technical books but money isn&amp;rsquo;t the driver for me here. For once to have continuity and contribute in a meaningful way—those are the drivers.&lt;/p&gt;
 &lt;p&gt;As I learned later, Jonathan also reached out to Franck Pachot—Developer Advocate at Yugabyte.&lt;/p&gt;
 &lt;p&gt;So I&amp;rsquo;ve spoken to Franck and we agreed to co-author a book. It&amp;rsquo;s all very early stages, the proposal is being written, priorities have to be taken care of, everybody has be aligned, everyone has to feel comfortable with choices being made. It can still go in every direction.&lt;/p&gt;
 &lt;p&gt;Stay tuned.&lt;/p&gt;
