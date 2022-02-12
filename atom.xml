@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2021-11-11T03:29:06&#43;01:00</updated>
+    <updated>2022-02-12T23:10:18&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -17,10 +17,448 @@
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
     <generator uri="https://gohugo.io/" version="0.80.0">Hugo</generator>
         <entry>
+            <title type="text">A brief look at YugabyteDB RPC API</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/" />
+            <id>https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/</id>
+            <updated>2022-02-12T23:08:15&#43;01:00</updated>
+            <published>2022-02-12T00:00:00&#43;00:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">with great power comes great responsibility</summary>
+            
+                <content type="html">&lt;p&gt;YugabyteDB is a horizontally scalable 100% open source distributed SQL database providing Cassandra (YCQL) and PostgreSQL (YSQL) compatible APIs. For PostgreSQL API, YugabyteDB uses the actual PostgreSQL 11.2 engine and builds on top of it with a RAFT consensus layer.&lt;/p&gt;
+&lt;p&gt;There are two components in the YugabyteDB architecture: master servers and tablet servers. Master servers know everything about the state of the cluster, they are like an address book of all objects and data stored in the database. Tablet servers store the data. Each tablet server runs an instance of PostgreSQL.&lt;/p&gt;
+&lt;p&gt;That was a very brief, very top level, simplified view of the architecture, but it should give a good image of what&amp;rsquo;s going on.&lt;/p&gt;
+&lt;p&gt;Masters and tablet servers communicate using a &lt;code&gt;protobuf&lt;/code&gt; (Google Protocol Buffers) API.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s locate all &lt;code&gt;*.proto&lt;/code&gt; files (without test data):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; /tmp
+git clone https://github.com/yugabyte/yugabyte-db.git
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; yugabyte-db/
+git checkout v2.11.1
+find . -name *.proto &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sort
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre&gt;&lt;code&gt;./ent/src/yb/master/master_backup.proto
+./src/yb/cdc/cdc_consumer.proto
+./src/yb/cdc/cdc_service.proto
+./src/yb/common/common.proto
+./src/yb/common/pgsql_protocol.proto
+./src/yb/common/ql_protocol.proto
+./src/yb/common/redis_protocol.proto
+./src/yb/common/wire_protocol.proto
+./src/yb/consensus/consensus.proto
+./src/yb/consensus/log.proto
+./src/yb/consensus/metadata.proto
+./src/yb/docdb/docdb.proto
+./src/yb/fs/fs.proto
+./src/yb/master/master.proto
+./src/yb/master/master_types.proto
+./src/yb/rocksdb/db/version_edit.proto
+./src/yb/rpc/rpc_header.proto
+./src/yb/rpc/rpc_introspection.proto
+./src/yb/server/server_base.proto
+./src/yb/tablet/metadata.proto
+./src/yb/tablet/tablet.proto
+./src/yb/tserver/backup.proto
+./src/yb/tserver/pg_client.proto
+./src/yb/tserver/remote_bootstrap.proto
+./src/yb/tserver/tserver.proto
+./src/yb/tserver/tserver_admin.proto
+./src/yb/tserver/tserver_forward_service.proto
+./src/yb/tserver/tserver_service.proto
+./src/yb/util/encryption.proto
+./src/yb/util/histogram.proto
+./src/yb/util/opid.proto
+./src/yb/util/pb_util.proto
+./src/yb/util/version_info.proto
+./src/yb/yql/cql/cqlserver/cql_service.proto
+./src/yb/yql/redis/redisserver/redis_service.proto
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;From the above list it&amp;rsquo;s easy to roughly figure out YugabyteDB components:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the enterprise master backup service: it&amp;rsquo;s &lt;em&gt;enterprise&lt;/em&gt; just in the name, this is fully open source and available under the Apache 2 license, just like any other YugabyteDB component, spoiler alert - this service provides snapshot features,&lt;/li&gt;
+&lt;li&gt;change data capture (CDC) service,&lt;/li&gt;
+&lt;li&gt;the consensus service,&lt;/li&gt;
+&lt;li&gt;DocDB (YugabyteDB storage layer),&lt;/li&gt;
+&lt;li&gt;filesystem service,&lt;/li&gt;
+&lt;li&gt;master server service,&lt;/li&gt;
+&lt;li&gt;tablet server service,&lt;/li&gt;
+&lt;li&gt;CQL and Redis services,&lt;/li&gt;
+&lt;li&gt;common bits and bobs, here we can find PSQL and Redis protocols, query layer protocol, and wire protocol,&lt;/li&gt;
+&lt;li&gt;base RPC definitions and various utilities.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;rsquo;s peek at one of the files, for brevity I&amp;rsquo;m going to skip the output.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;cat ./src/yb/master/master.proto
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The output tells us the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the protocol is &lt;code&gt;proto2&lt;/code&gt; based,&lt;/li&gt;
+&lt;li&gt;there are no non-standard &lt;code&gt;protobuf&lt;/code&gt; features in use,&lt;/li&gt;
+&lt;li&gt;they&amp;rsquo;re all regular messages and service definitions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;the-protocol&#34;&gt;the protocol&lt;/h2&gt;
+&lt;p&gt;What&amp;rsquo;s not clear from those proto files: &lt;strong&gt;YugabyteDB doesn&amp;rsquo;t use gRPC&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Instead, YugabyteDB uses an RPC protocol coming from HBase. The choice is somewhat clear if we consider that the founder of Yugabyte, the company behind YugabyteDB, used to be the technical lead for HBase at Facebook.&lt;/p&gt;
+&lt;p&gt;To understand the wire format, we have to look at HBase RPC protocol. &lt;a href=&#34;https://github.com/apache/hbase/blob/master/src/main/asciidoc/_chapters/rpc.adoc&#34;&gt;The HBase RPC protocol description can be found here&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;The protocol is pretty easy to underatand. It follows the regular request/response paradigm. The client initializes a TCP connection, then sends requests over an established connection. To every request, the client receives a response. The connection can be established over TLS.&lt;/p&gt;
+&lt;p&gt;After opening a connection, the client sends a preamble and a connection header. In case of YugabyteDB, this is simply &lt;code&gt;YB1&lt;/code&gt;. The server does not respond on successful connection setup. Once the connection is established, the client sends requests and receives responses.&lt;/p&gt;
+&lt;h2 id=&#34;the-request&#34;&gt;the request&lt;/h2&gt;
+&lt;p&gt;Every request consists of a header and the paylod. The header is a protobuf message defined in &lt;code&gt;rpc_header.proto&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-proto&#34; data-lang=&#34;proto&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;RemoteMethodPB&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Service name for the RPC layer.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// The client created a proxy with this service name.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Example: yb.rpc_test.CalculatorService
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;service_name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Name of the RPC method.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;method_name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// The header for the RPC request frame.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;RequestHeader&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// A sequence number that is sent back in the Response. Hadoop specifies a uint32 and
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// casts it to a signed int. That is counterintuitive, so we use an int32 instead.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Allowed values (inherited from Hadoop):
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;//   0 through INT32_MAX: Regular RPC call IDs.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;//   -2: Invalid call ID.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;//   -3: Connection context call ID.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;//   -33: SASL negotiation call ID.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;call_id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// RPC method being invoked.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Not used for &amp;#34;connection setup&amp;#34; calls.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RemoteMethodPB&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;remote_method&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Propagate the timeout as specified by the user. Note that, since there is some
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// transit time between the client and server, if you wait exactly this amount of
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// time and then respond, you are likely to cause a timeout on the client.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;uint32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;timeout_millis&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;To send the request, the client serializes the &lt;code&gt;protobuf&lt;/code&gt; header and exactly one &lt;code&gt;protobuf&lt;/code&gt; request messages. The client calculates the byte length of the header and a payload, and aggregates the total length. The following is sent over the socket:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int32&lt;/code&gt; total length,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;uint32&lt;/code&gt; header length,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protobuf&lt;/code&gt; serialized header,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;uint32&lt;/code&gt; message length,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protobuf&lt;/code&gt; serialized message.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can look up the relevant method in the YugabyteDB Java client, &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/YRpc.java#L274-L293&#34;&gt;the code is here&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. By looking at the Java code, we can imply that YugabyteDB never takes more than one  message, it&amp;rsquo;s always one header and one request message.&lt;/p&gt;
+&lt;h2 id=&#34;the-response&#34;&gt;the response&lt;/h2&gt;
+&lt;p&gt;The server replies with a response. The response might be arriving in chunks. The client is expected to read all chunks until receiving a &lt;code&gt;EOF&lt;/code&gt; marker which is indicated by a byte array of 4 &lt;code&gt;0&lt;/code&gt; bytes.&lt;/p&gt;
+&lt;p&gt;The format of the response:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int32&lt;/code&gt; total data length,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;uint32&lt;/code&gt; response header length,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protobuf&lt;/code&gt; serialized response header,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;uint32&lt;/code&gt; payload length,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;protobuf&lt;/code&gt; serialized response message.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Before proceeding to read the assumed, expected response message, the client needs to look at the response header &lt;code&gt;is_error&lt;/code&gt; property.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look up the &lt;code&gt;ResponseHeader&lt;/code&gt; definition in the &lt;code&gt;rcp_header.proto&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-proto&#34; data-lang=&#34;proto&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;ResponseHeader&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;call_id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// If this is set, then this is an error response and the
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// response message will be of type ErrorStatusPB instead of
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// the expected response type.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;is_error&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Byte offsets for side cars in the main body of the response message.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// These offsets are counted AFTER the message header, i.e., offset 0
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// is the first byte after the bytes for this protobuf.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;repeated&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;uint32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sidecar_offsets&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;If the &lt;code&gt;is_error&lt;/code&gt; flag is &lt;code&gt;true&lt;/code&gt;, the response is an error response and the client must parse it as the &lt;code&gt;ErrorStatusPB&lt;/code&gt;, defined also in &lt;code&gt;rcp_header.proto&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, the response is the expected &lt;code&gt;protobuf&lt;/code&gt; response object, as defined by the RPC service.&lt;/p&gt;
+&lt;p&gt;For example, the &lt;code&gt;rpc ListMasters(ListMastersRequestPB) returns (ListMastersResponsePB);&lt;/code&gt; operation of the &lt;code&gt;MasterService&lt;/code&gt; servide defined in the &lt;code&gt;master.proto&lt;/code&gt; file takes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a header&lt;/li&gt;
+&lt;li&gt;a &lt;code&gt;ListMastersRequestPB&lt;/code&gt; message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;and expects:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ListMastersResponsePB&lt;/code&gt; as a response&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If the RPC service was to return an error, instead of the &lt;code&gt;ListMastersResponsePB&lt;/code&gt; message, it would return the &lt;code&gt;ErrorStatusPB&lt;/code&gt; message.&lt;/p&gt;
+&lt;h2 id=&#34;side-cars&#34;&gt;side cars&lt;/h2&gt;
+&lt;p&gt;In selected cases the response consists of so called &lt;em&gt;side cars&lt;/em&gt;. We can identify which calls reply with &lt;em&gt;side cars&lt;/em&gt; &lt;a href=&#34;https://sourcegraph.com/search?q=context:global+repo:yugabyte/yugabyte-db.*+set_rows_data_sidecar&amp;amp;patternType=literal&#34;&gt;by searching for &lt;code&gt;set_rows_data_sidecar&lt;/code&gt; in YugabyteDB code&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;. Currently only the &lt;code&gt;Read&lt;/code&gt; and &lt;code&gt;Write&lt;/code&gt; operations of the &lt;code&gt;tserver_service.proto&lt;/code&gt; use them.&lt;/p&gt;
+&lt;p&gt;Each &lt;em&gt;side car&lt;/em&gt; is a separate &lt;code&gt;protobuf&lt;/code&gt; message. We can find out how to read them by looking at &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/CallResponse.java#L134-L155&#34;&gt;this Java client code&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Every request follows exactly the same semantics. Each new request implies a new request header. The request header contains the &lt;code&gt;int32 call_id&lt;/code&gt; field. This is a sequence number of executed requests and it is returned in the response as &lt;code&gt;int32 call_id&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;services&#34;&gt;services&lt;/h2&gt;
+&lt;p&gt;A request header contains the optional &lt;code&gt;RemoteMethodPB remote_method&lt;/code&gt; field. This field indicates the target service type for which the request is destined. For example, the &lt;code&gt;MasterService&lt;/code&gt; is &lt;code&gt;yb.master.MasterService&lt;/code&gt;. This full name is the result of combing the &lt;code&gt;package&lt;/code&gt; value (&lt;code&gt;yb.master&lt;/code&gt;) and the service name (&lt;code&gt;MasterService&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;In versions later than 2.11.1, the service name can be optionally declared with a &lt;code&gt;yb.rpc.custom_service_name&lt;/code&gt; service option. Here&amp;rsquo;s an example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-proto&#34; data-lang=&#34;proto&#34;&gt;&lt;span class=&#34;kd&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MasterCluster&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;yb.rpc.custom_service_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;yb.master.MasterService&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;locating-the-leader-master&#34;&gt;locating the leader master&lt;/h2&gt;
+&lt;p&gt;In most cases, we are communicating with the &lt;code&gt;MasterService&lt;/code&gt;. When running YugabyteDB with replication factor greater than &lt;code&gt;1&lt;/code&gt;, at any given time, there is only one leader master, other masters are most often acting as followers. In this case, we have to send our requests to the leader master. If we don&amp;rsquo;t, the master will reply with a &lt;code&gt;NOT_THE_LEADER&lt;/code&gt; error.&lt;/p&gt;
+&lt;p&gt;Follower masters do not forward requests to the leader master. It&amp;rsquo;s the task of the client to locate and track the leader master.&lt;/p&gt;
+&lt;p&gt;To find the leader master, the client opens a connection to each master and sends &lt;nobr&gt;a &lt;code&gt;GetMasterRegistrationRequestPB&lt;/code&gt;&lt;/nobr&gt; message and receives a &lt;code&gt;GetMasterRegistrationResponsePB&lt;/code&gt; message.&lt;/p&gt;
+&lt;p&gt;This message, found in &lt;code&gt;master.proto&lt;/code&gt;, looks like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-proto&#34; data-lang=&#34;proto&#34;&gt;&lt;span class=&#34;kd&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;GetMasterRegistrationResponsePB&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Node instance information is always set.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;required&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NodeInstancePB&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;instance_id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// These fields are optional, as they won&amp;#39;t be set if there&amp;#39;s an
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// error retrieving the host/port information.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ServerRegistrationPB&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;registration&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// This server&amp;#39;s role in the consensus configuration.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;consensus.RaftPeerPB.Role&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;role&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// Set if there an error retrieving the registration information.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;optional&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MasterErrorPB&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;error&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The &lt;code&gt;consensus.RaftPeerPB.Role&lt;/code&gt; field contains the role of the master. It is defined in the &lt;code&gt;consensus/metadata.proto&lt;/code&gt;, under the &lt;code&gt;RaftPeerPB&lt;/code&gt; message:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-proto&#34; data-lang=&#34;proto&#34;&gt;  &lt;span class=&#34;c1&#34;&gt;// The possible roles for peers.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Role&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// Indicates this node is a follower in the configuration, i.e. that it participates
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// in majorities and accepts Consensus::Update() calls.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;FOLLOWER&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// Indicates this node is the current leader of the configuration, i.e. that it
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// participates in majorities and accepts Consensus::Append() calls.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;LEADER&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// New peers joining a quorum will be in this role for both PRE_VOTER and PRE_OBSERVER
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// while the tablet data is being remote bootstrapped. The peer does not participate
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// in starting elections or majorities.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;LEARNER&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// Indicates that this node is not a participant of the configuration, i.e. does
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// not accept Consensus::Update() or Consensus::Update() and cannot
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// participate in elections or majorities. This is usually the role of a node
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// that leaves the configuration.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;NON_PARTICIPANT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// This peer is a read (async) replica and gets informed of the quorum write
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// activity and provides time-line consistent reads.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;READ_REPLICA&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;UNKNOWN_ROLE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;After locating the leader master, the client can close connections to any non-leader master and continue communicating with a leader master only.&lt;/p&gt;
+&lt;p&gt;YugabyteDB master leader can change at any time of the cluster lifecycle. This might be due to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the operator requesting a leader change,&lt;/li&gt;
+&lt;li&gt;due to an underlying infrastructure failure forcing the leader election.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When this happens, a message sent to what we think is the current leader will either:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;not go through (if leader is offline),&lt;/li&gt;
+&lt;li&gt;will be rejected with a &lt;code&gt;NOT_THE_LEADER&lt;/code&gt; error.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The client should simply follow the same leader discovery procedure and retry the request.&lt;/p&gt;
+&lt;h2 id=&#34;its-undocumented-and-unofficial&#34;&gt;it&amp;rsquo;s undocumented and unofficial&lt;/h2&gt;
+&lt;p&gt;The RPC API isn&amp;rsquo;t documented and it&amp;rsquo;s not an official YugabyteDB API. It&amp;rsquo;s very powerful, there are very interesting things one can build with it but be advised:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;you&amp;rsquo;re on your own,&lt;/li&gt;
+&lt;li&gt;there really isn&amp;rsquo;t any documentation,&lt;/li&gt;
+&lt;li&gt;figuring out the proper way to navigate through it means diving deep in the YugabyteDB source code,&lt;/li&gt;
+&lt;li&gt;there are undocumented nuances to what can be called when and how, stepping out of the paved path can lead to trouble;
+&lt;ul&gt;
+&lt;li&gt;hence: do not test random stuff on a live system with important data, you can break your cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A good reference on how to start working with can be found in the &lt;code&gt;yb-admin&lt;/code&gt; tool sources:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/master/ent/src/yb/tools/yb-admin_client_ent.cc&#34;&gt;enterprise extensions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/master/src/yb/tools/yb-admin_client.cc&#34;&gt;regular operations&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Happy hacking!&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/apache/hbase/blob/master/src/main/asciidoc/_chapters/rpc.adoc&#34;&gt;The HBase RPC protocol description&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/YRpc.java#L274-L293&#34;&gt;YugabyteDB Java client payload handling&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;Sourcegraph: &lt;a href=&#34;https://sourcegraph.com/search?q=context:global+repo:yugabyte/yugabyte-db.*+set_rows_data_sidecar&amp;amp;patternType=literal&#34;&gt;usage of side cars in YugabyteDB code&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/CallResponse.java#L134-L155&#34;&gt;Reading side cars in YugabyteDB Java code&lt;/a&gt; &lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/yugabytedb/" term="yugabytedb" label="yugabytedb" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/rpc/" term="rpc" label="rpc" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/protobuf/" term="protobuf" label="protobuf" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
             <title type="text">YugabyteDB: the book</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/" />
             <id>https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</id>
-            <updated>2021-11-11T03:29:02&#43;01:00</updated>
+            <updated>2022-02-12T23:09:43&#43;01:00</updated>
             <published>2021-11-11T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -61,7 +499,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;Writing a book takes you out of your comfort zone and forces you to look at every corner of the product, things you&amp;rsquo;d never touch in your daily work.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Sounds like a fantastic way to learn YugabyteDB inside out. And yes, I know there&amp;rsquo;s no money in writing technical books but money isn&amp;rsquo;t the driver for me here. For once to have continuity and contribute in a meaningful way—those are the drivers.&lt;/p&gt;
+&lt;p&gt;Sounds like a fantastic way to learn YugabyteDB inside out. And yes, I know there&amp;rsquo;s no money in writing technical books but money isn&amp;rsquo;t the driver for me here. For once to have continuity and contribute in a meaningful way—those are the drivers.&lt;/p&gt;
 &lt;p&gt;As I learned later, Jonathan also reached out to Franck Pachot—Developer Advocate at Yugabyte.&lt;/p&gt;
 &lt;p&gt;So I&amp;rsquo;ve spoken to Franck and we agreed to co-author a book. It&amp;rsquo;s all very early stages, the proposal is being written, priorities have to be taken care of, everybody has be aligned, everyone has to feel comfortable with choices being made. It can still go in every direction.&lt;/p&gt;
 &lt;p&gt;Stay tuned.&lt;/p&gt;
