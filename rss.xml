@@ -23,10 +23,225 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 12 Feb 2022 23:10:18 &#43;0100</lastBuildDate>
+        <lastBuildDate>Thu, 17 Feb 2022 00:48:35 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>YugabyteDB Go RPC client</title>
+                <link>https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/</guid>
+                <pubDate>Wed, 16 Feb 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;The YugabyteDB RPC API isn&amp;rsquo;t an official API, and that&amp;rsquo;s what makes it interesting. The whole distributed aspect of YugabyteDB is based on that API. Digging through it is a perfect way to understand the internals of the database. The RPC API can also be used to automate various aspects of the database. I&amp;rsquo;ll come back to this subject in near future.&lt;/p&gt;
+&lt;p&gt;Another reason for investigating the RPC API was to have a lightweight version of &lt;em&gt;yb-admin&lt;/em&gt; tools. I run everything in containers. When I want to connect to a cluster, I start another container with &lt;em&gt;a client&lt;/em&gt; and connect with it to the cluster. The YugabyteDB Docker image isn&amp;rsquo;t tiny, in fact, &lt;em&gt;2.11.2.0-b89&lt;/em&gt; is &lt;strong&gt;1.77GB&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;One point seventy seven gigabyte!&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m kinda not a fan of pulling in an image of such size just to execute &lt;code&gt;list_all_masters&lt;/code&gt;. Neither I am a fan of doing &lt;code&gt;docker exec&lt;/code&gt; in a production setting. I wanted to have a tool comparable to &lt;em&gt;yb-admin&lt;/em&gt; but of a smaller footprint. And I wanted a library, an embeddable library to help automate the hell out of it.&lt;/p&gt;
+&lt;p&gt;And that&amp;rsquo;s why some months ago I&amp;rsquo;ve written the very first version of the YugabyteDB client library for Go. Today, I&amp;rsquo;ve published the &lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client/releases/tag/v0.0.2-beta.1&#34;&gt;0.0.2-beta.1&lt;/a&gt; release. Here&amp;rsquo;s a brief overview of what it can do:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;given a list of master addresses, find the leader master and use that for further communication with the cluster&lt;/li&gt;
+&lt;li&gt;handle leader change, auto-discovery of a new leader, handles redelivery&lt;/li&gt;
+&lt;li&gt;auto-reconnect on connection loss, handles redelivery&lt;/li&gt;
+&lt;li&gt;wraps API error types and exposes them as Go errors&lt;/li&gt;
+&lt;li&gt;utilities to deal with various ID types and hybrid time&lt;/li&gt;
+&lt;li&gt;automatically discovers available messages and services, generic execution API is completely type-driven&lt;/li&gt;
+&lt;li&gt;client discovers the service and operation based on the request type&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client/pull/62/commits/5e441a9251d1c7261c16451d5e86449fe4cf70c7#diff-bd3a55a72186f59e2e63efb4951573b2f9e4a7cc98086e922b0859f8ccc1dd09R28-R31&#34;&gt;configurable logging sink&lt;/a&gt;, via &lt;code&gt;hclog.InterceptLogger&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client/pull/62/commits/ae09cf2c5a9568394d6d2c2c1e84fe14a57053c6&#34;&gt;configurable metrics sink&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The only feature unsupported feature are side cars but they will come.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/&#34;&gt;I&amp;rsquo;ve written more about side cars in my previous article&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;What&amp;rsquo;s the best way to sharpen your appetite? Code, obviously! So here&amp;rsquo;s how to start with this client:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;encoding/json&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;fmt&amp;#34;&lt;/span&gt;
+
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;github.com/hashicorp/go-hclog&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;github.com/radekg/yugabyte-db-go-client/client&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;github.com/radekg/yugabyte-db-go-client/configs&amp;#34;&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;clientErrors&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;github.com/radekg/yugabyte-db-go-client/errors&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;ybApi&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;github.com/radekg/yugabyte-db-go-proto/v2/yb/api&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;hclog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+  
+  &lt;span class=&#34;nx&#34;&gt;clientConfig&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;configs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;YBClientConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;MasterHostPort&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;127.0.0.1:7100&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;127.0.0.2:7100&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;127.0.0.3:7100&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;ybdbClient&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;NewYBClient&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;clientConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;WithLogger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ybdbClient&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Connect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;could not initialize api client&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;reason&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;nb&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;defer&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ybdbClient&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Close&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ybApi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ListMastersRequestPB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{}&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ybApi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ListMastersResponsePB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{}&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ybdbClient&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;terr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;clientErrors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ServiceRPCError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;service RPC error&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;reason&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;terr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+      &lt;span class=&#34;nb&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;could not execute RPC call&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;reason&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+    &lt;span class=&#34;nb&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;clientErrors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;NewMasterError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;YugabyteDB master error&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;reason&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+    &lt;span class=&#34;nb&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;jsonBytes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jsonErr&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;MarshalIndent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;  &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jsonErr&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;failed serializing response to JSON&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;reason&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jsonErr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+    &lt;span class=&#34;nb&#34;&gt;panic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;jsonErr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;logger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;YugabyteDB masters&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Println&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;jsonBytes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Maybe you need to adjust the master addresses list in line &lt;code&gt;20&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2022-02-16/yugabytedb-go-rpc-client.jpg&#34; alt=&#34;but wait, there&amp;rsquo;s more&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The client comes with &lt;code&gt;github.com/radekg/yugabyte-db-go-client/testutils/master&lt;/code&gt; and &lt;code&gt;github.com/radekg/yugabyte-db-go-client/testutils/tserver&lt;/code&gt; packages. Those contain a bunch of &lt;code&gt;dockertest&lt;/code&gt; based utilities for writing tests using containers. Simply write your integration test and have a cluster right there, when running &lt;code&gt;go test&lt;/code&gt; (use some higher timeout, these need some time for the cluster to spin up).&lt;/p&gt;
+&lt;p&gt;For reference:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client/blob/master/testutils/master/master_test.go&#34;&gt;&lt;code&gt;testutils/master/master_test.go&lt;/code&gt;&lt;/a&gt;: shows how to spin up a single master and run some tests against it&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client/blob/master/testutils/tserver/tserver_test.go&#34;&gt;&lt;code&gt;testutils/tserver/tserver_test.go&lt;/code&gt;&lt;/a&gt;: starts a mini-cluster and goes as far as executing an SQL command against it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That&amp;rsquo;ll get you going.&lt;/p&gt;
+&lt;h2 id=&#34;theres--more&#34;&gt;there&amp;rsquo;s &amp;hellip; more&lt;/h2&gt;
+&lt;p&gt;Being able to execute calls is one thing, knowing what to execute is a totally different beast.&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s this little repository here: &lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client-api&#34;&gt;radekg/yugabyte-db-go-client-api&lt;/a&gt;. It contains a naive implementation of some of the &lt;em&gt;yb-admin&lt;/em&gt; commands. That code is currently written against &lt;em&gt;v0.0.1-beta.X&lt;/em&gt; version of the client (so &lt;em&gt;2.11.0.0&lt;/em&gt; and &lt;em&gt;2.11.1.0&lt;/em&gt; YugabyteDB) but it might be a good source of inspiration.&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s a rewrite planned for that repository so best is not to invest too much time integrating that as a dependency in your own code.&lt;/p&gt;
+&lt;h2 id=&#34;protobuf&#34;&gt;protobuf&lt;/h2&gt;
+&lt;p&gt;The client depends on the &lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-proto&#34;&gt;radekg/yugabyte-db-go-proto&lt;/a&gt; library. That&amp;rsquo;s where the extracted &lt;em&gt;*.proto&lt;/em&gt; files and generated Go code live. Have a look at the readme in that repository to find out more on how to generate your own code from YugabyteDB sources.&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;radekg/yugabyte-db-go-proto&lt;/em&gt; library versioning follows the YugabyteDB versioning.&lt;/p&gt;
+&lt;h2 id=&#34;a-couple-of-closing-notes&#34;&gt;a couple of closing notes&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client/releases&#34;&gt;Client versions&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;0.0.1-beta.4&lt;/em&gt; is the last version for YugabyteDB &lt;em&gt;2.11.0.0&lt;/em&gt; and &lt;em&gt;2.11.1.0&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;0.0.2-beta.1&lt;/em&gt; is targeted for YugabyteDB &lt;em&gt;2.11.2+&lt;/em&gt;, there are some &lt;em&gt;protobuf&lt;/em&gt; changes which might not be exactly compatible with previous database versions, I don&amp;rsquo;t really know yet, haven&amp;rsquo;t tried it myself, but I doubt it&amp;rsquo;ll work&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Would I recommend using this in production? Yeah, why not. It&amp;rsquo;s used in production. But please keep in mind, &lt;strong&gt;there&amp;rsquo;s no warranty&lt;/strong&gt;!&lt;/p&gt;
+&lt;p&gt;If you find a bug, feel free to &lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-proto/pulls&#34;&gt;submit a pull request&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;commercial-plug&#34;&gt;commercial plug&lt;/h2&gt;
+&lt;p&gt;If your company is looking for someone who can help you migrate your database to the cloud and/or your company needs a solid partner who knows a thing or two about YugabyteDB, feel free to reach out to me at &lt;a href=&#34;mailto:radek.gruchalski@klarrio.com&#34;&gt;radek.gruchalski@klarrio.com&lt;/a&gt;.&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/yugabytedb/">yugabytedb</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/rpc/">rpc</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/protobuf/">protobuf</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/golang/">golang</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>A brief look at YugabyteDB RPC API</title>
