@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Mon, 21 Feb 2022 18:39:33 &#43;0100</lastBuildDate>
+        <lastBuildDate>Mon, 21 Feb 2022 21:27:53 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -262,7 +262,7 @@ diff out-alter-type-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class
 &amp;lt; 				}
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;For some of those statements, it might be necessary to adjust the value of &lt;code&gt;-B&lt;/code&gt;. In this case &lt;code&gt;5&lt;/code&gt; was enough, we can see that the &lt;code&gt;ALTER TYPE_P any_name RENAME TO name&lt;/code&gt; disappeared from the grammar file in &lt;em&gt;2.11.2&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;For some of those statements, it might be necessary to adjust the value of &lt;code&gt;-B&lt;/code&gt;. In this case &lt;code&gt;5&lt;/code&gt; was enough, we can see that the &lt;code&gt;parser_ybc_signal_unsupported&lt;/code&gt; for &lt;code&gt;ALTER TYPE_P any_name RENAME TO name&lt;/code&gt; disappeared from the grammar file in &lt;em&gt;2.11.2&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;With little to no work, it&amp;rsquo;s possible to quickly compare the level of support for all three definitions across whatever arbitrary versions we are interested in.&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
@@ -285,6 +285,14 @@ diff out-alter-type-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class
                 
                 
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/yugabytedb/">YugabyteDB</category>
+                                
+                            
                         
                     
                         
@@ -946,6 +954,14 @@ docker run --rm &lt;span class=&#34;se&#34;&gt;\
                 
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/yugabytedb/">YugabyteDB</category>
+                                
+                            
+                        
                     
                         
                             
@@ -1387,6 +1403,14 @@ find . -name *.proto &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v &lt;sp
                 
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/yugabytedb/">YugabyteDB</category>
+                                
+                            
+                        
                     
                         
                             
@@ -1495,6 +1519,14 @@ find . -name *.proto &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v &lt;sp
                 
                 
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/yugabytedb/">YugabyteDB</category>
+                                
+                            
                         
                     
                         
@@ -1852,6 +1884,14 @@ tenant2db=&amp;gt;
                 
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/yugabytedb/">YugabyteDB</category>
+                                
+                            
+                        
                     
                         
                             
@@ -2100,6 +2140,14 @@ docker build -t yb-test:latest .
                 
                 
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/yugabytedb/">YugabyteDB</category>
+                                
+                            
                         
                     
                         
@@ -3037,6 +3085,14 @@ docker run --rm &lt;span class=&#34;se&#34;&gt;\
                 
                 
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/yugabytedb/">YugabyteDB</category>
+                                
+                            
                         
                     
                         
