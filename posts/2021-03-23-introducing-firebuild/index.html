@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.00db7a0851706a6bebd66098ff68a7645f6661d451bb6671512dfb4526acbee2.js"></script>
 
     
 
@@ -58,13 +58,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-03-23T00:00:00+00:00",
-        "dateModified": "2021-04-29T19:10:25+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-03-23-introducing-firebuild/",
         "headline": "Introducing firebuild",
         "description": "Manage firecracker root file systems and VMMs",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  2370 ,
+        "wordCount":  2366 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-03-23/header.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-03-23T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-04-29T19:10:25&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -257,7 +257,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2370</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2366</span>
     
     
         
@@ -294,7 +294,7 @@
 <h3 id="create-a-firebuild-profile"><a href="#create-a-firebuild-profile" class="anchor-link">§</a>create a firebuild profile</h3>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -305,7 +305,7 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild profile-create <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild profile-create <span class="se">\
 </span><span class="se"></span>	--profile<span class="o">=</span>standard <span class="se">\
 </span><span class="se"></span>	--binary-firecracker<span class="o">=</span><span class="k">$(</span>readlink /usr/bin/firecracker<span class="k">)</span> <span class="se">\
 </span><span class="se"></span>	--binary-jailer<span class="o">=</span><span class="k">$(</span>readlink /usr/bin/jailer<span class="k">)</span> <span class="se">\
@@ -321,12 +321,12 @@
 <p>In order to fulfill those semantics, a base operating system image must be built before the application root file system can be created.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild baseos <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild baseos <span class="se">\
 </span><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
 </span><span class="se"></span>    --dockerfile <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/baseos/_/alpine/3.12/Dockerfile
 </code></pre></td></tr></table></div>
@@ -335,7 +335,7 @@
 <p>To run an instance of HashiCorp Consul, <code>firebuild</code> requires the Consul application root file system. To build one:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -344,7 +344,7 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild rootfs <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild rootfs <span class="se">\
 </span><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
 </span><span class="se"></span>    --dockerfile<span class="o">=</span>git+https://github.com/hashicorp/docker-consul.git:/0.X/Dockerfile <span class="se">\
 </span><span class="se"></span>    --cni-network-name<span class="o">=</span>machine-builds <span class="se">\
@@ -356,14 +356,14 @@
 </div><h3 id="start-the-application"><a href="#start-the-application" class="anchor-link">§</a>start the application</h3>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild run <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild run <span class="se">\
 </span><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
 </span><span class="se"></span>    --from<span class="o">=</span>combust-labs/consul:1.9.4 <span class="se">\
 </span><span class="se"></span>    --cni-network-name<span class="o">=</span>machines <span class="se">\
@@ -374,12 +374,12 @@
 <p>First, find the VM ID:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild ls <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild ls <span class="se">\
 </span><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
 </span><span class="se"></span>    --log-as-json 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> jq <span class="s1">&#39;.id&#39;</span> -r
 </code></pre></td></tr></table></div>
@@ -387,12 +387,12 @@
 </div><p>In my case, the value is <code>wcabty1922gloailwrce</code>. I used it to get the IP address of the VM:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ sudo <span class="nv">$GOPATH</span>/bin/firebuild inspect <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ sudo <span class="nv">$GOPATH</span>/bin/firebuild inspect <span class="se">\
 </span><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
 </span><span class="se"></span>    --vmm-id<span class="o">=</span>wcabty1922gloailwrce <span class="p">|</span> jq <span class="s1">&#39;.NetworkInterfaces[0].StaticConfiguration.IPConfiguration.IP&#39;</span> -r
 </code></pre></td></tr></table></div>
@@ -400,11 +400,11 @@
 </div><p>The command returned <code>192.168.127.89</code>. I could query Consul via REST API:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl http://192.168.127.89:8500/v1/status/leader
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl http://192.168.127.89:8500/v1/status/leader
 <span class="s2">&#34;127.0.0.1:8300&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
@@ -451,7 +451,7 @@
 <p>What&rsquo;s more, <code>firebuild</code> supports multi-stage builds. <code>firebuild</code> will build any stages with <code>FROM ... as</code> as regular Docker images and extract resources from the stage to the main build when <code>COPY --from=</code> is found. For example, it&rsquo;s perfectly fine to build a Kafka Proxy root file system from:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -460,7 +460,7 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild rootfs <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo <span class="nv">$GOPATH</span>/bin/firebuild rootfs <span class="se">\
 </span><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
 </span><span class="se"></span>    --dockerfile<span class="o">=</span>git+https://github.com/grepplabs/kafka-proxy.git:/Dockerfile#v0.2.8 <span class="se">\
 </span><span class="se"></span>    --cni-network-name<span class="o">=</span>machine-builds <span class="se">\
@@ -474,7 +474,7 @@
 <p>Finally, a resulting application is launched with the <code>run</code> command. The <code>run</code> command uses an unattended, cloud-init like mechanism. The metadata of the <code>baseos</code> and <code>rootfs</code> is combined. A guest facing version is put in MMDS (the Firecracker machine metadata service). MMDS provides a HTTP API available to both: the host and the guest. By default, if the guest was started with <code>--allow-mmds</code> flag, it can reach that API via <code>169.254.169.254</code> IP address. <code>firebuild</code> uses MMDS by default for all guests but this can be disabled. The guest facing metadata contains a bunch of information required to bootstrap the VM in a cloud-init style. These are fairly short so let&rsquo;s look at an example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -520,7 +520,7 @@
 </span><span class="lnt">44
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;latest&#34;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&#34;meta-data&#34;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&#34;Drives&#34;</span><span class="p">:</span> <span class="p">{</span>
@@ -576,14 +576,14 @@
 </ul>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;Users&#34;</span><span class="err">:</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;Users&#34;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&#34;alpine&#34;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&#34;SSHKeys&#34;</span><span class="p">:</span> <span class="s2">&#34;ssh-rsa ... \nssh-rsa ...\n&#34;</span>
   <span class="p">}</span>
@@ -599,28 +599,28 @@
 <p>List running VMs:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild ls --profile<span class="o">=</span>standard
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild ls --profile<span class="o">=</span>standard
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Inspect the metadata of a running VM:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild inspect --profile<span class="o">=</span>standard --vmm-id<span class="o">=</span>...
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild inspect --profile<span class="o">=</span>standard --vmm-id<span class="o">=</span>...
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Terminate a running VM:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild <span class="nb">kill</span> --profile<span class="o">=</span>standard --vmm-id<span class="o">=</span>...
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild <span class="nb">kill</span> --profile<span class="o">=</span>standard --vmm-id<span class="o">=</span>...
 </code></pre></td></tr></table></div>
 </div>
 </div><h3 id="unclean-shutdowns"><a href="#unclean-shutdowns" class="anchor-link">§</a>unclean shutdowns</h3>
@@ -633,29 +633,29 @@
 <p>To mass-clean all these for all exited VMs, run:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild purge --profile<span class="o">=</span>standard
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild purge --profile<span class="o">=</span>standard
 </code></pre></td></tr></table></div>
 </div>
 </div><h3 id="profile-commands"><a href="#profile-commands" class="anchor-link">§</a>profile commands</h3>
 <p>List profiles:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild profile-ls
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild profile-ls
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Inspect a profile:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild profile-inspect --profile<span class="o">=</span>...
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo firebuild profile-inspect --profile<span class="o">=</span>...
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Profiles may be updated by issuing subsequent <code>profile-create</code> commands with a name of an existing profile.</p>
@@ -688,16 +688,16 @@
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://github.com/combust-labs/firebuild" target="_blank" rel="noopener">The source code is on GitHub</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/combust-labs/firebuild" target="_blank" rel="noopener">The source code is on GitHub</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/" target="_blank" rel="noopener">firebuild prerequisites</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/" target="_blank" rel="noopener">firebuild prerequisites</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://github.com/combust-labs/firebuild#caveats-when-building-from-the-url" target="_blank" rel="noopener">Caveats when building from the URL</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/combust-labs/firebuild#caveats-when-building-from-the-url" target="_blank" rel="noopener">Caveats when building from the URL</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://github.com/combust-labs/firebuild-mmds" target="_blank" rel="noopener">firebuild-mmds GitHub repository</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/combust-labs/firebuild-mmds" target="_blank" rel="noopener">firebuild-mmds GitHub repository</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

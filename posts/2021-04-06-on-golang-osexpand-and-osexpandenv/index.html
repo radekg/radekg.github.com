@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.00db7a0851706a6bebd66098ff68a7645f6661d451bb6671512dfb4526acbee2.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-04-06T00:00:00+00:00",
-        "dateModified": "2021-04-06T18:46:38+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/",
         "headline": "On golang os.Expand and os.ExpandEnv",
         "description": "They are awesome but could be better",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-04-06T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-04-06T18:46:38&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -275,12 +275,12 @@
 <p>The former takes an input string and expands the shell variable-like occurrences with actual shell variable values. For example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;VARIABLE&#34;</span><span class="p">,</span> <span class="s">&#34;hello&#34;</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;VARIABLE&#34;</span><span class="p">,</span> <span class="s">&#34;hello&#34;</span><span class="p">)</span>
 <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="s">&#34;${VARIABLE}, world!&#34;</span><span class="p">))</span>
 <span class="c1">// prints &#34;hello, world!&#34;
 </span></code></pre></td></tr></table></div>
@@ -291,7 +291,7 @@
 <p>However, consider the following command:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -302,7 +302,7 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`cd /tmp/build &amp;&amp; \
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`cd /tmp/build &amp;&amp; \
 </span><span class="s">apkArch=&#34;$(apk --print-arch)&#34; &amp;&amp; \
 </span><span class="s">case &#34;${apkArch}&#34; in \
 </span><span class="s">    aarch64) consulArch=&#39;arm64&#39; ;; \
@@ -316,18 +316,18 @@
 </div><p>Assuming that the values of <code>HASHICORP_RELEASES</code> and <code>CONSUL_VERSION</code> are passed as environment variables:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;HASHICORP_RELEASES&#34;</span><span class="p">,</span> <span class="s">&#34;https://releases.hashicorp.com&#34;</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;HASHICORP_RELEASES&#34;</span><span class="p">,</span> <span class="s">&#34;https://releases.hashicorp.com&#34;</span><span class="p">)</span>
 <span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;CONSUL_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.9.4&#34;</span><span class="p">)</span>
 <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="nx">command</span><span class="p">))</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>would give the following output:</p>
-<pre><code>cd /tmp/build &amp;&amp; \
+<pre tabindex="0"><code>cd /tmp/build &amp;&amp; \
 apkArch=&quot;$(apk --print-arch)&quot; &amp;&amp; \
 case &quot;&quot; in \
     aarch64) consulArch='arm64' ;; \
@@ -340,7 +340,7 @@ esac
 <p>Fortunately, <code>os.Expand</code> comes to the rescue!</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -350,7 +350,7 @@ esac
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">lookupFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">placeholderName</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="nx">lookupFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">placeholderName</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
     <span class="k">if</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Lookup</span><span class="p">(</span><span class="nx">placeholderName</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nx">value</span>
     <span class="p">}</span>
@@ -361,7 +361,7 @@ esac
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Aha, now it looks better:</p>
-<pre><code>cd /tmp/build &amp;&amp; \
+<pre tabindex="0"><code>cd /tmp/build &amp;&amp; \
 apkArch=&quot;$(apk --print-arch)&quot; &amp;&amp; \
 case &quot;$apkArch&quot; in \
     aarch64) consulArch='arm64' ;; \
@@ -376,7 +376,7 @@ esac
 <p>Consider the following input, a slightly modified real example coming from the official Postgres 13 Dockerfile:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -398,7 +398,7 @@ esac
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`RUN set -eux; \
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`RUN set -eux; \
 </span><span class="s">    export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)}; \
 </span><span class="s">	savedAptMark=&#34;$(apt-mark showmanual)&#34;; \
 </span><span class="s">	apt-get update; \
@@ -426,7 +426,7 @@ esac
 <p>The answer is to look at the source of <a href="https://golang.org/src/os/env.go?s=403:460#L16" target="_blank" rel="noopener"><code>os.Expand</code> standard library function</a>. It looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -458,7 +458,7 @@ esac
 </span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
 	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
 	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.
 </span><span class="c1"></span>	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
@@ -497,7 +497,7 @@ esac
 <p>If we replaced this code with:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -540,7 +540,7 @@ esac
 </span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">bool</span><span class="p">))</span> <span class="kt">string</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">bool</span><span class="p">))</span> <span class="kt">string</span> <span class="p">{</span>
 	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
 	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.
 </span><span class="c1"></span>	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
@@ -586,12 +586,12 @@ esac
 </div><p>We would get the fully correct behavior. We have added:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
 			<span class="nx">shellNameInput</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="c1">// &lt;----- this line
 </span><span class="c1"></span>			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span>
 </code></pre></td></tr></table></div>
@@ -599,7 +599,7 @@ esac
 </div><p>and changed the final else statement to:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -612,7 +612,7 @@ esac
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go">				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go">				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
 				<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
 					<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">replacement</span><span class="o">...</span><span class="p">)</span>
 				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -632,16 +632,16 @@ esac
 <p>The result of the custom <code>Expand</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;GOSU_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.12&#34;</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;GOSU_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.12&#34;</span><span class="p">)</span>
 <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Lookup</span><span class="p">))</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>is correct:</p>
-<pre><code>RUN set -eux; \
+<pre tabindex="0"><code>RUN set -eux; \
     export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)}; \
 	savedAptMark=&quot;$(apt-mark showmanual)&quot;; \
 	apt-get update; \

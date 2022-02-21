@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.00db7a0851706a6bebd66098ff68a7645f6661d451bb6671512dfb4526acbee2.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2017-01-31T00:00:00+00:00",
-        "dateModified": "2020-09-03T02:05:15+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/",
         "headline": "Publish to Maven Central via Sonatype with SBT",
         "description": "Publish to Maven Central via Sonatype with SBT",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2017-01-31T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2020-09-03T02:05:15&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -275,24 +275,24 @@
 <p>To do so, configure your SBT project. Add the following lines to your <code>project/plugins.sbt</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&#34;org.xerial.sbt&#34;</span> <span class="o">%</span> <span class="s">&#34;sbt-sonatype&#34;</span> <span class="o">%</span> <span class="s">&#34;1.1&#34;</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&#34;org.xerial.sbt&#34;</span> <span class="o">%</span> <span class="s">&#34;sbt-sonatype&#34;</span> <span class="o">%</span> <span class="s">&#34;1.1&#34;</span><span class="o">)</span>
 <span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&#34;com.jsuereth&#34;</span> <span class="o">%</span> <span class="s">&#34;sbt-pgp&#34;</span> <span class="o">%</span> <span class="s">&#34;1.0.0&#34;</span><span class="o">)</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Configure Sonatype credentials for <code>sbt-sonatype</code>, create the <code>~/.sbt/0.13/sonatype.sbt</code> file with the contents like:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">credentials</span> <span class="o">+=</span> <span class="nc">Credentials</span><span class="o">(</span><span class="s">&#34;Sonatype Nexus Repository Manager&#34;</span><span class="o">,</span>
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">credentials</span> <span class="o">+=</span> <span class="nc">Credentials</span><span class="o">(</span><span class="s">&#34;Sonatype Nexus Repository Manager&#34;</span><span class="o">,</span>
         <span class="s">&#34;oss.sonatype.org&#34;</span><span class="o">,</span>
         <span class="s">&#34;your-username&#34;</span><span class="o">,</span>
         <span class="s">&#34;your-sonatype-password&#34;</span><span class="o">)</span>
@@ -301,7 +301,7 @@
 </div><p>Add the following to your <code>build.sbt</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -327,7 +327,7 @@
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">organization</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;uk.co.appministry&#34;</span> <span class="c1">// set to whatever you requested as an organization in the form
+<pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="n">organization</span> <span class="k">:</span><span class="o">=</span> <span class="s">&#34;uk.co.appministry&#34;</span> <span class="c1">// set to whatever you requested as an organization in the form
 </span><span class="c1"></span><span class="n">publishMavenStyle</span> <span class="k">:</span><span class="o">=</span> <span class="kc">true</span>
 <span class="n">pomIncludeRepository</span> <span class="k">:</span><span class="o">=</span> <span class="o">{</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">false</span> <span class="o">}</span>
 <span class="n">pomExtra</span> <span class="k">:</span><span class="o">=</span> <span class="o">(</span>

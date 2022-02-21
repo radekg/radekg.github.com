@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.00db7a0851706a6bebd66098ff68a7645f6661d451bb6671512dfb4526acbee2.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2014-10-12T00:00:00+00:00",
-        "dateModified": "2020-09-03T02:03:37+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/",
         "headline": "Apache Thrift via UDP in Erlang",
         "description": "A few months ago I have started learning Erlang, mostly for fun but it was right about time to jump on the functional bandwagon. The best way to learn a new language is to find an engaging project, in my case its been something what has been on my mind for quite a while: a cloud communication protocol / framework for distributed computing.",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2014-10-12T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2020-09-03T02:03:37&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -287,13 +287,13 @@
 <p>A bare minimum required for installing dependencies.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">deps</span><span class="p">,</span> <span class="p">[</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">deps</span><span class="p">,</span> <span class="p">[</span>
   <span class="p">{</span><span class="n">thrift</span><span class="p">,</span> <span class="s">&#34;.*&#34;</span><span class="p">,</span>
     <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&#34;https://github.com/radekg/thrift-erlang.git&#34;</span><span class="p">,</span> <span class="s">&#34;master&#34;</span><span class="p">}}</span>
 <span class="p">]}.</span>
@@ -303,7 +303,7 @@
 <h4 id="srcudp_thriftappsrc"><a href="#srcudp_thriftappsrc" class="anchor-link">§</a>src/udp_thrift.app.src</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -317,7 +317,7 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">application</span><span class="p">,</span> <span class="n">udp_thrift</span><span class="p">,</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">application</span><span class="p">,</span> <span class="n">udp_thrift</span><span class="p">,</span>
   <span class="p">[{</span><span class="n">description</span><span class="p">,</span> <span class="s">&#34;Example of using Thrift with UDP&#34;</span><span class="p">},</span>
   <span class="p">{</span><span class="n">vsn</span><span class="p">,</span> <span class="s">&#34;1&#34;</span><span class="p">},</span>
   <span class="p">{</span><span class="n">modules</span><span class="p">,</span> <span class="p">[</span><span class="n">udp_thrift_types</span><span class="p">,</span>
@@ -334,7 +334,7 @@
 </div><h4 id="srcudp_thrift_apperl"><a href="#srcudp_thrift_apperl" class="anchor-link">§</a>src/udp_thrift_app.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -344,7 +344,7 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_app</span><span class="p">).</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_app</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">application</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">1</span><span class="p">]).</span>
 
@@ -357,7 +357,7 @@
 </div><h4 id="srcudp_thrift_commonerl"><a href="#srcudp_thrift_commonerl" class="anchor-link">§</a>src/udp_thrift_common.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -370,7 +370,7 @@
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_common</span><span class="p">).</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_common</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">export</span><span class="p">([</span>
   <span class="n">get_timestamp</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span>
   <span class="n">get_message_id_as_string</span><span class="o">/</span><span class="mi">0</span> <span class="p">]).</span>
@@ -386,7 +386,7 @@
 </div><h4 id="srcudp_thrift_superl"><a href="#srcudp_thrift_superl" class="anchor-link">§</a>src/udp_thrift_sup.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -433,7 +433,7 @@
 </span><span class="lnt">45
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_sup</span><span class="p">).</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_sup</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">supervisor</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">]).</span>
 
@@ -484,7 +484,7 @@
 <h4 id="srcudp_thrift_messagingerl"><a href="#srcudp_thrift_messagingerl" class="anchor-link">§</a>src/udp_thrift_messaging.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -585,7 +585,7 @@
 </span><span class="lnt">99
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_messaging</span><span class="p">).</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_messaging</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">gen_server</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
 <span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span> <span class="n">handle_call</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">handle_cast</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">handle_info</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">code_change</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">terminate</span><span class="o">/</span><span class="mi">2</span><span class="p">]).</span>
@@ -688,7 +688,7 @@
 </div>
 </div><h4 id="privateudp_thriftthrift"><a href="#privateudp_thriftthrift" class="anchor-link">§</a>private/udp_thrift.thrift</h4>
 <p>The task of this example is for every client, at two seconds interval, send a <code>Digest</code> to the other client. On the other side of the wire, upon receiving the <code>Digest</code>, send a <code>DigestAck</code> message back. Every message is wrapped in a <code>DigestEnvelope</code> container so the program can easily establish what is the digest type sent. The <code>thrift</code> file looks like this:</p>
-<pre><code>namespace erl udp_thrift
+<pre tabindex="0"><code>namespace erl udp_thrift
 
 struct DigestEnvelope {
   1: required string payload_type;
@@ -711,7 +711,7 @@ struct DigestAck {
 <p>Once thrift is installed on the system, the code can be generated from the <code>thrift</code> file. To do so:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -721,7 +721,7 @@ struct DigestAck {
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> &lt;project root&gt;/private/
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> &lt;project root&gt;/private/
 thrift --gen erl udp_thrift.thrift
 mkdir -p ../include
 <span class="c1"># make the generated code available for the program:</span>
@@ -734,17 +734,17 @@ rm -Rf gen-erl
 </div><p>The source code on github contains a Vagrant box which can be used to generate the code:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">vagrant up thrift
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">vagrant up thrift
 </code></pre></td></tr></table></div>
 </div>
 </div><h2 id="thrift-serialisation-and-deserialisation"><a href="#thrift-serialisation-and-deserialisation" class="anchor-link">§</a>Thrift serialisation and deserialisation</h2>
 <p>The module responsible for these tasks has been already started in the supervisor. Let’s go through the code and discuss the parts in detail.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -758,7 +758,7 @@ rm -Rf gen-erl
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_serialization</span><span class="p">).</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_serialization</span><span class="p">).</span>
 <span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">gen_server</span><span class="p">).</span>
 
 <span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
@@ -775,14 +775,14 @@ rm -Rf gen-erl
 </div><p>First, these records are required. As the serialisation happens within this single module, I include them directly by copying from Erlang Thrift sources.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">record</span><span class="p">(</span><span class="nl">binary_protocol</span><span class="p">,</span> <span class="p">{</span><span class="n">transport</span><span class="p">,</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">record</span><span class="p">(</span><span class="nl">binary_protocol</span><span class="p">,</span> <span class="p">{</span><span class="n">transport</span><span class="p">,</span>
                           <span class="n">strict_read</span><span class="o">=</span><span class="n">true</span><span class="p">,</span>
                           <span class="n">strict_write</span><span class="o">=</span><span class="n">true</span>
                          <span class="p">}).</span>
@@ -792,7 +792,7 @@ rm -Rf gen-erl
 </div><p>Following is the code for the module setup. For serialisation, a single protocol instance may be used for all serialized messages.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -803,7 +803,7 @@ rm -Rf gen-erl
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">start_link</span><span class="p">()</span> <span class="o">-&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">start_link</span><span class="p">()</span> <span class="o">-&gt;</span>
   <span class="nn">gen_server</span><span class="p">:</span><span class="nf">start_link</span><span class="p">({</span><span class="n">local</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">},</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]).</span>
 
 <span class="nf">init</span><span class="p">([])</span> <span class="o">-&gt;</span>
@@ -817,7 +817,7 @@ rm -Rf gen-erl
 </div><h4 id="serialization"><a href="#serialization" class="anchor-link">§</a>Serialization</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -836,7 +836,7 @@ rm -Rf gen-erl
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
   <span class="n">self</span><span class="p">()</span> <span class="o">!</span> <span class="p">{</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span>
               <span class="nv">Digest</span><span class="p">,</span> <span class="nn">udp_thrift_types</span><span class="p">:</span><span class="nf">struct_info</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">),</span>
               <span class="nv">CallerPid</span> <span class="p">},</span>
@@ -859,7 +859,7 @@ rm -Rf gen-erl
 <h4 id="deserialization"><a href="#deserialization" class="anchor-link">§</a>Deserialization</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -893,7 +893,7 @@ rm -Rf gen-erl
 </span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">deserialize</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">deserialize</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
   <span class="k">try</span>
     <span class="k">case</span> <span class="n">digest_from_binary</span><span class="p">(</span><span class="n">digestEnvelope</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">)</span> <span class="k">of</span>
       <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult</span><span class="p">}</span> <span class="o">-&gt;</span>
@@ -931,7 +931,7 @@ rm -Rf gen-erl
 <h4 id="digest_to_binary-digest_from_binary-and-payload_type_as_known_atom"><a href="#digest_to_binary-digest_from_binary-and-payload_type_as_known_atom" class="anchor-link">§</a>digest_to_binary, digest_from_binary and payload_type_as_known_atom</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -939,7 +939,7 @@ rm -Rf gen-erl
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang">  <span class="n">digest_to_binary</span><span class="p">(</span><span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">)</span> <span class="o">-&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang">  <span class="n">digest_to_binary</span><span class="p">(</span><span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">)</span> <span class="o">-&gt;</span>
     <span class="p">{</span><span class="nv">PacketThrift</span><span class="p">,</span> <span class="n">ok</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_protocol</span><span class="p">:</span><span class="nf">write</span><span class="p">(</span><span class="nv">OutThriftProtocol</span><span class="p">,</span>
                                                <span class="p">{</span> <span class="p">{</span><span class="n">struct</span><span class="p">,</span> <span class="nb">element</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">)},</span> <span class="nv">Digest</span><span class="p">}),</span>
     <span class="p">{</span><span class="n">protocol</span><span class="p">,</span> <span class="p">_,</span> <span class="nv">OutProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nv">PacketThrift</span><span class="p">,</span>
@@ -950,7 +950,7 @@ rm -Rf gen-erl
 </div><p><code>digest_to_binary</code> serializes the payload. It uses the copy of the protocol defined in <code>init</code> to write the thrift binary representation of data to be sent. All what has to be done afterwards is converting <code>iolist</code> contained in the resulting <code>OutTransport</code> to <code>binary</code> data. This is returned to <code>CallerPid</code> and sent via UDP to the destination.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -964,7 +964,7 @@ rm -Rf gen-erl
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">digest_from_binary</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">)</span> <span class="o">-&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">digest_from_binary</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">)</span> <span class="o">-&gt;</span>
   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">InTransport</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_memory_buffer</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">BinaryDigest</span><span class="p">),</span>
   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">InProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_binary_protocol</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">InTransport</span><span class="p">),</span>
   <span class="k">case</span> <span class="nn">thrift_protocol</span><span class="p">:</span><span class="nf">read</span><span class="p">(</span>
@@ -981,7 +981,7 @@ rm -Rf gen-erl
 </div><p><code>digest_from_binary</code> receives an <code>atom</code> of an expected digest type and a binary digest as an input. First, a <code>memory_buffer</code> transport is constructed from the binary data. It is then converted into a binary protocol and an attempt to read the data from <code>thrift</code> is made using a structure provided by <code>udp_thrift_types:struct_info</code>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -991,7 +991,7 @@ rm -Rf gen-erl
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">payload_type_as_known_atom</span><span class="p">(</span><span class="nv">DigestTypeBin</span><span class="p">)</span> <span class="o">-&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">payload_type_as_known_atom</span><span class="p">(</span><span class="nv">DigestTypeBin</span><span class="p">)</span> <span class="o">-&gt;</span>
   <span class="nv">KnownDigestTypes</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">{</span> <span class="o">&lt;&lt;</span><span class="s">&#34;digest&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">digest</span> <span class="p">},</span>
     <span class="p">{</span> <span class="o">&lt;&lt;</span><span class="s">&#34;digestAck&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">digestAck</span> <span class="p">}</span> <span class="p">],</span>
@@ -1005,7 +1005,7 @@ rm -Rf gen-erl
 <p>The module ends with the rest of required <code>gen_server</code> behaviour.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1018,7 +1018,7 @@ rm -Rf gen-erl
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_call</span><span class="p">(_</span><span class="nv">Msg</span><span class="p">,</span> <span class="p">_</span><span class="nv">From</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_call</span><span class="p">(_</span><span class="nv">Msg</span><span class="p">,</span> <span class="p">_</span><span class="nv">From</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
   <span class="p">{</span><span class="n">reply</span><span class="p">,</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
 
 <span class="nf">handle_cast</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
@@ -1035,12 +1035,12 @@ rm -Rf gen-erl
 <p>Preparation:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> &lt;project directory&gt;
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> &lt;project directory&gt;
 ./rebar get-deps
 ./rebar compile
 </code></pre></td></tr></table></div>
@@ -1048,16 +1048,16 @@ rm -Rf gen-erl
 </div><p>To run, two terminal windows are required. In the first window, start Erlang with this command:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">erl -pa ebin/ -pa deps/*/ebin
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">erl -pa ebin/ -pa deps/*/ebin
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Run the application:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1065,7 +1065,7 @@ rm -Rf gen-erl
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberA&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberA&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">6666</span><span class="p">).</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">,</span> <span class="mi">6667</span><span class="p">).</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">).</span>
@@ -1076,16 +1076,16 @@ rm -Rf gen-erl
 </div><p>In the second terminal window, start Erlang:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">erl -pa ebin/ -pa deps/*/ebin
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">erl -pa ebin/ -pa deps/*/ebin
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Run the application:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1093,7 +1093,7 @@ rm -Rf gen-erl
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberB&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberB&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">6667</span><span class="p">).</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">,</span> <span class="mi">6666</span><span class="p">).</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">).</span>
@@ -1102,7 +1102,7 @@ rm -Rf gen-erl
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Both windows should be showing output similar to this:</p>
-<pre><code>…
+<pre tabindex="0"><code>…
 Sending digest to 6667.
 =INFO REPORT==== 12-Oct-2014::21:43:43 ===
 Sending digest to 6667.

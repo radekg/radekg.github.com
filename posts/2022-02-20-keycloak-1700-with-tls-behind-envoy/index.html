@@ -12,7 +12,7 @@
     
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <title>Keycloak with TLS in Docker compose behind Envoy proxy | gruchalski.com</title>
+    <title>Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy | gruchalski.com</title>
 
     <link rel="stylesheet" href="/css/meme.min.c52d01779616c51cf9e5645a858d46e5aeb85f3cf186b96d11f0e45b87171345.css"/>
 
@@ -27,8 +27,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
-    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That’s a perfect opportunity to add TLS to my Keycloak Docker Compose setup described previously here1.
-There are multiple ways of setting up TLS for Keycloak, one of them being the native Java JKS key store / trust store gymnastics." />
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.
+Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it." />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -48,7 +48,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 
     
     
-        <link rel="canonical" href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" />
+        <link rel="canonical" href="https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" />
     
 
     
@@ -57,14 +57,14 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "datePublished": "2021-06-06T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
-        "url": "https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/",
-        "headline": "Keycloak with TLS in Docker compose behind Envoy proxy",
-        "description": "The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That’s a perfect opportunity to add TLS to my Keycloak Docker Compose setup described previously here1.\nThere are multiple ways of setting up TLS for Keycloak, one of them being the native Java JKS key store / trust store gymnastics.",
+        "datePublished": "2022-02-20T00:00:00+00:00",
+        "dateModified": "2022-02-21T02:50:24+01:00",
+        "url": "https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/",
+        "headline": "Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy",
+        "description": "I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.\nKeycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1015 ,
+        "wordCount":  1170 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -99,15 +99,15 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 
 
 
-<meta property="og:title" content="Keycloak with TLS in Docker compose behind Envoy proxy" />
-<meta property="og:description" content="The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That’s a perfect opportunity to add TLS to my Keycloak Docker Compose setup described previously here1.
-There are multiple ways of setting up TLS for Keycloak, one of them being the native Java JKS key store / trust store gymnastics." />
-<meta property="og:url" content="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" />
+<meta property="og:title" content="Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy" />
+<meta property="og:description" content="I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.
+Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it." />
+<meta property="og:url" content="https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" />
 <meta property="og:site_name" content="gruchalski.com" />
-<meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
-        <meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2021-06-06T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2022-02-20T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:50:24&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -232,7 +232,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 
         <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
 
-            <h1 class="post-title p-name">Keycloak with TLS in Docker compose behind Envoy proxy</h1>
+            <h1 class="post-title p-name">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</h1>
 
             
 
@@ -246,7 +246,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 <div class="post-meta">
     
         
-        <time datetime="2021-06-06T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;June 6, 2021</time>
+        <time datetime="2022-02-20T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;February 20, 2022</time>
     
     
     
@@ -257,11 +257,11 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1015</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1170</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;5&nbsp;mins</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;6&nbsp;mins</span>
     
     
     
@@ -269,13 +269,35 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 
             
 
+            
+                <img src="/assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg" alt="thumbnail" class="p-article__thumbnail">
             
 
             <div class="post-body e-content">
-              <p>The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That&rsquo;s a perfect opportunity to add TLS to my <a href="/posts/2020-09-03-keycloak-with-docker-compose/">Keycloak Docker Compose setup described previously here</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
-<p>There are multiple ways of setting up TLS for Keycloak, one of them being the native Java JKS key store / trust store gymnastics.</p>
-<p>Well, that&rsquo;s certainly <em>a</em> way to go. If you prefer that path, <a href="https://www.keycloak.org/docs/latest/server_installation/#_setting_up_ssl" target="_blank" rel="noopener">feel free to do so, details are here</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> but that&rsquo;s a lot of work. I like my life simple so I choose to use a proxy to terminate TLS instead.</p>
-<p>Let&rsquo;s have a look at the original <em>compose.yml</em> file, it&rsquo;s short:</p>
+              <p>I wanted to look into <a href="https://www.keycloak.org/2021/10/keycloak-x-update" target="_blank" rel="noopener">Keycloak.X</a> for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.</p>
+<p>Keycloak.X is now officially known as <strong>Keycloak 17.0.0</strong>, the first official Quarkus-based version. <a href="https://www.keycloak.org/2022/02/keycloak-1700-released.html" target="_blank" rel="noopener">It&rsquo;s been released a few days ago</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> and so it was the right time to look at it.</p>
+<p>I&rsquo;m going to show you how I run <em>Keycloak 17.0.0</em> with TLS behind Envoy proxy with Docker Compose. I&rsquo;ve blogged about Keycloak and Keycloak behind Envoy before so this article is a recap of some of the previous articles from this blog.</p>
+<p>Let&rsquo;s go.</p>
+<h2 id="directory-structure"><a href="#directory-structure" class="anchor-link">§</a>directory structure</h2>
+<p>Here&rsquo;s what we are dealing with:</p>
+<pre tabindex="0"><code>[rad] keycloak-compose (keycloak-17) $ tree -a .
+.
+├── .docker
+│   └── keycloak
+│       └── Dockerfile
+├── compose.yml
+└── etc
+    └── envoy
+        └── envoy-keycloak.yaml
+</code></pre><h2 id="keycloak-dockerfile"><a href="#keycloak-dockerfile" class="anchor-link">§</a>Keycloak Dockerfile</h2>
+<p>Quarkus-based <em>Keycloak 17.0.0</em> cannot be started without executing the <em>build</em> step. <a href="https://www.keycloak.org/server/configuration" target="_blank" rel="noopener">From Keycloak documentation</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>:</p>
+<blockquote>
+<p>The <code>build</code> command is responsible for producing an immutable and optimized server image, which is similar to building a container image. In addition to persisting any build option you have set, this command also performs a series of optimizations to deliver the best runtime when starting and running the server. As a result, a lot of processing that would usually happen when starting and running the server is no longer necessary and the server can start and run faster.</p>
+</blockquote>
+<p>There is no way to get away from executing <em>build</em>. We can use the <em>start &ndash;auto-build</em> flag (also documented in <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>), but one way or another, we have to <em>build</em> it. The <em>&ndash;auto-build</em> option takes some time to execute on every start and building a custom image helps us shave some time off on subsequent starts.</p>
+<p>I guessed that I wanted an optimized image so I opted in for building my own Docker image.</p>
+<p><a href="https://www.keycloak.org/server/containers" target="_blank" rel="noopener">Building a custom Docker image is documented here</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</p>
+<p>My <em>Dockerfile</em> (<em>.docker/keycloak/Dockerfile</em>) looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -298,164 +320,72 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 </span><span class="lnt">18
 </span><span class="lnt">19
 </span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13.2</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_DB}</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_USER}</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_PASS}</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">local-keycloak</span><span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="nt">keycloak</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">postgres</span><span class="w">
-</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">local_keycloak</span><span class="w">
-</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_VENDOR</span><span class="p">:</span><span class="w"> </span><span class="l">postgres</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_ADDR</span><span class="p">:</span><span class="w"> </span><span class="l">postgres</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_DATABASE</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_DB}</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_USER</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_USER}</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_PASS}</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">jboss/keycloak:${KEYCLOAK_VERSION}</span><span class="w">
-</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="s2">&#34;28080:8080&#34;</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">local-keycloak</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">local-keycloak</span><span class="p">:</span><span class="w">
+<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0 as builder</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_METRICS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+<span class="k">ENV</span> <span class="nv">KC_FEATURES</span><span class="o">=</span>token-exchange<span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB</span><span class="o">=</span>postgres
+<span class="k">RUN</span> /opt/keycloak/bin/kc.sh build<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0</span><span class="err">
+</span><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>builder /opt/keycloak/lib/quarkus/ /opt/keycloak/lib/quarkus/<span class="err">
+</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /opt/keycloak</span><span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN</span><span class="o">=</span>admin
+<span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN_PASSWORD</span><span class="o">=</span>admin
+<span class="c"># change these values to point to a running postgres instance</span><span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_URL</span><span class="o">=</span>jdbc:postgresql://postgres:5432/keycloak?ssl<span class="o">=</span>allow<span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_USERNAME</span><span class="o">=</span>keycloak
+<span class="k">ENV</span> <span class="nv">KC_DB_PASSWORD</span><span class="o">=</span>keycloak
+<span class="k">ENV</span> <span class="nv">KC_HOSTNAME</span><span class="o">=</span>idp-dev.gruchalski.com<span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_HOSTNAME_STRICT</span><span class="o">=</span><span class="nb">false</span>
+<span class="k">ENV</span> <span class="nv">KC_HTTP_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+<span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;/opt/keycloak/bin/kc.sh&#34;</span><span class="p">,</span> <span class="s2">&#34;start&#34;</span><span class="p">]</span><span class="err">
 </span></code></pre></td></tr></table></div>
 </div>
-</div><p>To enable the proxy with TLS support, let&rsquo;s modify the <em>yaml</em> file to this:</p>
+</div><p>Let&rsquo;s go through some of its most interesting aspects.</p>
+<p>The <em>builder</em> stage configures the database provider, here Postgres, and executes <em>kc.sh build</em>. This is where the optimized build is created.</p>
+<p>The second stage uses the <em>builder</em> stage and simply copies the build output into the final container. If you have looked at the original Keycloak documentation<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>, you have probably noticed that I do not generate a certificate here. I am putting Keycloak behind Envoy, which will terminate TLS for me. I do not need a certificate.</p>
+<p>The new thing in <em>17.0.0</em> is the use of <em>KEYCLOAK_ADMIN</em> and <em>KEYCLOAK_ADMIN_PASSWORD</em> environment variables. Prior to <em>17.0.0</em>, to create an initial administrator account, we had to execute the <em>/opt/jboss/keycloak/bin/add-user-keycloak.sh</em>. script and pass <em>-u user -p pass</em> arguments. If you read some of my previous article, you maybe remember this command:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="nt">envoy</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">envoyproxy/envoy:v1.18.2</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/local/bin/envoy -c /etc/envoy/envoy-keycloak.yaml -l debug</span><span class="w">
-</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="m">443</span><span class="p">:</span><span class="m">443</span><span class="w">
-</span><span class="w">      </span>- <span class="m">8001</span><span class="p">:</span><span class="m">8001</span><span class="w">
-</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">bind</span><span class="w">
-</span><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">./etc/envoy</span><span class="w">
-</span><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">local-keycloak</span><span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13.2</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_DB}</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_USER}</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_PASS}</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">local-keycloak</span><span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="nt">keycloak</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">envoy</span><span class="w">
-</span><span class="w">      </span>- <span class="l">postgres</span><span class="w">
-</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">local_keycloak</span><span class="w">
-</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_VENDOR</span><span class="p">:</span><span class="w"> </span><span class="l">postgres</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_ADDR</span><span class="p">:</span><span class="w"> </span><span class="l">postgres</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_DATABASE</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_DB}</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_USER</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_USER}</span><span class="w">
-</span><span class="w">      </span><span class="nt">DB_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">${POSTGRESQL_PASS}</span><span class="w">
-</span><span class="w">      </span><span class="nt">PROXY_ADDRESS_FORWARDING</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">jboss/keycloak:${KEYCLOAK_VERSION}</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">local-keycloak</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">local-keycloak</span><span class="p">:</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">docker <span class="nb">exec</span> dev_keycloak <span class="se">\
+</span><span class="se"></span>    /opt/jboss/keycloak/bin/add-user-keycloak.sh <span class="se">\
+</span><span class="se"></span>    -u admin <span class="se">\
+</span><span class="se"></span>    -p admin <span class="se">\
+</span><span class="se"></span><span class="o">&amp;&amp;</span> docker restart dev_keycloak
+</code></pre></td></tr></table></div>
 </div>
-</div><p>There are four differences in the new file:</p>
+</div><p><strong>A note of caution:</strong> in a real deployment, you&rsquo;d not store those credentials directly in the <em>Dockerfile</em>. You&rsquo;d pass them from outside. I kept them here for brevity only.</p>
+<p>Three other relevant notes here:</p>
 <ul>
-<li>there is a new <em>envoy</em> service</li>
-<li>the <em>keycloak</em> service additionally depends on the <em>envoy</em> service</li>
-<li>the <em>keycloak</em> service no longer exposes the <em>28080</em> port on the <em>host</em></li>
-<li>there is a new environment variable defined for the <em>keycloak</em> service: <code>PROXY_ADDRESS_FORWARDING: &quot;true&quot;</code></li>
+<li><em>KC_HOSTNAME</em>: configures the hostname on which Keycloak is intended to be running,</li>
+<li><em>KC_HOSTNAME_STRICT</em>: because I am putting Keycloak behind Envoy, I set this to <em>false</em>; in the Docker Compose setup, Envoy will be communicating with Keycloak using the <em>keycloak</em> hostname, this setting disables Keycloak hostname verification,</li>
+<li><em>KC_HTTP_ENABLED</em>: is set to <em>true</em> because Envoy is terminating TLS, I don&rsquo;t need TLS termination directly on Keycloak.</li>
 </ul>
-<h2 id="envoy-configuration"><a href="#envoy-configuration" class="anchor-link">§</a>envoy configuration</h2>
-<p>Looking closely at the <em>envoy</em> service, we can spot the host <em>./etc/envoy</em> to container <em>/etc/envoy</em> volume bind. The proxy <em>command</em> references the <em>/etc/envoy/envoy-keycloak.yaml</em> configuration file. The file must have the <em>yaml</em> extension, <em>yml</em> is not going to work. The content is:</p>
+<p>Save the contents of the <em>Dockerfile</em> in <em>.docker/keycloak/Dockerfile</em> and build the Docker image:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> .docker/keycloak
+docker build -t local/keycloak:17.0.0 .
+<span class="nb">cd</span> -
+</code></pre></td></tr></table></div>
+</div>
+</div><h2 id="envoy-configuration"><a href="#envoy-configuration" class="anchor-link">§</a>envoy configuration</h2>
+<p>The <em>etc/envoy/envoy-keycloak.yaml</em> file <a href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" target="_blank" rel="noopener">is exactly the same as in my previous blog post</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>, except of the domain name.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -526,7 +456,7 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 </span><span class="w">    </span><span class="nt">filter_chains</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span>- <span class="nt">filter_chain_match</span><span class="p">:</span><span class="w">
 </span><span class="w">        </span><span class="nt">server_names</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="l">idp.gruchalski.com</span><span class="w">
+</span><span class="w">        </span>- <span class="l">idp-dev.gruchalski.com</span><span class="w">
 </span><span class="w">      </span><span class="nt">filters</span><span class="p">:</span><span class="w">
 </span><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envoy.filters.network.http_connection_manager</span><span class="w">
 </span><span class="w">        </span><span class="nt">typed_config</span><span class="p">:</span><span class="w">
@@ -553,9 +483,9 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 </span><span class="w">          </span><span class="nt">common_tls_context</span><span class="p">:</span><span class="w">
 </span><span class="w">            </span><span class="nt">tls_certificates</span><span class="p">:</span><span class="w">
 </span><span class="w">            </span>- <span class="nt">certificate_chain</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp.gruchalski.com.crt</span><span class="w">
+</span><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp-dev.gruchalski.com.crt</span><span class="w">
 </span><span class="w">              </span><span class="nt">private_key</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp.gruchalski.com.key</span><span class="w">
+</span><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp-dev.gruchalski.com.key</span><span class="w">
 </span><span class="w">  </span><span class="nt">clusters</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">proxy-domain1</span><span class="w">
 </span><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">STRICT_DNS</span><span class="w">
@@ -572,34 +502,12 @@ There are multiple ways of setting up TLS for Keycloak, one of them being the na
 </span><span class="w">                </span><span class="nt">port_value</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
 </span></code></pre></td></tr></table></div>
 </div>
-</div><p>The directory structure looks like this:</p>
-<pre tabindex="0"><code>.
-├── compose.yml
-└── etc
-    └── envoy
-        └── envoy-keycloak.yaml
-</code></pre><p>You might ask <em>what is this config file doing</em> so let&rsquo;s look at it from top to bottom.</p>
-<ul>
-<li>First, we define a listener bound to <em>0.0.0.0</em> on port <em>443</em> - standard HTTPS stuff.</li>
-<li>Next, we create a <em>filter chain</em> matching the <em>idp.gruchalski.com</em> domain name - this is the TLS SNI matching. The TLS SNI implies that our service, here Keycloak, will be accessed over HTTPS only and hostname advertised during the TLS handshake is used to find the upstream (<em>cluster</em>) target to forward the traffic to. As you can probably already imagine, I will be accessing Keycloak via <a href="https://idp.gruchalski.com" target="_blank" rel="noopener">https://idp.gruchalski.com</a>.</li>
-<li>The connections matching the filtered domain will be forwarded to the <em>proxy-domain1</em> <em>cluster</em> via the <em>http_filter</em>.</li>
-<li>The <em>cluster</em> forwards the requests to the <em>load balancer</em> endpoints, in this, we have one at <em>keycloak:8080</em>. This is the name of the container on Docker network used for this setup.</li>
-</ul>
-<p>The part I&rsquo;ve glossed over is the <em>transport_socket.common_tls_context.tls_certificates</em>. It points at the TLS certificate and key used for the filter for the domain.</p>
-<p>Okay, a couple of caveats:</p>
-<ul>
-<li>we don&rsquo;t have the certificate yet</li>
-<li>how do we access Keycloak using the domain name when it is running in local compose</li>
-</ul>
-<h2 id="the-domain-name"><a href="#the-domain-name" class="anchor-link">§</a>the domain name</h2>
-<p>Easy, modify the <em>/etc/hosts</em> file by adding:</p>
-<pre tabindex="0"><code>127.0.0.1   idp.gruchalski.com
-</code></pre><h2 id="certificates"><a href="#certificates" class="anchor-link">§</a>certificates</h2>
-<p>This isn&rsquo;t a rocket science either. In your case, you probably already have a domain name you want to use instead of <em>idp.gruchalski.com</em> so replace all occurences with your own domain in configs above and commands below.</p>
-<p>Because Keycloak is used in the browser, we want real TLS certificates from one of the public trusted certificate authorities. Let&rsquo;s Encrypt is for sure an awesome choice. We can get the LE certficites in multiple ways but at the core, we either need the control over the DNS for the <em>dns-01</em> challenge or we need a http/https server reachable via the domain names for which the certificates should be issued. <a href="https://letsencrypt.org/docs/challenge-types/" target="_blank" rel="noopener">More about LE challenge types</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</p>
-<p>Long story short, as I am requesting the certifciates for the local compose setup, the <em>http-01</em> and <em>tls-alpn-01</em> challenges are not an option because Let&rsquo;s Encrypt will not be able to call back to a server running on my local machine.</p>
-<p>The <em>dns-01</em> challenge is the way to go but it requires having an administrative control over the DNS server so the required <em>TXT</em> records can be created to complete the LE challenge. I have that, I use AWS Route 53 as my DNS of choice.</p>
-<p>A couple of days ago, <a href="/posts/2021-06-04-letsencrypt-certificates-for-local-development/">I have written about the <em>LEGO client</em> which I used for obtaining the certificates</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>. Here, I&rsquo;d use the following command:</p>
+</div><p>This configuration will match any request to <a href="https://idp-dev.gruchalski.com" target="_blank" rel="noopener">https://idp-dev.gruchalski.com</a>, terminate TLS using a certificate and key from <em>/etc/envoy/certificates/*</em> and forward to <em>proxy-domain1</em> cluster, which will forward the request to <em>keycloak:8080</em>, where <em>keycloak</em> is Keycloak&rsquo;s hostname in the Docker Compose configuration.</p>
+<h2 id="certificates"><a href="#certificates" class="anchor-link">§</a>certificates</h2>
+<p>Keycloak is configured to run on <em>idp-dev.gruchalski.com</em>. As in, once running, I will be able to use Keycloak by going to <a href="https://idp-dev.gruchalski.com" target="_blank" rel="noopener">https://idp-dev.gruchalski.com</a>. In order to do so, I&rsquo;m adding the following line to my <code>/etc/hosts</code> file:</p>
+<pre tabindex="0"><code>127.0.0.1       idp-dev.gruchalski.com
+</code></pre><p>I need certificates. Because I am using a regular browser, I preferably want to have certificates that are by default trusted by my operating system. The obvious choice is Let&rsquo;s Encrypt. I have written before about <a href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" target="_blank" rel="noopener">using Let&rsquo;s Encrypt certificates for local development</a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup>. Read that article to find out more.</p>
+<p>Long story short, my DNS is managed in Route 53 and I can use Route 53 API to automate the <em>dns-01</em> challenge to obtain certificates for my local deployment. To do so, I&rsquo;m using the LEGO client:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -623,47 +531,157 @@ docker run --rm <span class="se">\
 </span><span class="se"></span>    -e <span class="nv">AWS_PROFILE</span><span class="o">=</span>lego <span class="se">\
 </span><span class="se"></span>    -ti goacme/lego <span class="se">\
 </span><span class="se"></span>    --accept-tos <span class="se">\
-</span><span class="se"></span>    --domains<span class="o">=</span>idp.gruchalski.com <span class="se">\
+</span><span class="se"></span>    --domains<span class="o">=</span>idp-dev.gruchalski.com <span class="se">\
 </span><span class="se"></span>    --server<span class="o">=</span>https://acme-v02.api.letsencrypt.org/directory <span class="se">\
 </span><span class="se"></span>    --email<span class="o">=</span>radek@gruchalski.com <span class="se">\
 </span><span class="se"></span>    --path<span class="o">=</span>/lego <span class="se">\
 </span><span class="se"></span>    --dns<span class="o">=</span>route53 run
 </code></pre></td></tr></table></div>
 </div>
-</div><p>As a result, my file structure now looks like this:</p>
-<pre tabindex="0"><code>.
+</div><p>When the command finishes, the directory structure looks like this:</p>
+<pre tabindex="0"><code>[rad] keycloak-compose (keycloak-17) $ tree -a .
+.
+├── .docker
+│   └── keycloak
+│       └── Dockerfile
 ├── compose.yml
 └── etc
-    └── envoy
-        ├── accounts
-        │   └── acme-v02.api.letsencrypt.org
-        │       └── radek@gruchalski.com
-        │           ├── account.json
-        │           └── keys
-        │               └── radek@gruchalski.com.key
-        ├── certificates
-        │   ├── idp.gruchalski.com.crt
-        │   ├── idp.gruchalski.com.issuer.crt
-        │   ├── idp.gruchalski.com.json
-        │   └── idp.gruchalski.com.key
-        └── envoy-keycloak.yaml
-</code></pre><p>The configuration is now complete.</p>
-<p>After starting the setup with <code>docker compose -f compose.yml up</code>, I can access my Keycloak by entering <a href="https://idp.gruchalski.com" target="_blank" rel="noopener">https://idp.gruchalski.com</a> in the browser address bar. The TLS request is terminated at Envoy and Envoy finds the <em>cluster</em> based on the <em>hostname</em> advertised during the TLS handshake. The request is then forwarded to Keycloak on port <em>8080</em>.</p>
-<p>Installtion finalization is exactly the same as <a href="/posts/2020-09-03-keycloak-with-docker-compose/#intermission">in the previous article</a>.</p>
+    └── envoy
+        ├── certificates
+        │   ├── idp-dev.gruchalski.com.crt
+        │   ├── idp-dev.gruchalski.com.issuer.crt
+        │   ├── idp-dev.gruchalski.com.json
+        │   └── idp-dev.gruchalski.com.key
+        └── envoy-keycloak.yaml
+</code></pre><p>I&rsquo;m ready to start the Compose setup.</p>
+<h2 id="docker-compose"><a href="#docker-compose" class="anchor-link">§</a>docker compose</h2>
+<p>My <em>compose.yml</em> looks like this:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">keycloak-internal</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-internal</span><span class="w">
+</span><span class="w">  </span><span class="nt">keycloak-public</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-public</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">envoy</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">envoyproxy/envoy:v1.21.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/local/bin/envoy -c /etc/envoy/envoy-keycloak.yaml -l debug</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="m">443</span><span class="p">:</span><span class="m">443</span><span class="w">
+</span><span class="w">      </span>- <span class="m">8001</span><span class="p">:</span><span class="m">8001</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">bind</span><span class="w">
+</span><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">./etc/envoy</span><span class="w">
+</span><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy</span><span class="w">
+</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="l">keycloak-internal</span><span class="w">
+</span><span class="w">        </span>- <span class="l">keycloak-public</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13.2</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span>-<span class="l">c ssl=off</span><span class="w">
+</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">keycloak-internal</span><span class="w">
+</span><span class="w">      
+</span><span class="w">  </span><span class="nt">keycloak</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">postgres</span><span class="w">
+</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">dev_keycloak</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">local/keycloak:17.0.0</span><span class="w">
+</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">keycloak-internal</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>You can see that:</p>
+<ul>
+<li>I bind mount the <em>etc/envoy</em> directory in the Envoy container, this directory contains the <em>envoy-keycloak.yaml</em> file and the certificates I got from Let&rsquo;s Encrypt,</li>
+<li>the Postgres database, username, and password match the values from the <em>Dockerfile</em>.</li>
+</ul>
+<p>Start everything with:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">docker compose -f compose.yml up
+</code></pre></td></tr></table></div>
+</div>
+</div><h2 id="thats-it"><a href="#thats-it" class="anchor-link">§</a>that&rsquo;s it</h2>
+<p><strong>Keycloak 17.0.0</strong> running locally in Docker Compose, with TLS, behind Envoy proxy.</p>
+<p>Next step is to bring SPIs back into this setup!</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="/posts/2020-09-03-keycloak-with-docker-compose/">Keycloak with Docker Compose</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.keycloak.org/2022/02/keycloak-1700-released.html" target="_blank" rel="noopener">Keycloak 17.0.0 released</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://www.keycloak.org/docs/latest/server_installation/#_setting_up_ssl" target="_blank" rel="noopener">Keycloak documentation: setting up SSL</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.keycloak.org/server/configuration" target="_blank" rel="noopener">Configuring Keycloak</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://letsencrypt.org/docs/challenge-types/" target="_blank" rel="noopener">Let&rsquo;s Encrypt challenge types</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.keycloak.org/server/containers" target="_blank" rel="noopener">Running Keycloak in a container</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="/posts/2021-06-04-letsencrypt-certificates-for-local-development/">Let’s Encrypt certificates for local development</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" target="_blank" rel="noopener">Keycloak with TLS in Docker compose behind Envoy proxy</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p><a href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" target="_blank" rel="noopener">Let’s Encrypt certificates for local development</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>
@@ -698,7 +716,7 @@ docker run --rm <span class="se">\
                 
                 
                 
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-06-06-keycloak-with-tls-behind-envoy/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</a></li>
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" target="_blank" rel="noopener">https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</a></li>
             
             <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
             
@@ -726,7 +744,7 @@ docker run --rm <span class="se">\
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/&amp;text=Keycloak%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;hashtags=keycloak,tls,envoy,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&amp;text=Keycloak%2017.0.0%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;hashtags=keycloak,tls,envoy,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -735,7 +753,7 @@ docker run --rm <span class="se">\
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/&amp;title=Keycloak%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;summary=The%2024%20hours%20of%20N%c3%bcrburgring%20race%20was%20just%20red%20flagged%20for%20the%20remainder%20of%20the%20night%20due%20to%20the%20fog.%20That%e2%80%99s%20a%20perfect%20opportunity%20to%20add%20TLS%20to%20my%20Keycloak%20Docker%20Compose%20setup%20described%20previously%20here1.%0aThere%20are%20multiple%20ways%20of%20setting%20up%20TLS%20for%20Keycloak,%20one%20of%20them%20being%20the%20native%20Java%20JKS%20key%20store%20/%20trust%20store%20gymnastics.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&amp;title=Keycloak%2017.0.0%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;summary=I%20wanted%20to%20look%20into%20Keycloak.X%20for%20quite%20a%20while.%20Keycloak.X%20is%20a%20lighter,%20faster,%20easier,%20more%20scalable,%20more%20cloud-native%20solution%20than%20the%e2%80%94now%20legacy%e2%80%94WildFly%20based%20Keycloak.%0aKeycloak.X%20is%20now%20officially%20known%20as%20Keycloak%2017.0.0,%20the%20first%20official%20Quarkus-based%20version.%20It%e2%80%99s%20been%20released%20a%20few%20days%20ago1%20and%20so%20it%20was%20the%20right%20time%20to%20look%20at%20it.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
@@ -759,7 +777,7 @@ docker run --rm <span class="se">\
     var typeNumber = 0;
     var errorCorrectionLevel = 'L';
     var qr = qrcode(typeNumber, errorCorrectionLevel);
-    qr.addData('https:\/\/gruchalski.com\/posts\/2021-06-06-keycloak-with-tls-behind-envoy\/');
+    qr.addData('https:\/\/gruchalski.com\/posts\/2022-02-20-keycloak-1700-with-tls-behind-envoy\/');
     qr.make();
     document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
 </script>
@@ -782,7 +800,7 @@ docker run --rm <span class="se">\
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" class="related-link">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</a>
+                        <a href="/posts/2021-06-06-keycloak-with-tls-behind-envoy/" class="related-link">Keycloak with TLS in Docker compose behind Envoy proxy</a>
                     </li>
                 
                     <li class="related-item">
@@ -856,13 +874,9 @@ docker run --rm <span class="se">\
     
         <ul class="post-nav">
             
-                <li class="post-nav-prev">
-                    <a href="/posts/2021-06-06-extending-keycloak-required-action-providers/" rel="prev">&lt; Extending Keycloak—required actions: user must be approved</a>
-                </li>
-            
             
                 <li class="post-nav-next">
-                    <a href="/posts/2021-06-04-letsencrypt-certificates-for-local-development/" rel="next">Let&rsquo;s Encrypt certificates for local development &gt;</a>
+                    <a href="/posts/2022-02-16-yugabytedb-go-rpc-client/" rel="next">YugabyteDB Go RPC client &gt;</a>
                 </li>
             
         </ul>

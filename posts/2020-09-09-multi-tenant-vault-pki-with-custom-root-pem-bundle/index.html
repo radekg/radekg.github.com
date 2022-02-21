@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.fc0f513738a24e23b949d4dc49d33bb07a2bcd2edcc9601d8ceae1a2d27cdb5f.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.00db7a0851706a6bebd66098ff68a7645f6661d451bb6671512dfb4526acbee2.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-09-09T00:00:00+00:00",
-        "dateModified": "2020-09-09T23:10:15+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/",
         "headline": "Multi-tenant Vault PKI with custom root PEM bundles",
         "description": "Configuring multi-tenant Vault PKI with OpenSSL root and intermediate CAs",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  3791 ,
+        "wordCount":  3787 ,
         "image": ["https://gruchalski.com/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/ca-chain.png","https://gruchalski.com/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/certificate.png","https://gruchalski.com/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/private-key.png"],
         "author": {
             "@type": "Person",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/ca-chain.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-09-09T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2020-09-09T23:10:15&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -257,7 +257,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3791</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3787</span>
     
     
         
@@ -299,16 +299,16 @@
 <p>I&rsquo;m going to start by creating an environment file which will contain a location for the CA and distinguished name settings. As the root of the CA, I&rsquo;m going to use <code>~/.ca</code> directory.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p ~/.ca
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">mkdir -p ~/.ca
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Now, I will create the environment file, <code>~/.ca/.article-ca</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -326,7 +326,7 @@
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">tee ~/.ca/.article-ca &gt;/dev/null <span class="s">&lt;&lt;EOF
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">tee ~/.ca/.article-ca &gt;/dev/null <span class="s">&lt;&lt;EOF
 </span><span class="s"># DN defaults:
 </span><span class="s">export CA_DN_DEFAULT_COUNTRY_CODE=DE
 </span><span class="s">export CA_DN_DEFAULT_STATE_OR_PROVINCE=&#34;NRW&#34;
@@ -347,7 +347,7 @@
 </div><p>The next step is to create a shell program responsible for writing the CA root configuration. This, and the following intermediate, are by far the two longest bits of code in this article.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
 </span><span class="lnt">  4
@@ -514,7 +514,7 @@
 </span><span class="lnt">165
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/usr/bin/env bash
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/usr/bin/env bash
 </span><span class="cp"></span><span class="nb">set</span> -eu
 
 <span class="nv">CA_NAME</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span>
@@ -684,7 +684,7 @@ openssl x509 -noout -text -in <span class="si">${</span><span class="nv">CADIR</
 </div><p>After saving the program as <code>~/.ca/init-ca.sh</code>, making it executable with <code>chmod +x ~/.ca/init-ca.sh</code> and running as <code>~/.ca/init-ca.sh article-ca</code>, the new CA has been created in <code>~/.ca/article-ca</code>. Using this method and changing the CA name given to the program as the first argument, more root CAs can be created.</p>
 <p>The program will ask three times for the CA private key passphrase: to create the key, to verify and to use the key. Next, it will ask to confirm default values for the distinguished name. When all values are confirmed and correct, the CA root certificate will be generated.</p>
 <p>The output will be similar to:</p>
-<pre><code>Generating RSA private key, 4096 bit long modulus
+<pre tabindex="0"><code>Generating RSA private key, 4096 bit long modulus
 ..........................++
 ...........................................................................................................................................................................................++
 e is 65537 (0x10001)
@@ -741,7 +741,7 @@ Certificate:
 </code></pre><p>on disk, there should be:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -756,7 +756,7 @@ Certificate:
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ tree ~/.ca/article-ca/
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ tree ~/.ca/article-ca/
 /Users/rad/.ca/article-ca/
 ├── certs
 │   └── ca.cert.pem
@@ -775,7 +775,7 @@ Certificate:
 <p>The intermediate CA reuses the environment file of the root CA. The program to create it is very similar to the <code>init-ca.sh</code>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
 </span><span class="lnt">  4
@@ -972,7 +972,7 @@ Certificate:
 </span><span class="lnt">195
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/usr/bin/env bash
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/usr/bin/env bash
 </span><span class="cp"></span><span class="nb">set</span> -eu
 
 <span class="nv">CA_NAME</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span>
@@ -1183,7 +1183,7 @@ rm <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class=
 <li>once again a passphrase of the intermediate CA key for pkcs1 conversion</li>
 </ul>
 <p>After these two commands are finished, the files on disk look similar to:</p>
-<pre><code>[rad] ~ $ tree ~/.ca/article-ca/
+<pre tabindex="0"><code>[rad] ~ $ tree ~/.ca/article-ca/
 /Users/rad/.ca/article-ca/
 ├── certs
 │   └── ca.cert.pem
@@ -1238,7 +1238,7 @@ rm <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class=
 
 21 directories, 29 files
 </code></pre><p>The output of the intermediate CA init, for one of the executions, is similar to:</p>
-<pre><code>Generating RSA private key, 4096 bit long modulus
+<pre tabindex="0"><code>Generating RSA private key, 4096 bit long modulus
 ...........................................++
 .....................................................................................................................................................................................................................................................................................++
 e is 65537 (0x10001)
@@ -1338,7 +1338,7 @@ writing RSA key
 <p>I&rsquo;m going to use Vault development mode, with <code>VAULT_DEV_ROOT_TOKEN_ID</code> hard coded and default port <code>8200</code> exposed so it can be reached from <code>localhost</code>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1353,7 +1353,7 @@ writing RSA key
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">docker run --rm <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">docker run --rm <span class="se">\
 </span><span class="se"></span>    -p 8200:8200 <span class="se">\
 </span><span class="se"></span>    -ti <span class="se">\
 </span><span class="se"></span>    -e <span class="s1">&#39;VAULT_DEV_ROOT_TOKEN_ID=dev-token&#39;</span> <span class="se">\
@@ -1371,39 +1371,39 @@ writing RSA key
 </div><p>Now, in another terminal window, I am going to export the token and Vault address environment variables:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">export</span> <span class="nv">VAULT_ADDR</span><span class="o">=</span>http://127.0.0.1:8200
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">export</span> <span class="nv">VAULT_ADDR</span><span class="o">=</span>http://127.0.0.1:8200
 <span class="nb">export</span> <span class="nv">VAULT_TOKEN</span><span class="o">=</span>dev-token
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Finally, I can enable PKIs:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">vault secrets <span class="nb">enable</span> -path<span class="o">=</span>client-a pki
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">vault secrets <span class="nb">enable</span> -path<span class="o">=</span>client-a pki
 vault secrets <span class="nb">enable</span> -path<span class="o">=</span>client-b pki
 </code></pre></td></tr></table></div>
 </div>
 </div><p>I can see Vault confirming:</p>
-<pre><code>2020-09-08T21:11:32.133Z [INFO]  core: successful mount: namespace= path=client-a/ type=pki
+<pre tabindex="0"><code>2020-09-08T21:11:32.133Z [INFO]  core: successful mount: namespace= path=client-a/ type=pki
 2020-09-08T21:11:32.914Z [INFO]  core: successful mount: namespace= path=client-b/ type=pki
 </code></pre><h2 id="importing-the-bundles"><a href="#importing-the-bundles" class="anchor-link">§</a>Importing the bundles</h2>
 <p>The next step is to import the PEM bundles, they were prepared during the intermediate CA creation:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/config/ca <span class="nv">pem_bundle</span><span class="o">=</span>@<span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.ca/article-ca/intermediate/client-a/vault-bundle/bundle.pem
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/config/ca <span class="nv">pem_bundle</span><span class="o">=</span>@<span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.ca/article-ca/intermediate/client-a/vault-bundle/bundle.pem
 Success! Data written to: client-a/config/ca
 <span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-b/config/ca <span class="nv">pem_bundle</span><span class="o">=</span>@<span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.ca/article-ca/intermediate/client-b/vault-bundle/bundle.pem
 Success! Data written to: client-b/config/ca
@@ -1411,7 +1411,7 @@ Success! Data written to: client-b/config/ca
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1427,7 +1427,7 @@ Success! Data written to: client-b/config/ca
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/roles/system-of-client-a-com <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/roles/system-of-client-a-com <span class="se">\
 </span><span class="se"></span>    <span class="nv">allow_localhost</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;localhost,client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
@@ -1454,20 +1454,20 @@ Success! Data written to: client-b/roles/system-of-client-b-com
 <p>To request a certificate, simply issue the following command:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">vault write client-a/issue/system-of-client-a-com <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">vault write client-a/issue/system-of-client-a-com <span class="se">\
 </span><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;become.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;240h&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
 </code></pre></td></tr></table></div>
 </div>
 </div><p>To which the output is &hellip; pretty verbose &hellip;:</p>
-<pre><code>Key                 Value
+<pre tabindex="0"><code>Key                 Value
 ---                 -----
 ca_chain            [-----BEGIN CERTIFICATE-----
 MIIF+zCCA+OgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwgYQxCzAJBgNVBAYTAkRF
@@ -1508,7 +1508,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </code></pre><p>Cool, we have the certificate, a private key and a certificate chain. The CA chain can now be copied to <code>chain.pem</code> file.</p>
 <p><img src="/assets/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/ca-chain.png" alt="CA chain"></p>
 <p><strong>Pay attention to the</strong> <code>-----END CERTIFICATE----- -----BEGIN CERTIFICATE-----</code> <strong>bit.</strong> It needs to be saved as:</p>
-<pre><code>...
+<pre tabindex="0"><code>...
 -----END CERTIFICATE-----
 -----BEGIN CERTIFICATE-----
 ...
@@ -1523,7 +1523,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1535,7 +1535,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/issue/system-of-client-a-com <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/issue/system-of-client-a-com <span class="se">\
 </span><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;become.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;240h&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
@@ -1552,14 +1552,14 @@ Code: 400. Errors:
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">vault write client-b/issue/system-of-client-b-com <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">vault write client-b/issue/system-of-client-b-com <span class="se">\
 </span><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">alt_names</span><span class="o">=</span><span class="s2">&#34;you.client-b.gmbh.klarrio.com,or-you.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;720h&#34;</span> <span class="se">\
@@ -1572,13 +1572,13 @@ Code: 400. Errors:
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/roles/get-in-touch <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/roles/get-in-touch <span class="se">\
 </span><span class="se"></span>    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">max_ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span>
@@ -1587,13 +1587,13 @@ Code: 400. Errors:
 </div><p>so that it&rsquo;s possible to:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">vault write client-a/issue/get-in-touch <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">vault write client-a/issue/get-in-touch <span class="se">\
 </span><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
@@ -1602,13 +1602,13 @@ Code: 400. Errors:
 </div><p>but not:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">vault write client-a/issue/get-in-touch <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">vault write client-a/issue/get-in-touch <span class="se">\
 </span><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;maybe.get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span> <span class="se">\
 </span><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
@@ -1621,16 +1621,16 @@ Code: 400. Errors:
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="/posts/2020-09-07-certificate-authority-is-not-voodoo/">Certificate Authority is not Voodoo</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="/posts/2020-09-07-certificate-authority-is-not-voodoo/">Certificate Authority is not Voodoo</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://jamielinux.com/docs/openssl-certificate-authority/" target="_blank" rel="noopener">OpenSSL Certificate Authority</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://jamielinux.com/docs/openssl-certificate-authority/" target="_blank" rel="noopener">OpenSSL Certificate Authority</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="/posts/2020-09-05-introduction-to-keycloak-authorization-services/">Introduction to Keycloak Authorization Services</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="/posts/2020-09-05-introduction-to-keycloak-authorization-services/">Introduction to Keycloak Authorization Services</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://www.vaultproject.io/api-docs/secret/pki#parameters-8" target="_blank" rel="noopener">Vault PKI Create/Update Role Parameters</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.vaultproject.io/api-docs/secret/pki#parameters-8" target="_blank" rel="noopener">Vault PKI Create/Update Role Parameters</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>
@@ -1761,11 +1761,11 @@ Code: 400. Errors:
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-06-06-keycloak-with-tls-behind-envoy/" class="related-link">Keycloak with TLS in Docker compose behind Envoy proxy</a>
+                        <a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" class="related-link">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-06-04-letsencrypt-certificates-for-local-development/" class="related-link">Let&rsquo;s Encrypt certificates for local development</a>
+                        <a href="/posts/2021-06-06-keycloak-with-tls-behind-envoy/" class="related-link">Keycloak with TLS in Docker compose behind Envoy proxy</a>
                     </li>
                 
             </ul>
