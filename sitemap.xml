@@ -2,13 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://gruchalski.com/</loc>
+    <lastmod>2022-02-21T14:18:09+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/</loc>
+    <lastmod>2022-02-21T14:18:09+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2022-02-21T14:18:09+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2022-02-21T14:18:09+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
+    <lastmod>2022-02-21T14:18:09+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/categories/</loc>
     <lastmod>2022-02-21T02:50:24+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/envoy/</loc>
-    <lastmod>2022-02-21T02:50:24+01:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/</loc>
     <lastmod>2022-02-21T02:50:24+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/categories/keycloak/</loc>
@@ -18,12 +30,6 @@
     <lastmod>2022-02-21T02:50:24+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</loc>
-    <lastmod>2022-02-21T02:50:24+01:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2022-02-21T02:50:24+01:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2022-02-21T02:50:24+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/tls/</loc>
@@ -36,9 +42,6 @@
     <lastmod>2022-02-21T02:30:40+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/rpc/</loc>
-    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
     <lastmod>2022-02-21T02:30:40+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/</loc>

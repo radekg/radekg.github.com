@@ -23,10 +23,282 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Mon, 21 Feb 2022 02:51:26 &#43;0100</lastBuildDate>
+        <lastBuildDate>Mon, 21 Feb 2022 18:39:33 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>Identifying Postgres features unsupported in YugabyteDB</title>
+                <link>https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/</guid>
+                <pubDate>Mon, 21 Feb 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;With every version, the number of PostgreSQL features supported by YugabyteDB inevitably increases. This is good! However, it is pretty difficult to come by a comprehensive list of unsupported features. There&amp;rsquo;s a &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db#current-roadmap&#34;&gt;roadmap on GitHub&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, but the roadmap lists top-level features and misses the exact list of statements and keywords. There are also GitHub issues, but there&amp;rsquo;s over 11k of them so it could be pretty difficult to filter out what&amp;rsquo;s really unsupported.&lt;/p&gt;
+&lt;p&gt;I have been recently looking at exactly that problem while preparing the end-user documentation for one of the projects where YugabyteDB plays the core role.&lt;/p&gt;
+&lt;p&gt;As it turns out, there&amp;rsquo;s a very simple method to learn what&amp;rsquo;s missing. PostgreSQL contains a YACC grammar file, and yugabyteDB contains the same-but-slightly-modified &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/master/src/postgres/src/backend/parser/gram.y&#34;&gt;&lt;em&gt;gram.y&lt;/em&gt; file&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;We can learm some interesting things from the grammar, for example these YugabyteDB specific definitions:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-yacc&#34; data-lang=&#34;yacc&#34;&gt;#define parser_yyerror(msg)  scanner_yyerror(msg, yyscanner)
+#define parser_errposition(pos)  scanner_errposition(pos, yyscanner)
+
+#define parser_ybc_not_support(pos, feature) \
+	ybc_not_support(pos, yyscanner, feature &amp;quot; not supported yet&amp;quot;, -1)
+
+#define parser_ybc_warn_ignored(pos, feature, issue) \
+	ybc_not_support_signal(pos, yyscanner, feature &amp;quot; not supported yet and will be ignored&amp;quot;, issue, WARNING)
+
+#define parser_ybc_signal_unsupported(pos, feature, issue) \
+	ybc_not_support(pos, yyscanner, feature &amp;quot; not supported yet&amp;quot;, issue)
+
+#define parser_ybc_not_support_in_templates(pos, feature) \
+	ybc_not_support_in_templates(pos, yyscanner, feature &amp;quot; is not supported in template0/template1 yet&amp;quot;)
+
+#define parser_ybc_beta_feature(pos, feature, has_own_flag) \
+	check_beta_feature(pos, yyscanner, has_own_flag ? &amp;quot;FLAGS_ysql_beta_feature_&amp;quot; feature : NULL, feature)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;These definitions are used further in the grammar to annotate which features are not yet implemented. The ones which are of the most interest to us are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;parser_ybc_not_support&lt;/code&gt;: indicates an unsupported feature, no tracking issue,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;parser_ybc_warn_ignored&lt;/code&gt;: indicates an unsupported and ignored feature, these features generate warnings during query execution but do not result in errors, the &lt;em&gt;issue&lt;/em&gt; argument identifies a GitHub issue used to track the feature,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;parser_ybc_signal_unsupported&lt;/code&gt;: indicates an unsupported feature, these features result in errors during query execution, the &lt;em&gt;issue&lt;/em&gt; argument identifies a GitHub issue used to track the feature.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With this input, we can rather quickly get a good overview of what&amp;rsquo;s not yet in YugabyteDB.&lt;/p&gt;
+&lt;p&gt;And, we can do it for each individual version. Let&amp;rsquo;s try for &lt;em&gt;2.11.1&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;YBDBV&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2.11.1
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; /tmp
+wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/src/postgres/src/backend/parser/gram.y -O gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y
+grep parser_ybc_not_support gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v parser_ybc_not_support_in_templates
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Produces output similar to:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#define parser_ybc_not_support(pos, feature) \
+			| AlterObjectDependsStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| AlterSystemStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| AlterCompositeTypeStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| AlterPublicationStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| AlterSubscriptionStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| AlterTSConfigurationStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| AlterTSDictionaryStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| ClusterStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreateAmStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreateAssertStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreateConversionStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreateMatViewStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreatePublicationStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreatePLangStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreateSubscriptionStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreateStatsStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| CreateTransformStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| DropAssertStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| DropPLangStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| DropSubscriptionStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| DropTransformStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| RefreshMatViewStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| LoadStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| ReindexStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+			| SecLabelStmt { parser_ybc_not_support(@1, &amp;quot;This statement&amp;quot;); }
+						parser_ybc_not_support(@6, &amp;quot;CREATE SCHEMA with elements&amp;quot;);
+						parser_ybc_not_support(@4, &amp;quot;CREATE SCHEMA with elements&amp;quot;);
+					parser_ybc_not_support(@1, &amp;quot;CREATE STATISTICS&amp;quot;);
+					parser_ybc_not_support(@1, &amp;quot;CREATE STATISTICS&amp;quot;);
+				parser_ybc_not_support(@1, &amp;quot;CREATE LANGUAGE&amp;quot;);
+				parser_ybc_not_support(@1, &amp;quot;CREATE LANGUAGE&amp;quot;);
+					parser_ybc_not_support(@1, &amp;quot;DROP LANGUAGE&amp;quot;);
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Okay, so we can use the same method to search for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ignored features: &lt;code&gt;grep parser_ybc_warn_ignored gram-${YBDBV}.y&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;unsupported features tracked in GitHub issues: &lt;code&gt;grep parser_ybc_signal_unsupported gram-${YBDBV}.y&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To gain more context into surrounding code, use &lt;code&gt;-B num-lines&lt;/code&gt; flag of &lt;em&gt;grep&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;tracking-progress-between-versions&#34;&gt;tracking progress between versions&lt;/h2&gt;
+&lt;p&gt;Now that we can identify unsupported and ignored features, let&amp;rsquo;s see if we can identify progress between versions. We are going to compare &lt;em&gt;2.11.1&lt;/em&gt; and &lt;em&gt;2.11.2&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; /tmp
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2.11.1
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2.11.2
+wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/src/postgres/src/backend/parser/gram.y -O gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y
+grep parser_ybc_not_support gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v parser_ybc_not_support_in_templates &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; wc -l
+wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/src/postgres/src/backend/parser/gram.y -O gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y
+grep parser_ybc_not_support gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v parser_ybc_not_support_in_templates &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; wc -l
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The line counts are &lt;code&gt;139&lt;/code&gt; and &lt;code&gt;136&lt;/code&gt; respectively. Let&amp;rsquo;s see what has been removed from &lt;em&gt;2.11.2&lt;/em&gt;, which indicates that feature support has been added:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;grep parser_ybc_not_support gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v parser_ybc_not_support_in_templates &amp;gt; out-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+grep parser_ybc_not_support gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep -v parser_ybc_not_support_in_templates &amp;gt; out-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;and compare the out files:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;diff out-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; out-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;which produces:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;13d12
+&amp;lt; 			| CreateMatViewStmt { parser_ybc_not_support(@1, &amp;#34;This statement&amp;#34;); }
+23d21
+&amp;lt; 			| RefreshMatViewStmt { parser_ybc_not_support(@1, &amp;#34;This statement&amp;#34;); }
+44d41
+&amp;lt; 					parser_ybc_not_support(@1, &amp;#34;DROP MATERIALIZED VIEW&amp;#34;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This indicates that the &lt;em&gt;2.11.2&lt;/em&gt; version of YugabyteDB added support for &lt;code&gt;CREATE/REFRESH/DROP MATERIALIZED VIEW&lt;/code&gt; statements.&lt;/p&gt;
+&lt;p&gt;Indeed, if we look at the &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/releases/tag/v2.11.2&#34;&gt;release notes for 2.11.2&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;, we will find the following line: &lt;code&gt;[YSQL] Add support for CREATE, DROP, and REFRESH MATERIALIZED VIEW&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Release notes also suggest that &lt;code&gt;ALTER TYPE .. RENAME TO&lt;/code&gt; and &lt;code&gt;ADD CONSTRAINT .. UNIQUE .. USING INDEX&lt;/code&gt; are supported in &lt;em&gt;2.11.2&lt;/em&gt;. Let&amp;rsquo;s try to identify those using this method:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;grep parser_ybc_signal_unsupported gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &amp;gt; out-parser_ybc_signal_unsupported-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+grep parser_ybc_signal_unsupported gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &amp;gt; out-parser_ybc_signal_unsupported-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+diff out-parser_ybc_signal_unsupported-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; out-parser_ybc_signal_unsupported-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;gives:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;9d8
+&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER INDEX&amp;#34;, 1130);
+60,62d58
+&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;CREATE MATERIALIZED VIEW&amp;#34;, 1131);
+&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;CREATE MATERIALIZED VIEW&amp;#34;, 1131);
+&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;REFRESH MATERIALIZED VIEW&amp;#34;, 1131);
+97d92
+&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893);
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;There it is. Next to already established materialized views features, we can find new &lt;code&gt;ALTER INDEX&lt;/code&gt; and &lt;code&gt;ALTER TYPE&lt;/code&gt;. Let&amp;rsquo;s gain a little bit more context into, say, &lt;code&gt;ALTER TYPE&lt;/code&gt; change.&lt;/p&gt;
+&lt;p&gt;We know that the feature has been added in &lt;em&gt;2.11.2&lt;/em&gt;, those lines do not exist in the output for &lt;em&gt;2.11.2&lt;/em&gt; but exist in the output for &lt;em&gt;2.11.1&lt;/em&gt;. So we can do:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;grep &lt;span class=&#34;s1&#34;&gt;&amp;#39;parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893)&amp;#39;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  -B &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &amp;gt; out-alter-type-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+grep &lt;span class=&#34;s1&#34;&gt;&amp;#39;parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893)&amp;#39;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  -B &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; gram-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;.y &amp;gt; out-alter-type-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+diff out-alter-type-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_OLD&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; out-alter-type-&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;YBDBV_NEW&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;gives:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;11,17d10
+&amp;lt; 			| ALTER TYPE_P any_name RENAME TO name
+&amp;lt; 				{
+&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893);
+&amp;lt; --
+&amp;lt; 					n-&amp;gt;missing_ok = false;
+&amp;lt; 					$$ = (Node *)n;
+&amp;lt; 				}
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;For some of those statements, it might be necessary to adjust the value of &lt;code&gt;-B&lt;/code&gt;. In this case &lt;code&gt;5&lt;/code&gt; was enough, we can see that the &lt;code&gt;ALTER TYPE_P any_name RENAME TO name&lt;/code&gt; disappeared from the grammar file in &lt;em&gt;2.11.2&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;With little to no work, it&amp;rsquo;s possible to quickly compare the level of support for all three definitions across whatever arbitrary versions we are interested in.&lt;/p&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db#current-roadmap&#34;&gt;YugabyteDB roadmap&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/master/src/postgres/src/backend/parser/gram.y&#34;&gt;YugabyteDB Postgres YACC grammar&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/releases/tag/v2.11.2&#34;&gt;YugabyteDB 2.11.2 release notes&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/yugabytedb/">yugabytedb</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</title>
