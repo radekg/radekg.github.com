@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Wed, 23 Feb 2022 01:23:11 &#43;0100</lastBuildDate>
+        <lastBuildDate>Wed, 23 Feb 2022 01:29:03 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -1131,7 +1131,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 &lt;/div&gt;&lt;p&gt;It seems like we may be getting more insight into what we had before the change and what we have after the change - &lt;code&gt;before&lt;/code&gt;, &lt;code&gt;after&lt;/code&gt;, and &lt;code&gt;changes&lt;/code&gt; fields. However, as the comments say, it&amp;rsquo;s not supported yet.&lt;/p&gt;
 &lt;h2 id=&#34;its-powerful&#34;&gt;it&amp;rsquo;s powerful&lt;/h2&gt;
 &lt;p&gt;That&amp;rsquo;s it for today, dipping the toes in YugabyteDB CDC.&lt;/p&gt;
-&lt;p&gt;Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested with Apache Kafka or another data streaming solution to power all sorts of business solutions inside of an enterprise.&lt;/p&gt;
+&lt;p&gt;Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested with Apache Kafka or another data streaming solution to power all sorts of business applications inside of an enterprise.&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
