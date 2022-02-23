@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-02-23T01:09:12&#43;01:00</updated>
+    <updated>2022-02-23T01:23:11&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">YugabyteDB change data capture</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/" />
             <id>https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/</id>
-            <updated>2022-02-23T01:08:11&#43;01:00</updated>
+            <updated>2022-02-23T01:23:03&#43;01:00</updated>
             <published>2022-02-23T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -1122,7 +1122,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 &lt;/div&gt;&lt;p&gt;It seems like we may be getting more insight into what we had before the change and what we have after the change - &lt;code&gt;before&lt;/code&gt;, &lt;code&gt;after&lt;/code&gt;, and &lt;code&gt;changes&lt;/code&gt; fields. However, as the comments say, it&amp;rsquo;s not supported yet.&lt;/p&gt;
 &lt;h2 id=&#34;its-powerful&#34;&gt;it&amp;rsquo;s powerful&lt;/h2&gt;
 &lt;p&gt;That&amp;rsquo;s it for today, dipping the toes in YugabyteDB CDC.&lt;/p&gt;
-&lt;p&gt;Very straightforward to approach and a great foudation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested with Apache Kafka or another data streaming solution to power all sorts of business solution inside of an enterprise.&lt;/p&gt;
+&lt;p&gt;Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested with Apache Kafka or another data streaming solution to power all sorts of business solutions inside of an enterprise.&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
