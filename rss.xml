@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Wed, 23 Feb 2022 01:29:57 &#43;0100</lastBuildDate>
+        <lastBuildDate>Wed, 23 Feb 2022 01:58:06 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -46,7 +46,7 @@
 &lt;li&gt;A compliance department can automatically detect when certain user accounts or any other item in the database does not comply with a legal framework.&lt;/li&gt;
 &lt;li&gt;In the simplest form, organizations can synchronize different databases in real-time. However, YugabyteDB offers a feature called &lt;em&gt;xCluster&lt;/em&gt;, an asynchronous cluster to cluster replication.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The possibilities are endless and can be applied to pretty much every possible business problem. The gist here is: reacting to changes in real-time.&lt;/p&gt;
+&lt;p&gt;Possibilities are endless and can be applied to pretty much every possible business problem. The gist here is: reacting to changes in real-time.&lt;/p&gt;
 &lt;p&gt;YugabyteDB is a horizontally scalable 100% open-source distributed SQL database providing Cassandra (YCQL) and PostgreSQL (YSQL) compatible APIs. For PostgreSQL API, YugabyteDB uses the actual PostgreSQL 11.2 engine. With just PostgreSQL, a company could use the &lt;code&gt;NOTIFY/SUBSCRIBE&lt;/code&gt; functionality for reactivity within the database, and a CDC solution like &lt;em&gt;Debezium&lt;/em&gt; for outside-of-the-database integration.&lt;/p&gt;
 &lt;p&gt;YugabyteDB currently does not support &lt;code&gt;NOTIFY/SUBSCRIBE&lt;/code&gt; but it comes with built-in support for CDC. CDC operates on a lower level than said PostgreSQL functionality, but it&amp;rsquo;s a very good foundation to build a general purpose &lt;code&gt;NOTIFY/SUBSCRIBE&lt;/code&gt; alternative. The downside is, the data will always leave the cluster in order to be processed.&lt;/p&gt;
 &lt;h2 id=&#34;commercial-plug&#34;&gt;commercial plug&lt;/h2&gt;
@@ -584,9 +584,10 @@ docker build -t local/yugabyte-db-cdctest:latest .
 &lt;li&gt;&lt;code&gt;records.*.changes&lt;/code&gt; is an array of objects with a &lt;code&gt;key&lt;/code&gt; and a &lt;code&gt;value&lt;/code&gt;,
 &lt;ul&gt;
 &lt;li&gt;the &lt;code&gt;key&lt;/code&gt; of each change, is the colume name, if we base64 decode the &lt;code&gt;cmVnaW9uX2Rlc2NyaXB0aW9u&lt;/code&gt; value, we get &lt;code&gt;region_description&lt;/code&gt;, which is the column name where the textual value goes,&lt;/li&gt;
-&lt;li&gt;the &lt;code&gt;value&lt;/code&gt; of each individual change contains a typed value for the column, this is probably where the largest chunk of processing would go in a real application (do discover the value type, it could probably be correlated by loading the table schema beforehand &lt;code&gt;GetTableSchemaRequestPB&lt;/code&gt; message defined in &lt;code&gt;master/master_ddl.proto&lt;/code&gt;), in our case, the base64 decoded &lt;code&gt;dGVzdA==&lt;/code&gt; is &lt;code&gt;test&lt;/code&gt; - exactly what we have inserted.&lt;/li&gt;
+&lt;li&gt;the &lt;code&gt;value&lt;/code&gt; of each individual change contains a typed value for the column, this is probably where the largest chunk of processing would go in a real application (do discover the value type, it could probably be correlated by loading the table schema beforehand &lt;code&gt;GetTableSchemaRequestPB&lt;/code&gt; message defined in &lt;code&gt;master/master_ddl.proto&lt;/code&gt;), in our case, the base64 decoded &lt;code&gt;dGVzdA==&lt;/code&gt; is &lt;code&gt;test&lt;/code&gt; - exactly what we have inserted,&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;the complete changeset contains the partition information; combined with the tablet ID of each individual change, it would be possible to react only to the changes happening within a specific geographical location; &lt;a href=&#34;https://blog.yugabyte.com/geo-partitioning-of-data-in-yugabytedb/&#34;&gt;find out more&lt;/a&gt;&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Okay, let&amp;rsquo;s see what happens when we issue an update:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1130,8 +1131,9 @@ docker build -t local/yugabyte-db-cdctest:latest .
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;It seems like we may be getting more insight into what we had before the change and what we have after the change - &lt;code&gt;before&lt;/code&gt;, &lt;code&gt;after&lt;/code&gt;, and &lt;code&gt;changes&lt;/code&gt; fields. However, as the comments say, it&amp;rsquo;s not supported yet.&lt;/p&gt;
 &lt;h2 id=&#34;its-powerful&#34;&gt;it&amp;rsquo;s powerful&lt;/h2&gt;
+&lt;p&gt;Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested and transformed with Kafka or another data streaming solution to power all sorts of business applications inside of an enterprise.&lt;/p&gt;
+&lt;p&gt;Having an out-of-the-box possibility to fuse distributed SQL and real-time streaming data is a superpower with unlimited applications in today&amp;rsquo;s data-driven world.&lt;/p&gt;
 &lt;p&gt;That&amp;rsquo;s it for today, dipping the toes in YugabyteDB CDC.&lt;/p&gt;
-&lt;p&gt;Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested with Apache Kafka or another data streaming solution to power all sorts of business applications inside of an enterprise.&lt;/p&gt;
 &lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -1152,6 +1154,9 @@ docker build -t local/yugabyte-db-cdctest:latest .
 &lt;/li&gt;
 &lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://docs.docker.com/compose/install/#install-compose-on-linux-systems&#34;&gt;Install Compose on Linux systems&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.yugabyte.com/geo-partitioning-of-data-in-yugabytedb/&#34;&gt;Geo-Partitioning of Data in YugabyteDB&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/section&gt;

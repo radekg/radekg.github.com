@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-02-23T00:00:00+00:00",
-        "dateModified": "2022-02-23T01:29:50+01:00",
+        "dateModified": "2022-02-23T01:57:54+01:00",
         "url": "https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/",
         "headline": "YugabyteDB change data capture",
         "description": "real-time systems + distributed SQL",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  3006 ,
+        "wordCount":  3068 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-02-23T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-23T01:29:50&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-23T01:57:54&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3006</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3068</span>
     
     
         
@@ -279,7 +279,7 @@
 <li>A compliance department can automatically detect when certain user accounts or any other item in the database does not comply with a legal framework.</li>
 <li>In the simplest form, organizations can synchronize different databases in real-time. However, YugabyteDB offers a feature called <em>xCluster</em>, an asynchronous cluster to cluster replication.</li>
 </ul>
-<p>The possibilities are endless and can be applied to pretty much every possible business problem. The gist here is: reacting to changes in real-time.</p>
+<p>Possibilities are endless and can be applied to pretty much every possible business problem. The gist here is: reacting to changes in real-time.</p>
 <p>YugabyteDB is a horizontally scalable 100% open-source distributed SQL database providing Cassandra (YCQL) and PostgreSQL (YSQL) compatible APIs. For PostgreSQL API, YugabyteDB uses the actual PostgreSQL 11.2 engine. With just PostgreSQL, a company could use the <code>NOTIFY/SUBSCRIBE</code> functionality for reactivity within the database, and a CDC solution like <em>Debezium</em> for outside-of-the-database integration.</p>
 <p>YugabyteDB currently does not support <code>NOTIFY/SUBSCRIBE</code> but it comes with built-in support for CDC. CDC operates on a lower level than said PostgreSQL functionality, but it&rsquo;s a very good foundation to build a general purpose <code>NOTIFY/SUBSCRIBE</code> alternative. The downside is, the data will always leave the cluster in order to be processed.</p>
 <h2 id="commercial-plug"><a href="#commercial-plug" class="anchor-link">§</a>commercial plug</h2>
@@ -817,9 +817,10 @@ docker build -t local/yugabyte-db-cdctest:latest .
 <li><code>records.*.changes</code> is an array of objects with a <code>key</code> and a <code>value</code>,
 <ul>
 <li>the <code>key</code> of each change, is the colume name, if we base64 decode the <code>cmVnaW9uX2Rlc2NyaXB0aW9u</code> value, we get <code>region_description</code>, which is the column name where the textual value goes,</li>
-<li>the <code>value</code> of each individual change contains a typed value for the column, this is probably where the largest chunk of processing would go in a real application (do discover the value type, it could probably be correlated by loading the table schema beforehand <code>GetTableSchemaRequestPB</code> message defined in <code>master/master_ddl.proto</code>), in our case, the base64 decoded <code>dGVzdA==</code> is <code>test</code> - exactly what we have inserted.</li>
+<li>the <code>value</code> of each individual change contains a typed value for the column, this is probably where the largest chunk of processing would go in a real application (do discover the value type, it could probably be correlated by loading the table schema beforehand <code>GetTableSchemaRequestPB</code> message defined in <code>master/master_ddl.proto</code>), in our case, the base64 decoded <code>dGVzdA==</code> is <code>test</code> - exactly what we have inserted,</li>
 </ul>
 </li>
+<li>the complete changeset contains the partition information; combined with the tablet ID of each individual change, it would be possible to react only to the changes happening within a specific geographical location; <a href="https://blog.yugabyte.com/geo-partitioning-of-data-in-yugabytedb/" target="_blank" rel="noopener">find out more</a><sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">[7]</a></sup>.</li>
 </ul>
 <p>Okay, let&rsquo;s see what happens when we issue an update:</p>
 <div class="highlight"><div class="chroma">
@@ -1363,8 +1364,9 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </div>
 </div><p>It seems like we may be getting more insight into what we had before the change and what we have after the change - <code>before</code>, <code>after</code>, and <code>changes</code> fields. However, as the comments say, it&rsquo;s not supported yet.</p>
 <h2 id="its-powerful"><a href="#its-powerful" class="anchor-link">§</a>it&rsquo;s powerful</h2>
+<p>Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested and transformed with Kafka or another data streaming solution to power all sorts of business applications inside of an enterprise.</p>
+<p>Having an out-of-the-box possibility to fuse distributed SQL and real-time streaming data is a superpower with unlimited applications in today&rsquo;s data-driven world.</p>
 <p>That&rsquo;s it for today, dipping the toes in YugabyteDB CDC.</p>
-<p>Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested with Apache Kafka or another data streaming solution to power all sorts of business applications inside of an enterprise.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -1385,6 +1387,9 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </li>
 <li id="fn:6" role="doc-endnote">
 <p><a href="https://docs.docker.com/compose/install/#install-compose-on-linux-systems" target="_blank" rel="noopener">Install Compose on Linux systems</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:7" role="doc-endnote">
+<p><a href="https://blog.yugabyte.com/geo-partitioning-of-data-in-yugabytedb/" target="_blank" rel="noopener">Geo-Partitioning of Data in YugabyteDB</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>
