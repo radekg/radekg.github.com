@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Wed, 23 Feb 2022 01:29:03 &#43;0100</lastBuildDate>
+        <lastBuildDate>Wed, 23 Feb 2022 01:29:57 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -38,7 +38,7 @@
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
-                    <description>&lt;p&gt;Today I&amp;rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change data capture is a data integration method based on identification, capture, and delivery of data changes. Enterprises can choose this method to identify what data changes in the database and to act on those changes in real-time. What are the use cases for CDC? For example:&lt;/p&gt;
+                    <description>&lt;p&gt;Today I&amp;rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change data capture is a data integration method based on the identification, capture, and delivery of data changes. Enterprises can choose this method to identify what data changes in the database and to act on those changes in real-time. What are the use cases for CDC? For example:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A fulfillment enterprise can track new stock booking-ins and automatically fulfill backorders.&lt;/li&gt;
 &lt;li&gt;An enterprise can track account creation and modification to trigger automatic CRM updates.&lt;/li&gt;

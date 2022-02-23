@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-02-23T01:29:03&#43;01:00</updated>
+    <updated>2022-02-23T01:29:57&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">YugabyteDB change data capture</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/" />
             <id>https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/</id>
-            <updated>2022-02-23T01:28:02&#43;01:00</updated>
+            <updated>2022-02-23T01:29:50&#43;01:00</updated>
             <published>2022-02-23T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -29,7 +29,7 @@
                     </author>
             <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">real-time systems + distributed SQL</summary>
             
-                <content type="html">&lt;p&gt;Today I&amp;rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change data capture is a data integration method based on identification, capture, and delivery of data changes. Enterprises can choose this method to identify what data changes in the database and to act on those changes in real-time. What are the use cases for CDC? For example:&lt;/p&gt;
+                <content type="html">&lt;p&gt;Today I&amp;rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change data capture is a data integration method based on the identification, capture, and delivery of data changes. Enterprises can choose this method to identify what data changes in the database and to act on those changes in real-time. What are the use cases for CDC? For example:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A fulfillment enterprise can track new stock booking-ins and automatically fulfill backorders.&lt;/li&gt;
 &lt;li&gt;An enterprise can track account creation and modification to trigger automatic CRM updates.&lt;/li&gt;
