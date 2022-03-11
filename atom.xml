@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-02-23T01:58:06&#43;01:00</updated>
+    <updated>2022-03-11T15:46:38&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -3607,17 +3607,22 @@ One of my previous post, Introduction to Keycloak Authorization Services1, gets 
             <title type="text">Keycloak with TLS in Docker compose behind Envoy proxy</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" />
             <id>https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</id>
-            <updated>2022-02-21T02:30:40&#43;01:00</updated>
+            <updated>2022-03-11T15:38:44&#43;01:00</updated>
             <published>2021-06-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
                     <uri>https://io-oi.me/</uri>
                     <email>radek@gruchalski.com</email>
                     </author>
-            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That&amp;rsquo;s a perfect opportunity to add TLS to my Keycloak Docker Compose setup described previously here1.
-There are multiple ways of setting up TLS for Keycloak, one of them being the native Java JKS key store / trust store gymnastics.</summary>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">20th of February, 2022:
+I have published a version of this article adapted for Keycloak 17: Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy.
+ The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog.</summary>
             
-                <content type="html">&lt;p&gt;The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That&amp;rsquo;s a perfect opportunity to add TLS to my &lt;a href=&#34;https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/&#34;&gt;Keycloak Docker Compose setup described previously here&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+                <content type="html">&lt;div class=&#34;infobox&#34;&gt;
+&lt;p&gt;&lt;strong&gt;20th of February, 2022:&lt;/strong&gt;&lt;br&gt;
+I have published a version of this article adapted for Keycloak 17: &lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&#34;&gt;Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;The 24 hours of Nürburgring race was just red flagged for the remainder of the night due to the fog. That&amp;rsquo;s a perfect opportunity to add TLS to my &lt;a href=&#34;https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/&#34;&gt;Keycloak Docker Compose setup described previously here&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;There are multiple ways of setting up TLS for Keycloak, one of them being the native Java JKS key store / trust store gymnastics.&lt;/p&gt;
 &lt;p&gt;Well, that&amp;rsquo;s certainly &lt;em&gt;a&lt;/em&gt; way to go. If you prefer that path, &lt;a href=&#34;https://www.keycloak.org/docs/latest/server_installation/#_setting_up_ssl&#34;&gt;feel free to do so, details are here&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; but that&amp;rsquo;s a lot of work. I like my life simple so I choose to use a proxy to terminate TLS instead.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s have a look at the original &lt;em&gt;compose.yml&lt;/em&gt; file, it&amp;rsquo;s short:&lt;/p&gt;
