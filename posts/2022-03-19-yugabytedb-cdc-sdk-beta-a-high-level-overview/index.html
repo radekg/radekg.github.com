@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>YugabyteDB CDC SDK beta, a high level overview | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.2a066069a1d2940b3a3107397cddde65473ce8d29a2313ccc3989759c9372a79.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="an overview of the all-new CDC SDK beta" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2022-03-19T00:00:00+00:00",
+        "dateModified": "2022-03-19T23:54:23+01:00",
+        "url": "https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/",
+        "headline": "YugabyteDB CDC SDK beta, a high level overview",
+        "description": "an overview of the all-new CDC SDK beta",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  3613 ,
+        "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+
+    
+
+
+
+<meta property="og:title" content="YugabyteDB CDC SDK beta, a high level overview" />
+<meta property="og:description" content="an overview of the all-new CDC SDK beta" />
+<meta property="og:url" content="https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
+        <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2022-03-19T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2022-03-19T23:54:23&#43;01:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+        <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+        
+
+
+
+
+    
+    <script>
+        var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+        var doNotTrack = (dnt == "1" || dnt == "yes");
+        if (!doNotTrack) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            if (window.sessionStorage) {
+                var GA_SESSION_STORAGE_KEY = 'ga:clientId';
+                ga('create', 'UA-39073034-1', {
+                'storage': 'none',
+                'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
+               });
+               ga(function(tracker) {
+                sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
+               });
+           }
+            ga('set', 'anonymizeIp', true);
+            ga('send', 'pageview');
+        }
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="icon code-branch"><path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/></svg><span class="menu-item-name">categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">YugabyteDB CDC SDK beta, a high level overview</h1>
+
+            
+
+            
+                <div class="post-description p-summary">an overview of the all-new CDC SDK beta</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2022-03-19T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;March 19, 2022</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3613</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;17&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+
+            <div class="post-body e-content">
+              <p>Shortly after I have published <a href="/posts/2022-02-23-yugabytedb-change-data-capture/">the previous article on YugabyteDB CDC</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>, the amazing Yugabyte team released the 2.13 version of the database with a beta implementation of the new change data capture SDK. Before diving into the new SDK, let&rsquo;s quickly recap the first implementation.</p>
+<div class="infobox">
+<p>This is a living article. Updates will be listed here.</p>
+</div>
+<h2 id="first-cdc-version-xcluster"><a href="#first-cdc-version-xcluster" class="anchor-link">§</a>first CDC version: xcluster</h2>
+<p>With the first implementation, we can create and delete JSON based streams, where each stream is created for exactly one table. Each individual stream delivers messages for three types of database events: inserts (<code>WRITE</code> and <code>APPLY</code>), updates (<code>WRITE</code> and <code>APPLY</code>) and deletes  (<code>DELETE</code> and <code>APPLY</code>).</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.11.2/src/yb/cdc/cdc_service.proto#L165
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">CDCRecordPB</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kd">enum</span> <span class="n">OperationType</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="n">WRITE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">DELETE</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">APPLY</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// ...
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>For majority of the use cases, this might be sufficient but certain operations aren&rsquo;t possible:</p>
+<ul>
+<li>No <code>truncate</code> support.</li>
+<li>No DDL related events.</li>
+<li>No transaction indication.</li>
+</ul>
+<p>With the <em>xcluster</em> implementation, the CDC service delivers messages on the tablet level. Each individual insert, update, or delete results in multiple messages: one for a tablet leader and one for each follower.</p>
+<p>This results in plenty of duplication on the consumer side and an operational complexity of tracking the <em>change source of the truth</em>. This first CDC implementation hands over the complexity of the architecture to the consumer. Instead of working just on the row (entity) level, the consumer must also understand the nature of how the cluster is deployed and replicated.</p>
+<p>The new CDC SDK addresses a large number of those problems.</p>
+<h2 id="cdc-sdk"><a href="#cdc-sdk" class="anchor-link">§</a>CDC SDK</h2>
+<p>Let&rsquo;s start the CDC SDK investigation by looking at the CDC 2.13 service definition:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L47
+</span><span class="c1"></span><span class="kd">service</span> <span class="n">CDCService</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">CreateCDCStream</span> <span class="p">(</span><span class="n">CreateCDCStreamRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">CreateCDCStreamResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">DeleteCDCStream</span> <span class="p">(</span><span class="n">DeleteCDCStreamRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">DeleteCDCStreamResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">ListTablets</span> <span class="p">(</span><span class="n">ListTabletsRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">ListTabletsResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">GetChanges</span> <span class="p">(</span><span class="n">GetChangesRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetChangesResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">GetCheckpoint</span> <span class="p">(</span><span class="n">GetCheckpointRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetCheckpointResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">UpdateCdcReplicatedIndex</span> <span class="p">(</span><span class="n">UpdateCdcReplicatedIndexRequestPB</span><span class="p">)</span><span class="err">
+</span><span class="err"></span>      <span class="k">returns</span> <span class="p">(</span><span class="n">UpdateCdcReplicatedIndexResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">BootstrapProducer</span> <span class="p">(</span><span class="n">BootstrapProducerRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">BootstrapProducerResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">GetLatestEntryOpId</span> <span class="p">(</span><span class="n">GetLatestEntryOpIdRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetLatestEntryOpIdResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">GetCDCDBStreamInfo</span> <span class="p">(</span><span class="n">GetCDCDBStreamInfoRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetCDCDBStreamInfoResponsePB</span><span class="p">);</span><span class="err">
+</span><span class="err"></span>  <span class="k">rpc</span> <span class="n">SetCDCCheckpoint</span> <span class="p">(</span><span class="n">SetCDCCheckpointRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">SetCDCCheckpointResponsePB</span><span class="p">)</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.trivial</span><span class="p">)</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="p">};</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>This doesn&rsquo;t look much different from the previous version. There are a couple of new operations and some request and response types contain new SDK-specific fields.</p>
+<p>An example, there is a single <code>CreateCDCStream</code> method taking the <code>CreateCDCStreamRequestPB</code> argument known from the previous incarnation. However, the request argument contains some new capabilities.</p>
+<p>It&rsquo;s obvious that one needs to know the correct set of parameters to work with the SDK. A reference implementation would be handy. As it happens, there is one: <a href="https://github.com/yugabyte/debezium/tree/final-connector-ybdb" target="_blank" rel="noopener">the YugabyteDB Debezium connector</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>.</p>
+<p>The most relevant pieces of the connector code:</p>
+<ul>
+<li><a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L263" target="_blank" rel="noopener"><code>YugabyteDBConnector.validateTServerConnection(...)</code></a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>: handles stream creation and setup.</li>
+<li><a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L341-L365" target="_blank" rel="noopener"><code>YugabyteDBConnector.fetchTabletList(...)</code></a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>: fetches list of tablet IDs to consume changes for.</li>
+<li><a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBStreamingChangeEventSource.java#L243" target="_blank" rel="noopener"><code>YugabyteDBStreamingChangeEventSource.getChanges2(...)</code></a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup>: handles CDC SDK rows returned from <code>GetChanges</code> operation.</li>
+</ul>
+<h3 id="creating-a-stream"><a href="#creating-a-stream" class="anchor-link">§</a>creating a stream</h3>
+<p>To create a CDC SDK stream, called a database stream in 2.13, we have to call the <code>CreateCDCStream</code> operation with an exact combination of <code>CreateCDCStreamRequestPB</code> parameters. Hints are in two places:</p>
+<ul>
+<li><a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L299" target="_blank" rel="noopener">YugabyteDB Debezium connector</a>: calls an underlying Java client with required parameters.</li>
+<li><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/tools/yb-admin_cli_ent.cc#L429-L460" target="_blank" rel="noopener">Currently undocumented yb-admin create_change_data_stream operation</a><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">[6]</a></sup>; this one calls into the <a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/tools/yb-admin_client_ent.cc#L1122-L1151" target="_blank" rel="noopener"><code>ClusterAdminClient::CreateCDCSDKDBStream</code></a><sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">[7]</a></sup> operation.</li>
+</ul>
+<p>To create a database stream, the request needs to contain:</p>
+<ul>
+<li>A database name (namespace).</li>
+<li>Record type <code>CDCRecordType.CHANGE</code>: defines what each individual record contains:
+<ul>
+<li><code>CHANGE</code>: changed values only; <strong>it appears that this is the required value</strong>,</li>
+<li><code>AFTER</code>: the entire row after the change,</li>
+<li><code>ALL</code>: the before and after value of the row.</li>
+</ul>
+</li>
+<li>Record format must be <code>CDCRecordFormat.PROTO</code>: data is in the protobuf format.</li>
+<li>Source type must be <code>CDCRequestSource.CDCSDK</code>,
+<ul>
+<li>other values:
+<ul>
+<li><code>XCLUSTER</code>: simple CDC form.</li>
+<li><code>2DC</code>: two datacenter deployments in YugabyteDB leverage change data capture at the core.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Checkpoint type must be <code>IMPLICT</code> or <code>EXPLICIT</code>: when <code>IMPLICIT</code>, CDC SDK automatically manages checkpoints.</li>
+</ul>
+<p>If the stream has been successfully created, the ID of the stream will be in <code>CreateCDCStreamResponsePB.db_stream_id</code> field:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L124
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">CreateCDCStreamResponsePB</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="n">CDCErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">stream_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">db_stream_id</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><h3 id="consuming-the-stream"><a href="#consuming-the-stream" class="anchor-link">§</a>consuming the stream</h3>
+<p>As with the original CDC, to consume a stream, we have to call the <code>GetChanges</code> operation. The <code>GetChangesRequestPB</code> type looks like this in 2.13:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L178
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">GetChangesRequestPB</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">stream_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// Tablet to get the changes for.
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">tablet_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// Checkpoint to start reading from (exclusive).
+</span><span class="c1"></span>  <span class="c1">// Start reading from the first record after this checkpoint.
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">CDCCheckpointPB</span> <span class="n">from_checkpoint</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// Maximum records to read.
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">max_records</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// Whether the caller knows the tablet address or needs to use us as a proxy.
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bool</span> <span class="n">serve_as_proxy</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="kc">true</span><span class="p">];</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">db_stream_id</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">table_id</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="n">CDCSDKCheckpointPB</span> <span class="n">from_cdc_sdk_checkpoint</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>Most interesting fields:</p>
+<ul>
+<li><code>db_stream_id</code>: takes the database stream ID returned in <code>CreateCDCStreamResponsePB.db_stream_id</code>; we can see that the original CDC is still supported with the <code>stream_id</code> field.</li>
+<li><code>from_cdc_sdk_checkpoint</code>: CDC SDK streams require this new checkpoint format.</li>
+</ul>
+<p>The <code>table_id</code> field does not appear to be used.</p>
+<p>To consume changes from the CDC SDK database stream, we have to execute a <code>GetChanges</code> request with the following configurattion:</p>
+<ul>
+<li><code>GetChangesRequestPB.db_stream_id</code>: contains the database stream ID.</li>
+<li><code>GetChangesRequestPB.from_cdc_sdk_checkpoint</code>: contains the checkpoint, an empty checkpoint is an instance of a checkpoint with all values set to defaults; this will make a consumer receive all changes from the beginning of the stream.</li>
+<li><code>GetChangesRequestPB.tablet_id</code>: tablet ID is required.</li>
+</ul>
+<h3 id="discovering-tablet-ids-to-consume-changes-from"><a href="#discovering-tablet-ids-to-consume-changes-from" class="anchor-link">§</a>discovering tablet IDs to consume changes from</h3>
+<p>The implication of the <code>GetChangesRequestPB.tablet_id</code> being required, is that we have to find all tablet IDs for each table of a database.</p>
+<p>Forunately, the Debezium connector does this already. We can use the <a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L341-L365" target="_blank" rel="noopener"><code>YugabyteDBConnector.fetchTabletList(...)</code></a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup> method to reverse engineer this step.</p>
+<p>It boils down to listing all tables using the master service <code>ListTables</code> request and filtering for <code>PGSQL</code> relations, where the relation type isn&rsquo;t <code>INDEX_TABLE_RELATION</code> or <code>SYSTEM_TABLE_RELATION</code> (effectively, <code>USER_TABLE_RELATION</code> only).</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/master/master_types.proto#L22
+</span><span class="c1"></span><span class="kd">enum</span> <span class="n">RelationType</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="n">SYSTEM_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="n">USER_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="n">INDEX_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>For each discovered table, we list its tablets using the master service <code>GetTableLocations</code> RPC call. As a result, we have a list of all tablet IDs we want to consume from.</p>
+<p>There will be one consumer per tablet.</p>
+<p>We can, of course, consume changes for specific tables (or tablets) only. To do so, we can skip tablets <em>we don&rsquo;t want to consume from</em>.</p>
+<h3 id="the-checkpoint"><a href="#the-checkpoint" class="anchor-link">§</a>the checkpoint</h3>
+<p>The old checkpoint type contains <code>term</code> and <code>index</code> fields delivered in an <code>OpIdPB</code> message. The <code>term</code> is most likely referring to the Raft voter term of the tablet, <code>index</code> is most likely a Raft log entry index of the tablet.</p>
+<p>The CDC SDK introduces a new checkpoint type. The new checkpoint type doesn&rsquo;t use the <code>OpId</code> anymore. It defines <code>term</code> and <code>index</code> fields directly, next to additional properties. The protobuf type:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L162
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">CDCSDKCheckpointPB</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">int64</span> <span class="n">term</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">int64</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// write_id, key which is the reverse_index_iterator are used to resume from partially
+</span><span class="c1"></span>  <span class="c1">// streamed intents when the number of intents to be streamed are more than the intent max batch
+</span><span class="c1"></span>  <span class="c1">// size
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">key</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">int32</span> <span class="n">write_id</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="mi">0</span><span class="p">];</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// snapshot_time is used in the context of bootstrap process
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">uint64</span> <span class="n">snapshot_time</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>The <code>write_id</code> is the order of changes within a <em>multi-statement</em> transaction and does not make sense when <code>key</code> is <code>null</code>.</p>
+<p>I&rsquo;m not sure what&rsquo;s <code>snapshot_time</code> for. Something to investigate further, <a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/cdc/cdcsdk_producer.cc#L560-L828" target="_blank" rel="noopener">snapshot handling is here</a><sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">[8]</a></sup>.</p>
+<h3 id="comparing-checkpoints"><a href="#comparing-checkpoints" class="anchor-link">§</a>comparing checkpoints</h3>
+<p>Checkpoints can be compared by <code>term</code>, <code>index</code> and <code>write_id</code>. These properties should be compared in order:</p>
+<ul>
+<li>Higher <code>term</code> implies higher checkpoint, regardless of the <code>index</code> values.</li>
+<li>If <code>term</code> is equal, higher <code>index</code> indicates a newer event.</li>
+<li><code>write_id</code> makes sense only within a transaction, higher <code>write_id</code> implies a newer event within a single transaction.</li>
+</ul>
+<h3 id="checkpoint-management"><a href="#checkpoint-management" class="anchor-link">§</a>checkpoint management</h3>
+<p>The CDC service manages checkpoints by itself when the CDC checkpoint type is <code>IMPLICIT</code>. Only very specific use cases would require the client to manage checkpoints manually, in the <code>EXPLICIT</code> checkpoint type mode.</p>
+<p>For example, a client buffering records before processing them might require fine-grained checkpoint control.</p>
+<div class="infobox">
+<p><em>It&rsquo;s not clear to me how to put a CDC stream in a mode where CDC checkpoint can be set. Every time I attempted calling <code>SetCDCCheckpoint</code> for an <code>EXPLICIT</code> setting, YugabyteDB TServers crash.</em></p>
+<p>Weird, considering that <a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/java/yb-cdc/src/test/java/org/yb/cdc/TestCheckpoint.java#L63-L93" target="_blank" rel="noopener">the Java client tests appear to be testing this functionality</a><sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">[9]</a></sup>.</p>
+</div>
+<h3 id="checkpoint-management-vs-consumer-offset-management"><a href="#checkpoint-management-vs-consumer-offset-management" class="anchor-link">§</a>checkpoint management vs consumer offset management</h3>
+<p>So I kind of made the <em>consumer offset management</em> term up here. This is a term from Apache Kafka world and there&rsquo;s no reference to it anywhere in YugabyteDB documentation. A single <code>stream ID+tablet ID</code> combination can have multiple CDC consumers sourcing events from, and that&rsquo;s perfectly fine.</p>
+<p>For example:</p>
+<ul>
+<li>Consumer A performs audits.</li>
+<li>Consumer B observes selected tables and rewrites specific updates to an internal ERP system.</li>
+<li>Consumer C observes individual colums for secret values and raises alerts when those values appear.</li>
+</ul>
+<p>Each of those consumers is a standalone program with its own lifecycle. They are started and stopped independently. Each of them needs to have their own <em>last processed checkpoint</em> (a <em>consumer offset</em>) stored somwehere. It&rsquo;s clear that the <code>SetCDCCheckpoint</code> operation isn&rsquo;t designed to perform this role because it does not have a notion of a <em>consumer ID</em>.</p>
+<p>Instead, a consumer should process changes received from <code>GetChanges</code>. When finished, or when it is ready to commit a batch of processed changes, it should store the <code>term</code> and <code>index</code> for a <code>stream ID+tablet ID</code> combination. Next to those values, it needs to store a consumer name. The name should be unique to the consumer application but shared between different starts of the same consumer instance.</p>
+<p>I&rsquo;m not sure if my assumptions are correct, but I would definitely try this approach if I was to build anything on the YugabyteDB CDC SDK. I would probably store checkpoints by myself in a dedicated table. The table could have the following schema:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">consumer_offsets</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span><span class="w">  </span><span class="n">streamID</span><span class="w"> </span><span class="n">bytea</span><span class="p">,</span><span class="w">
+</span><span class="w">  </span><span class="n">tabletID</span><span class="w"> </span><span class="n">bytea</span><span class="p">,</span><span class="w">
+</span><span class="w">  </span><span class="n">consumerID</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span><span class="w">
+</span><span class="w">  </span><span class="n">term</span><span class="w"> </span><span class="nb">bigint</span><span class="p">,</span><span class="w">
+</span><span class="w">  </span><span class="k">index</span><span class="w"> </span><span class="nb">bigint</span><span class="w">
+</span><span class="w"></span><span class="p">);</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><h3 id="processing-changes"><a href="#processing-changes" class="anchor-link">§</a>processing changes</h3>
+<p>The meat of every CDC consumer is the change processing. A response from <code>GetChanges</code> operation for a database stream returns an array of <code>CDCSDKProtoRecordPB</code>. Each of those items has the following structure:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L355
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">CDCSDKProtoRecordPB</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="n">RowMessage</span> <span class="n">row_message</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// Op id information to identify duplicate entries
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">CDCSDKOpIdPB</span> <span class="n">cdc_sdk_op_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>where a row message is:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L319
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">RowMessage</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>  <span class="kd">enum</span> <span class="n">Op</span> <span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="n">UNKNOWN</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">INSERT</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">UPDATE</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">DELETE</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">BEGIN</span>    <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">COMMIT</span>   <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">DDL</span>      <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">TRUNCATE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="n">READ</span>     <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="p">}</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">bytes</span>  <span class="n">transaction_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">uint64</span> <span class="n">commit_time</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">string</span> <span class="n">table</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="n">Op</span> <span class="n">op</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="n">DatumMessagePB</span> <span class="n">new_tuple</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="n">DatumMessagePB</span> <span class="n">old_tuple</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>  <span class="k">repeated</span> <span class="n">TypeInfo</span> <span class="n">new_typeinfo</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// Schema information used in case of DDL
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">CDCSDKSchemaPB</span> <span class="n">schema</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// Schema version
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">schema_version</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// New table name, used in the case of rename table
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">string</span> <span class="n">new_table_name</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="k">optional</span> <span class="kt">string</span> <span class="n">pgschema_name</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>  <span class="c1">// truncate info
+</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">yb.tserver.TruncateRequestPB</span> <span class="n">truncate_request_info</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>The inline <code>Op</code> identifies the type of the operation. This is where the CDC SDK shows its biggest difference from the original CDC solution. The CDC SDK provides additional context for DDL events, table truncation events, and transaction state. The <code>YugabyteDBStreamingChangeEventSource.getChanges2(...)</code> Debezium connector method mentioned earlier is a reference for event processing.</p>
+<p>There are three groups of messages:</p>
+<ul>
+<li>Transactional messages: <code>Op.BEGIN</code> and <code>Op.COMMIT</code>.</li>
+<li>DDL messages: <code>Op.DDL</code>.</li>
+<li>DML messages: <code>Op.INSERT</code>, <code>Op.UPDATE</code>, <code>Op.DELETE</code> and <code>Op.TRUNCATE</code>.</li>
+</ul>
+<p>I was not able to trigger anything resulting in the <code>Op.READ</code> message type.</p>
+<h4 id="ddl-messages"><a href="#ddl-messages" class="anchor-link">§</a>DDL messages</h4>
+<p>Here&rsquo;s an example of a DDL message emitted after creating a table:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">3</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;cdc_sdk_proto_records&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="nt">&#34;schema&#34;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&#34;column_info&#34;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;region_id&#34;</span><span class="p">,</span>
+              <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&#34;main&#34;</span><span class="p">:</span> <span class="mi">2</span>
+              <span class="p">},</span>
+              <span class="nt">&#34;is_key&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+              <span class="nt">&#34;is_hash_key&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+              <span class="nt">&#34;is_nullable&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+              <span class="nt">&#34;oid&#34;</span><span class="p">:</span> <span class="mi">21</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+              <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;region_description&#34;</span><span class="p">,</span>
+              <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&#34;main&#34;</span><span class="p">:</span> <span class="mi">5</span>
+              <span class="p">},</span>
+              <span class="nt">&#34;is_key&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+              <span class="nt">&#34;is_hash_key&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+              <span class="nt">&#34;is_nullable&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+              <span class="nt">&#34;oid&#34;</span><span class="p">:</span> <span class="mi">1042</span>
+            <span class="p">}</span>
+          <span class="p">],</span>
+          <span class="nt">&#34;tab_info&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;default_time_to_live&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nt">&#34;num_tablets&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="nt">&#34;is_ysql_catalog_table&#34;</span><span class="p">:</span> <span class="kc">false</span>
+          <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;schema_version&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;pgschema_name&#34;</span><span class="p">:</span> <span class="s2">&#34;public&#34;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;cdc_sdk_checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;snapshot_time&#34;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><h4 id="ddm-messages"><a href="#ddm-messages" class="anchor-link">§</a>DDM messages</h4>
+<p>Let&rsquo;s have a look at the data modification events in the following order: <code>insert</code>, <code>update</code>, <code>delete</code>, and <code>truncate</code>. <a href="/posts/2022-02-23-yugabytedb-change-data-capture/#the-yugabytedb-cluster">Find out how the cluster is started and configured</a><sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">[10]</a></sup>.</p>
+<ul>
+<li><code>insert</code>: <code>psql &quot;host=localhost port=35432 user=yugabyte dbname=cdctest&quot; -c &quot;insert into region values (1, 'test')&quot;</code>:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">4</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;cdc_sdk_proto_records&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NTEwMzRlZTMtMjVkYS00YWRjLWJlYjItNjBmZjcwNjc4YTMz&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">3</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NTEwMzRlZTMtMjVkYS00YWRjLWJlYjItNjBmZjcwNjc4YTMz&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;new_tuple&#34;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;column_name&#34;</span><span class="p">:</span> <span class="s2">&#34;region_id&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;column_type&#34;</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&#34;DatumInt32&#34;</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="p">}</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;column_name&#34;</span><span class="p">:</span> <span class="s2">&#34;region_description&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;column_type&#34;</span><span class="p">:</span> <span class="mi">1042</span><span class="p">,</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&#34;DatumString&#34;</span><span class="p">:</span> <span class="s2">&#34;test&#34;</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&#34;old_tuple&#34;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="kc">null</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="kc">null</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&#34;pgschema_name&#34;</span><span class="p">:</span> <span class="s2">&#34;public&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;cdc_sdk_op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;write_id_key&#34;</span><span class="p">:</span> <span class="s2">&#34;eFEDTuMl2krcvrJg/3BnijPcf/6GQXF3Ly5/wFQ=&#34;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NTEwMzRlZTMtMjVkYS00YWRjLWJlYjItNjBmZjcwNjc4YTMz&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">4</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;cdc_sdk_op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;cdc_sdk_checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>The <code>psql</code> client wraps statements in a transaction. This gives us the opportunity to see what transactional messages look like.</p>
+<p>We have three messages: <code>Op.BEGIN</code>, <code>Op.INSERT</code>, <code>Op.COMMIT</code>.</p>
+<p><code>Op.BEGIN</code> and <code>Op.COMMIT</code> should be used as a boundary of consumer offset acceptance. Consumer offset should be advanced only after an <code>Op.COMMIT</code> message is processed. These could be useful in scenarios where a new value should only be visible after a batch of changes enclosed in the transaction.</p>
+<p>The <code>Op.INSERT</code> message <code>new_tuple</code> field contains inserted values. <code>old_tuple</code> contains no values, which is to be expected.</p>
+<ul>
+<li><code>update</code>: <code>psql &quot;host=localhost port=35432 user=yugabyte dbname=cdctest&quot; -c &quot;update region set region_description='updated' where region_id=1&quot;</code>:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">6</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;cdc_sdk_proto_records&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;ZDk1NTA2NDQtNThmMC00N2JiLWExNDEtMTI2OTdjZWE1ODRi&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">3</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;ZDk1NTA2NDQtNThmMC00N2JiLWExNDEtMTI2OTdjZWE1ODRi&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;new_tuple&#34;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;column_name&#34;</span><span class="p">:</span> <span class="s2">&#34;region_id&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;column_type&#34;</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&#34;DatumInt32&#34;</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="p">}</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;column_name&#34;</span><span class="p">:</span> <span class="s2">&#34;region_description&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;column_type&#34;</span><span class="p">:</span> <span class="mi">1042</span><span class="p">,</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&#34;DatumString&#34;</span><span class="p">:</span> <span class="s2">&#34;updated&#34;</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&#34;old_tuple&#34;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="kc">null</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="kc">null</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&#34;pgschema_name&#34;</span><span class="p">:</span> <span class="s2">&#34;public&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;cdc_sdk_op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;write_id_key&#34;</span><span class="p">:</span> <span class="s2">&#34;eNlVBkRY8Ee7oUESaXzqWEvcf/6GQXXRDYl/tQ==&#34;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;ZDk1NTA2NDQtNThmMC00N2JiLWExNDEtMTI2OTdjZWE1ODRi&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">4</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;cdc_sdk_op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;cdc_sdk_checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Again, a statement has been wrapped in a transaction so we have received three messages.</p>
+<p>The <code>new_tuple</code> field contains values after the update. <code>old_tuple</code> does not contain any data, this is most likely the effect of <code>CDCRecordType: CHANGE</code>.</p>
+<ul>
+<li><code>delete</code>: <code>psql &quot;host=localhost port=35432 user=yugabyte dbname=cdctest&quot; -c &quot;delete from region where region_id=1&quot;</code>:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">8</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;cdc_sdk_proto_records&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NTQyMGRhYjUtYTJhMS00Y2FlLTk3OWMtMWUxMWJmMzgyNDMx&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">3</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NTQyMGRhYjUtYTJhMS00Y2FlLTk3OWMtMWUxMWJmMzgyNDMx&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&#34;new_tuple&#34;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="kc">null</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&#34;old_tuple&#34;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&#34;column_name&#34;</span><span class="p">:</span> <span class="s2">&#34;region_id&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;column_type&#34;</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span>
+            <span class="nt">&#34;Datum&#34;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&#34;DatumInt32&#34;</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&#34;pgschema_name&#34;</span><span class="p">:</span> <span class="s2">&#34;public&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;cdc_sdk_op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;write_id_key&#34;</span><span class="p">:</span> <span class="s2">&#34;eFQg2rWioUyul5weEb84JDHcf/6GQXoUJj9/tQ==&#34;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;row_message&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;transaction_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NTQyMGRhYjUtYTJhMS00Y2FlLTk3OWMtMWUxMWJmMzgyNDMx&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;table&#34;</span><span class="p">:</span> <span class="s2">&#34;region&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op&#34;</span><span class="p">:</span> <span class="mi">4</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;cdc_sdk_op_id&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;cdc_sdk_checkpoint&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;term&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="nt">&#34;write_id&#34;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Yet again, the statement is wrapped in a transacton. We can see that the <code>new_tuple</code> is empty, which makes sense. <code>old_tuple</code> contains the value of the primary key of a deleted item.</p>
+<ul>
+<li><code>truncate</code>: <code>psql &quot;host=localhost port=35432 user=yugabyte dbname=cdctest&quot; -c &quot;truncate table region cascade&quot;</code>:</li>
+</ul>
+<p>This statement does not seem to be handled properly on the database level yet. Issuing a <code>truncate</code> statement breaks the stream (the consumer is not able to get changes anymore), and TServers log errors like these:</p>
+<pre tabindex="0"><code>yb-tserver-shared-3    | [libprotobuf FATAL google/protobuf/reflection_ops.cc:59] CHECK failed: (to-&gt;GetDescriptor()) == (descriptor): Tried to merge messages of different types (merge yb.tablet.TruncatePB to yb.tserver.TruncateRequestPB)
+yb-tserver-shared-3    | libc++abi: terminating with uncaught exception of type google::protobuf::FatalException: CHECK failed: (to-&gt;GetDescriptor()) == (descriptor): Tried to merge messages of different types (merge yb.tablet.TruncatePB to yb.tserver.TruncateRequestPB)
+yb-tserver-shared-3    | [libprotobuf FATAL google/protobuf/reflection_ops.cc:59] CHECK failed: (to-&gt;GetDescriptor()) == (descriptor): Tried to merge messages of different types (merge yb.tablet.TruncatePB to yb.tserver.TruncateRequestPB)
+yb-tserver-shared-3    | libc++abi: terminating with uncaught exception of type google::protobuf::FatalException: CHECK failed: (to-&gt;GetDescriptor()) == (descriptor): Tried to merge messages of different types (merge yb.tablet.TruncatePB to yb.tserver.TruncateRequestPB)
+</code></pre><h4 id="no-primary-key-no-cdc"><a href="#no-primary-key-no-cdc" class="anchor-link">§</a>no primary key, no CDC?</h4>
+<p>All those tests were done on a table with a primary key. Naturally, I wanted to check if it is possible to retrieve changes from a table without a primary key:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> -c <span class="s2">&#34;create table test_table(a text, b text)&#34;</span>
+psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> -c <span class="s2">&#34;insert into test_table values (&#39;test value 1a&#39;, &#39;test value 1b&#39;)&#34;</span>
+psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> -c <span class="s2">&#34;insert into test_table values (&#39;test value 2a&#39;, &#39;test value 2b&#39;)&#34;</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>Trying to get changes for tablets of that table returns a CDC RPC error similar to:</p>
+<pre tabindex="0"><code>  reason=
+  | CDC rpc error: code: 10 (INVALID_REQUEST), status: 4 (INVALID_ARGUMENT)
+  | 	message: Tablet ID d17e6b58a79f418dbae5e95978bf2f59 is not part of stream ID 2861d4b6f25d49f7982bcfb2592b54f0
+  | 	source: ../../ent/src/yb/cdc/cdc_service.cc@457
+</code></pre><p>This would imply that it&rsquo;s impossible to use CDC SDK on tables without a primary key. And indeed, <a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/cdc/cdc_service.cc#L736-L742" target="_blank" rel="noopener">this part of the CDC service</a><sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">[11]</a></sup>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp">    <span class="c1">// internally if any of the table doesn&#39;t have a primary key, then do not create
+</span><span class="c1"></span>    <span class="c1">// a CDC stream ID for that table
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">YsqlTableHasPrimaryKey</span><span class="p">(</span><span class="n">table</span><span class="o">-&gt;</span><span class="n">schema</span><span class="p">()))</span> <span class="p">{</span>
+      <span class="n">LOG</span><span class="p">(</span><span class="n">WARNING</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Skipping CDC stream creation on &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">table</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">().</span><span class="n">table_name</span><span class="p">()</span>
+                   <span class="o">&lt;&lt;</span> <span class="s">&#34; because it does not have a primary key&#34;</span><span class="p">;</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>confirms that. The original, simple CDC has the same restriction.</p>
+<h4 id="changes-on-the-entity-level"><a href="#changes-on-the-entity-level" class="anchor-link">§</a>changes on the entity level</h4>
+<p>Another major difference from the first CDC implementation is that change events are per row (entity). There&rsquo;s no longer an event per tablet. The internal CDC service implementation locates a tablet leader and redelivers tablet leader events only.</p>
+<p>Order of events reflects order of operations on a row. An arrival of event implies that all previous operations on that row have been committed.</p>
+<h4 id="consuming-from-latest-operation"><a href="#consuming-from-latest-operation" class="anchor-link">§</a>consuming from latest operation</h4>
+<p>Sometimes we might want to skip consuming historical changes and consume from the latest entry only. There are two possibilities, depending on how the database stream has been created:</p>
+<ul>
+<li>CDC checkpoint type <code>IMPLICIT</code>: this is the default behaviour when reusing stream IDs.</li>
+<li>CDC checkpoint type <code>EXPLICIT</code>: use <code>GetCheckpoint</code> to discover latest saved checkpoint, a value of <code>term: 0, index: 0</code> might indicate that no <code>SetCDCCheckpoint</code> has been called, consider using <code>GetLatestEntryOpId</code> in that case.</li>
+</ul>
+<h2 id="reference-go-client"><a href="#reference-go-client" class="anchor-link">§</a>reference go client</h2>
+<p>My reference CDC SDK client can be found in <a href="https://github.com/radekg/yugabyte-db-cdctest" target="_blank" rel="noopener">this GitHub repository</a><sup id="fnref:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">[12]</a></sup>.</p>
+<h2 id="summary"><a href="#summary" class="anchor-link">§</a>summary</h2>
+<p>It&rsquo;s clear that the CDC SDK is a higher level solution than the first CDC implementation.</p>
+<p>Current state:</p>
+<ul>
+<li>Does what it says on the tin.</li>
+<li>Has rough edges and requires some clarifications:
+<ul>
+<li>Fully functional support for <code>truncate</code> will be great to have.</li>
+<li>No support for tables without primary key. This would be great to have, it would enable some very interesting use cases for continous backup/restore.</li>
+<li>What&rsquo;s the checkpoint&rsquo;s <code>snapshot_time</code>? What can it be used for?</li>
+<li>Why crashes when executing <code>SetCDCCheckpoint</code> in <code>EXPLICIT</code> mode?</li>
+</ul>
+</li>
+</ul>
+<p>YugabyteDB CDC is one of the features to track. The <a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/architecture/design/docdb-change-data-capture.md#setting-up-a-cdc" target="_blank" rel="noopener">documentation in GitHub</a><sup id="fnref:13"><a href="#fn:13" class="footnote-ref" role="doc-noteref">[13]</a></sup> suggests some pretty cool features coming.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="/posts/2022-02-23-yugabytedb-change-data-capture/">YugabyteDB change data capture</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/debezium/tree/final-connector-ybdb" target="_blank" rel="noopener">YugabyteDB Debezium connector</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L263" target="_blank" rel="noopener">YugabyteDB Debezium connector: <code>YugabyteDBConnector.validateTServerConnection(...)</code></a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L341-L365" target="_blank" rel="noopener">YugabyteDB Debezium connector: <code>YugabyteDBConnector.fetchTabletList(...)</code></a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBStreamingChangeEventSource.java#L243" target="_blank" rel="noopener">YugabyteDB Debezium connector: <code>YugabyteDBStreamingChangeEventSource.getChanges2(...)</code></a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:6" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/tools/yb-admin_cli_ent.cc#L429-L460" target="_blank" rel="noopener">Currently undocumented yb-admin create_change_data_stream operation</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:7" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/tools/yb-admin_client_ent.cc#L1122-L1151" target="_blank" rel="noopener">YugabyteDB source code: <code>ClusterAdminClient::CreateCDCSDKDBStream</code></a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:8" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/cdc/cdcsdk_producer.cc#L560-L828" target="_blank" rel="noopener">snapshot handling in YugabyteDB CDC SDK producer</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:9" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/java/yb-cdc/src/test/java/org/yb/cdc/TestCheckpoint.java#L63-L93" target="_blank" rel="noopener">Java client checkpoint handling tests</a>&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:10" role="doc-endnote">
+<p><a href="/posts/2022-02-23-yugabytedb-change-data-capture/#the-yugabytedb-cluster">YugabyteDB change data capture: cluster configuration</a>&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:11" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/cdc/cdc_service.cc#L736-L742" target="_blank" rel="noopener">YugabyteDB source code: do not create a CDC stream if table doesn&rsquo;t have a primary key</a>&#160;<a href="#fnref:11" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:12" role="doc-endnote">
+<p><a href="https://github.com/radekg/yugabyte-db-cdctest" target="_blank" rel="noopener">YugabyteDB CDC test golang client</a>&#160;<a href="#fnref:12" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:13" role="doc-endnote">
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/architecture/design/docdb-change-data-capture.md#setting-up-a-cdc" target="_blank" rel="noopener">2.13 DocDB CDC documentation</a>&#160;<a href="#fnref:13" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
+</section>
+
+            </div>
+
+            <div class="subscribe-container">
+
+    <h2 class="subscribe">Never miss a post</h2>
+    <p class="subscribe">Interested in similar content? Get it right into your mailbox. <strong>Sign up now.</strong></p>
+
+    <div class="inner">
+        <form action="https://gruchalski.us1.list-manage.com/subscribe/post?u=7cc31051b7ae9b4636244cbb2&amp;id=80eb233246"
+            method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+            
+            <div class="away" aria-hidden="true"><input type="text" name="b_7cc31051b7ae9b4636244cbb2_80eb233246" tabindex="-1" value=""></div>
+            <div class="form-fields">
+                <input type="email" value="" name="EMAIL" placeholder="email address" />
+                <input type="submit" value="Subscribe" name="subscribe" />
+            </div>
+        </form>
+    </div>
+
+</div>
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/" target="_blank" rel="noopener">https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/&amp;text=YugabyteDB%20CDC%20SDK%20beta,%20a%20high%20level%20overview&amp;hashtags=yugabytedb,cdc,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/&amp;title=YugabyteDB%20CDC%20SDK%20beta,%20a%20high%20level%20overview&amp;summary=an%20overview%20of%20the%20all-new%20CDC%20SDK%20beta&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-02-23-yugabytedb-change-data-capture/" class="related-link">YugabyteDB change data capture</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/" class="related-link">Identifying Postgres features unsupported in YugabyteDB</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-02-16-yugabytedb-go-rpc-client/" class="related-link">YugabyteDB Go RPC client</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/" class="related-link">A brief look at YugabyteDB RPC API</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-11-11-yugabytedb-the-book/" class="related-link">YugabyteDB: the book</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/yugabytedb/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>yugabytedb</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/cdc/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>cdc</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2022-02-23-yugabytedb-change-data-capture/" rel="next">YugabyteDB change data capture &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            <p>this website uses Google Analytics but<br />
+    it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses </p>
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
