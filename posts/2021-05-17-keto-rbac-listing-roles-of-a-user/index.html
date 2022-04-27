@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-05-17T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
+        "dateModified": "2021-06-16T00:28:17+02:00",
         "url": "https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/",
         "headline": "Keto RBAC - listing roles of a user",
         "description": "More thoughts on RBAC with Keto 0.6",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  920 ,
+        "wordCount":  922 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-05-17T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+    <meta property="article:modified_time" content="2021-06-16T00:28:17&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;920</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;922</span>
     
     
         
@@ -278,20 +278,20 @@
 </blockquote>
 <p>At the end of the previous article, the solution allowed finding out if the user is allowed to access the resources. But, indeed, what I have not discussed was how to get the roles the user is assigned to.</p>
 <p>The final tuples for Fry and Bender, after Fry was demoted, looked like this:</p>
-<pre tabindex="0"><code>dev-director#member@Fry
+<pre><code>dev-director#member@Fry
 dev-director#member@Bender
 </code></pre><p>These relations tell that <em>dev-director</em> contains Fry and Bender. We can test this out with the following query:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;object=dev-director&amp;relation=member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+<pre class="chroma"><code class="language-sh" data-lang="sh">curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;object=dev-director&amp;relation=member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -307,7 +307,7 @@ dev-director#member@Bender
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;union&#34;</span><span class="p">,</span>
   <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="s2">&#34;default-namespace:dev-director#member&#34;</span><span class="p">,</span>
   <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span>
@@ -326,16 +326,16 @@ dev-director#member@Bender
 </div><p>What if we want to know if the roles Fry belongs to? We could naively ask using the <em>subject</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;subject=Fry&amp;relation=member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+<pre class="chroma"><code class="language-sh" data-lang="sh">curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;subject=Fry&amp;relation=member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>What we find out is, the result is completely wrong:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -371,7 +371,7 @@ dev-director#member@Bender
 </span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;union&#34;</span><span class="p">,</span>
   <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="s2">&#34;default-namespace:#member&#34;</span><span class="p">,</span>
   <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span>
@@ -410,10 +410,10 @@ dev-director#member@Bender
 </div><p>In a real-world application, this would not leak PII, because you&rsquo;d use UUIDs instead of names. However, this path is a no go.</p>
 <h2 id="reverse-user-to-role-binding"><a href="#reverse-user-to-role-binding" class="anchor-link">§</a>reverse user to role binding</h2>
 <p>The new additional tuple looks like this:</p>
-<pre tabindex="0"><code>Fry#is-member@dev-director
+<pre><code>Fry#is-member@dev-director
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -421,7 +421,7 @@ dev-director#member@Bender
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
+<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
 </span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
 </span><span class="s1">    &#34;object&#34;: &#34;Fry&#34;,
 </span><span class="s1">    &#34;relation&#34;: &#34;is-member&#34;,
@@ -432,15 +432,15 @@ dev-director#member@Bender
 </div><p>Now, we can ask:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;object=Fry&amp;relation=is-member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+<pre class="chroma"><code class="language-sh" data-lang="sh">curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;object=Fry&amp;relation=is-member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -452,7 +452,7 @@ dev-director#member@Bender
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;union&#34;</span><span class="p">,</span>
   <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="s2">&#34;default-namespace:Fry#is-member&#34;</span><span class="p">,</span>
   <span class="nt">&#34;children&#34;</span><span class="p">:</span> <span class="p">[</span>
@@ -465,7 +465,7 @@ dev-director#member@Bender
 </code></pre></td></tr></table></div>
 </div>
 </div><p>For each user / role mapping, there are two tuples:</p>
-<pre tabindex="0"><code>role#member@user
+<pre><code>role#member@user
 user#is-member@role
 </code></pre><h2 id="but-theres-more"><a href="#but-theres-more" class="anchor-link">§</a>but there&rsquo;s more</h2>
 <p>We could go one step further. In the previous article, the following was established:</p>
@@ -473,7 +473,7 @@ user#is-member@role
 <p>at the time of permission evaluation, both the object for which the permission is being validated, and the subject, are known</p>
 </blockquote>
 <p>When Fry has got his opportunity, we ended up with the following configuration (plus the new reverse binding):</p>
-<pre tabindex="0"><code>production-viewer#member@default-namespace:dev-director#member
+<pre><code>production-viewer#member@default-namespace:dev-director#member
 production-creator#member@default-namespace:fast-dev-director#member
 production-deleter#member@default-namespace:fast-dev-director#member
 dev-director#member@Fry
@@ -481,7 +481,7 @@ fast-dev-director#member@Fry
 Fry#is-member@dev-director
 Fry#is-member@fast-dev-director
 </code></pre><p>What if we had this instead:</p>
-<pre tabindex="0"><code>production-viewer#member@dev-director          # &lt;--- this is added
+<pre><code>production-viewer#member@dev-director          # &lt;--- this is added
 production-creator#member@fast-dev-director    # &lt;--- this is added
 production-deleter#member@fast-dev-director    # &lt;--- this is added
 production-viewer#member@default-namespace:dev-director#member
@@ -493,7 +493,7 @@ Fry#is-member@fast-dev-director
 </code></pre><p>where the new tuples are:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -513,7 +513,7 @@ Fry#is-member@fast-dev-director
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
+<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
 </span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
 </span><span class="s1">    &#34;object&#34;: &#34;Fry&#34;,
 </span><span class="s1">    &#34;relation&#34;: &#34;is-member&#34;,
@@ -542,7 +542,7 @@ curl -XPUT --data <span class="s1">&#39;{
 <p>Thus, after asking for Fry&rsquo;s membership, we would iterate over every role and ask Keto directly for the role permission:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -553,7 +553,7 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="k">for</span> role in <span class="k">$(</span>curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;object=Fry&amp;relation=is-member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.children[].subject&#39;</span> -r<span class="k">)</span>
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="k">for</span> role in <span class="k">$(</span>curl --silent <span class="s1">&#39;http://localhost:4466/expand?namespace=default-namespace&amp;object=Fry&amp;relation=is-member&amp;max-depth=2&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.children[].subject&#39;</span> -r<span class="k">)</span>
 <span class="k">do</span>
     <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$role</span><span class="s2">:&#34;</span> <span class="k">$(</span>curl --silent -XPOST --data <span class="s1">&#39;{
 </span><span class="s1">        &#34;namespace&#34;: &#34;default-namespace&#34;,
@@ -564,7 +564,7 @@ curl -XPUT --data <span class="s1">&#39;{
 <span class="k">done</span>
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>dev-director: {&quot;allowed&quot;:false}
+</div><pre><code>dev-director: {&quot;allowed&quot;:false}
 fast-dev-director: {&quot;allowed&quot;:true}
 </code></pre><p>This is interesting because it allows implementing <a href="https://www.keycloak.org/docs/latest/authorization_services/#_permission_decision_strategies" target="_blank" rel="noopener">Keycloak style Authorization Services Decision Strategy</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>.</p>
 <p>When associating policies with a permission, you can also define a decision strategy to specify how to evaluate the outcome of the associated policies to determine access.</p>
@@ -583,10 +583,10 @@ fast-dev-director: {&quot;allowed&quot;:true}
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="/posts/2021-05-15-rbac-with-ory-keto/">RBAC with Ory Keto</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="/posts/2021-05-15-rbac-with-ory-keto/">RBAC with Ory Keto</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://www.keycloak.org/docs/latest/authorization_services/#_permission_decision_strategies" target="_blank" rel="noopener">Keycloak Authorization Services Decision Strategy</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.keycloak.org/docs/latest/authorization_services/#_permission_decision_strategies" target="_blank" rel="noopener">Keycloak Authorization Services Decision Strategy</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>
@@ -721,7 +721,7 @@ fast-dev-director: {&quot;allowed&quot;:true}
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-05-20-figuring-out-oathkeeper/" class="related-link">Figuring out Ory Oathkeeper</a>
+                        <a href="/posts/2022-04-27-opa-logical-or-conditions/" class="related-link">OPA: logical or conditions</a>
                     </li>
                 
             </ul>

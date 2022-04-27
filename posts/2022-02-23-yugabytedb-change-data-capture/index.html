@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-02-23T00:00:00+00:00",
-        "dateModified": "2022-03-19T12:00:55+01:00",
+        "dateModified": "2022-03-22T01:28:59+01:00",
         "url": "https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/",
         "headline": "YugabyteDB change data capture",
         "description": "real-time systems + distributed SQL",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  3095 ,
+        "wordCount":  3102 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-02-23T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-03-19T12:00:55&#43;01:00" />
+    <meta property="article:modified_time" content="2022-03-22T01:28:59&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3095</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3102</span>
     
     
         
@@ -313,7 +313,7 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 <p>The response is a <em>protobuf</em> <code>ListTablesRequestPB</code> message:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -330,7 +330,7 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">ListTablesResponsePB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">ListTablesResponsePB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="c1">// The error, if an error occurred with this request.
 </span><span class="c1"></span>  <span class="k">optional</span> <span class="n">MasterErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err">
@@ -350,7 +350,7 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 </div><p>The <code>id</code> is a table ID, <code>name</code> is a table name, and the <code>NamespaceIdentifierPB namespace</code> contains the information about the database the table belongs to. The <code>NamespaceIdentifierPB</code> message looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -362,7 +362,7 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">NamespaceIdentifierPB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">NamespaceIdentifierPB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="c1">// The namespace ID to fetch info.
 </span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err">
@@ -393,7 +393,7 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 <p>The message definition is in <code>cdc/cdc_service.proto</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -410,7 +410,7 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">GetChangesRequestPB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">GetChangesRequestPB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">stream_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err"></span>  <span class="c1">// Tablet to get the changes for.
 </span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">tablet_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
@@ -430,12 +430,12 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 </div><p>The request requires a <code>stream_id</code>, a <code>tablet_id</code>, and the checkpoint metadata. The checkpoint metadata definition is:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">CDCCheckpointPB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">CDCCheckpointPB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="k">optional</span> <span class="n">OpIdPB</span> <span class="n">op_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err"></span><span class="p">}</span><span class="err">
 </span></code></pre></td></tr></table></div>
@@ -443,14 +443,14 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 </div><p>where <code>op_id</code> is defined in <code>util/opid.proto</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">OpIdPB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">OpIdPB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="c1">// The term of an operation or the leader&#39;s sequence id.
 </span><span class="c1"></span>  <span class="k">required</span> <span class="kt">int64</span> <span class="n">term</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err"></span>  <span class="k">required</span> <span class="kt">int64</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
@@ -470,13 +470,13 @@ Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CD
 <p>My environment looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">$ docker-compose -v
+<pre class="chroma"><code class="language-sh" data-lang="sh">$ docker-compose -v
 Docker Compose version v2.2.3
 $ docker -v
 Docker version 20.10.12, build e91ed57
@@ -485,7 +485,7 @@ Docker version 20.10.12, build e91ed57
 </div><p>On Linux, Docker Compose needs to be installed separate from Docker. Instructions <a href="https://docs.docker.com/compose/install/#install-compose-on-linux-systems" target="_blank" rel="noopener">here</a><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">[6]</a></sup>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -498,7 +498,7 @@ Docker version 20.10.12, build e91ed57
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
 git clone https://github.com/radekg/yugabyte-db-multi-tenant-paas-demo.git
 <span class="nb">cd</span> yugabyte-db-multi-tenant-paas-demo
 <span class="c1"># build the Docker image used by the infrastructure</span>
@@ -520,31 +520,31 @@ docker compose --env-file <span class="s2">&#34;</span><span class="k">$(</span>
 <p>Let&rsquo;s verify that everything is working. In another terminal:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">docker <span class="nb">exec</span> -ti yb-master-n1 /bin/bash -c <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">docker <span class="nb">exec</span> -ti yb-master-n1 /bin/bash -c <span class="se">\
 </span><span class="se"></span>    <span class="s1">&#39;yb-admin -master_addresses yb-master-n1:7100,yb-master-n2:7100,yb-master-n3:7100 list_all_masters&#39;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>should produce something similar to:</p>
-<pre tabindex="0"><code>Master UUID                      	RPC Host/Port        	State    	Role
+<pre><code>Master UUID                      	RPC Host/Port        	State    	Role
 44dec826f77148929c12e4afd2ead389 	yb-master-n1:7100    	ALIVE    	FOLLOWER
 b8db32a7f9f549c2bdbd824a07d173fb 	yb-master-n2:7100    	ALIVE    	LEADER
 1f549268a41f4759ab821042f3f2490c 	yb-master-n3:7100    	ALIVE    	FOLLOWER
 </code></pre><p>Your UUIDs will be different and your cluster may have a different leader. Let&rsquo;s look at our TServers, again, TServer UUIDs will be different:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">docker <span class="nb">exec</span> -ti yb-master-n1 /bin/bash -c <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">docker <span class="nb">exec</span> -ti yb-master-n1 /bin/bash -c <span class="se">\
 </span><span class="se"></span>    <span class="s1">&#39;yb-admin -master_addresses yb-master-n1:7100,yb-master-n2:7100,yb-master-n3:7100 list_all_tablet_servers&#39;</span>
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>Tablet Server UUID               RPC Host/Port Heartbeat delay Status   Reads/s  Writes/s Uptime   SST total size  SST uncomp size SST #files      Memory
+</div><pre><code>Tablet Server UUID               RPC Host/Port Heartbeat delay Status   Reads/s  Writes/s Uptime   SST total size  SST uncomp size SST #files      Memory
 ce5dbc4bdc574b33b52313f0ea8bf89d yb-tserver-shared-2:9100 0.43s           ALIVE    0.00     0.00     157      0 B             0 B             0               45.09 MB
 49e47380d5cc4e53b8991d5f4034b596 yb-tserver-shared-1:9100 0.43s           ALIVE    0.00     0.00     157      0 B             0 B             0               45.09 MB
 e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE    0.00     0.00     158      0 B             0 B             0               44.04 MB
@@ -552,17 +552,17 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 <p>To connect via YSQL connection, you will have to connect via Envoy. Docker Compose exposes Envoy to your host on port <code>35432</code>. We can try this with:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=yugabyte&#34;</span> <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=yugabyte&#34;</span> <span class="se">\
 </span><span class="se"></span>  -c <span class="s2">&#34;select table_name from information_schema.tables limit 1&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p><em>The password is <code>yugabyte</code></em>.</p>
 <p>The output is:</p>
-<pre tabindex="0"><code>   table_name
+<pre><code>   table_name
 ----------------
  pg_default_acl
 (1 row)
@@ -570,7 +570,7 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 </code></pre><p>Let&rsquo;s create a database and load the data:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -579,7 +579,7 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=yugabyte&#34;</span> <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=yugabyte&#34;</span> <span class="se">\
 </span><span class="se"></span>  -c <span class="s2">&#34;create database cdctest&#34;</span>
 <span class="c1"># the database name changes here:</span>
 psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
@@ -591,15 +591,15 @@ psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctes
 </div><p>Don&rsquo;t worry about the <em>tenant1</em> suffix. It doesn&rsquo;t matter. Let&rsquo;s check what tables do we have in our database:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
 </span><span class="se"></span>  -c <span class="s2">&#34;select table_name from information_schema.tables where table_schema=&#39;public&#39;&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>       table_name
+</div><pre><code>       table_name
 ------------------------
  categories
  customer_demographics
@@ -619,15 +619,15 @@ psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctes
 
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
 </span><span class="se"></span>  -c <span class="s2">&#34;select count(*) from customers&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code> count
+</div><pre><code> count
 -------
     91
 (1 row)
@@ -637,13 +637,13 @@ psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctes
 <p>Time to build and run the minimal CDC client:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
 git clone https://github.com/radekg/yugabyte-db-cdctest.git
 <span class="nb">cd</span> yugabyte-db-cdctest/
 docker build -t local/yugabyte-db-cdctest:latest .
@@ -652,14 +652,14 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </div><p>and run it against the cluster:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">docker run --net<span class="o">=</span>yb-dbnet --rm <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">docker run --net<span class="o">=</span>yb-dbnet --rm <span class="se">\
 </span><span class="se"></span>  -ti local/yugabyte-db-cdctest:latest <span class="se">\
 </span><span class="se"></span>  --database<span class="o">=</span>cdctest <span class="se">\
 </span><span class="se"></span>  --table<span class="o">=</span>region <span class="se">\
@@ -672,18 +672,18 @@ docker build -t local/yugabyte-db-cdctest:latest .
 <p>Let&rsquo;s ignore the initial data streamed to us and focus on subsequent changes. While the cluster and the CDC client are running, execute the following query:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
 </span><span class="se"></span>  -c <span class="s2">&#34;insert into region values (5, &#39;test&#39;)&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>The CDC program is going to output a JSON object similar to:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -737,7 +737,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </span><span class="lnt">52
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;records&#34;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="mi">6740254233675632640</span><span class="p">,</span>
@@ -797,7 +797,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </ul>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -806,7 +806,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="n">type</span> <span class="n">CDCRecordPB_OperationType</span> <span class="kt">int32</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="n">type</span> <span class="n">CDCRecordPB_OperationType</span> <span class="kt">int32</span><span class="err">
 </span><span class="err">
 </span><span class="err"></span><span class="n">const</span> <span class="p">(</span><span class="err">
 </span><span class="err"></span>	<span class="n">CDCRecordPB_WRITE</span>  <span class="n">CDCRecordPB_OperationType</span> <span class="o">=</span> <span class="mi">1</span><span class="err">
@@ -829,18 +829,18 @@ docker build -t local/yugabyte-db-cdctest:latest .
 <p>Okay, let&rsquo;s see what happens when we issue an update:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
 </span><span class="se"></span>  -c <span class="s2">&#34;update region set region_description=&#39;new value&#39; where region_id=5&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Results in JSON similar to:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -936,7 +936,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </span><span class="lnt">94
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="o">{</span>
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">{</span>
    <span class="s2">&#34;records&#34;</span>:<span class="o">[</span>
       <span class="o">{</span>
          <span class="s2">&#34;time&#34;</span>:6740254233675632640,
@@ -1037,18 +1037,18 @@ docker build -t local/yugabyte-db-cdctest:latest .
 <p>Let&rsquo;s try a delete:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">psql <span class="s2">&#34;host=localhost port=35432 user=yugabyte dbname=cdctest&#34;</span> <span class="se">\
 </span><span class="se"></span>  -c <span class="s2">&#34;delete from region where region_id=5&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Which will output the following, for each tablet:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+<pre class="chroma"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
 </span><span class="lnt">  4
@@ -1176,7 +1176,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </span><span class="lnt">126
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
    <span class="nt">&#34;records&#34;</span><span class="p">:[</span>
       <span class="p">{</span>
          <span class="nt">&#34;time&#34;</span><span class="p">:</span><span class="mi">6740254233675632640</span><span class="p">,</span>
@@ -1308,7 +1308,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 <p>What&rsquo;s Looking at the <em>protobuf</em> object reveals more interesting detail:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1337,7 +1337,7 @@ docker build -t local/yugabyte-db-cdctest:latest .
 </span><span class="lnt">27
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">CDCRecordPB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">CDCRecordPB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="kd">enum</span> <span class="n">OperationType</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>    <span class="n">WRITE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err"></span>    <span class="n">DELETE</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
@@ -1375,25 +1375,25 @@ docker build -t local/yugabyte-db-cdctest:latest .
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db/tree/master/java/yb-cdc" target="_blank" rel="noopener">YugabyteDB CDC Java client</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/tree/master/java/yb-cdc" target="_blank" rel="noopener">YugabyteDB CDC Java client</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/" target="_blank" rel="noopener">A brief look at YugabyteDB RPC API</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/" target="_blank" rel="noopener">A brief look at YugabyteDB RPC API</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/" target="_blank" rel="noopener">YugabyteDB Go RPC client</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/" target="_blank" rel="noopener">YugabyteDB Go RPC client</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://github.com/radekg/yugabyte-db-cdctest" target="_blank" rel="noopener">YugabyteDB CDC demo client</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/radekg/yugabyte-db-cdctest" target="_blank" rel="noopener">YugabyteDB CDC demo client</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:5" role="doc-endnote">
-<p><a href="https://github.com/radekg/yugabyte-db-multi-tenant-paas-demo" target="_blank" rel="noopener">YugabyteDB multi-tenant PaaS demo</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/radekg/yugabyte-db-multi-tenant-paas-demo" target="_blank" rel="noopener">YugabyteDB multi-tenant PaaS demo</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:6" role="doc-endnote">
-<p><a href="https://docs.docker.com/compose/install/#install-compose-on-linux-systems" target="_blank" rel="noopener">Install Compose on Linux systems</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://docs.docker.com/compose/install/#install-compose-on-linux-systems" target="_blank" rel="noopener">Install Compose on Linux systems</a> <a href="#fnref:6" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:7" role="doc-endnote">
-<p><a href="https://blog.yugabyte.com/geo-partitioning-of-data-in-yugabytedb/" target="_blank" rel="noopener">Geo-Partitioning of Data in YugabyteDB</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://blog.yugabyte.com/geo-partitioning-of-data-in-yugabytedb/" target="_blank" rel="noopener">Geo-Partitioning of Data in YugabyteDB</a> <a href="#fnref:7" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-02-14T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
+        "dateModified": "2021-02-14T17:15:16+01:00",
         "url": "https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/",
         "headline": "Firecracker VMM with additional disks",
         "description": "Adding more disks to the Firecracker VMM",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-02-14T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+    <meta property="article:modified_time" content="2021-02-14T17:15:16&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -276,11 +276,11 @@
 <p>First, create an additional file system on the host:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span> <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">500</span>
+<pre class="chroma"><code class="language-sh" data-lang="sh">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span> <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">500</span>
 mkfs.ext4 <span class="s2">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</span>
 </code></pre></td></tr></table></div>
 </div>
@@ -288,7 +288,7 @@ mkfs.ext4 <span class="s2">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</
 <p>Change the VMM <code>drives</code> configuration:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -304,7 +304,7 @@ mkfs.ext4 <span class="s2">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;drives&#34;</span><span class="err">:</span> <span class="p">[</span>
+<pre class="chroma"><code class="language-json" data-lang="json">  <span class="s2">&#34;drives&#34;</span><span class="err">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="nt">&#34;drive_id&#34;</span><span class="p">:</span> <span class="s2">&#34;rootfs&#34;</span><span class="p">,</span>
       <span class="nt">&#34;path_on_host&#34;</span><span class="p">:</span> <span class="s2">&#34;/firecracker/filesystems/alpine-base-root.ext4&#34;</span><span class="p">,</span>
@@ -325,13 +325,13 @@ mkfs.ext4 <span class="s2">&#34;/firecracker/filesystems/alpine-vol2.ext4&#34;</
 <p>In another terminal:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">172:~$ sudo fdisk -l
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:~$ sudo fdisk -l
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>Disk /dev/vda: 500 MiB, 524288000 bytes, 1024000 sectors
+</div><pre><code>Disk /dev/vda: 500 MiB, 524288000 bytes, 1024000 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
@@ -344,41 +344,41 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 </code></pre><p>I can mount it:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# mkdir /mnt
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# mkdir /mnt
 172:/home/alpine# mount /dev/vdb /mnt
 </code></pre></td></tr></table></div>
 </div>
 </div><p>Firecracker shows me:</p>
-<pre tabindex="0"><code>[ 1800.756913] EXT4-fs (vdb): mounted filesystem with ordered data mode. Opts: (null)
+<pre><code>[ 1800.756913] EXT4-fs (vdb): mounted filesystem with ordered data mode. Opts: (null)
 [ 1800.758116] ext4 filesystem being mounted at /mnt supports timestamps until 2038 (0x7fffffff)
 </code></pre><p>I can also write to it:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ls -la /mnt/
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ls -la /mnt/
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>total 14
+</div><pre><code>total 14
 drwxr-xr-x    3 root     root          1024 Feb 14 15:07 .
 drwxr-xr-x   16 root     root          1024 Feb 14 15:49 ..
 drwx------    2 root     root         12288 Feb 14 15:07 lost+found
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# <span class="nb">echo</span> <span class="m">1</span> &gt; /mnt/test
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# <span class="nb">echo</span> <span class="m">1</span> &gt; /mnt/test
 172:/home/alpine# ls -la /mnt/
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>total 15
+</div><pre><code>total 15
 drwxr-xr-x    3 root     root          1024 Feb 14 15:50 .
 drwxr-xr-x   16 root     root          1024 Feb 14 15:49 ..
 drwx------    2 root     root         12288 Feb 14 15:07 lost+found
@@ -387,23 +387,23 @@ drwx------    2 root     root         12288 Feb 14 15:07 lost+found
 <p>Not sure at this stage if this is because of how the system is built or if it&rsquo;s a limitation of the VMM but I am not able to live resize the disk. Executing on the host:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">100</span> &gt;&gt; /firecracker/filesystems/alpine-vol2.ext4
+<pre class="chroma"><code class="language-sh" data-lang="sh">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">100</span> &gt;&gt; /firecracker/filesystems/alpine-vol2.ext4
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>100+0 records in
+</div><pre><code>100+0 records in
 100+0 records out
 104857600 bytes (105 MB, 100 MiB) copied, 0.0798364 s, 1.3 GB/s
 </code></pre><p>and in the VMM:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# sudo blockdev --flushbufs /dev/vdb
+<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# sudo blockdev --flushbufs /dev/vdb
 172:/home/alpine# sudo blockdev --rereadpt /dev/vdb
 </code></pre></td></tr></table></div>
 </div>

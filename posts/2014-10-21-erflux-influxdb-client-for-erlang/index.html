@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -59,7 +59,7 @@ Installation 1 2 3 4  {deps, [ {erflux, &#34;.*&#34;, {git, &#34;git://github.co
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2013-10-21T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
+        "dateModified": "2020-09-03T02:03:50+02:00",
         "url": "https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/",
         "headline": "Erflux, InfluxDB client for Erlang",
         "description": "It’s been already a month since I released erflux on github. Erflux is an Erlang client for InfluxDB HTTP protocol.\nInstallation 1 2 3 4  {deps, [ {erflux, \".*\", {git, \"git://github.com/radekg/erflux.git\", {tag, \"version-1\"}}} }]}   and run\n./rebar get-deps  Configuration Erflux allows configuring a number of parameters:",
@@ -109,7 +109,7 @@ Installation 1 2 3 4  {deps, [ {erflux, &#34;.*&#34;, {git, &#34;git://github.co
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2013-10-21T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+    <meta property="article:modified_time" content="2020-09-03T02:03:50&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -278,13 +278,13 @@ Installation 1 2 3 4  {deps, [ {erflux, &#34;.*&#34;, {git, &#34;git://github.co
 <h2 id="installation"><a href="#installation" class="anchor-link">§</a>Installation</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">deps</span><span class="p">,</span> <span class="p">[</span>
+<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">deps</span><span class="p">,</span> <span class="p">[</span>
   <span class="p">{</span><span class="n">erflux</span><span class="p">,</span> <span class="s">&#34;.*&#34;</span><span class="p">,</span>
     <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&#34;git://github.com/radekg/erflux.git&#34;</span><span class="p">,</span> <span class="p">{</span><span class="n">tag</span><span class="p">,</span> <span class="s">&#34;version-1&#34;</span><span class="p">}}}</span>
 <span class="p">}]}</span>
@@ -326,7 +326,7 @@ erflux_http:get_databases().
 <p>To write data with erlfux:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -335,7 +335,7 @@ erflux_http:get_databases().
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">write_series</span><span class="p">(</span><span class="n">erfluxtest</span><span class="p">,</span> <span class="p">[</span>
+<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">write_series</span><span class="p">(</span><span class="n">erfluxtest</span><span class="p">,</span> <span class="p">[</span>
   <span class="p">[</span>
     <span class="p">{</span> <span class="n">points</span><span class="p">,</span> <span class="p">[</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">]</span> <span class="p">]</span> <span class="p">},</span>
     <span class="p">{</span> <span class="n">name</span><span class="p">,</span> <span class="n">testseries</span> <span class="p">},</span>
@@ -347,14 +347,14 @@ erflux_http:get_databases().
 </div><p>or</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">write_point</span><span class="p">(</span><span class="n">erfluxtest</span><span class="p">,</span> <span class="n">testseries</span><span class="p">,</span> <span class="p">[</span>
+<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">write_point</span><span class="p">(</span><span class="n">erfluxtest</span><span class="p">,</span> <span class="n">testseries</span><span class="p">,</span> <span class="p">[</span>
   <span class="p">{</span> <span class="n">a</span><span class="p">,</span> <span class="mi">1</span> <span class="p">},</span>
   <span class="p">{</span> <span class="n">b</span><span class="p">,</span> <span class="mi">2</span> <span class="p">},</span>
   <span class="p">{</span> <span class="n">c</span><span class="p">,</span> <span class="mi">3</span> <span class="p">}</span>
@@ -375,7 +375,7 @@ erflux_http:get_databases().
 <p>In case if it is necessary to open multiple connection to different InfluxDB servers, erflux allows for it by instantiating multiple clients. The application has a choice of using provider supervisor:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -397,7 +397,7 @@ erflux_http:get_databases().
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">),</span>
+<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">),</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">asn1</span><span class="p">),</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">public_key</span><span class="p">),</span>
 <span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">ssl</span><span class="p">),</span>
@@ -422,11 +422,11 @@ erflux_http:get_databases().
 </div><p>or bypassing the supervisor:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Pid</span> <span class="p">}</span> <span class="o">=</span> <span class="nn">erflux_http</span><span class="p">:</span><span class="nf">start_link</span><span class="p">(</span> <span class="n">erflux_custom</span><span class="p">,</span> <span class="nl">#erflux_config</span><span class="p">{}</span> <span class="p">),</span>
+<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Pid</span> <span class="p">}</span> <span class="o">=</span> <span class="nn">erflux_http</span><span class="p">:</span><span class="nf">start_link</span><span class="p">(</span> <span class="n">erflux_custom</span><span class="p">,</span> <span class="nl">#erflux_config</span><span class="p">{}</span> <span class="p">),</span>
 <span class="nn">erflux_http</span><span class="p">:</span><span class="nf">get_databases</span><span class="p">(</span> <span class="nv">Pid</span> <span class="p">).</span>
 </code></pre></td></tr></table></div>
 </div>
@@ -439,17 +439,17 @@ erflux_http:get_databases().
 <p>It&rsquo;s not possible to mix argument types. For example, this will fail:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">create_database_user</span><span class="p">(</span><span class="n">database</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;username&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">password</span><span class="p">).</span>
+<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">create_database_user</span><span class="p">(</span><span class="n">database</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;username&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">password</span><span class="p">).</span>
 </code></pre></td></tr></table></div>
 </div>
 </div><p><code>Query</code> parameter of <code>erflux_http:q</code> is always binary.</p>
 <p>The exceptions to the all rule are columns in write_series, write_point and read_series. All these are valid:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -466,7 +466,7 @@ erflux_http:get_databases().
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">write_series</span><span class="p">(</span><span class="n">erfluxtest</span><span class="p">,</span> <span class="p">[</span>
+<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">erflux_http</span><span class="p">:</span><span class="nf">write_series</span><span class="p">(</span><span class="n">erfluxtest</span><span class="p">,</span> <span class="p">[</span>
   <span class="p">[</span>
     <span class="p">{</span> <span class="n">points</span><span class="p">,</span> <span class="p">[</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">]</span> <span class="p">]</span> <span class="p">},</span>
     <span class="p">{</span> <span class="n">name</span><span class="p">,</span> <span class="n">testseries</span> <span class="p">},</span>

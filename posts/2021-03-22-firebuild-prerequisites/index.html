@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-03-22T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
+        "dateModified": "2021-03-23T20:09:01+01:00",
         "url": "https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/",
         "headline": "firebuild prerequisites",
         "description": "Read this first before reading about firebuild",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-03-22T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+    <meta property="article:modified_time" content="2021-03-23T20:09:01&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -278,13 +278,13 @@
 <p>The <code>tc-redirect-tap</code> CNI plugin (mentioned below) requires golang to build, as does <code>firebuild</code>. <code>firebuild</code> requires golang 1.16+ so install it:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">rm -rf /usr/local/go <span class="o">&amp;&amp;</span> tar -C /usr/local -xzf go1.16.2.linux-amd64.tar.gz
+<pre class="chroma"><code class="language-sh" data-lang="sh">rm -rf /usr/local/go <span class="o">&amp;&amp;</span> tar -C /usr/local -xzf go1.16.2.linux-amd64.tar.gz
 mkdir -p <span class="nv">$HOME</span>/dev/golang/<span class="o">{</span>bin,src<span class="o">}</span>
 <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/go/bin:<span class="nv">$HOME</span>/dev/golang/bin
 <span class="nb">export</span> <span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$HOME</span>/dev/golang
@@ -295,12 +295,12 @@ mkdir -p <span class="nv">$HOME</span>/dev/golang/<span class="o">{</span>bin,sr
 <p><code>firebuild</code> assumes CNI availability. Installing the plugins is very straightforward. Create <code>/opt/cni/bin/</code> directory and download the plugins:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /opt/cni/bin
+<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /opt/cni/bin
 curl -O -L https://github.com/containernetworking/plugins/releases/download/v0.9.1/cni-plugins-linux-amd64-v0.9.1.tgz
 tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-v0.9.1.tgz
 </code></pre></td></tr></table></div>
@@ -308,13 +308,13 @@ tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-v0.9.1.tgz
 </div><p>Firecracker requires also the <a href="https://github.com/awslabs/tc-redirect-tap" target="_blank" rel="noopener"><code>tc-redirect-tap</code></a> plugin. Unfortunately, this one does not offer downloadable binaries and has to be built from sources.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/awslabs/tc-redirect-tap
+<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/awslabs/tc-redirect-tap
 <span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/awslabs/tc-redirect-tap
 git clone https://github.com/awslabs/tc-redirect-tap.git .
 make install
@@ -329,7 +329,7 @@ make install
 <p>CNI network config lists are stored in <code>/etc/cni/conf.d</code>. Create both like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -388,7 +388,7 @@ make install
 </span><span class="lnt">57
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /etc/cni/conf.d
+<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /etc/cni/conf.d
 
 cat <span class="s">&lt;&lt;EOF &gt; /etc/cni/conf.d/machines.conflist
 </span><span class="s">{
@@ -451,13 +451,13 @@ cat <span class="s">&lt;&lt;EOF &gt; /etc/cni/conf.d/machine-builds.conflist
 <p>At this moment, there are no binaries for <code>firebuild</code>. It must be built from sources:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/combust-labs/firebuild
+<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/combust-labs/firebuild
 <span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/combust-labs/firebuild
 git clone https://github.com/combust-labs/firebuild .
 go install
@@ -466,10 +466,10 @@ go install
 </div><h2 id="make-the-gopath-system-wide"><a href="#make-the-gopath-system-wide" class="anchor-link">§</a>make the $GOPATH system wide</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="se">\$</span><span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$GOPATH</span> &gt;&gt; /etc/profile
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="se">\$</span><span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$GOPATH</span> &gt;&gt; /etc/profile
 </code></pre></td></tr></table></div>
 </div>
 </div><p>That&rsquo;s it.</p>

@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-02-17T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
+        "dateModified": "2021-02-18T02:27:37+01:00",
         "url": "https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/",
         "headline": "Bridging the Firecracker network gap",
         "description": "Because docker0 is not the right choice",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  903 ,
+        "wordCount":  908 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/shared/fc_logo_full_white-bg-small.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-02-17T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+    <meta property="article:modified_time" content="2021-02-18T02:27:37&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;903</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;908</span>
     
     
         
@@ -285,7 +285,7 @@
 <p>One thing missing from the<code>firectl</code> is the option to define the CNI network name to use. Something similar to this snippet from the SDK readme:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -295,7 +295,7 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="p">{</span>
+<pre class="chroma"><code class="language-golang" data-lang="golang"><span class="p">{</span>
   <span class="nx">NetworkInterfaces</span><span class="p">:</span> <span class="p">[]</span><span class="nx">firecracker</span><span class="p">.</span><span class="nx">NetworkInterface</span><span class="p">{{</span>
     <span class="nx">CNIConfiguration</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">firecracker</span><span class="p">.</span><span class="nx">CNIConfiguration</span><span class="p">{</span>
       <span class="nx">NetworkName</span><span class="p">:</span> <span class="s">&#34;fcnet&#34;</span><span class="p">,</span>
@@ -315,7 +315,7 @@
 <p>Having built my version of <code>firectl</code>, I&rsquo;ve declared this CNI <code>conflist</code> (in <code>/firecracker/cni/conf.d/alpine.conflist</code>):</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -342,7 +342,7 @@
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
     <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;alpine&#34;</span><span class="p">,</span>
     <span class="nt">&#34;cniVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;0.4.0&#34;</span><span class="p">,</span>
     <span class="nt">&#34;plugins&#34;</span><span class="p">:</span> <span class="p">[</span>
@@ -372,7 +372,7 @@
 </div><p>and started the VMM via <code>firectl</code>, like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -382,7 +382,7 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo ./firectl <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo ./firectl <span class="se">\
 </span><span class="se"></span>    --firecracker-binary<span class="o">=</span>/usr/bin/firecracker <span class="se">\
 </span><span class="se"></span>    --kernel<span class="o">=</span>/firecracker/kernels/vmlinux-v5.8 <span class="se">\
 </span><span class="se"></span>    --root-drive<span class="o">=</span>/firecracker/filesystems/alpine-base-root.ext4 <span class="se">\
@@ -395,10 +395,10 @@
 </div><p>This works line a charm. I can SSH to the VMM via the IP address which can be found with:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">cat /var/lib/cni/networks/alpine/last_reserved_ip.0
+<pre class="chroma"><code class="language-sh" data-lang="sh">cat /var/lib/cni/networks/alpine/last_reserved_ip.0
 </code></pre></td></tr></table></div>
 </div>
 </div><p>The VMM can reach the outside world, no degradation here.</p>
@@ -410,7 +410,7 @@
 <p>Firecracker Golang SDK tries to remove the existing network configuration when launching another VMM with the same network name. Here&rsquo;s the error I have seen:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -420,7 +420,7 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sudo ./firectl <span class="se">\
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo ./firectl <span class="se">\
 </span><span class="se"></span>    --firecracker-binary<span class="o">=</span>/usr/bin/firecracker <span class="se">\
 </span><span class="se"></span>    --kernel<span class="o">=</span>/firecracker/kernels/vmlinux-v5.8 <span class="se">\
 </span><span class="se"></span>    --root-drive<span class="o">=</span>/firecracker/filesystems/alpine-base-root.ext4-2 <span class="se">\
@@ -430,7 +430,7 @@
 </span><span class="se"></span>    --memory<span class="o">=</span><span class="m">128</span>
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>WARN[0000] Failed handler &quot;fcinit.SetupNetwork&quot;: failure when invoking CNI:
+</div><pre><code>WARN[0000] Failed handler &quot;fcinit.SetupNetwork&quot;: failure when invoking CNI:
 failed to delete pre-existing CNI network {NetworkName:alpine NetworkConfig:&lt;nil&gt;
 IfName:veth0 VMIfName: Args:[] BinPath:[/opt/cni/bin]
 ConfDir:/etc/cni/conf.d CacheDir:/var/lib/cni/32171e6d-2b1b-4060-9555-e17314972ace
@@ -467,19 +467,19 @@ exit status 2: iptables v1.6.1: Couldn't load target
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/" target="_blank" rel="noopener">Vault on Firecracker with CNI plugins and Nomad</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/" target="_blank" rel="noopener">Vault on Firecracker with CNI plugins and Nomad</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://github.com/firecracker-microvm/firectl" target="_blank" rel="noopener"><code>firectl</code> GitHub repository</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/firecracker-microvm/firectl" target="_blank" rel="noopener"><code>firectl</code> GitHub repository</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://github.com/firecracker-microvm/firecracker-go-sdk" target="_blank" rel="noopener">Firecracker Golang SDK GitHub repository</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/firecracker-microvm/firecracker-go-sdk" target="_blank" rel="noopener">Firecracker Golang SDK GitHub repository</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://github.com/radekg/firectl/compare/master...cni-network" target="_blank" rel="noopener">CNI network support for <code>firectl</code></a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/radekg/firectl/compare/master...cni-network" target="_blank" rel="noopener">CNI network support for <code>firectl</code></a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:5" role="doc-endnote">
-<p><a href="https://github.com/weaveworks/ignite/blob/master/pkg/network/cni/cni.go" target="_blank" rel="noopener">the CNI implementation from Weaveworks Ignite</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/weaveworks/ignite/blob/master/pkg/network/cni/cni.go" target="_blank" rel="noopener">the CNI implementation from Weaveworks Ignite</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

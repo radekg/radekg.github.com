@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-09-03T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
+        "dateModified": "2021-06-16T00:28:17+02:00",
         "url": "https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/",
         "headline": "Keycloak With Docker Compose",
         "description": "Start and configure Keycloak with Docker Compose",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-09-03T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+    <meta property="article:modified_time" content="2021-06-16T00:28:17&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -285,7 +285,7 @@
 <p>Let&rsquo;s start with the <code>compose.yml</code> file.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -319,7 +319,7 @@
 </span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
 </span><span class="w">
 </span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
@@ -354,13 +354,13 @@
 </span></code></pre></td></tr></table></div>
 </div>
 </div><p>Next to the <code>compose.yml</code> file, we need the <code>.env</code> file.</p>
-<pre tabindex="0"><code>KEYCLOAK_VERSION=13.0.0
+<pre><code>KEYCLOAK_VERSION=13.0.0
 PORT_KEYCLOAK=8080
 POSTGRESQL_USER=keycloak
 POSTGRESQL_PASS=keycloak
 POSTGRESQL_DB=keycloak
 </code></pre><p>That&rsquo;s it, we can now start our Keycloak:</p>
-<pre tabindex="0"><code>docker-compose -f compose.yml up
+<pre><code>docker-compose -f compose.yml up
 </code></pre><p>After a short moment, we can go to Keycloak landing page using the local address <a href="http://localhost:28080" target="_blank" rel="noopener">http://localhost:28080</a>. Keycloak will welcome us with this page:</p>
 <p><img src="/assets/posts/2020-09-03-keycloak-with-docker-compose/clean-install.png" alt="Clean Keycloak install"></p>
 <h2 id="intermission"><a href="#intermission" class="anchor-link">§</a>Intermission</h2>
@@ -374,10 +374,10 @@ POSTGRESQL_DB=keycloak
 <li>We have specified <code>POSTGRES_DB</code> so the container created the database and configured access for our new user.</li>
 <li>Both containers run in the same bridge network called <code>local-keycloak</code>. Actually, in Docker it&rsquo;s called something else:</li>
 </ol>
-<pre tabindex="0"><code>[rad] dev-keycloak $ docker network ls | grep keycloak
+<pre><code>[rad] dev-keycloak $ docker network ls | grep keycloak
 920dd184892c        dev-keycloak_local-keycloak              bridge              local
 </code></pre><p>The name of the network is essentially:</p>
-<pre tabindex="0"><code>basename $(pwd) + &lt;name-from-compose.yml&gt;
+<pre><code>basename $(pwd) + &lt;name-from-compose.yml&gt;
 </code></pre><ol start="8">
 <li>We have exposed the <code>28080</code> port to the host so we can reach Keycloak from the browser.</li>
 <li>Finally, we named the Keycloak container as <code>local_keycloak</code>. We will use this name shortly.</li>
@@ -385,7 +385,7 @@ POSTGRESQL_DB=keycloak
 <h2 id="administrator-account"><a href="#administrator-account" class="anchor-link">§</a>Administrator account</h2>
 <p>Okay, so Keycloak is running but we can&rsquo;t do anything with it because we need to create an Administrator account. That we can also do with Docker.</p>
 <p>While the compose setup is running, run this in your terminal:</p>
-<pre tabindex="0"><code>docker exec local_keycloak \
+<pre><code>docker exec local_keycloak \
     /opt/jboss/keycloak/bin/add-user-keycloak.sh \
     -u admin \
     -p admin \

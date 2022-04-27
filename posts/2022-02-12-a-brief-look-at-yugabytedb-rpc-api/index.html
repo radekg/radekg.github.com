@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.049edd71d47e8423c2ef2a43f12443d75305df1bb670f252842140ee701a21d8.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-02-12T00:00:00+00:00",
-        "dateModified": "2022-02-21T21:27:04+01:00",
+        "dateModified": "2022-03-22T01:28:59+01:00",
         "url": "https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/",
         "headline": "A brief look at YugabyteDB RPC API",
         "description": "with great power comes great responsibility",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1945 ,
+        "wordCount":  1949 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-02-12T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T21:27:04&#43;01:00" />
+    <meta property="article:modified_time" content="2022-03-22T01:28:59&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1945</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1949</span>
     
     
         
@@ -278,21 +278,21 @@
 <p>Let&rsquo;s locate all <code>*.proto</code> files (without test data):</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
 git clone https://github.com/yugabyte/yugabyte-db.git
 <span class="nb">cd</span> yugabyte-db/
 git checkout v2.11.1
 find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</span> <span class="p">|</span> sort
 </code></pre></td></tr></table></div>
 </div>
-</div><pre tabindex="0"><code>./ent/src/yb/master/master_backup.proto
+</div><pre><code>./ent/src/yb/master/master_backup.proto
 ./src/yb/cdc/cdc_consumer.proto
 ./src/yb/cdc/cdc_service.proto
 ./src/yb/common/common.proto
@@ -343,10 +343,10 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>Let&rsquo;s peek at one of the files, for brevity I&rsquo;m going to skip the output.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">cat ./src/yb/master/master.proto
+<pre class="chroma"><code class="language-sh" data-lang="sh">cat ./src/yb/master/master.proto
 </code></pre></td></tr></table></div>
 </div>
 </div><p>The output tells us the following:</p>
@@ -365,7 +365,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>Every request consists of a header and the paylod. The header is a protobuf message defined in <code>rpc_header.proto</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -397,7 +397,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">RemoteMethodPB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">RemoteMethodPB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="c1">// Service name for the RPC layer.
 </span><span class="c1"></span>  <span class="c1">// The client created a proxy with this service name.
 </span><span class="c1"></span>  <span class="c1">// Example: yb.rpc_test.CalculatorService
@@ -452,7 +452,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>Let&rsquo;s look up the <code>ResponseHeader</code> definition in the <code>rcp_header.proto</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -468,7 +468,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">ResponseHeader</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">ResponseHeader</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="k">required</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err">
 </span><span class="err"></span>  <span class="c1">// If this is set, then this is an error response and the
@@ -505,12 +505,12 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>In versions later than 2.11.1, the service name can be optionally declared with a <code>yb.rpc.custom_service_name</code> service option. Here&rsquo;s an example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">service</span> <span class="n">MasterCluster</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">service</span> <span class="n">MasterCluster</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.custom_service_name</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#34;yb.master.MasterService&#34;</span><span class="p">;</span><span class="err">
 </span><span class="err"></span>  <span class="o">...</span><span class="err">
 </span></code></pre></td></tr></table></div>
@@ -522,7 +522,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>This message, found in <code>master.proto</code>, looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -538,7 +538,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">GetMasterRegistrationResponsePB</span> <span class="p">{</span><span class="err">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">GetMasterRegistrationResponsePB</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>  <span class="c1">// Node instance information is always set.
 </span><span class="c1"></span>  <span class="k">required</span> <span class="n">NodeInstancePB</span> <span class="n">instance_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span><span class="err">
@@ -557,7 +557,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </div><p>The <code>consensus.RaftPeerPB.Role</code> field contains the role of the master. It is defined in the <code>consensus/metadata.proto</code>, under the <code>RaftPeerPB</code> message:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -586,7 +586,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">27
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto">  <span class="c1">// The possible roles for peers.
+<pre class="chroma"><code class="language-proto" data-lang="proto">  <span class="c1">// The possible roles for peers.
 </span><span class="c1"></span>  <span class="kd">enum</span> <span class="n">Role</span> <span class="p">{</span><span class="err">
 </span><span class="err"></span>    <span class="c1">// Indicates this node is a follower in the configuration, i.e. that it participates
 </span><span class="c1"></span>    <span class="c1">// in majorities and accepts Consensus::Update() calls.
@@ -649,16 +649,16 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://github.com/apache/hbase/blob/master/src/main/asciidoc/_chapters/rpc.adoc" target="_blank" rel="noopener">The HBase RPC protocol description</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/apache/hbase/blob/master/src/main/asciidoc/_chapters/rpc.adoc" target="_blank" rel="noopener">The HBase RPC protocol description</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/YRpc.java#L274-L293" target="_blank" rel="noopener">YugabyteDB Java client payload handling</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/YRpc.java#L274-L293" target="_blank" rel="noopener">YugabyteDB Java client payload handling</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p>Sourcegraph: <a href="https://sourcegraph.com/search?q=context:global+repo:yugabyte/yugabyte-db.*+set_rows_data_sidecar&amp;patternType=literal" target="_blank" rel="noopener">usage of side cars in YugabyteDB code</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p>Sourcegraph: <a href="https://sourcegraph.com/search?q=context:global+repo:yugabyte/yugabyte-db.*+set_rows_data_sidecar&amp;patternType=literal" target="_blank" rel="noopener">usage of side cars in YugabyteDB code</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/CallResponse.java#L134-L155" target="_blank" rel="noopener">Reading side cars in YugabyteDB Java code</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/CallResponse.java#L134-L155" target="_blank" rel="noopener">Reading side cars in YugabyteDB Java code</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>
