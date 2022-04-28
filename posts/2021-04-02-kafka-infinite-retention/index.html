@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -58,13 +58,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-04-02T00:00:00+00:00",
-        "dateModified": "2021-04-29T19:10:25+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/",
         "headline": "I hacked infinite retention into my open source Kafka",
         "description": "Well, sort of...",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  783 ,
+        "wordCount":  780 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-04-02/kafka-infinite-storage.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-04-02T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-04-29T19:10:25&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -257,7 +257,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;783</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;780</span>
     
     
         
@@ -289,16 +289,16 @@
 <h2 id="build-kafka-from-sources"><a href="#build-kafka-from-sources" class="anchor-link">§</a>build Kafka from sources</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">./gradlewAll releaseTarGz
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">./gradlewAll releaseTarGz
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Now, I can start my new Kafka like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -306,19 +306,19 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nv">AWS_SHARED_CREDENTIALS_FILE</span><span class="o">=</span>~/.aws/credentials <span class="se">\
-</span><span class="se"></span>    <span class="nv">AWS_PROFILE</span><span class="o">=</span>a-profile-with-bucket-access <span class="se">\
-</span><span class="se"></span>    <span class="nv">KAFKA_AWS_S3_UPLOADS</span><span class="o">=</span><span class="m">1</span> <span class="se">\
-</span><span class="se"></span>    <span class="nv">KAFKA_AWS_S3_REGION</span><span class="o">=</span>eu-central-1 <span class="se">\
-</span><span class="se"></span>    <span class="nv">KAFKA_AWS_S3_BUCKET</span><span class="o">=</span>my-kafka-logs-bucket <span class="se">\
-</span><span class="se"></span>    ./kafka_2.13-2.8.0-SNAPSHOT/bin/kafka-server-start.sh ./kafka_2.13-2.8.0-SNAPSHOT/config/kraft/server.properties
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">AWS_SHARED_CREDENTIALS_FILE</span><span class="o">=</span>~/.aws/credentials <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">AWS_PROFILE</span><span class="o">=</span>a-profile-with-bucket-access <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">KAFKA_AWS_S3_UPLOADS</span><span class="o">=</span><span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">KAFKA_AWS_S3_REGION</span><span class="o">=</span>eu-central-1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">KAFKA_AWS_S3_BUCKET</span><span class="o">=</span>my-kafka-logs-bucket <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ./kafka_2.13-2.8.0-SNAPSHOT/bin/kafka-server-start.sh ./kafka_2.13-2.8.0-SNAPSHOT/config/kraft/server.properties
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Now, every time Kafka is about to delete a log segment, it will put it in S3 first. Only the log files are stored because there is no need to have an index. Whenever I need data from an older segment, I can download the segment from S3, rebuild the index and read out all data from the segment.</p>
 <p>I can process dozens of segments in parallel, regardless of the total partition size.</p>
 <h2 id="quick-and-dirty-test-method"><a href="#quick-and-dirty-test-method" class="anchor-link">§</a>quick and dirty test method</h2>
 <p>Create a topic with a rather small segment:</p>
-<pre><code>~/dev/kafka-2.8.0/kafka_2.13-2.8.0-SNAPSHOT/bin/kafka-topics.sh \
+<pre tabindex="0"><code>~/dev/kafka-2.8.0/kafka_2.13-2.8.0-SNAPSHOT/bin/kafka-topics.sh \
     --create \
     --topic test-topic \
     --partitions 1 \
@@ -326,21 +326,21 @@
     --bootstrap-server localhost:9092 \
     --config segment.bytes=524288
 </code></pre><p>Write some data to the topic with a tool of choice. I can see new segments rolling in:</p>
-<pre><code>[2021-04-02 23:32:57,551] INFO [BrokerLifecycleManager id=1] The broker has been unfenced. Transitioning from RECOVERY to RUNNING. (kafka.server.BrokerLifecycleManager)
+<pre tabindex="0"><code>[2021-04-02 23:32:57,551] INFO [BrokerLifecycleManager id=1] The broker has been unfenced. Transitioning from RECOVERY to RUNNING. (kafka.server.BrokerLifecycleManager)
 [2021-04-02 23:32:57,552] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(test-topic-0) (kafka.server.ReplicaFetcherManager)
 [2021-04-02 23:36:38,025] INFO [ProducerStateManager partition=test-topic-0] Writing producer snapshot at offset 3830 (kafka.log.ProducerStateManager)
 [2021-04-02 23:36:38,028] INFO [Log partition=test-topic-0, dir=/tmp/kraft-combined-logs] Rolled new log segment at offset 3830 in 5 ms. (kafka.log.Log)
 [2021-04-02 23:36:44,082] INFO [ProducerStateManager partition=test-topic-0] Writing producer snapshot at offset 7646 (kafka.log.ProducerStateManager)
 [2021-04-02 23:36:44,083] INFO [Log partition=test-topic-0, dir=/tmp/kraft-combined-logs] Rolled new log segment at offset 7646 in 3 ms. (kafka.log.Log)
 </code></pre><p>Finally, delete the topic from Kafka:</p>
-<pre><code>[2021-04-02 23:37:52,732] INFO [Controller 1] Removed topic test-topic with ID H6YadkN7SUGXheMu6MJ1uA. (org.apache.kafka.controller.ReplicationControlManager)
+<pre tabindex="0"><code>[2021-04-02 23:37:52,732] INFO [Controller 1] Removed topic test-topic with ID H6YadkN7SUGXheMu6MJ1uA. (org.apache.kafka.controller.ReplicationControlManager)
 [2021-04-02 23:37:52,759] INFO [BrokerMetadataListener id=1] Processing deletion of topic test-topic with id H6YadkN7SUGXheMu6MJ1uA (kafka.server.metadata.BrokerMetadataListener)
 [2021-04-02 23:37:52,761] INFO [GroupCoordinator 1]: Removed 0 offsets associated with deleted partitions: test-topic-0. (kafka.coordinator.group.GroupCoordinator)
 [2021-04-02 23:37:52,768] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(test-topic-0) (kafka.server.ReplicaFetcherManager)
 [2021-04-02 23:37:52,768] INFO [ReplicaAlterLogDirsManager on broker 1] Removed fetcher for partitions Set(test-topic-0) (kafka.server.ReplicaAlterLogDirsManager)
 [2021-04-02 23:37:52,776] INFO Log for partition test-topic-0 is renamed to /tmp/kraft-combined-logs/test-topic-0.fe590aa674124d0c81bb5b3d718a73ab-delete and is scheduled for deletion (kafka.log.LogManager)
 </code></pre><p>After about 60 seconds, the segments are uploaded to S3 and deleted from disk:</p>
-<pre><code>[2021-04-02 23:38:52,781] INFO [Log partition=test-topic-0, dir=/tmp/kraft-combined-logs] Deleting segments as the log has been deleted: LogSegment(baseOffset=0, size=524285, lastModifiedTime=1617399398000, largestRecordTimestamp=Some(1617399398018)),LogSegment(baseOffset=3830, size=524270, lastModifiedTime=1617399404000, largestRecordTimestamp=Some(1617399404079)),LogSegment(baseOffset=7646, size=48257, lastModifiedTime=1617399404000, largestRecordTimestamp=Some(1617399404638)) (kafka.log.Log)
+<pre tabindex="0"><code>[2021-04-02 23:38:52,781] INFO [Log partition=test-topic-0, dir=/tmp/kraft-combined-logs] Deleting segments as the log has been deleted: LogSegment(baseOffset=0, size=524285, lastModifiedTime=1617399398000, largestRecordTimestamp=Some(1617399398018)),LogSegment(baseOffset=3830, size=524270, lastModifiedTime=1617399404000, largestRecordTimestamp=Some(1617399404079)),LogSegment(baseOffset=7646, size=48257, lastModifiedTime=1617399404000, largestRecordTimestamp=Some(1617399404638)) (kafka.log.Log)
 [2021-04-02 23:38:52,786] INFO [Log partition=test-topic-0, dir=/tmp/kraft-combined-logs] Deleting segment files LogSegment(baseOffset=0, size=524285, lastModifiedTime=1617399398000, largestRecordTimestamp=Some(1617399398018)),LogSegment(baseOffset=3830, size=524270, lastModifiedTime=1617399404000, largestRecordTimestamp=Some(1617399404079)),LogSegment(baseOffset=7646, size=48257, lastModifiedTime=1617399404000, largestRecordTimestamp=Some(1617399404638)) (kafka.log.Log)
 [2021-04-02 23:38:57,798] INFO Uploading segment noan.local/test-topic-0.fe590aa674124d0c81bb5b3d718a73ab-delete/00000000000000000000.log.deleted with size 524285 prior to delete... (kafka.log.LogSegment)
 [2021-04-02 23:38:59,210] INFO Uploaded segment prior to delete, S3 ETag: 769bf025a6e85a7402509142de3d149a, took 6417ms (kafka.log.LogSegment)
@@ -363,13 +363,13 @@
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://radek-gruchalski.medium.com/the-case-for-kafka-cold-storage-32929d0a57b2" target="_blank" rel="noopener">The case for Kafka cold storage</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://radek-gruchalski.medium.com/the-case-for-kafka-cold-storage-32929d0a57b2" target="_blank" rel="noopener">The case for Kafka cold storage</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-405%3A+Kafka+Tiered+Storage" target="_blank" rel="noopener">KIP-405: Kafka Tiered Storage</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-405%3A+Kafka+Tiered+Storage" target="_blank" rel="noopener">KIP-405: Kafka Tiered Storage</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://www.confluent.io/project-metamorphosis/infinite" target="_blank" rel="noopener">Confluent Platform infinite Kafka retention</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.confluent.io/project-metamorphosis/infinite" target="_blank" rel="noopener">Confluent Platform infinite Kafka retention</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

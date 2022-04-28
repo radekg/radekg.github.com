@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-03-22T00:00:00+00:00",
-        "dateModified": "2021-03-23T20:09:01+01:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/",
         "headline": "firebuild prerequisites",
         "description": "Read this first before reading about firebuild",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-03-22T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-03-23T20:09:01&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -278,47 +278,47 @@
 <p>The <code>tc-redirect-tap</code> CNI plugin (mentioned below) requires golang to build, as does <code>firebuild</code>. <code>firebuild</code> requires golang 1.16+ so install it:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">rm -rf /usr/local/go <span class="o">&amp;&amp;</span> tar -C /usr/local -xzf go1.16.2.linux-amd64.tar.gz
-mkdir -p <span class="nv">$HOME</span>/dev/golang/<span class="o">{</span>bin,src<span class="o">}</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/go/bin:<span class="nv">$HOME</span>/dev/golang/bin
-<span class="nb">export</span> <span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$HOME</span>/dev/golang
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">rm -rf /usr/local/go <span class="o">&amp;&amp;</span> tar -C /usr/local -xzf go1.16.2.linux-amd64.tar.gz
+</span></span><span class="line"><span class="cl">mkdir -p <span class="nv">$HOME</span>/dev/golang/<span class="o">{</span>bin,src<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/go/bin:<span class="nv">$HOME</span>/dev/golang/bin
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$HOME</span>/dev/golang
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The most recent version can be downloaded from <a href="https://golang.org/doc/install" target="_blank" rel="noopener">golang website</a>.</p>
 <h2 id="install-cni-plugins"><a href="#install-cni-plugins" class="anchor-link">§</a>install CNI plugins</h2>
 <p><code>firebuild</code> assumes CNI availability. Installing the plugins is very straightforward. Create <code>/opt/cni/bin/</code> directory and download the plugins:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /opt/cni/bin
-curl -O -L https://github.com/containernetworking/plugins/releases/download/v0.9.1/cni-plugins-linux-amd64-v0.9.1.tgz
-tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-v0.9.1.tgz
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p /opt/cni/bin
+</span></span><span class="line"><span class="cl">curl -O -L https://github.com/containernetworking/plugins/releases/download/v0.9.1/cni-plugins-linux-amd64-v0.9.1.tgz
+</span></span><span class="line"><span class="cl">tar -C /opt/cni/bin -xzf cni-plugins-linux-amd64-v0.9.1.tgz
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Firecracker requires also the <a href="https://github.com/awslabs/tc-redirect-tap" target="_blank" rel="noopener"><code>tc-redirect-tap</code></a> plugin. Unfortunately, this one does not offer downloadable binaries and has to be built from sources.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/awslabs/tc-redirect-tap
-<span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/awslabs/tc-redirect-tap
-git clone https://github.com/awslabs/tc-redirect-tap.git .
-make install
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/awslabs/tc-redirect-tap
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/awslabs/tc-redirect-tap
+</span></span><span class="line"><span class="cl">git clone https://github.com/awslabs/tc-redirect-tap.git .
+</span></span><span class="line"><span class="cl">make install
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="create-cni-network-configurations"><a href="#create-cni-network-configurations" class="anchor-link">§</a>create CNI network configurations</h2>
 <p>The article assumes two different CNI networks:</p>
@@ -329,7 +329,7 @@ make install
 <p>CNI network config lists are stored in <code>/etc/cni/conf.d</code>. Create both like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -388,89 +388,89 @@ make install
 </span><span class="lnt">57
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /etc/cni/conf.d
-
-cat <span class="s">&lt;&lt;EOF &gt; /etc/cni/conf.d/machines.conflist
-</span><span class="s">{
-</span><span class="s">    &#34;name&#34;: &#34;machines&#34;,
-</span><span class="s">    &#34;cniVersion&#34;: &#34;0.4.0&#34;,
-</span><span class="s">    &#34;plugins&#34;: [
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;bridge&#34;,
-</span><span class="s">            &#34;name&#34;: &#34;machines-bridge&#34;,
-</span><span class="s">            &#34;bridge&#34;: &#34;machines0&#34;,
-</span><span class="s">            &#34;isDefaultGateway&#34;: true,
-</span><span class="s">            &#34;ipMasq&#34;: true,
-</span><span class="s">            &#34;hairpinMode&#34;: true,
-</span><span class="s">            &#34;ipam&#34;: {
-</span><span class="s">                &#34;type&#34;: &#34;host-local&#34;,
-</span><span class="s">                &#34;subnet&#34;: &#34;192.168.127.0/24&#34;,
-</span><span class="s">                &#34;resolvConf&#34;: &#34;/etc/resolv.conf&#34;
-</span><span class="s">            }
-</span><span class="s">        },
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;firewall&#34;
-</span><span class="s">        },
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;tc-redirect-tap&#34;
-</span><span class="s">        }
-</span><span class="s">    ]
-</span><span class="s">}
-</span><span class="s">EOF</span>
-
-cat <span class="s">&lt;&lt;EOF &gt; /etc/cni/conf.d/machine-builds.conflist
-</span><span class="s">{
-</span><span class="s">    &#34;name&#34;: &#34;machine-builds&#34;,
-</span><span class="s">    &#34;cniVersion&#34;: &#34;0.4.0&#34;,
-</span><span class="s">    &#34;plugins&#34;: [
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;bridge&#34;,
-</span><span class="s">            &#34;name&#34;: &#34;machine-builds-bridge&#34;,
-</span><span class="s">            &#34;bridge&#34;: &#34;builds0&#34;,
-</span><span class="s">            &#34;isDefaultGateway&#34;: true,
-</span><span class="s">            &#34;ipMasq&#34;: true,
-</span><span class="s">            &#34;hairpinMode&#34;: true,
-</span><span class="s">            &#34;ipam&#34;: {
-</span><span class="s">                &#34;type&#34;: &#34;host-local&#34;,
-</span><span class="s">                &#34;subnet&#34;: &#34;192.168.128.0/24&#34;,
-</span><span class="s">                &#34;resolvConf&#34;: &#34;/etc/resolv.conf&#34;
-</span><span class="s">            }
-</span><span class="s">        },
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;firewall&#34;
-</span><span class="s">        },
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;tc-redirect-tap&#34;
-</span><span class="s">        }
-</span><span class="s">    ]
-</span><span class="s">}
-</span><span class="s">EOF</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p /etc/cni/conf.d
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; /etc/cni/conf.d/machines.conflist
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;name&#34;: &#34;machines&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;cniVersion&#34;: &#34;0.4.0&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;plugins&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;bridge&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;name&#34;: &#34;machines-bridge&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;bridge&#34;: &#34;machines0&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;isDefaultGateway&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;ipMasq&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;hairpinMode&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;ipam&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;type&#34;: &#34;host-local&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;subnet&#34;: &#34;192.168.127.0/24&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;resolvConf&#34;: &#34;/etc/resolv.conf&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">            }
+</span></span></span><span class="line"><span class="cl"><span class="s">        },
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;firewall&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        },
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;tc-redirect-tap&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">    ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; /etc/cni/conf.d/machine-builds.conflist
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;name&#34;: &#34;machine-builds&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;cniVersion&#34;: &#34;0.4.0&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;plugins&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;bridge&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;name&#34;: &#34;machine-builds-bridge&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;bridge&#34;: &#34;builds0&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;isDefaultGateway&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;ipMasq&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;hairpinMode&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;ipam&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;type&#34;: &#34;host-local&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;subnet&#34;: &#34;192.168.128.0/24&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;resolvConf&#34;: &#34;/etc/resolv.conf&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">            }
+</span></span></span><span class="line"><span class="cl"><span class="s">        },
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;firewall&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        },
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;tc-redirect-tap&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">    ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="build-and-install-firebuild-from-sources"><a href="#build-and-install-firebuild-from-sources" class="anchor-link">§</a>build and install firebuild from sources</h2>
 <p>At this moment, there are no binaries for <code>firebuild</code>. It must be built from sources:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/combust-labs/firebuild
-<span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/combust-labs/firebuild
-git clone https://github.com/combust-labs/firebuild .
-go install
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p <span class="nv">$GOPATH</span>/src/github.com/combust-labs/firebuild
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/combust-labs/firebuild
+</span></span><span class="line"><span class="cl">git clone https://github.com/combust-labs/firebuild .
+</span></span><span class="line"><span class="cl">go install
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="make-the-gopath-system-wide"><a href="#make-the-gopath-system-wide" class="anchor-link">§</a>make the $GOPATH system wide</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="se">\$</span><span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$GOPATH</span> &gt;&gt; /etc/profile
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="se">\$</span><span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$GOPATH</span> &gt;&gt; /etc/profile
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>That&rsquo;s it.</p>
 

@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-05-15T00:00:00+00:00",
-        "dateModified": "2021-06-16T00:28:17+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/",
         "headline": "RBAC with Ory Keto",
         "description": "Building bare bones RBAC with Keto 0.6",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  2389 ,
+        "wordCount":  2386 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-04-11/keto.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-05-15T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-06-16T00:28:17&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2389</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2386</span>
     
     
         
@@ -331,7 +331,7 @@
 <li>a subject</li>
 </ul>
 <p>where the relation tuple is a result of an object, permission and a subject. Straight from the whitepaper:</p>
-<pre><code>〈tuple〉::=〈object〉‘#’〈relation〉‘@’〈user〉
+<pre tabindex="0"><code>〈tuple〉::=〈object〉‘#’〈relation〉‘@’〈user〉
 〈object〉::=〈namespace〉‘:’〈objectid〉
 〈user〉::=〈userid〉|〈userset〉
 〈userset〉::=〈object〉‘#’〈relation〉
@@ -375,21 +375,21 @@
 <p>Let&rsquo;s start by launching the Ory stack locally:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">git clone https://github.com/radekg/ory-reference-compose.git
-<span class="nb">cd</span> ory-reference-compose/compose
-docker-compose -f compose.yml up psql keto-migrate keto
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clone https://github.com/radekg/ory-reference-compose.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ory-reference-compose/compose
+</span></span><span class="line"><span class="cl">docker-compose -f compose.yml up psql keto-migrate keto
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Keto read API runs on <code>localhost:4466</code> and the write API is reachable via <code>localhost:4467</code>. The compose stack creates a single namespace called <code>default-namespace</code>.</p>
 <p>Let&rsquo;s start with defining the <em>production</em> platform by creating the following relation tuples:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -409,25 +409,25 @@ docker-compose -f compose.yml up psql keto-migrate keto
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:production-creator#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;view&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:production-viewer#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:production-deleter#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:production-creator#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;view&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:production-viewer#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:production-deleter#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>In the Zanzibar notation, these are:</p>
 <ul>
@@ -437,13 +437,13 @@ curl -XPUT --data <span class="s1">&#39;{
 </ul>
 <p>These <em>relations</em> can be read as <em>properties</em> (or capabilities) of the <em>production</em> platform. The <code>production-[creator|viewer|deleter]</code> is a handle for a referencing object, these referencing objects, called <code>production-[creator|viewer|deleter]</code> respectively, can be seen as <em>the bindings</em>.</p>
 <p>Let&rsquo;s bind the <em>IT director</em> first. The following relation tuples together define a role called <em>it-director</em>.</p>
-<pre><code>production-creator#member@default-namespace:it-director#member
+<pre tabindex="0"><code>production-creator#member@default-namespace:it-director#member
 production-viewer#member@default-namespace:it-director#member
 production-deleter#member@default-namespace:it-director#member
 </code></pre><p>What we are saying here is that any person who is a <em>member</em> of the <em>it-director</em> role will be treated as a member of the respective <em>production-X</em> role, which we have already bound to respective <em>create</em>, <em>view</em> and <em>delete</em>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -463,32 +463,32 @@ production-deleter#member@default-namespace:it-director#member
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production-creator&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:it-director#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production-viewer&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:it-director#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production-deleter&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:it-director#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production-creator&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:it-director#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production-viewer&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:it-director#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production-deleter&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:it-director#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>If there was a higher level system responsible for actual role management, the tool could present a role object called <em>IT Director</em> with these granular tuples hidden from view. The role management operator would be working with that abstraction instead of these granular items.</p>
 <p>Next, we can bind the <em>development director</em>. Originally, this role should only be allowed the <em>view</em> of the <em>production</em> resources:</p>
-<pre><code>production-viewer#member@default-namespace:dev-director#member
+<pre tabindex="0"><code>production-viewer#member@default-namespace:dev-director#member
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -496,21 +496,21 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production-viewer&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:dev-director#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production-viewer&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:dev-director#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Let&rsquo;s put the people in their actual positions:</p>
-<pre><code>it-director#member@Hermes
+<pre tabindex="0"><code>it-director#member@Hermes
 dev-director#member@Fry
 dev-director#member@Bender
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -530,30 +530,30 @@ dev-director#member@Bender
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;it-director&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Hermes&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;dev-director&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;dev-director&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Bender&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;it-director&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Hermes&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;dev-director&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;dev-director&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Bender&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>We can now ask Keto if the respective people can perform their tasks, for example, can Hermes create resources in production?</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -561,26 +561,26 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Hermes&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Hermes&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>What about Fry?</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -588,26 +588,26 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>But, both him and Bender, should be able to <em>view</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -615,21 +615,21 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;view&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Bender&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;view&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Bender&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>So far, so good.</p>
 <h3 id="frys-opportunity"><a href="#frys-opportunity" class="anchor-link">§</a>Fry&rsquo;s opportunity</h3>
@@ -637,7 +637,7 @@ curl -XPUT --data <span class="s1">&#39;{
 <p>A new role has been carved out just for Fry:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -645,18 +645,18 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;fast-dev-director&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;fast-dev-director&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>He can&rsquo;t yet <em>create</em> or <em>delete</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -664,26 +664,26 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>For that, the <em>fast-dev-director#member</em> must be explicitly allowed by the respective <em>production-X</em> role.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -697,24 +697,24 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production-creator&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:fast-dev-director#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-curl -XPUT --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production-deleter&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;default-namespace:fast-dev-director#member&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production-creator&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:fast-dev-director#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span><span class="line"><span class="cl">curl -XPUT --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production-deleter&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;member&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;default-namespace:fast-dev-director#member&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4467/relation-tuples
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Can he now <em>create</em> and <em>delete</em>?</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -722,25 +722,25 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;create&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -748,26 +748,26 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>He should still be able to <em>view</em> through the <em>dev-director</em> role:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -775,26 +775,26 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;view&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;view&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Fry&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>He can, indeed. What about Bender?</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -802,44 +802,44 @@ curl -XPUT --data <span class="s1">&#39;{
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -XPOST --data <span class="s1">&#39;{
-</span><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="s1">    &#34;object&#34;: &#34;production&#34;,
-</span><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
-</span><span class="s1">    &#34;subject&#34;: &#34;Bender&#34;
-</span><span class="s1">}&#39;</span> http://localhost:4466/check
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -XPOST --data <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;object&#34;: &#34;production&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;relation&#34;: &#34;delete&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;subject&#34;: &#34;Bender&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> http://localhost:4466/check
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;allowed&#34;</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This works as expected.</p>
 <h2 id="fry-has-fried-the-production"><a href="#fry-has-fried-the-production" class="anchor-link">§</a>Fry has fried the production</h2>
 <p>As Fry isn&rsquo;t very smart, he did fry the production system and the <em>Company</em> was forced to remove his access. It was done like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl --silent -X DELETE <span class="s1">&#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;object=fast-dev-director&amp;relation=member&amp;subject=Fry&#39;</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X DELETE <span class="s1">&#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;object=fast-dev-director&amp;relation=member&amp;subject=Fry&#39;</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>And Fry could no longer <em>create</em> and <em>delete</em> in <em>production</em>.</p>
 <p><strong>Alternatively</strong>, the <em>Company</em> should have been able to remove the role binding, like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl --silent -X DELETE <span class="s1">&#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;object=production-creator&amp;relation=member&amp;subject=default-namespace:fast-dev-director#member&#39;</span>
-curl --silent -X DELETE <span class="s1">&#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;object=production-deleter&amp;relation=member&amp;subject=default-namespace:fast-dev-director#member&#39;</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X DELETE <span class="s1">&#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;object=production-creator&amp;relation=member&amp;subject=default-namespace:fast-dev-director#member&#39;</span>
+</span></span><span class="line"><span class="cl">curl --silent -X DELETE <span class="s1">&#39;http://localhost:4467/relation-tuples?namespace=default-namespace&amp;object=production-deleter&amp;relation=member&amp;subject=default-namespace:fast-dev-director#member&#39;</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Which would leave Fry the <em>fast-dev-director</em> role assignment but the missing binding would no longer allow him to <em>create</em> and <em>delete</em> resources. <strong>However, these two delete statements do not seem to be removing the actual binding</strong>.</p>
 <h2 id="summary"><a href="#summary" class="anchor-link">§</a>summary</h2>
@@ -857,13 +857,13 @@ curl --silent -X DELETE <span class="s1">&#39;http://localhost:4467/relation-tup
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://github.com/ory/keto/issues/598#issuecomment-842301138" target="_blank" rel="noopener">usersets vs rewrites clarification</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/ory/keto/issues/598#issuecomment-842301138" target="_blank" rel="noopener">usersets vs rewrites clarification</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://en.wikipedia.org/wiki/Role-based_access_control" target="_blank" rel="noopener">Role-based Access Control</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://en.wikipedia.org/wiki/Role-based_access_control" target="_blank" rel="noopener">Role-based Access Control</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://research.google/pubs/pub48190/" target="_blank" rel="noopener">Zanzibar: Consistent, Global Authorization System</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://research.google/pubs/pub48190/" target="_blank" rel="noopener">Zanzibar: Consistent, Global Authorization System</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

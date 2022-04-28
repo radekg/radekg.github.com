@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-02-07T00:00:00+00:00",
-        "dateModified": "2021-02-09T20:43:25+01:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/",
         "headline": "Vault on Firecracker with CNI plugins and Nomad",
         "description": "Setting up Vault on Firecracker with CNI network on HashiCorp Nomad",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1047 ,
+        "wordCount":  1044 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-02-07/firecracker-and-cni.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-02-07T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-02-09T20:43:25&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1047</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1044</span>
     
     
         
@@ -279,22 +279,22 @@
 <h2 id="cni-plugins"><a href="#cni-plugins" class="anchor-link">§</a>CNI plugins</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir ~/cni-plugins
-<span class="nb">cd</span> ~/cni-plugins
-git clone https://github.com/containernetworking/plugins.git .
-./build_linux.sh
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir ~/cni-plugins
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ~/cni-plugins
+</span></span><span class="line"><span class="cl">git clone https://github.com/containernetworking/plugins.git .
+</span></span><span class="line"><span class="cl">./build_linux.sh
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>After about 30 seconds, the are under the <code>bin/</code> directory:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -315,130 +315,130 @@ git clone https://github.com/containernetworking/plugins.git .
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ tree bin
-bin
-├── bandwidth
-├── bridge
-├── dhcp
-├── firewall
-├── flannel
-├── host-device
-├── host-local
-├── ipvlan
-├── loopback
-├── macvlan
-├── portmap
-├── ptp
-├── sbr
-├── static
-├── tuning
-├── vlan
-└── vrf
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ tree bin
+</span></span><span class="line"><span class="cl">bin
+</span></span><span class="line"><span class="cl">├── bandwidth
+</span></span><span class="line"><span class="cl">├── bridge
+</span></span><span class="line"><span class="cl">├── dhcp
+</span></span><span class="line"><span class="cl">├── firewall
+</span></span><span class="line"><span class="cl">├── flannel
+</span></span><span class="line"><span class="cl">├── host-device
+</span></span><span class="line"><span class="cl">├── host-local
+</span></span><span class="line"><span class="cl">├── ipvlan
+</span></span><span class="line"><span class="cl">├── loopback
+</span></span><span class="line"><span class="cl">├── macvlan
+</span></span><span class="line"><span class="cl">├── portmap
+</span></span><span class="line"><span class="cl">├── ptp
+</span></span><span class="line"><span class="cl">├── sbr
+</span></span><span class="line"><span class="cl">├── static
+</span></span><span class="line"><span class="cl">├── tuning
+</span></span><span class="line"><span class="cl">├── vlan
+</span></span><span class="line"><span class="cl">└── vrf
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="tc-redirect-tap"><a href="#tc-redirect-tap" class="anchor-link">§</a>tc-redirect-tap</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir ~/tc-redirect-tap
-<span class="nb">cd</span> ~/tc-redirect-tap
-git clone https://github.com/awslabs/tc-redirect-tap.git .
-make all
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir ~/tc-redirect-tap
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ~/tc-redirect-tap
+</span></span><span class="line"><span class="cl">git clone https://github.com/awslabs/tc-redirect-tap.git .
+</span></span><span class="line"><span class="cl">make all
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The binary can be found in the root of the sources directory.</p>
 <h2 id="installing-the-plugins"><a href="#installing-the-plugins" class="anchor-link">§</a>Installing the plugins</h2>
 <p>CNI plugins are sought from the <code>/opt/cni/bin</code> directory. Some tools allow overriding that path but there is no consistency so the default directory is the safest choice. However, to keep everything tidy, I will place by plugins in the <code>/firecracker/cni/bin</code> directory, per the structure from <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /firecracker/cni/bin
-cp ~/cni-plugins/bin/* /firecracker/cni/bin/
-cp ~/tc-redirect-tap/tc-redirect-tap /firecracker/cni/bin/tc-redirect-tap
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p /firecracker/cni/bin
+</span></span><span class="line"><span class="cl">cp ~/cni-plugins/bin/* /firecracker/cni/bin/
+</span></span><span class="line"><span class="cl">cp ~/tc-redirect-tap/tc-redirect-tap /firecracker/cni/bin/tc-redirect-tap
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>then link them to where they are expected to be:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo mkdir -p /opt/cni
-sudo ln -sfn /firecracker/cni/bin /opt/cni/bin
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo mkdir -p /opt/cni
+</span></span><span class="line"><span class="cl">sudo ln -sfn /firecracker/cni/bin /opt/cni/bin
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="prepare-nomad-and-task-driver"><a href="#prepare-nomad-and-task-driver" class="anchor-link">§</a>Prepare Nomad and task driver</h2>
 <p>I&rsquo;ll use HashiCorp Nomad with the <code>firecracker-task.driver</code>. First, get Nomad:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
-wget https://releases.hashicorp.com/nomad/1.0.3/nomad_1.0.3_linux_amd64.zip
-unzip nomad_1.0.3_linux_amd64.zip
-sudo mv nomad /usr/bin/nomad
-rm nomad_1.0.3_linux_amd64.zip
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> /tmp
+</span></span><span class="line"><span class="cl">wget https://releases.hashicorp.com/nomad/1.0.3/nomad_1.0.3_linux_amd64.zip
+</span></span><span class="line"><span class="cl">unzip nomad_1.0.3_linux_amd64.zip
+</span></span><span class="line"><span class="cl">sudo mv nomad /usr/bin/nomad
+</span></span><span class="line"><span class="cl">rm nomad_1.0.3_linux_amd64.zip
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Second, get the task driver sources and build them:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir ~/firecracker-task-driver
-<span class="nb">cd</span> ~/firecracker-task-driver
-git clone https://github.com/cneira/firecracker-task-driver.git .
-go build -mod<span class="o">=</span>mod -o ./firecracker-task-driver ./main.go
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir ~/firecracker-task-driver
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ~/firecracker-task-driver
+</span></span><span class="line"><span class="cl">git clone https://github.com/cneira/firecracker-task-driver.git .
+</span></span><span class="line"><span class="cl">go build -mod<span class="o">=</span>mod -o ./firecracker-task-driver ./main.go
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Default Nomad plugins directory is <code>/opt/nomad/plugins</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo mkdir -p /opt/nomad/plugins
-sudo mv firecracker-task-driver /opt/nomad/plugins/firecracker-task-driver
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo mkdir -p /opt/nomad/plugins
+</span></span><span class="line"><span class="cl">sudo mv firecracker-task-driver /opt/nomad/plugins/firecracker-task-driver
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="create-the-network-definition"><a href="#create-the-network-definition" class="anchor-link">§</a>Create the network definition</h2>
 <p>These are to be placed under <code>/etc/cni/conf.d</code>. Again, to keep it tidy and in one place:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir /firecracker/cni/conf.d
-sudo mkdir -p /etc/cni
-sudo ln -sfn /firecracker/cni/conf.d /etc/cni/conf.d
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir /firecracker/cni/conf.d
+</span></span><span class="line"><span class="cl">sudo mkdir -p /etc/cni
+</span></span><span class="line"><span class="cl">sudo ln -sfn /firecracker/cni/conf.d /etc/cni/conf.d
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Create the network definition file:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -463,79 +463,79 @@ sudo ln -sfn /firecracker/cni/conf.d /etc/cni/conf.d
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">cat <span class="s">&lt;&lt;EOF &gt; /firecracker/cni/conf.d/vault.conflist
-</span><span class="s">{
-</span><span class="s">    &#34;name&#34;: &#34;vault&#34;,
-</span><span class="s">    &#34;cniVersion&#34;: &#34;0.4.0&#34;,
-</span><span class="s">    &#34;plugins&#34;: [
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;ptp&#34;,
-</span><span class="s">            &#34;ipMasq&#34;: true,
-</span><span class="s">            &#34;ipam&#34;: {
-</span><span class="s">                &#34;type&#34;: &#34;host-local&#34;,
-</span><span class="s">                &#34;subnet&#34;: &#34;192.168.127.0/24&#34;,
-</span><span class="s">                &#34;resolvConf&#34;: &#34;/etc/resolv.conf&#34;
-</span><span class="s">            }
-</span><span class="s">        },
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;firewall&#34;
-</span><span class="s">        },
-</span><span class="s">        {
-</span><span class="s">            &#34;type&#34;: &#34;tc-redirect-tap&#34;
-</span><span class="s">        }
-</span><span class="s">    ]
-</span><span class="s">}
-</span><span class="s">EOF</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; /firecracker/cni/conf.d/vault.conflist
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;name&#34;: &#34;vault&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;cniVersion&#34;: &#34;0.4.0&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;plugins&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;ptp&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;ipMasq&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;ipam&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;type&#34;: &#34;host-local&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;subnet&#34;: &#34;192.168.127.0/24&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">                &#34;resolvConf&#34;: &#34;/etc/resolv.conf&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">            }
+</span></span></span><span class="line"><span class="cl"><span class="s">        },
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;firewall&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        },
+</span></span></span><span class="line"><span class="cl"><span class="s">        {
+</span></span></span><span class="line"><span class="cl"><span class="s">            &#34;type&#34;: &#34;tc-redirect-tap&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">    ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="start-nomad-in-dev-mode"><a href="#start-nomad-in-dev-mode" class="anchor-link">§</a>Start Nomad in dev mode</h2>
 <p>Create the Nomad configuration directory:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo mkdir /etc/nomad
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo mkdir /etc/nomad
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>We have to create this minimalistic server configuration to tell Nomad where our plugins are (<code>plugins</code> directory under <code>data_dir</code>):</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">cat <span class="s">&lt;&lt;EOF | sudo tee -a /etc/nomad/server.conf
-</span><span class="s">data_dir  = &#34;/opt/nomad&#34;
-</span><span class="s">bind_addr = &#34;0.0.0.0&#34; # the default
-</span><span class="s">EOF</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF | sudo tee -a /etc/nomad/server.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">data_dir  = &#34;/opt/nomad&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">bind_addr = &#34;0.0.0.0&#34; # the default
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>And we can start Nomad development agent:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo nomad agent -dev -config<span class="o">=</span>/etc/nomad/server.conf
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo nomad agent -dev -config<span class="o">=</span>/etc/nomad/server.conf
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="create-the-nomad-task"><a href="#create-the-nomad-task" class="anchor-link">§</a>Create the Nomad task</h2>
 <p>Create the directory for Nomad jobs:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo mkdir -p /etc/nomad/jobs
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo mkdir -p /etc/nomad/jobs
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>And write the job definition. <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">The process of getting the kernel and the root image is described in the previous post</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -561,36 +561,36 @@ sudo ln -sfn /firecracker/cni/conf.d /etc/cni/conf.d
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">cat <span class="s">&lt;&lt;EOF | sudo tee -a /etc/nomad/jobs/vault.nomad
-</span><span class="s">job &#34;vault-with-cni&#34; {
-</span><span class="s">    datacenters = [&#34;dc1&#34;]
-</span><span class="s">    type        = &#34;service&#34;
-</span><span class="s">
-</span><span class="s">    group &#34;vault-test&#34; {
-</span><span class="s">        restart {
-</span><span class="s">            attempts = 0
-</span><span class="s">            mode     = &#34;fail&#34;
-</span><span class="s">        }
-</span><span class="s">        task &#34;vault1&#34; {
-</span><span class="s">            driver = &#34;firecracker-task-driver&#34;
-</span><span class="s">            config {
-</span><span class="s">                BootDisk    = &#34;/firecracker/filesystems/vault-root.ext4&#34;
-</span><span class="s">                Firecracker = &#34;/usr/bin/firecracker&#34;
-</span><span class="s">                KernelImage = &#34;/firecracker/kernels/vmlinux-v5.8&#34;
-</span><span class="s">                Mem         = 128
-</span><span class="s">                Network     = &#34;vault&#34;
-</span><span class="s">                Vcpus       = 1
-</span><span class="s">            }
-</span><span class="s">        }
-</span><span class="s">    }
-</span><span class="s">}
-</span><span class="s">EOF</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF | sudo tee -a /etc/nomad/jobs/vault.nomad
+</span></span></span><span class="line"><span class="cl"><span class="s">job &#34;vault-with-cni&#34; {
+</span></span></span><span class="line"><span class="cl"><span class="s">    datacenters = [&#34;dc1&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="s">    type        = &#34;service&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">    group &#34;vault-test&#34; {
+</span></span></span><span class="line"><span class="cl"><span class="s">        restart {
+</span></span></span><span class="line"><span class="cl"><span class="s">            attempts = 0
+</span></span></span><span class="line"><span class="cl"><span class="s">            mode     = &#34;fail&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">        task &#34;vault1&#34; {
+</span></span></span><span class="line"><span class="cl"><span class="s">            driver = &#34;firecracker-task-driver&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">            config {
+</span></span></span><span class="line"><span class="cl"><span class="s">                BootDisk    = &#34;/firecracker/filesystems/vault-root.ext4&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">                Firecracker = &#34;/usr/bin/firecracker&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">                KernelImage = &#34;/firecracker/kernels/vmlinux-v5.8&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">                Mem         = 128
+</span></span></span><span class="line"><span class="cl"><span class="s">                Network     = &#34;vault&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">                Vcpus       = 1
+</span></span></span><span class="line"><span class="cl"><span class="s">            }
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">    }
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Test the job configuration:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -609,29 +609,29 @@ sudo ln -sfn /firecracker/cni/conf.d /etc/cni/conf.d
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ sudo nomad job plan /etc/nomad/jobs/vault.nomad
-+ Job: <span class="s2">&#34;vault-with-cni&#34;</span>
-+ Task Group: <span class="s2">&#34;vault-test&#34;</span> <span class="o">(</span><span class="m">1</span> create<span class="o">)</span>
-  + Task: <span class="s2">&#34;vault1&#34;</span> <span class="o">(</span>forces create<span class="o">)</span>
-
-Scheduler dry-run:
-- All tasks successfully allocated.
-
-Job Modify Index: <span class="m">0</span>
-To submit the job with version verification run:
-
-nomad job run -check-index <span class="m">0</span> /etc/nomad/jobs/vault.nomad
-
-When running the job with the check-index flag, the job will only be run <span class="k">if</span> the
-job modify index given matches the server-side version. If the index has
-changed, another user has modified the job and the plan<span class="err">&#39;</span>s results are
-potentially invalid.
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo nomad job plan /etc/nomad/jobs/vault.nomad
+</span></span><span class="line"><span class="cl">+ Job: <span class="s2">&#34;vault-with-cni&#34;</span>
+</span></span><span class="line"><span class="cl">+ Task Group: <span class="s2">&#34;vault-test&#34;</span> <span class="o">(</span><span class="m">1</span> create<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  + Task: <span class="s2">&#34;vault1&#34;</span> <span class="o">(</span>forces create<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Scheduler dry-run:
+</span></span><span class="line"><span class="cl">- All tasks successfully allocated.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Job Modify Index: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">To submit the job with version verification run:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nomad job run -check-index <span class="m">0</span> /etc/nomad/jobs/vault.nomad
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">When running the job with the check-index flag, the job will only be run <span class="k">if</span> the
+</span></span><span class="line"><span class="cl">job modify index given matches the server-side version. If the index has
+</span></span><span class="line"><span class="cl">changed, another user has modified the job and the plan<span class="err">&#39;</span>s results are
+</span></span><span class="line"><span class="cl">potentially invalid.
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Okay, looks good, let&rsquo;s run it:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -641,20 +641,20 @@ potentially invalid.
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ sudo nomad job run /etc/nomad/jobs/vault.nomad
-<span class="o">==</span>&gt; Monitoring evaluation <span class="s2">&#34;2e42b090&#34;</span>
-    Evaluation triggered by job <span class="s2">&#34;vault-with-cni&#34;</span>
-<span class="o">==</span>&gt; Monitoring evaluation <span class="s2">&#34;2e42b090&#34;</span>
-    Evaluation within deployment: <span class="s2">&#34;d12624cb&#34;</span>
-    Allocation <span class="s2">&#34;a57d68ec&#34;</span> created: node <span class="s2">&#34;10f89343&#34;</span>, group <span class="s2">&#34;vault-test&#34;</span>
-    Evaluation status changed: <span class="s2">&#34;pending&#34;</span> -&gt; <span class="s2">&#34;complete&#34;</span>
-<span class="o">==</span>&gt; Evaluation <span class="s2">&#34;2e42b090&#34;</span> finished with status <span class="s2">&#34;complete&#34;</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo nomad job run /etc/nomad/jobs/vault.nomad
+</span></span><span class="line"><span class="cl"><span class="o">==</span>&gt; Monitoring evaluation <span class="s2">&#34;2e42b090&#34;</span>
+</span></span><span class="line"><span class="cl">    Evaluation triggered by job <span class="s2">&#34;vault-with-cni&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">==</span>&gt; Monitoring evaluation <span class="s2">&#34;2e42b090&#34;</span>
+</span></span><span class="line"><span class="cl">    Evaluation within deployment: <span class="s2">&#34;d12624cb&#34;</span>
+</span></span><span class="line"><span class="cl">    Allocation <span class="s2">&#34;a57d68ec&#34;</span> created: node <span class="s2">&#34;10f89343&#34;</span>, group <span class="s2">&#34;vault-test&#34;</span>
+</span></span><span class="line"><span class="cl">    Evaluation status changed: <span class="s2">&#34;pending&#34;</span> -&gt; <span class="s2">&#34;complete&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">==</span>&gt; Evaluation <span class="s2">&#34;2e42b090&#34;</span> finished with status <span class="s2">&#34;complete&#34;</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Awesome, what does the status say?</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -684,65 +684,65 @@ potentially invalid.
 </span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ sudo nomad status vault
-<span class="nv">ID</span>            <span class="o">=</span> vault-with-cni
-<span class="nv">Name</span>          <span class="o">=</span> vault-with-cni
-Submit <span class="nv">Date</span>   <span class="o">=</span> 2021-02-07T13:49:20Z
-<span class="nv">Type</span>          <span class="o">=</span> service
-<span class="nv">Priority</span>      <span class="o">=</span> <span class="m">50</span>
-<span class="nv">Datacenters</span>   <span class="o">=</span> dc1
-<span class="nv">Namespace</span>     <span class="o">=</span> default
-<span class="nv">Status</span>        <span class="o">=</span> running
-<span class="nv">Periodic</span>      <span class="o">=</span> <span class="nb">false</span>
-<span class="nv">Parameterized</span> <span class="o">=</span> <span class="nb">false</span>
-
-Summary
-Task Group  Queued  Starting  Running  Failed  Complete  Lost
-vault-test  <span class="m">0</span>       <span class="m">0</span>         <span class="m">1</span>        <span class="m">0</span>       <span class="m">0</span>         <span class="m">0</span>
-
-Latest Deployment
-<span class="nv">ID</span>          <span class="o">=</span> d12624cb
-<span class="nv">Status</span>      <span class="o">=</span> running
-<span class="nv">Description</span> <span class="o">=</span> Deployment is running
-
-Deployed
-Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
-vault-test  <span class="m">1</span>        <span class="m">1</span>       <span class="m">0</span>        <span class="m">0</span>          2021-02-07T13:59:20Z
-
-Allocations
-ID        Node ID   Task Group  Version  Desired  Status   Created  Modified
-a57d68ec  10f89343  vault-test  <span class="m">0</span>        run      running  7s ago   6s ago
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo nomad status vault
+</span></span><span class="line"><span class="cl"><span class="nv">ID</span>            <span class="o">=</span> vault-with-cni
+</span></span><span class="line"><span class="cl"><span class="nv">Name</span>          <span class="o">=</span> vault-with-cni
+</span></span><span class="line"><span class="cl">Submit <span class="nv">Date</span>   <span class="o">=</span> 2021-02-07T13:49:20Z
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span>          <span class="o">=</span> service
+</span></span><span class="line"><span class="cl"><span class="nv">Priority</span>      <span class="o">=</span> <span class="m">50</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Datacenters</span>   <span class="o">=</span> dc1
+</span></span><span class="line"><span class="cl"><span class="nv">Namespace</span>     <span class="o">=</span> default
+</span></span><span class="line"><span class="cl"><span class="nv">Status</span>        <span class="o">=</span> running
+</span></span><span class="line"><span class="cl"><span class="nv">Periodic</span>      <span class="o">=</span> <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Parameterized</span> <span class="o">=</span> <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Summary
+</span></span><span class="line"><span class="cl">Task Group  Queued  Starting  Running  Failed  Complete  Lost
+</span></span><span class="line"><span class="cl">vault-test  <span class="m">0</span>       <span class="m">0</span>         <span class="m">1</span>        <span class="m">0</span>       <span class="m">0</span>         <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Latest Deployment
+</span></span><span class="line"><span class="cl"><span class="nv">ID</span>          <span class="o">=</span> d12624cb
+</span></span><span class="line"><span class="cl"><span class="nv">Status</span>      <span class="o">=</span> running
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span> <span class="o">=</span> Deployment is running
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Deployed
+</span></span><span class="line"><span class="cl">Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
+</span></span><span class="line"><span class="cl">vault-test  <span class="m">1</span>        <span class="m">1</span>       <span class="m">0</span>        <span class="m">0</span>          2021-02-07T13:59:20Z
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Allocations
+</span></span><span class="line"><span class="cl">ID        Node ID   Task Group  Version  Desired  Status   Created  Modified
+</span></span><span class="line"><span class="cl">a57d68ec  10f89343  vault-test  <span class="m">0</span>        run      running  7s ago   6s ago
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Sweet. Let&rsquo;s have a look at the <code>veth</code> device:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ ip -c link show <span class="nb">type</span> veth
-7: veth200fa5e4@if3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue state UP mode DEFAULT group default
-    link/ether 42:ee:02:f4:98:3a brd ff:ff:ff:ff:ff:ff link-netnsid <span class="m">0</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ ip -c link show <span class="nb">type</span> veth
+</span></span><span class="line"><span class="cl">7: veth200fa5e4@if3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue state UP mode DEFAULT group default
+</span></span><span class="line"><span class="cl">    link/ether 42:ee:02:f4:98:3a brd ff:ff:ff:ff:ff:ff link-netnsid <span class="m">0</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="can-we-talk-to-it"><a href="#can-we-talk-to-it" class="anchor-link">§</a>Can we talk to it?</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl http://192.168.127.2:8200/sys/health
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl http://192.168.127.2:8200/sys/health
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;errors&#34;</span><span class="p">:[]}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;errors&#34;</span><span class="p">:[]}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Yep, it running!</p>
 <h3 id="caveats"><a href="#caveats" class="anchor-link">§</a>Caveats</h3>
@@ -754,13 +754,13 @@ a57d68ec  10f89343  vault-test  <span class="m">0</span>        run      running
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://github.com/containernetworking/plugins" target="_blank" rel="noopener">CNI plugins GitHub repository</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/containernetworking/plugins" target="_blank" rel="noopener">CNI plugins GitHub repository</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://github.com/awslabs/tc-redirect-tap" target="_blank" rel="noopener">AWS Labs tcp-redirect-tap GitHub repository</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/awslabs/tc-redirect-tap" target="_blank" rel="noopener">AWS Labs tcp-redirect-tap GitHub repository</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

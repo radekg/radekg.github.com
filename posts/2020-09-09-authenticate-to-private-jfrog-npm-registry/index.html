@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-09-09T00:00:00+00:00",
-        "dateModified": "2020-09-09T22:31:53+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/",
         "headline": "Authenticate to private JFrog npm registry",
         "description": "Authenticate to private JFrog npm registry",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-09-09T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2020-09-09T22:31:53&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -272,8 +272,8 @@
 
             <div class="post-body e-content">
               <p>This always gets me, <code>npm publish</code> fails to authenticate:</p>
-<pre><code>npm ERR! code E401
-npm ERR! Unable to authenticate, need: Basic realm=&quot;Artifactory Realm&quot;
+<pre tabindex="0"><code>npm ERR! code E401
+npm ERR! Unable to authenticate, need: Basic realm=&#34;Artifactory Realm&#34;
 
 npm ERR! A complete log of this run can be found in:
 npm ERR!     /Users/rad/.npm/_logs/...Z-debug.log
@@ -287,28 +287,28 @@ npm ERR!     /Users/rad/.npm/_logs/...Z-debug.log
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -u <span class="si">${</span><span class="nv">JFROG_USER</span><span class="si">}</span>:<span class="si">${</span><span class="nv">JFROG_ENCRYPTED_PASSWORD</span><span class="si">}</span> https://<span class="si">${</span><span class="nv">JFROG_ORG</span><span class="si">}</span>.jfrog.io/<span class="si">${</span><span class="nv">JFROG_ORG</span><span class="si">}</span>/api/npm/auth
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -u <span class="si">${</span><span class="nv">JFROG_USER</span><span class="si">}</span>:<span class="si">${</span><span class="nv">JFROG_ENCRYPTED_PASSWORD</span><span class="si">}</span> https://<span class="si">${</span><span class="nv">JFROG_ORG</span><span class="si">}</span>.jfrog.io/<span class="si">${</span><span class="nv">JFROG_ORG</span><span class="si">}</span>/api/npm/auth
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="6">
 <li>Copy the output and put it in <code>~/.npmrc</code>. The file should be like:</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ini" data-lang="ini"><span class="na">_auth</span><span class="o">=</span><span class="s">&#34;cm...M=&#34;</span>
-<span class="na">always-auth</span><span class="o">=</span><span class="s">true</span>
-<span class="na">email</span><span class="o">=</span><span class="s">email@address</span>
-<span class="na">registry</span><span class="o">=</span><span class="s">https://${JFROG_ORG}.jfrog.io/${JFROG_ORG}/api/npm/${JFROG_REPO}/</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">_auth</span><span class="o">=</span><span class="s">&#34;cm...M=&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="na">always-auth</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">email</span><span class="o">=</span><span class="s">email@address</span>
+</span></span><span class="line"><span class="cl"><span class="na">registry</span><span class="o">=</span><span class="s">https://${JFROG_ORG}.jfrog.io/${JFROG_ORG}/api/npm/${JFROG_REPO}/</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div>
             </div>

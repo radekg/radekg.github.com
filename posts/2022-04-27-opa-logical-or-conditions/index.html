@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-04-27T00:00:00+00:00",
-        "dateModified": "2022-04-28T01:24:01+02:00",
+        "dateModified": "2022-04-28T22:38:04+02:00",
         "url": "https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/",
         "headline": "OPA: logical or conditions",
         "description": "because an _and_ isn't always the end of it",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-04-27/opa-logo.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-04-27T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-04-28T01:24:01&#43;02:00" />
+    <meta property="article:modified_time" content="2022-04-28T22:38:04&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -310,7 +310,7 @@
 <p>For the following structure:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -321,16 +321,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Person</span> <span class="kd">struct</span> <span class="p">{</span>
-    <span class="nx">first_name</span>    <span class="kt">string</span>
-    <span class="nx">last_name</span>     <span class="kt">string</span>
-    <span class="nx">email_address</span> <span class="kt">string</span> <span class="c1">// restricted
-</span><span class="c1"></span>    <span class="nx">address1</span>      <span class="kt">string</span> <span class="c1">// restricted
-</span><span class="c1"></span>    <span class="nx">address2</span>      <span class="kt">string</span> <span class="c1">// restricted
-</span><span class="c1"></span>    <span class="nx">postal_code</span>   <span class="kt">string</span> <span class="c1">// restricted
-</span><span class="c1"></span>    <span class="nx">city</span>          <span class="kt">string</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Person</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">first_name</span>    <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">last_name</span>     <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">email_address</span> <span class="kt">string</span> <span class="c1">// restricted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">address1</span>      <span class="kt">string</span> <span class="c1">// restricted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">address2</span>      <span class="kt">string</span> <span class="c1">// restricted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">postal_code</span>   <span class="kt">string</span> <span class="c1">// restricted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">city</span>          <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>anyone who&rsquo;s not a member of the HR team should see <code>********</code> instead of actual values.</p>
 <p>There are two known facts while evaluating this policy:</p>
@@ -340,7 +340,7 @@
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -349,19 +349,19 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&#34;field&#34;</span><span class="p">:</span> <span class="s2">&#34;email_address&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="nt">&#34;groups&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;employee&#34;</span><span class="p">,</span> <span class="s2">&#34;hr&#34;</span><span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;field&#34;</span><span class="p">:</span> <span class="s2">&#34;email_address&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;groups&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;employee&#34;</span><span class="p">,</span> <span class="s2">&#34;hr&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -370,19 +370,19 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&#34;field&#34;</span><span class="p">:</span> <span class="s2">&#34;email_address&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="nt">&#34;groups&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;employee&#34;</span><span class="p">,</span> <span class="s2">&#34;chef&#34;</span><span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;field&#34;</span><span class="p">:</span> <span class="s2">&#34;email_address&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;subject&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;enabled&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;groups&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;employee&#34;</span><span class="p">,</span> <span class="s2">&#34;chef&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Okay, let&rsquo;s start with the policy:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -407,30 +407,30 @@
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="nx">package</span> <span class="nx">play</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># By default the decision is false:
-</span><span class="c1"></span><span class="nx">default</span> <span class="na">can_read_restricted_field</span> = <span class="kc">false</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># The list of restricted fields is known:
-</span><span class="c1"></span><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
-
-<span class="nx">is_restricted_field</span> <span class="p">{</span><span class="c1">
-</span><span class="c1">    # A field is restricted if it is found in the `restricted_fields` set.
-</span><span class="c1"></span>	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
-<span class="p">}</span>
-
-<span class="nx">can_read_restricted_field_when_enabled</span> <span class="p">{</span><span class="c1">
-</span><span class="c1">    # Not complete yet...
-</span><span class="c1"></span>	<span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">enabled</span>
-<span class="p">}</span>
-
-<span class="nx">is_hr</span> <span class="p">{</span><span class="c1">
-</span><span class="c1">    # An employee is a member of the HR team if one
-</span><span class="c1">    # of their groups is `hr`.
-</span><span class="c1"></span>    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">package</span> <span class="nx">play</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># By default the decision is false:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">default</span> <span class="na">can_read_restricted_field</span> = <span class="kc">false</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># The list of restricted fields is known:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">is_restricted_field</span> <span class="p">{</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">    # A field is restricted if it is found in the `restricted_fields` set.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">can_read_restricted_field_when_enabled</span> <span class="p">{</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">    # Not complete yet...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">enabled</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">is_hr</span> <span class="p">{</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">    # An employee is a member of the HR team if one
+</span></span></span><span class="line"><span class="cl"><span class="c1">    # of their groups is `hr`.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>I want this:</p>
 <p><img src="/assets/posts/2022-04-27/opa-or-condition.png" alt="OPA logical or"></p>
@@ -441,35 +441,35 @@
 <p>The first condition is easy:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="nx">can_read_restricted_field</span> <span class="p">{</span>
-    <span class="nx">is_hr</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">can_read_restricted_field</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">is_hr</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The second one is also easy:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="nx">can_read_restricted_field</span> <span class="p">{</span>
-    <span class="nx">not</span> <span class="nx">is_hr</span>
-    <span class="nx">not</span> <span class="nx">is_restricted_field</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">can_read_restricted_field</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">not</span> <span class="nx">is_hr</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">not</span> <span class="nx">is_restricted_field</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>What wasn&rsquo;t clear to me was <em>how do I make these two conditions into a single logical OR operation</em>? It&rsquo;s really easy, the full policy looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -504,45 +504,45 @@
 </span><span class="lnt">33
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="nx">package</span> <span class="nx">play</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># By default the decision is false:
-</span><span class="c1"></span><span class="nx">default</span> <span class="na">can_read_restricted_field</span> = <span class="kc">false</span>
-<span class="nx">default</span> <span class="na">can_read_restricted_field_when_enabled</span> = <span class="kc">false</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># The list of restricted fields is known:
-</span><span class="c1"></span><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
-
-<span class="nx">can_read_restricted_field</span> <span class="p">{</span>
-    <span class="nx">is_hr</span>
-<span class="p">}</span>
-
-<span class="nx">can_read_restricted_field</span> <span class="p">{</span>
-    <span class="nx">not</span> <span class="nx">is_hr</span>
-    <span class="nx">not</span> <span class="nx">is_restricted_field</span>
-<span class="p">}</span>
-
-<span class="nx">can_read_restricted_field_when_enabled</span> <span class="p">{</span>
-    <span class="nx">can_read_restricted_field</span>
-	<span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">enabled</span>
-<span class="p">}</span>
-
-<span class="nx">is_restricted_field</span> <span class="p">{</span><span class="c1">
-</span><span class="c1">    # A field is restricted if it is found in the `restricted_fields` set.
-</span><span class="c1"></span>	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
-<span class="p">}</span>
-
-<span class="nx">is_hr</span> <span class="p">{</span><span class="c1">
-</span><span class="c1">    # An employee is a member of the HR team if one
-</span><span class="c1">    # of their groups is `hr`.
-</span><span class="c1"></span>    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">package</span> <span class="nx">play</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># By default the decision is false:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">default</span> <span class="na">can_read_restricted_field</span> = <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">default</span> <span class="na">can_read_restricted_field_when_enabled</span> = <span class="kc">false</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># The list of restricted fields is known:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">can_read_restricted_field</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">is_hr</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">can_read_restricted_field</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">not</span> <span class="nx">is_hr</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">not</span> <span class="nx">is_restricted_field</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">can_read_restricted_field_when_enabled</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">can_read_restricted_field</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">enabled</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">is_restricted_field</span> <span class="p">{</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">    # A field is restricted if it is found in the `restricted_fields` set.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">is_hr</span> <span class="p">{</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">    # An employee is a member of the HR team if one
+</span></span></span><span class="line"><span class="cl"><span class="c1">    # of their groups is `hr`.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>It essentially boils down to:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -553,16 +553,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="nx">or_rule</span> <span class="p">{}</span>
-<span class="nx">or_rule</span> <span class="p">{}</span>
-
-<span class="nx">some_other_rule</span> <span class="p">{}</span>
-
-<span class="nx">or_and_others</span> <span class="p">{</span>
-    <span class="nx">or_rule</span>
-    <span class="nx">some_other_rule</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">or_rule</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">or_rule</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">some_other_rule</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">or_and_others</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">or_rule</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">some_other_rule</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This policy returns for <code>can_read_restricted_field_when_enabled</code>:</p>
 <ul>
@@ -786,6 +786,10 @@
     
     
         <ul class="post-nav">
+            
+                <li class="post-nav-prev">
+                    <a href="/posts/2022-04-28-private-go-modules-with-multiple-git-identities/" rel="prev">&lt; Private go modules with multiple git identities</a>
+                </li>
             
             
                 <li class="post-nav-next">

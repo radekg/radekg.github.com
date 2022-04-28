@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-04-06T00:00:00+00:00",
-        "dateModified": "2021-04-06T18:46:38+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/",
         "headline": "On golang os.Expand and os.ExpandEnv",
         "description": "They are awesome but could be better",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-04-06T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-04-06T18:46:38&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -275,15 +275,15 @@
 <p>The former takes an input string and expands the shell variable-like occurrences with actual shell variable values. For example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;VARIABLE&#34;</span><span class="p">,</span> <span class="s">&#34;hello&#34;</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="s">&#34;${VARIABLE}, world!&#34;</span><span class="p">))</span>
-<span class="c1">// prints &#34;hello, world!&#34;
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;VARIABLE&#34;</span><span class="p">,</span> <span class="s">&#34;hello&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="s">&#34;${VARIABLE}, world!&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// prints &#34;hello, world!&#34;
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>It uses <code>os.Lookup(s string)</code> as the <code>mapping</code> argument to <code>os.Expand</code>.</p>
 <p>Pretty often, that may be what is needed and <code>os.ExpandEnv</code> is one of little gems of the golang standard library.</p>
@@ -291,7 +291,7 @@
 <p>However, consider the following command:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -302,45 +302,45 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`cd /tmp/build &amp;&amp; \
-</span><span class="s">apkArch=&#34;$(apk --print-arch)&#34; &amp;&amp; \
-</span><span class="s">case &#34;${apkArch}&#34; in \
-</span><span class="s">    aarch64) consulArch=&#39;arm64&#39; ;; \
-</span><span class="s">    armhf) consulArch=&#39;armhfv6&#39; ;; \
-</span><span class="s">    x86) consulArch=&#39;386&#39; ;; \
-</span><span class="s">    x86_64) consulArch=&#39;amd64&#39; ;; \
-</span><span class="s">    *) echo &gt;&amp;2 &#34;error: unsupported architecture: ${apkArch} (see ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/)&#34; &amp;&amp; exit 1 ;; \
-</span><span class="s">esac`</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`cd /tmp/build &amp;&amp; \
+</span></span></span><span class="line"><span class="cl"><span class="s">apkArch=&#34;$(apk --print-arch)&#34; &amp;&amp; \
+</span></span></span><span class="line"><span class="cl"><span class="s">case &#34;${apkArch}&#34; in \
+</span></span></span><span class="line"><span class="cl"><span class="s">    aarch64) consulArch=&#39;arm64&#39; ;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    armhf) consulArch=&#39;armhfv6&#39; ;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    x86) consulArch=&#39;386&#39; ;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    x86_64) consulArch=&#39;amd64&#39; ;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    *) echo &gt;&amp;2 &#34;error: unsupported architecture: ${apkArch} (see ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/)&#34; &amp;&amp; exit 1 ;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">esac`</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Assuming that the values of <code>HASHICORP_RELEASES</code> and <code>CONSUL_VERSION</code> are passed as environment variables:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;HASHICORP_RELEASES&#34;</span><span class="p">,</span> <span class="s">&#34;https://releases.hashicorp.com&#34;</span><span class="p">)</span>
-<span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;CONSUL_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.9.4&#34;</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="nx">command</span><span class="p">))</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;HASHICORP_RELEASES&#34;</span><span class="p">,</span> <span class="s">&#34;https://releases.hashicorp.com&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;CONSUL_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.9.4&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="nx">command</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>would give the following output:</p>
-<pre><code>cd /tmp/build &amp;&amp; \
-apkArch=&quot;$(apk --print-arch)&quot; &amp;&amp; \
-case &quot;&quot; in \
-    aarch64) consulArch='arm64' ;; \
-    armhf) consulArch='armhfv6' ;; \
-    x86) consulArch='386' ;; \
-    x86_64) consulArch='amd64' ;; \
-    *) echo &gt;&amp;2 &quot;error: unsupported architecture:  (see https://releases.hashicorp.com/consul/1.9.4/)&quot; &amp;&amp; exit 1 ;; \
+<pre tabindex="0"><code>cd /tmp/build &amp;&amp; \
+apkArch=&#34;$(apk --print-arch)&#34; &amp;&amp; \
+case &#34;&#34; in \
+    aarch64) consulArch=&#39;arm64&#39; ;; \
+    armhf) consulArch=&#39;armhfv6&#39; ;; \
+    x86) consulArch=&#39;386&#39; ;; \
+    x86_64) consulArch=&#39;amd64&#39; ;; \
+    *) echo &gt;&amp;2 &#34;error: unsupported architecture:  (see https://releases.hashicorp.com/consul/1.9.4/)&#34; &amp;&amp; exit 1 ;; \
 esac
 </code></pre><p>The <code>${apkArch}</code> part was obliterated from the output. This command would never work.</p>
 <p>Fortunately, <code>os.Expand</code> comes to the rescue!</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -350,25 +350,25 @@ esac
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">lookupFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">placeholderName</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Lookup</span><span class="p">(</span><span class="nx">placeholderName</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">value</span>
-    <span class="p">}</span>
-    <span class="c1">// fallback:
-</span><span class="c1"></span>    <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">placeholderName</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">lookupFunc</span><span class="p">))</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">lookupFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">placeholderName</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Lookup</span><span class="p">(</span><span class="nx">placeholderName</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">value</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// fallback:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">placeholderName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">lookupFunc</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Aha, now it looks better:</p>
-<pre><code>cd /tmp/build &amp;&amp; \
-apkArch=&quot;$(apk --print-arch)&quot; &amp;&amp; \
-case &quot;$apkArch&quot; in \
-    aarch64) consulArch='arm64' ;; \
-    armhf) consulArch='armhfv6' ;; \
-    x86) consulArch='386' ;; \
-    x86_64) consulArch='amd64' ;; \
-    *) echo &gt;&amp;2 &quot;error: unsupported architecture: $apkArch (see https://releases.hashicorp.com/consul/1.9.4/)&quot; &amp;&amp; exit 1 ;; \
+<pre tabindex="0"><code>cd /tmp/build &amp;&amp; \
+apkArch=&#34;$(apk --print-arch)&#34; &amp;&amp; \
+case &#34;$apkArch&#34; in \
+    aarch64) consulArch=&#39;arm64&#39; ;; \
+    armhf) consulArch=&#39;armhfv6&#39; ;; \
+    x86) consulArch=&#39;386&#39; ;; \
+    x86_64) consulArch=&#39;amd64&#39; ;; \
+    *) echo &gt;&amp;2 &#34;error: unsupported architecture: $apkArch (see https://releases.hashicorp.com/consul/1.9.4/)&#34; &amp;&amp; exit 1 ;; \
 esac
 </code></pre><p>This output would definitely work. But shell strings can be much more complicated than this.</p>
 <p>The problem with the <code>lookupFunc</code> is that one has to make an upfront decision to surround the <code>fallback</code> with <code>{}</code>.</p>
@@ -376,7 +376,7 @@ esac
 <p>Consider the following input, a slightly modified real example coming from the official Postgres 13 Dockerfile:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -398,27 +398,27 @@ esac
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`RUN set -eux; \
-</span><span class="s">    export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)}; \
-</span><span class="s">	savedAptMark=&#34;$(apt-mark showmanual)&#34;; \
-</span><span class="s">	apt-get update; \
-</span><span class="s">	apt-get install -y --no-install-recommends ca-certificates wget; \
-</span><span class="s">	rm -rf /var/lib/apt/lists/*; \
-</span><span class="s">	dpkgArch=&#34;$(dpkg --print-architecture | awk -F- &#39;{ print $NF }&#39;)&#34;; \
-</span><span class="s">	wget -O /usr/local/bin/gosu &#34;https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch&#34;; \
-</span><span class="s">	wget -O /usr/local/bin/gosu.asc &#34;https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc&#34;; \
-</span><span class="s">	gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
-</span><span class="s">	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-</span><span class="s">	gpgconf --kill all; \
-</span><span class="s">	rm -rf &#34;$GNUPGHOME&#34; /usr/local/bin/gosu.asc; \
-</span><span class="s">	apt-mark auto &#39;.*&#39; &gt; /dev/null; \
-</span><span class="s">	[ -z &#34;$savedAptMark&#34; ] || apt-mark manual $savedAptMark &gt; /dev/null; \
-</span><span class="s">	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-</span><span class="s">	chmod +x /usr/local/bin/gosu; \
-</span><span class="s">	gosu --version; \
-</span><span class="s">	gosu nobody true
-</span><span class="s">`</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`RUN set -eux; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)}; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	savedAptMark=&#34;$(apt-mark showmanual)&#34;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	apt-get update; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	apt-get install -y --no-install-recommends ca-certificates wget; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	rm -rf /var/lib/apt/lists/*; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	dpkgArch=&#34;$(dpkg --print-architecture | awk -F- &#39;{ print $NF }&#39;)&#34;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	wget -O /usr/local/bin/gosu &#34;https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch&#34;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	wget -O /usr/local/bin/gosu.asc &#34;https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc&#34;; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	gpgconf --kill all; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	rm -rf &#34;$GNUPGHOME&#34; /usr/local/bin/gosu.asc; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	apt-mark auto &#39;.*&#39; &gt; /dev/null; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	[ -z &#34;$savedAptMark&#34; ] || apt-mark manual $savedAptMark &gt; /dev/null; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	chmod +x /usr/local/bin/gosu; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	gosu --version; \
+</span></span></span><span class="line"><span class="cl"><span class="s">	gosu nobody true
+</span></span></span><span class="line"><span class="cl"><span class="s">`</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>There are two conflicting cases in this input: <code>export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)};</code> and <code>| awk -F- '{ print $NF }'</code>.</p>
 <p>In case of the <code>export</code> command, the surrounding <code>{}</code> must be preserved. The <code>lookupFunc</code> could return the fallback of <code>fmt.Sprintf(&quot;${%s}&quot;, placeholderName)</code>.</p>
@@ -426,7 +426,7 @@ esac
 <p>The answer is to look at the source of <a href="https://golang.org/src/os/env.go?s=403:460#L16" target="_blank" rel="noopener"><code>os.Expand</code> standard library function</a>. It looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -458,37 +458,37 @@ esac
 </span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
-	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.
-</span><span class="c1"></span>	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
-	<span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;$&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span><span class="o">+</span><span class="mi">1</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
-			<span class="p">}</span>
-			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
-			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
-			<span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="o">&amp;&amp;</span> <span class="nx">w</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-				<span class="c1">// Encountered invalid syntax; eat the
-</span><span class="c1"></span>				<span class="c1">// characters.
-</span><span class="c1"></span>			<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
-				<span class="c1">// Valid syntax, but $ was not followed by a
-</span><span class="c1"></span>				<span class="c1">// name. Leave the dollar character untouched.
-</span><span class="c1"></span>				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
-			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-			<span class="p">}</span>
-			<span class="nx">j</span> <span class="o">+=</span> <span class="nx">w</span>
-			<span class="nx">i</span> <span class="p">=</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-	<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">s</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="o">+</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;$&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span><span class="o">+</span><span class="mi">1</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="o">&amp;&amp;</span> <span class="nx">w</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">// Encountered invalid syntax; eat the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="c1">// characters.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">// Valid syntax, but $ was not followed by a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="c1">// name. Leave the dollar character untouched.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">j</span> <span class="o">+=</span> <span class="nx">w</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">i</span> <span class="p">=</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">s</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="o">+</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The case we are interested in is the final <code>else</code>. It says:</p>
 <blockquote>
@@ -497,7 +497,7 @@ esac
 <p>If we replaced this code with:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -540,66 +540,66 @@ esac
 </span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">bool</span><span class="p">))</span> <span class="kt">string</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
-	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.
-</span><span class="c1"></span>	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
-	<span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
-		<span class="k">if</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;$&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span><span class="o">+</span><span class="mi">1</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
-			<span class="p">}</span>
-			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
-			<span class="nx">shellNameInput</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
-			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span>
-			<span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="o">&amp;&amp;</span> <span class="nx">w</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-				<span class="c1">// Encountered invalid syntax; eat the
-</span><span class="c1"></span>				<span class="c1">// characters.
-</span><span class="c1"></span>			<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
-				<span class="c1">// Valid syntax, but $ was not followed by a
-</span><span class="c1"></span>				<span class="c1">// name. Leave the dollar character untouched.
-</span><span class="c1"></span>				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
-			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
-				<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
-					<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">replacement</span><span class="o">...</span><span class="p">)</span>
-				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-					<span class="c1">// preserve enclosing {}
-</span><span class="c1"></span>					<span class="k">if</span> <span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;{&#39;</span> <span class="p">{</span>
-						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-					<span class="p">}</span>
-				<span class="p">}</span>
-			<span class="p">}</span>
-			<span class="nx">j</span> <span class="o">+=</span> <span class="nx">w</span>
-			<span class="nx">i</span> <span class="p">=</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-	<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">s</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="o">+</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">bool</span><span class="p">))</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;$&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span><span class="o">+</span><span class="mi">1</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">shellNameInput</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="o">&amp;&amp;</span> <span class="nx">w</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">// Encountered invalid syntax; eat the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="c1">// characters.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">// Valid syntax, but $ was not followed by a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="c1">// name. Leave the dollar character untouched.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">replacement</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="c1">// preserve enclosing {}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>					<span class="k">if</span> <span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;{&#39;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">					<span class="p">}</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">j</span> <span class="o">+=</span> <span class="nx">w</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">i</span> <span class="p">=</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">s</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="o">+</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>We would get the fully correct behavior. We have added:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
-			<span class="nx">shellNameInput</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="c1">// &lt;----- this line
-</span><span class="c1"></span>			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">shellNameInput</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="c1">// &lt;----- this line
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and changed the final else statement to:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -612,18 +612,18 @@ esac
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go">				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
-				<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
-					<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">replacement</span><span class="o">...</span><span class="p">)</span>
-				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-					<span class="c1">// preserve enclosing {}
-</span><span class="c1"></span>					<span class="k">if</span> <span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;{&#39;</span> <span class="p">{</span>
-						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-					<span class="p">}</span>
-				<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">replacement</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="c1">// preserve enclosing {}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>					<span class="k">if</span> <span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;{&#39;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">					<span class="p">}</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This bit reads as follows:</p>
 <blockquote>
@@ -632,30 +632,30 @@ esac
 <p>The result of the custom <code>Expand</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;GOSU_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.12&#34;</span><span class="p">)</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Lookup</span><span class="p">))</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;GOSU_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.12&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Lookup</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>is correct:</p>
-<pre><code>RUN set -eux; \
+<pre tabindex="0"><code>RUN set -eux; \
     export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)}; \
-	savedAptMark=&quot;$(apt-mark showmanual)&quot;; \
+	savedAptMark=&#34;$(apt-mark showmanual)&#34;; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends ca-certificates wget; \
 	rm -rf /var/lib/apt/lists/*; \
-	dpkgArch=&quot;$(dpkg --print-architecture | awk -F- '{ print $NF }')&quot;; \
-	wget -O /usr/local/bin/gosu &quot;https://github.com/tianon/gosu/releases/download/1.12/gosu-$dpkgArch&quot;; \
-	wget -O /usr/local/bin/gosu.asc &quot;https://github.com/tianon/gosu/releases/download/1.12/gosu-$dpkgArch.asc&quot;; \
+	dpkgArch=&#34;$(dpkg --print-architecture | awk -F- &#39;{ print $NF }&#39;)&#34;; \
+	wget -O /usr/local/bin/gosu &#34;https://github.com/tianon/gosu/releases/download/1.12/gosu-$dpkgArch&#34;; \
+	wget -O /usr/local/bin/gosu.asc &#34;https://github.com/tianon/gosu/releases/download/1.12/gosu-$dpkgArch.asc&#34;; \
 	gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
 	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
 	gpgconf --kill all; \
-	rm -rf &quot;$GNUPGHOME&quot; /usr/local/bin/gosu.asc; \
-	apt-mark auto '.*' &gt; /dev/null; \
-	[ -z &quot;$savedAptMark&quot; ] || apt-mark manual $savedAptMark &gt; /dev/null; \
+	rm -rf &#34;$GNUPGHOME&#34; /usr/local/bin/gosu.asc; \
+	apt-mark auto &#39;.*&#39; &gt; /dev/null; \
+	[ -z &#34;$savedAptMark&#34; ] || apt-mark manual $savedAptMark &gt; /dev/null; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	chmod +x /usr/local/bin/gosu; \
 	gosu --version; \
@@ -777,6 +777,10 @@ esac
                 
                     <li class="related-item">
                         <a href="/posts/2021-02-10-my-golang-modules-live-in-athens/" class="related-link">My golang modules live in Athens</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-04-28-private-go-modules-with-multiple-git-identities/" class="related-link">Private go modules with multiple git identities</a>
                     </li>
                 
                     <li class="related-item">

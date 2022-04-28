@@ -1,780 +1,473 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://gruchalski.com/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/keto/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/opa/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/ory/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/rego/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/zanzibar/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/categories/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/cdc/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/categories/yugabytedb/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/envoy/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/categories/keycloak/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/keycloak/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/tls/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/golang/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/protobuf/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/rpc/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/writing/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/yugabyte/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/postgres/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/docker/</loc>
-    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</loc>
-    <lastmod>2021-07-12T22:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</loc>
-    <lastmod>2021-06-04T17:50:44+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/letsencrypt/</loc>
-    <lastmod>2021-06-04T17:50:44+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/postgresql/</loc>
-    <lastmod>2022-03-22T01:28:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/hydra/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/kratos/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/oathkeeper/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/categories/ory-platform/</loc>
-    <lastmod>2021-06-16T01:13:30+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/serverless/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/iap/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/traefik/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/iam/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/rbac/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/</loc>
-    <lastmod>2021-04-24T20:34:29+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/testing/</loc>
-    <lastmod>2021-04-24T20:34:29+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/consul/</loc>
-    <lastmod>2021-04-14T23:41:35+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/firebuild/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/firecracker/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/</loc>
-    <lastmod>2021-04-14T23:41:35+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/microvm/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/</loc>
-    <lastmod>2021-06-16T01:13:30+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/</loc>
-    <lastmod>2021-04-10T22:03:28+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/sso/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/</loc>
-    <lastmod>2021-04-10T09:03:59+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/k8s/</loc>
-    <lastmod>2021-04-10T09:03:59+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/kubernetes/</loc>
-    <lastmod>2021-04-10T09:03:59+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/mesos/</loc>
-    <lastmod>2021-04-10T09:03:59+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/nomad/</loc>
-    <lastmod>2021-04-10T09:03:59+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</loc>
-    <lastmod>2021-04-06T18:46:38+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/kafka/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/privacy/</loc>
-    <lastmod>2021-04-29T20:54:39+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</loc>
-    <lastmod>2021-04-01T00:41:30+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/zookeeper/</loc>
-    <lastmod>2021-04-01T00:41:30+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/ca/</loc>
-    <lastmod>2021-03-28T03:01:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</loc>
-    <lastmod>2021-03-28T03:01:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/go/</loc>
-    <lastmod>2021-03-28T03:01:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/grpc/</loc>
-    <lastmod>2021-03-28T03:01:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/pki/</loc>
-    <lastmod>2021-03-28T03:01:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-03-23-introducing-firebuild/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/</loc>
-    <lastmod>2021-03-23T20:09:01+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/</loc>
-    <lastmod>2021-03-02T22:22:49+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/jailer/</loc>
-    <lastmod>2021-02-19T01:07:06+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-19-the-jailer/</loc>
-    <lastmod>2021-02-19T01:07:06+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/</loc>
-    <lastmod>2021-02-18T21:07:45+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/</loc>
-    <lastmod>2021-02-18T02:27:37+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/</loc>
-    <lastmod>2021-02-16T20:31:47+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/</loc>
-    <lastmod>2021-02-14T17:15:16+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/alpine/</loc>
-    <lastmod>2021-02-17T22:44:47+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</loc>
-    <lastmod>2021-02-17T22:44:47+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/</loc>
-    <lastmod>2021-02-10T21:42:44+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/cni/</loc>
-    <lastmod>2021-02-09T20:43:25+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/vault/</loc>
-    <lastmod>2021-02-09T20:43:25+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/</loc>
-    <lastmod>2021-02-09T20:43:25+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/</loc>
-    <lastmod>2021-02-07T15:24:36+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/uma/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/</loc>
-    <lastmod>2020-09-09T22:31:53+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/jfrog/</loc>
-    <lastmod>2020-09-09T22:31:53+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/multi-tenant/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</loc>
-    <lastmod>2020-09-09T23:10:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/npm/</loc>
-    <lastmod>2020-09-09T22:31:53+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/openssl/</loc>
-    <lastmod>2020-09-09T23:10:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</loc>
-    <lastmod>2020-09-07T17:52:09+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/infrastructure/</loc>
-    <lastmod>2020-09-07T17:52:09+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/ssl/</loc>
-    <lastmod>2020-09-07T17:52:09+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/about/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/idp/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/</loc>
-    <lastmod>2021-06-16T00:28:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/central/</loc>
-    <lastmod>2020-09-03T02:05:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/maven/</loc>
-    <lastmod>2020-09-03T02:05:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/</loc>
-    <lastmod>2020-09-03T02:05:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/sbt/</loc>
-    <lastmod>2020-09-03T02:05:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/sonatype/</loc>
-    <lastmod>2020-09-03T02:05:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/apache/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/</loc>
-    <lastmod>2020-09-03T13:57:24+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/marathon/</loc>
-    <lastmod>2020-09-03T13:57:24+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/spark/</loc>
-    <lastmod>2020-09-03T13:57:24+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/euc2015/</loc>
-    <lastmod>2020-09-03T02:04:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/gossiperl/</loc>
-    <lastmod>2020-09-03T02:04:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/</loc>
-    <lastmod>2020-09-03T02:04:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/</loc>
-    <lastmod>2020-09-03T02:04:38+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/keynote/</loc>
-    <lastmod>2020-09-03T02:04:38+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/presenting/</loc>
-    <lastmod>2020-09-03T02:04:38+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/</loc>
-    <lastmod>2020-09-03T02:04:25+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/gossip/</loc>
-    <lastmod>2020-09-03T02:04:12+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2015-01-05-state-of-gossiperl-and-some-javascript-thrift-goodies/</loc>
-    <lastmod>2020-09-03T02:04:12+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/thrift/</loc>
-    <lastmod>2020-09-03T02:04:12+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/erlang/</loc>
-    <lastmod>2020-09-03T02:04:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/</loc>
-    <lastmod>2020-09-03T02:04:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/influxdb/</loc>
-    <lastmod>2020-09-03T02:04:01+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/</loc>
-    <lastmod>2020-09-03T02:03:37+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/devstack/</loc>
-    <lastmod>2020-09-03T02:03:27+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/openstack/</loc>
-    <lastmod>2020-09-03T02:03:27+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/</loc>
-    <lastmod>2020-09-03T02:03:27+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/ubuntu/</loc>
-    <lastmod>2020-09-03T02:03:27+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/vagrant/</loc>
-    <lastmod>2020-09-03T02:03:27+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/</loc>
-    <lastmod>2020-09-03T02:03:50+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/</loc>
-    <lastmod>2020-09-03T02:03:11+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/chef/</loc>
-    <lastmod>2020-09-03T02:03:11+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gruchalski.com/tags/opscode/</loc>
-    <lastmod>2020-09-03T02:03:11+02:00</lastmod>
-  </url>
-  
   <url>
     <loc>https://gruchalski.com/tags/git/</loc>
-    <lastmod>2020-09-03T02:02:57+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-04-28T23:26:40+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/go/</loc>
+    <lastmod>2022-04-28T23:26:40+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/golang/</loc>
+    <lastmod>2022-04-28T23:26:40+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-04-28-private-go-modules-with-multiple-git-identities/</loc>
+    <lastmod>2022-04-28T23:26:40+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/keto/</loc>
+    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/opa/</loc>
+    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/</loc>
+    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/ory/</loc>
+    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/rego/</loc>
+    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/zanzibar/</loc>
+    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/categories/</loc>
+    <lastmod>2022-03-19T23:54:23+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/cdc/</loc>
+    <lastmod>2022-03-19T23:54:23+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
+    <lastmod>2022-03-19T23:54:23+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/categories/yugabytedb/</loc>
+    <lastmod>2022-03-19T23:54:23+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/</loc>
+    <lastmod>2022-03-19T23:54:23+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/</loc>
+    <lastmod>2022-03-19T12:00:55+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/</loc>
+    <lastmod>2022-02-21T21:27:42+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/envoy/</loc>
+    <lastmod>2022-03-11T15:38:44+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/keycloak/</loc>
+    <lastmod>2022-03-11T15:38:44+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/categories/keycloak/</loc>
+    <lastmod>2022-03-11T15:38:44+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</loc>
+    <lastmod>2022-02-21T02:50:24+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/tls/</loc>
+    <lastmod>2022-03-11T15:38:44+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/protobuf/</loc>
+    <lastmod>2022-02-21T21:27:07+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/rpc/</loc>
+    <lastmod>2022-02-21T21:27:07+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/</loc>
+    <lastmod>2022-02-21T21:27:07+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/</loc>
+    <lastmod>2022-02-21T21:27:04+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/writing/</loc>
+    <lastmod>2022-02-21T21:26:48+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/yugabyte/</loc>
+    <lastmod>2022-02-21T21:26:48+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</loc>
+    <lastmod>2022-02-21T21:26:48+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/postgres/</loc>
+    <lastmod>2022-02-21T21:26:44+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/</loc>
+    <lastmod>2022-02-21T21:26:44+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/docker/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/</loc>
+    <lastmod>2022-02-21T21:26:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</loc>
+    <lastmod>2022-03-11T15:38:44+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/letsencrypt/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</loc>
+    <lastmod>2022-02-21T21:26:19+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/postgresql/</loc>
+    <lastmod>2022-02-21T21:26:19+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/hydra/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/kratos/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/oathkeeper/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/categories/ory-platform/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/serverless/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/iap/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/traefik/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/iam/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/rbac/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/testing/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/consul/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/firebuild/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/firecracker/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/microvm/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/sso/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/k8s/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/kubernetes/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/mesos/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/nomad/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/kafka/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/privacy/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/zookeeper/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/ca/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/grpc/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/pki/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-03-23-introducing-firebuild/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/jailer/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-19-the-jailer/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/alpine/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/cni/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/vault/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/uma/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/jfrog/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/multi-tenant/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/npm/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/openssl/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/infrastructure/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/ssl/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/about/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/idp/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/central/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/maven/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/sbt/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/sonatype/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/apache/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/marathon/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/spark/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/euc2015/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/gossiperl/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/keynote/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/presenting/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/gossip/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2015-01-05-state-of-gossiperl-and-some-javascript-thrift-goodies/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/thrift/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/erlang/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/influxdb/</loc>
+    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/devstack/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/openstack/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/ubuntu/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/vagrant/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/chef/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/opscode/</loc>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/posts/2013-03-22-git-chopping-out-part-of-the-repo-into-a-separate-repo/</loc>
-    <lastmod>2020-09-03T02:02:57+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/devops/</loc>
-    <lastmod>2020-09-03T02:02:44+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/ec2/</loc>
-    <lastmod>2020-09-03T02:02:44+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/knife/</loc>
-    <lastmod>2020-09-03T02:02:44+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/posts/2013-03-07-setting-up-knife-ec2/</loc>
-    <lastmod>2020-09-03T02:02:44+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/posts/2013-03-05-devops-box/</loc>
-    <lastmod>2020-09-03T02:01:43+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/ganglia/</loc>
-    <lastmod>2020-09-03T02:01:43+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/logstash/</loc>
-    <lastmod>2020-09-03T02:01:43+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/monit/</loc>
-    <lastmod>2020-09-03T02:01:43+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/redis/</loc>
-    <lastmod>2020-09-03T02:01:43+02:00</lastmod>
+    <lastmod>2022-02-21T02:30:40+01:00</lastmod>
   </url>
-  
 </urlset>

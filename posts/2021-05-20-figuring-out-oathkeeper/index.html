@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-05-20T00:00:00+00:00",
-        "dateModified": "2021-06-16T00:28:17+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/",
         "headline": "Figuring out Ory Oathkeeper",
         "description": "I must admin—I struggled understanding Oathkeeper. Looking back, I think the reason was, I compared it one for one to things like Traefik or Envoy. Turns out, Oathkeeper does not necessarily intend replacing a reverse proxy, although many people probably use it as such.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1905 ,
+        "wordCount":  1903 ,
         "image": ["https://gruchalski.com/assets/posts/2021-05-20/oathkeeper-proxy-mode.png","https://gruchalski.com/assets/posts/2021-05-20/oathkeeper-decisions-mode.png"],
         "author": {
             "@type": "Person",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-05-20/oathkeeper.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-05-20T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-06-16T00:28:17&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1905</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1903</span>
     
     
         
@@ -276,7 +276,7 @@
               <p>I must admin—I struggled understanding Oathkeeper. Looking back, I think the reason was, I compared it one for one to things like Traefik or Envoy. Turns out, Oathkeeper does not necessarily intend replacing a reverse proxy, although many people probably use it as such.</p>
 <p>I was glossing over it for a long time and recently decided to come back to it. While reading the <a href="https://www.ory.sh/oathkeeper/docs/" target="_blank" rel="noopener">Oathkeeper Docs</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> <em>Introduction</em> section, the part about using Oathkeeper as a decision API for Envoy, Ambassador and Nginx started working.</p>
 <p>Digging through <a href="https://github.com/ory/oathkeeper/issues/263" target="_blank" rel="noopener">issues and pull requests</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>, I found some recent commits mentioning Traefik ForwardAuth support. Little bit more digging and I found this little gem:</p>
-<pre><code>GET /decisions HTTP/1.1
+<pre tabindex="0"><code>GET /decisions HTTP/1.1
 Accept: application/json
 </code></pre><p>with the following description:</p>
 <blockquote>
@@ -306,24 +306,24 @@ Accept: application/json
 <p>The rules are always defined as references to JSON or YAML files in the main Oathkeeper YAML configuration. For example <code>/etc/config/ok/oathkeeper.yaml</code> (furhter always referred to as global configuration):</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">access_rules</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">repositories</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="l">file:///etc/config/ok/rules.json</span><span class="w">
-</span><span class="w">        </span>- <span class="l">https://example.com/ok.yaml</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">access_rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">repositories</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">file:///etc/config/ok/rules.json</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">https://example.com/ok.yaml</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>More than one repository can be defined, rules can be loaded from Azure Blob Storage, Google Storage, S3, HTTPS, local files and more.</p>
 <p>Sadly, there is no support for ETCD or Consul.</p>
 <p>An example might look like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -344,26 +344,26 @@ Accept: application/json
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;some-id&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;v0.36.0-beta.4&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;upstream&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-backend-service&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;preserve_host&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nt">&#34;strip_path&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1&#34;</span>
-        <span class="p">},</span>
-        <span class="nt">&#34;match&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-app/some-route/&lt;.*&gt;&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;methods&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;GET&#34;</span><span class="p">,</span> <span class="s2">&#34;POST&#34;</span><span class="p">]</span>
-        <span class="p">},</span>
-        <span class="nt">&#34;authenticators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
-        <span class="nt">&#34;authorizer&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;allow&#34;</span> <span class="p">},</span>
-        <span class="nt">&#34;mutators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
-        <span class="nt">&#34;errors&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;json&#34;</span> <span class="p">}]</span>
-    <span class="p">}</span>
-<span class="p">]</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;some-id&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;v0.36.0-beta.4&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;upstream&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-backend-service&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;preserve_host&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;strip_path&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;match&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-app/some-route/&lt;.*&gt;&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;methods&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;GET&#34;</span><span class="p">,</span> <span class="s2">&#34;POST&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;authenticators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;authorizer&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;allow&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;mutators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;errors&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;json&#34;</span> <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Rules have unique IDs, can be optionally tagged with a supported Oathekeeper version and are matched according to the <em>match</em> section of the rule.</p>
 <p>In the case above, any <em>GET</em> or <em>POST</em> request to any URL starting with <em>http://my-app/some-route/</em> would be matched and authenticators, the authorizer and mutators would be applied. In this case, the request would be automatically allowed because there is only one <em>noop</em> authenticator. This rule appears to be used as a proxy rule because the <em>upstream</em> is defined.</p>
@@ -386,15 +386,15 @@ Accept: application/json
 <p>For example, to use <em>noop</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">authenticators</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">noop</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">authenticators</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">noop</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="authorizers"><a href="#authorizers" class="anchor-link">§</a>authorizers</h2>
 <p>An authorizer ensures that the subject (the entity behind the request) has sufficient permissions to issue the request. There are currently five different authorizers with one of them being a Keto 0.5 specific legacy authorizer:</p>
@@ -409,20 +409,20 @@ Accept: application/json
 <p>For example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">authorizers</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">noop</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">authorizers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">noop</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The <em>remote_json</em> authorizer can be used to authorize the request with Keto 0.6 Zanzibar fanciness:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -435,23 +435,23 @@ Accept: application/json
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">authorizer</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">handler</span><span class="p">:</span><span class="w"> </span><span class="l">remote_json</span><span class="w">
-</span><span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">remote</span><span class="p">:</span><span class="w"> </span><span class="l">http://keto:4466/check</span><span class="w">
-</span><span class="w">        </span><span class="nt">payload</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
-</span><span class="sd">            {
-</span><span class="sd">                &#34;namespace&#34;: &#34;default-namespace&#34;,
-</span><span class="sd">                &#34;subject&#34;: &#34;{{ print .Subject }}&#34;,
-</span><span class="sd">                &#34;object&#34;: &#34;reports&#34;,
-</span><span class="sd">                &#34;relation&#34;: &#34;edit&#34;
-</span><span class="sd">            }</span><span class="w">            
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">authorizer</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">handler</span><span class="p">:</span><span class="w"> </span><span class="l">remote_json</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">remote</span><span class="p">:</span><span class="w"> </span><span class="l">http://keto:4466/check</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">payload</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">            {
+</span></span></span><span class="line"><span class="cl"><span class="sd">                &#34;namespace&#34;: &#34;default-namespace&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="sd">                &#34;subject&#34;: &#34;{{ print .Subject }}&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="sd">                &#34;object&#34;: &#34;reports&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="sd">                &#34;relation&#34;: &#34;edit&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">            }</span><span class="w">            
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The example shows that it is possible to use templating to populate the JSON payload from an <code>AuthenticationSession</code> object, where the respective golang code is:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -466,20 +466,20 @@ Accept: application/json
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">AuthenticationSession</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">Subject</span>      <span class="kt">string</span>                 <span class="s">`json:&#34;subject&#34;`</span>
-	<span class="nx">Extra</span>        <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}</span> <span class="s">`json:&#34;extra&#34;`</span>
-	<span class="nx">Header</span>       <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span>            <span class="s">`json:&#34;header&#34;`</span>
-	<span class="nx">MatchContext</span> <span class="nx">MatchContext</span>           <span class="s">`json:&#34;match_context&#34;`</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">MatchContext</span> <span class="kd">struct</span> <span class="p">{</span>
-	<span class="nx">RegexpCaptureGroups</span> <span class="p">[]</span><span class="kt">string</span>    <span class="s">`json:&#34;regexp_capture_groups&#34;`</span>
-	<span class="nx">URL</span>                 <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span>    <span class="s">`json:&#34;url&#34;`</span>
-	<span class="nx">Method</span>              <span class="kt">string</span>      <span class="s">`json:&#34;method&#34;`</span>
-	<span class="nx">Header</span>              <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span> <span class="s">`json:&#34;header&#34;`</span>
-<span class="p">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">AuthenticationSession</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Subject</span>      <span class="kt">string</span>                 <span class="s">`json:&#34;subject&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Extra</span>        <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}</span> <span class="s">`json:&#34;extra&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Header</span>       <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span>            <span class="s">`json:&#34;header&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">MatchContext</span> <span class="nx">MatchContext</span>           <span class="s">`json:&#34;match_context&#34;`</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">MatchContext</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">RegexpCaptureGroups</span> <span class="p">[]</span><span class="kt">string</span>    <span class="s">`json:&#34;regexp_capture_groups&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">URL</span>                 <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span>    <span class="s">`json:&#34;url&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Method</span>              <span class="kt">string</span>      <span class="s">`json:&#34;method&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Header</span>              <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span> <span class="s">`json:&#34;header&#34;`</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Frankly, <strong>this bit lacks proper documentation</strong> because it is totally not clear <strong>where is this constructed, based on what data, how exactly is the subject extracted and when the rest of the data is available</strong>.</p>
 <p>At least in the context of a JWT bearer token, the subject appears to be the JWT token subject.</p>
@@ -502,37 +502,37 @@ Accept: application/json
 <p>The default handler is <em>json</em>. The order of the default handlers can be changed in the global configuration, for example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">errors</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">fallback</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="l">redirect</span><span class="w">
-</span><span class="w">        </span>- <span class="l">json</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">errors</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">fallback</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">redirect</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">json</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>As with any other object type, the error handler type has to be explicitly enabled in the global config, for example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">errors</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">handlers</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">json</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">errors</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">handlers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">json</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Error handlers can be conditionally matched using <em>when</em> clauses:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -544,17 +544,17 @@ Accept: application/json
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">errors</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">redirect</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">        </span><span class="nt">config</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="l">https://bad.robot</span><span class="w">
-</span><span class="w">            </span><span class="nt">when</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span>- <span class="nt">request</span><span class="p">:</span><span class="w">
-</span><span class="w">                    </span><span class="nt">header</span><span class="p">:</span><span class="w">
-</span><span class="w">                        </span><span class="nt">accept</span><span class="p">:</span><span class="w">
-</span><span class="w">                            </span>- <span class="l">application/json</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">errors</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">redirect</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="l">https://bad.robot</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">when</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span>- <span class="nt">request</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="nt">header</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="nt">accept</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                            </span>- <span class="l">application/json</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="two-modes-of-operation"><a href="#two-modes-of-operation" class="anchor-link">§</a>two modes of operation</h2>
 <p>I have briefly mentioned that Oathkeeper has two modes of operation: the proxy and the pure decision API.</p>
@@ -564,17 +564,17 @@ Accept: application/json
 <p>The request is validated via Oathkeeper. When found okay, it is proxied upstream. It&rsquo;s possible to instruct Oathkeeper to keep the original request host and strip a path prefix. These request go via the proxy server. The proxy server is configured in the global configuration, for example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">serve</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">proxy</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
-</span><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">4455</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">serve</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">proxy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">4455</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The proxy server does not define any custom routes, it serves as a catch all router, as you&rsquo;d expect from, well, a proxy.</p>
 <h3 id="the-decision-api"><a href="#the-decision-api" class="anchor-link">§</a>the decision API</h3>
@@ -583,7 +583,7 @@ Accept: application/json
 <p>In this mode, Oathkeeper never sends the requests to upstream. In fact, a rule used with the decision mode does not need to define the <em>upstream</em> section. This would work perfectly fine:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -598,20 +598,20 @@ Accept: application/json
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;some-decision-id&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;match&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-app/some-route/&lt;.*&gt;&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;methods&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;GET&#34;</span><span class="p">,</span> <span class="s2">&#34;POST&#34;</span><span class="p">]</span>
-        <span class="p">},</span>
-        <span class="nt">&#34;authenticators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
-        <span class="nt">&#34;authorizer&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;allow&#34;</span> <span class="p">},</span>
-        <span class="nt">&#34;mutators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
-        <span class="nt">&#34;errors&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;json&#34;</span> <span class="p">}]</span>
-    <span class="p">}</span>
-<span class="p">]</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;some-decision-id&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;match&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://my-app/some-route/&lt;.*&gt;&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;methods&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;GET&#34;</span><span class="p">,</span> <span class="s2">&#34;POST&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;authenticators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;authorizer&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;allow&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;mutators&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;noop&#34;</span> <span class="p">}],</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;errors&#34;</span><span class="p">:</span> <span class="p">[{</span> <span class="nt">&#34;handler&#34;</span><span class="p">:</span> <span class="s2">&#34;json&#34;</span> <span class="p">}]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Assuming that the client wants to authorize a <em>GET /some-route/abc</em> request, it would send a <em>GET /decisions/some-route/abc</em> request to Oathkeeper in API mode. Oathkeeper would then look up the <em>/some-route/abc</em> rule for <em>GET</em> method and run its regular pipeline on it.</p>
 <p>If the request was authorized, a HTTP <em>200 OK</em> would be returned, otherwise the result would be HTTP <em>403 Forbidden</em>.</p>
@@ -619,20 +619,20 @@ Accept: application/json
 <p>The API server is configured in the global configuration:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">serve</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">api</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
-</span><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">4456</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">serve</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">api</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">4456</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and would normally be placed behind a reverse proxy. For example, the following Nginx configuration could take advantage of this:</p>
-<pre><code class="language-conf" data-lang="conf">http {
+<pre tabindex="0"><code class="language-conf" data-lang="conf">http {
     #...
     server {
         #...
@@ -657,10 +657,10 @@ Accept: application/json
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://www.ory.sh/oathkeeper/docs/" target="_blank" rel="noopener">Oathkeeper Docs</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.ory.sh/oathkeeper/docs/" target="_blank" rel="noopener">Oathkeeper Docs</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://github.com/ory/oathkeeper/issues/263" target="_blank" rel="noopener">Integrate with Traefik, Nginx, Ambassador, Envoy on GitHub</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/ory/oathkeeper/issues/263" target="_blank" rel="noopener">Integrate with Traefik, Nginx, Ambassador, Envoy on GitHub</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

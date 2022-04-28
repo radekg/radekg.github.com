@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -58,13 +58,13 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-02-20T00:00:00+00:00",
-        "dateModified": "2022-03-22T01:28:59+01:00",
+        "dateModified": "2022-02-21T02:50:24+01:00",
         "url": "https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/",
         "headline": "Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy",
         "description": "I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.\nKeycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1175 ,
+        "wordCount":  1170 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -107,7 +107,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-02-20T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-03-22T01:28:59&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:50:24&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -257,7 +257,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1175</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1170</span>
     
     
         
@@ -280,7 +280,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 <p>Let&rsquo;s go.</p>
 <h2 id="directory-structure"><a href="#directory-structure" class="anchor-link">§</a>directory structure</h2>
 <p>Here&rsquo;s what we are dealing with:</p>
-<pre><code>[rad] keycloak-compose (keycloak-17) $ tree -a .
+<pre tabindex="0"><code>[rad] keycloak-compose (keycloak-17) $ tree -a .
 .
 ├── .docker
 │   └── keycloak
@@ -300,7 +300,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 <p>My <em>Dockerfile</em> (<em>.docker/keycloak/Dockerfile</em>) looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -322,27 +322,27 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0 as builder</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_METRICS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
-<span class="k">ENV</span> <span class="nv">KC_FEATURES</span><span class="o">=</span>token-exchange<span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB</span><span class="o">=</span>postgres
-<span class="k">RUN</span> /opt/keycloak/bin/kc.sh build<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0</span><span class="err">
-</span><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>builder /opt/keycloak/lib/quarkus/ /opt/keycloak/lib/quarkus/<span class="err">
-</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /opt/keycloak</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN</span><span class="o">=</span>admin
-<span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN_PASSWORD</span><span class="o">=</span>admin
-<span class="c"># change these values to point to a running postgres instance</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_URL</span><span class="o">=</span>jdbc:postgresql://postgres:5432/keycloak?ssl<span class="o">=</span>allow<span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_USERNAME</span><span class="o">=</span>keycloak
-<span class="k">ENV</span> <span class="nv">KC_DB_PASSWORD</span><span class="o">=</span>keycloak
-<span class="k">ENV</span> <span class="nv">KC_HOSTNAME</span><span class="o">=</span>idp-dev.gruchalski.com<span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_HOSTNAME_STRICT</span><span class="o">=</span><span class="nb">false</span>
-<span class="k">ENV</span> <span class="nv">KC_HTTP_ENABLED</span><span class="o">=</span><span class="nb">true</span>
-<span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;/opt/keycloak/bin/kc.sh&#34;</span><span class="p">,</span> <span class="s2">&#34;start&#34;</span><span class="p">]</span><span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0 as builder</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_METRICS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_FEATURES</span><span class="o">=</span>token-exchange<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB</span><span class="o">=</span>postgres
+</span></span><span class="line"><span class="cl"><span class="k">RUN</span> /opt/keycloak/bin/kc.sh build<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>builder /opt/keycloak/lib/quarkus/ /opt/keycloak/lib/quarkus/<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /opt/keycloak</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN</span><span class="o">=</span>admin
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN_PASSWORD</span><span class="o">=</span>admin
+</span></span><span class="line"><span class="cl"><span class="c"># change these values to point to a running postgres instance</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_URL</span><span class="o">=</span>jdbc:postgresql://postgres:5432/keycloak?ssl<span class="o">=</span>allow<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_USERNAME</span><span class="o">=</span>keycloak
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_DB_PASSWORD</span><span class="o">=</span>keycloak
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_HOSTNAME</span><span class="o">=</span>idp-dev.gruchalski.com<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_HOSTNAME_STRICT</span><span class="o">=</span><span class="nb">false</span>
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_HTTP_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl"><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;/opt/keycloak/bin/kc.sh&#34;</span><span class="p">,</span> <span class="s2">&#34;start&#34;</span><span class="p">]</span><span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Let&rsquo;s go through some of its most interesting aspects.</p>
 <p>The <em>builder</em> stage configures the database provider, here Postgres, and executes <em>kc.sh build</em>. This is where the optimized build is created.</p>
@@ -350,19 +350,19 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 <p>The new thing in <em>17.0.0</em> is the use of <em>KEYCLOAK_ADMIN</em> and <em>KEYCLOAK_ADMIN_PASSWORD</em> environment variables. Prior to <em>17.0.0</em>, to create an initial administrator account, we had to execute the <em>/opt/jboss/keycloak/bin/add-user-keycloak.sh</em>. script and pass <em>-u user -p pass</em> arguments. If you read some of my previous article, you maybe remember this command:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">docker <span class="nb">exec</span> dev_keycloak <span class="se">\
-</span><span class="se"></span>    /opt/jboss/keycloak/bin/add-user-keycloak.sh <span class="se">\
-</span><span class="se"></span>    -u admin <span class="se">\
-</span><span class="se"></span>    -p admin <span class="se">\
-</span><span class="se"></span><span class="o">&amp;&amp;</span> docker restart dev_keycloak
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker <span class="nb">exec</span> dev_keycloak <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    /opt/jboss/keycloak/bin/add-user-keycloak.sh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -u admin <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p admin <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="o">&amp;&amp;</span> docker restart dev_keycloak
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>A note of caution:</strong> in a real deployment, you&rsquo;d not store those credentials directly in the <em>Dockerfile</em>. You&rsquo;d pass them from outside. I kept them here for brevity only.</p>
 <p>Three other relevant notes here:</p>
@@ -374,21 +374,21 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 <p>Save the contents of the <em>Dockerfile</em> in <em>.docker/keycloak/Dockerfile</em> and build the Docker image:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> .docker/keycloak
-docker build -t local/keycloak:17.0.0 .
-<span class="nb">cd</span> -
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> .docker/keycloak
+</span></span><span class="line"><span class="cl">docker build -t local/keycloak:17.0.0 .
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> -
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="envoy-configuration"><a href="#envoy-configuration" class="anchor-link">§</a>envoy configuration</h2>
 <p>The <em>etc/envoy/envoy-keycloak.yaml</em> file <a href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" target="_blank" rel="noopener">is exactly the same as in my previous blog post</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>, except of the domain name.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -445,72 +445,72 @@ docker build -t local/keycloak:17.0.0 .
 </span><span class="lnt">55
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">static_resources</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">listeners</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="nt">address</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">socket_address</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
-</span><span class="w">        </span><span class="nt">port_value</span><span class="p">:</span><span class="w"> </span><span class="m">443</span><span class="w">
-</span><span class="w">    </span><span class="nt">listener_filters</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;envoy.filters.listener.tls_inspector&#34;</span><span class="w">
-</span><span class="w">    </span><span class="nt">filter_chains</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="nt">filter_chain_match</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">server_names</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="l">idp-dev.gruchalski.com</span><span class="w">
-</span><span class="w">      </span><span class="nt">filters</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envoy.filters.network.http_connection_manager</span><span class="w">
-</span><span class="w">        </span><span class="nt">typed_config</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="nt">&#34;@type&#34;: </span><span class="l">type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager</span><span class="w">
-</span><span class="w">          </span><span class="nt">codec_type</span><span class="p">:</span><span class="w"> </span><span class="l">AUTO</span><span class="w">
-</span><span class="w">          </span><span class="nt">stat_prefix</span><span class="p">:</span><span class="w"> </span><span class="l">ingress_http</span><span class="w">
-</span><span class="w">          </span><span class="nt">route_config</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">local_route</span><span class="w">
-</span><span class="w">            </span><span class="nt">virtual_hosts</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
-</span><span class="w">              </span><span class="nt">domains</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span>- <span class="s2">&#34;*&#34;</span><span class="w">
-</span><span class="w">              </span><span class="nt">routes</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span>- <span class="nt">match</span><span class="p">:</span><span class="w">
-</span><span class="w">                  </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/&#34;</span><span class="w">
-</span><span class="w">                </span><span class="nt">route</span><span class="p">:</span><span class="w">
-</span><span class="w">                  </span><span class="nt">cluster</span><span class="p">:</span><span class="w"> </span><span class="l">proxy-domain1</span><span class="w">
-</span><span class="w">          </span><span class="nt">http_filters</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envoy.filters.http.router</span><span class="w">
-</span><span class="w">      </span><span class="nt">transport_socket</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envoy.transport_sockets.tls</span><span class="w">
-</span><span class="w">        </span><span class="nt">typed_config</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="nt">&#34;@type&#34;: </span><span class="l">type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext</span><span class="w">
-</span><span class="w">          </span><span class="nt">common_tls_context</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="nt">tls_certificates</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>- <span class="nt">certificate_chain</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp-dev.gruchalski.com.crt</span><span class="w">
-</span><span class="w">              </span><span class="nt">private_key</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp-dev.gruchalski.com.key</span><span class="w">
-</span><span class="w">  </span><span class="nt">clusters</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">proxy-domain1</span><span class="w">
-</span><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">STRICT_DNS</span><span class="w">
-</span><span class="w">    </span><span class="nt">lb_policy</span><span class="p">:</span><span class="w"> </span><span class="l">ROUND_ROBIN</span><span class="w">
-</span><span class="w">    </span><span class="nt">connect_timeout</span><span class="p">:</span><span class="w"> </span><span class="l">10s</span><span class="w">
-</span><span class="w">    </span><span class="nt">load_assignment</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">cluster_name</span><span class="p">:</span><span class="w"> </span><span class="l">proxy-domain1</span><span class="w">
-</span><span class="w">      </span><span class="nt">endpoints</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="nt">lb_endpoints</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="nt">endpoint</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="nt">address</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="nt">socket_address</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
-</span><span class="w">                </span><span class="nt">port_value</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">static_resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">listeners</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">address</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">socket_address</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">port_value</span><span class="p">:</span><span class="w"> </span><span class="m">443</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">listener_filters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;envoy.filters.listener.tls_inspector&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">filter_chains</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">filter_chain_match</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">server_names</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">idp-dev.gruchalski.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">filters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envoy.filters.network.http_connection_manager</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">typed_config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">&#34;@type&#34;: </span><span class="l">type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">codec_type</span><span class="p">:</span><span class="w"> </span><span class="l">AUTO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">stat_prefix</span><span class="p">:</span><span class="w"> </span><span class="l">ingress_http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">route_config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">local_route</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">virtual_hosts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">domains</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span>- <span class="s2">&#34;*&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">routes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span>- <span class="nt">match</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">route</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                  </span><span class="nt">cluster</span><span class="p">:</span><span class="w"> </span><span class="l">proxy-domain1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">http_filters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envoy.filters.http.router</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">transport_socket</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envoy.transport_sockets.tls</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">typed_config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">&#34;@type&#34;: </span><span class="l">type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">common_tls_context</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">tls_certificates</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">certificate_chain</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp-dev.gruchalski.com.crt</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">private_key</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy/certificates/idp-dev.gruchalski.com.key</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">clusters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">proxy-domain1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">STRICT_DNS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lb_policy</span><span class="p">:</span><span class="w"> </span><span class="l">ROUND_ROBIN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">connect_timeout</span><span class="p">:</span><span class="w"> </span><span class="l">10s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">load_assignment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">cluster_name</span><span class="p">:</span><span class="w"> </span><span class="l">proxy-domain1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">endpoints</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">lb_endpoints</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">endpoint</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">address</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">socket_address</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nt">port_value</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This configuration will match any request to <a href="https://idp-dev.gruchalski.com" target="_blank" rel="noopener">https://idp-dev.gruchalski.com</a>, terminate TLS using a certificate and key from <em>/etc/envoy/certificates/*</em> and forward to <em>proxy-domain1</em> cluster, which will forward the request to <em>keycloak:8080</em>, where <em>keycloak</em> is Keycloak&rsquo;s hostname in the Docker Compose configuration.</p>
 <h2 id="certificates"><a href="#certificates" class="anchor-link">§</a>certificates</h2>
 <p>Keycloak is configured to run on <em>idp-dev.gruchalski.com</em>. As in, once running, I will be able to use Keycloak by going to <a href="https://idp-dev.gruchalski.com" target="_blank" rel="noopener">https://idp-dev.gruchalski.com</a>. In order to do so, I&rsquo;m adding the following line to my <code>/etc/hosts</code> file:</p>
-<pre><code>127.0.0.1       idp-dev.gruchalski.com
+<pre tabindex="0"><code>127.0.0.1       idp-dev.gruchalski.com
 </code></pre><p>I need certificates. Because I am using a regular browser, I preferably want to have certificates that are by default trusted by my operating system. The obvious choice is Let&rsquo;s Encrypt. I have written before about <a href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" target="_blank" rel="noopener">using Let&rsquo;s Encrypt certificates for local development</a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup>. Read that article to find out more.</p>
 <p>Long story short, my DNS is managed in Route 53 and I can use Route 53 API to automate the <em>dns-01</em> challenge to obtain certificates for my local deployment. To do so, I&rsquo;m using the LEGO client:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -524,22 +524,22 @@ docker build -t local/keycloak:17.0.0 .
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> etc/envoy
-docker run --rm <span class="se">\
-</span><span class="se"></span>    -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/lego <span class="se">\
-</span><span class="se"></span>    -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.aws/credentials:/root/.aws/credentials <span class="se">\
-</span><span class="se"></span>    -e <span class="nv">AWS_PROFILE</span><span class="o">=</span>lego <span class="se">\
-</span><span class="se"></span>    -ti goacme/lego <span class="se">\
-</span><span class="se"></span>    --accept-tos <span class="se">\
-</span><span class="se"></span>    --domains<span class="o">=</span>idp-dev.gruchalski.com <span class="se">\
-</span><span class="se"></span>    --server<span class="o">=</span>https://acme-v02.api.letsencrypt.org/directory <span class="se">\
-</span><span class="se"></span>    --email<span class="o">=</span>radek@gruchalski.com <span class="se">\
-</span><span class="se"></span>    --path<span class="o">=</span>/lego <span class="se">\
-</span><span class="se"></span>    --dns<span class="o">=</span>route53 run
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> etc/envoy
+</span></span><span class="line"><span class="cl">docker run --rm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/lego <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.aws/credentials:/root/.aws/credentials <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">AWS_PROFILE</span><span class="o">=</span>lego <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -ti goacme/lego <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --accept-tos <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --domains<span class="o">=</span>idp-dev.gruchalski.com <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --server<span class="o">=</span>https://acme-v02.api.letsencrypt.org/directory <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --email<span class="o">=</span>radek@gruchalski.com <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --path<span class="o">=</span>/lego <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --dns<span class="o">=</span>route53 run
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>When the command finishes, the directory structure looks like this:</p>
-<pre><code>[rad] keycloak-compose (keycloak-17) $ tree -a .
+<pre tabindex="0"><code>[rad] keycloak-compose (keycloak-17) $ tree -a .
 .
 ├── .docker
 │   └── keycloak
@@ -558,7 +558,7 @@ docker run --rm <span class="se">\
 <p>My <em>compose.yml</em> looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -603,50 +603,50 @@ docker run --rm <span class="se">\
 </span><span class="lnt">43
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">keycloak-internal</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-internal</span><span class="w">
-</span><span class="w">  </span><span class="nt">keycloak-public</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-public</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">envoy</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">envoyproxy/envoy:v1.21.0</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/local/bin/envoy -c /etc/envoy/envoy-keycloak.yaml -l debug</span><span class="w">
-</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="m">443</span><span class="p">:</span><span class="m">443</span><span class="w">
-</span><span class="w">      </span>- <span class="m">8001</span><span class="p">:</span><span class="m">8001</span><span class="w">
-</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">bind</span><span class="w">
-</span><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">./etc/envoy</span><span class="w">
-</span><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="l">keycloak-internal</span><span class="w">
-</span><span class="w">        </span>- <span class="l">keycloak-public</span><span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13.2</span><span class="w">
-</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span>-<span class="l">c ssl=off</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
-</span><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">keycloak-internal</span><span class="w">
-</span><span class="w">      
-</span><span class="w">  </span><span class="nt">keycloak</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">postgres</span><span class="w">
-</span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">dev_keycloak</span><span class="w">
-</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">local/keycloak:17.0.0</span><span class="w">
-</span><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="l">keycloak-internal</span><span class="w">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">keycloak-internal</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-internal</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">keycloak-public</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-public</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">envoy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">envoyproxy/envoy:v1.21.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/local/bin/envoy -c /etc/envoy/envoy-keycloak.yaml -l debug</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">443</span><span class="p">:</span><span class="m">443</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">8001</span><span class="p">:</span><span class="m">8001</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">bind</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">./etc/envoy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/envoy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">keycloak-internal</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">keycloak-public</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13.2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span>-<span class="l">c ssl=off</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">keycloak-internal</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">keycloak</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">postgres</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">dev_keycloak</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">local/keycloak:17.0.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">keycloak-internal</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>You can see that:</p>
 <ul>
@@ -656,11 +656,11 @@ docker run --rm <span class="se">\
 <p>Start everything with:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">docker compose -f compose.yml up
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker compose -f compose.yml up
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="thats-it"><a href="#thats-it" class="anchor-link">§</a>that&rsquo;s it</h2>
 <p><strong>Keycloak 17.0.0</strong> running locally in Docker Compose, with TLS, behind Envoy proxy.</p>
@@ -669,19 +669,19 @@ docker run --rm <span class="se">\
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://www.keycloak.org/2022/02/keycloak-1700-released.html" target="_blank" rel="noopener">Keycloak 17.0.0 released</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.keycloak.org/2022/02/keycloak-1700-released.html" target="_blank" rel="noopener">Keycloak 17.0.0 released</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://www.keycloak.org/server/configuration" target="_blank" rel="noopener">Configuring Keycloak</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.keycloak.org/server/configuration" target="_blank" rel="noopener">Configuring Keycloak</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://www.keycloak.org/server/containers" target="_blank" rel="noopener">Running Keycloak in a container</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.keycloak.org/server/containers" target="_blank" rel="noopener">Running Keycloak in a container</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" target="_blank" rel="noopener">Keycloak with TLS in Docker compose behind Envoy proxy</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" target="_blank" rel="noopener">Keycloak with TLS in Docker compose behind Envoy proxy</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:5" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" target="_blank" rel="noopener">Let’s Encrypt certificates for local development</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" target="_blank" rel="noopener">Let’s Encrypt certificates for local development</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

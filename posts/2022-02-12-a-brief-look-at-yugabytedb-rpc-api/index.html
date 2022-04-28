@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-02-12T00:00:00+00:00",
-        "dateModified": "2022-03-22T01:28:59+01:00",
+        "dateModified": "2022-02-21T21:27:04+01:00",
         "url": "https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/",
         "headline": "A brief look at YugabyteDB RPC API",
         "description": "with great power comes great responsibility",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1949 ,
+        "wordCount":  1945 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-02-12T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-03-22T01:28:59&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-21T21:27:04&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1949</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1945</span>
     
     
         
@@ -278,21 +278,21 @@
 <p>Let&rsquo;s locate all <code>*.proto</code> files (without test data):</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
-git clone https://github.com/yugabyte/yugabyte-db.git
-<span class="nb">cd</span> yugabyte-db/
-git checkout v2.11.1
-find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</span> <span class="p">|</span> sort
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> /tmp
+</span></span><span class="line"><span class="cl">git clone https://github.com/yugabyte/yugabyte-db.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> yugabyte-db/
+</span></span><span class="line"><span class="cl">git checkout v2.11.1
+</span></span><span class="line"><span class="cl">find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</span> <span class="p">|</span> sort
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>./ent/src/yb/master/master_backup.proto
+</div><pre tabindex="0"><code>./ent/src/yb/master/master_backup.proto
 ./src/yb/cdc/cdc_consumer.proto
 ./src/yb/cdc/cdc_service.proto
 ./src/yb/common/common.proto
@@ -343,11 +343,11 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>Let&rsquo;s peek at one of the files, for brevity I&rsquo;m going to skip the output.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">cat ./src/yb/master/master.proto
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat ./src/yb/master/master.proto
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The output tells us the following:</p>
 <ul>
@@ -365,7 +365,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>Every request consists of a header and the paylod. The header is a protobuf message defined in <code>rpc_header.proto</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -397,37 +397,37 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">RemoteMethodPB</span> <span class="p">{</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// Service name for the RPC layer.
-</span><span class="c1"></span>  <span class="c1">// The client created a proxy with this service name.
-</span><span class="c1"></span>  <span class="c1">// Example: yb.rpc_test.CalculatorService
-</span><span class="c1"></span>  <span class="k">required</span> <span class="kt">string</span> <span class="n">service_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// Name of the RPC method.
-</span><span class="c1"></span>  <span class="k">required</span> <span class="kt">string</span> <span class="n">method_name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span><span class="err"></span><span class="p">};</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c1">// The header for the RPC request frame.
-</span><span class="c1"></span><span class="kd">message</span> <span class="nc">RequestHeader</span> <span class="p">{</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// A sequence number that is sent back in the Response. Hadoop specifies a uint32 and
-</span><span class="c1"></span>  <span class="c1">// casts it to a signed int. That is counterintuitive, so we use an int32 instead.
-</span><span class="c1"></span>  <span class="c1">// Allowed values (inherited from Hadoop):
-</span><span class="c1"></span>  <span class="c1">//   0 through INT32_MAX: Regular RPC call IDs.
-</span><span class="c1"></span>  <span class="c1">//   -2: Invalid call ID.
-</span><span class="c1"></span>  <span class="c1">//   -3: Connection context call ID.
-</span><span class="c1"></span>  <span class="c1">//   -33: SASL negotiation call ID.
-</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// RPC method being invoked.
-</span><span class="c1"></span>  <span class="c1">// Not used for &#34;connection setup&#34; calls.
-</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">RemoteMethodPB</span> <span class="n">remote_method</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// Propagate the timeout as specified by the user. Note that, since there is some
-</span><span class="c1"></span>  <span class="c1">// transit time between the client and server, if you wait exactly this amount of
-</span><span class="c1"></span>  <span class="c1">// time and then respond, you are likely to cause a timeout on the client.
-</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">timeout_millis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span><span class="err"></span><span class="p">}</span><span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">RemoteMethodPB</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Service name for the RPC layer.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// The client created a proxy with this service name.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Example: yb.rpc_test.CalculatorService
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">required</span> <span class="kt">string</span> <span class="n">service_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Name of the RPC method.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">required</span> <span class="kt">string</span> <span class="n">method_name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">};</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c1">// The header for the RPC request frame.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">message</span> <span class="nc">RequestHeader</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// A sequence number that is sent back in the Response. Hadoop specifies a uint32 and
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// casts it to a signed int. That is counterintuitive, so we use an int32 instead.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Allowed values (inherited from Hadoop):
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   0 through INT32_MAX: Regular RPC call IDs.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   -2: Invalid call ID.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   -3: Connection context call ID.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   -33: SASL negotiation call ID.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// RPC method being invoked.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Not used for &#34;connection setup&#34; calls.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">RemoteMethodPB</span> <span class="n">remote_method</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Propagate the timeout as specified by the user. Note that, since there is some
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// transit time between the client and server, if you wait exactly this amount of
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// time and then respond, you are likely to cause a timeout on the client.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">timeout_millis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>To send the request, the client serializes the <code>protobuf</code> header and exactly one <code>protobuf</code> request messages. The client calculates the byte length of the header and a payload, and aggregates the total length. The following is sent over the socket:</p>
 <ul>
@@ -452,7 +452,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>Let&rsquo;s look up the <code>ResponseHeader</code> definition in the <code>rcp_header.proto</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -468,21 +468,21 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">ResponseHeader</span> <span class="p">{</span><span class="err">
-</span><span class="err"></span>  <span class="k">required</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// If this is set, then this is an error response and the
-</span><span class="c1"></span>  <span class="c1">// response message will be of type ErrorStatusPB instead of
-</span><span class="c1"></span>  <span class="c1">// the expected response type.
-</span><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bool</span> <span class="n">is_error</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">];</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// Byte offsets for side cars in the main body of the response message.
-</span><span class="c1"></span>  <span class="c1">// These offsets are counted AFTER the message header, i.e., offset 0
-</span><span class="c1"></span>  <span class="c1">// is the first byte after the bytes for this protobuf.
-</span><span class="c1"></span>  <span class="k">repeated</span> <span class="kt">uint32</span> <span class="n">sidecar_offsets</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="p">}</span><span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">ResponseHeader</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="k">required</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// If this is set, then this is an error response and the
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// response message will be of type ErrorStatusPB instead of
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// the expected response type.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bool</span> <span class="n">is_error</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">];</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Byte offsets for side cars in the main body of the response message.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// These offsets are counted AFTER the message header, i.e., offset 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// is the first byte after the bytes for this protobuf.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">repeated</span> <span class="kt">uint32</span> <span class="n">sidecar_offsets</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>If the <code>is_error</code> flag is <code>true</code>, the response is an error response and the client must parse it as the <code>ErrorStatusPB</code>, defined also in <code>rcp_header.proto</code>.</p>
 <p>Otherwise, the response is the expected <code>protobuf</code> response object, as defined by the RPC service.</p>
@@ -505,15 +505,15 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>In versions later than 2.11.1, the service name can be optionally declared with a <code>yb.rpc.custom_service_name</code> service option. Here&rsquo;s an example:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">service</span> <span class="n">MasterCluster</span> <span class="p">{</span><span class="err">
-</span><span class="err"></span>  <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.custom_service_name</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#34;yb.master.MasterService&#34;</span><span class="p">;</span><span class="err">
-</span><span class="err"></span>  <span class="o">...</span><span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">service</span> <span class="n">MasterCluster</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.custom_service_name</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#34;yb.master.MasterService&#34;</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="o">...</span><span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="locating-the-leader-master"><a href="#locating-the-leader-master" class="anchor-link">§</a>locating the leader master</h2>
 <p>In most cases, we are communicating with the <code>MasterService</code>. When running YugabyteDB with replication factor greater than <code>1</code>, at any given time, there is only one leader master, other masters are most often acting as followers. In this case, we have to send our requests to the leader master. If we don&rsquo;t, the master will reply with a <code>NOT_THE_LEADER</code> error.</p>
@@ -522,7 +522,7 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <p>This message, found in <code>master.proto</code>, looks like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -538,26 +538,26 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="kd">message</span> <span class="nc">GetMasterRegistrationResponsePB</span> <span class="p">{</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// Node instance information is always set.
-</span><span class="c1"></span>  <span class="k">required</span> <span class="n">NodeInstancePB</span> <span class="n">instance_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// These fields are optional, as they won&#39;t be set if there&#39;s an
-</span><span class="c1"></span>  <span class="c1">// error retrieving the host/port information.
-</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">ServerRegistrationPB</span> <span class="n">registration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// This server&#39;s role in the consensus configuration.
-</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">consensus.RaftPeerPB.Role</span> <span class="n">role</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>  <span class="c1">// Set if there an error retrieving the registration information.
-</span><span class="c1"></span>  <span class="k">optional</span> <span class="n">MasterErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
-</span><span class="err"></span><span class="p">}</span><span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">GetMasterRegistrationResponsePB</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Node instance information is always set.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">required</span> <span class="n">NodeInstancePB</span> <span class="n">instance_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// These fields are optional, as they won&#39;t be set if there&#39;s an
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// error retrieving the host/port information.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">ServerRegistrationPB</span> <span class="n">registration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// This server&#39;s role in the consensus configuration.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">consensus.RaftPeerPB.Role</span> <span class="n">role</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Set if there an error retrieving the registration information.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">MasterErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The <code>consensus.RaftPeerPB.Role</code> field contains the role of the master. It is defined in the <code>consensus/metadata.proto</code>, under the <code>RaftPeerPB</code> message:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -586,34 +586,34 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 </span><span class="lnt">27
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-proto" data-lang="proto">  <span class="c1">// The possible roles for peers.
-</span><span class="c1"></span>  <span class="kd">enum</span> <span class="n">Role</span> <span class="p">{</span><span class="err">
-</span><span class="err"></span>    <span class="c1">// Indicates this node is a follower in the configuration, i.e. that it participates
-</span><span class="c1"></span>    <span class="c1">// in majorities and accepts Consensus::Update() calls.
-</span><span class="c1"></span>    <span class="n">FOLLOWER</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>    <span class="c1">// Indicates this node is the current leader of the configuration, i.e. that it
-</span><span class="c1"></span>    <span class="c1">// participates in majorities and accepts Consensus::Append() calls.
-</span><span class="c1"></span>    <span class="n">LEADER</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>    <span class="c1">// New peers joining a quorum will be in this role for both PRE_VOTER and PRE_OBSERVER
-</span><span class="c1"></span>    <span class="c1">// while the tablet data is being remote bootstrapped. The peer does not participate
-</span><span class="c1"></span>    <span class="c1">// in starting elections or majorities.
-</span><span class="c1"></span>    <span class="n">LEARNER</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>    <span class="c1">// Indicates that this node is not a participant of the configuration, i.e. does
-</span><span class="c1"></span>    <span class="c1">// not accept Consensus::Update() or Consensus::Update() and cannot
-</span><span class="c1"></span>    <span class="c1">// participate in elections or majorities. This is usually the role of a node
-</span><span class="c1"></span>    <span class="c1">// that leaves the configuration.
-</span><span class="c1"></span>    <span class="n">NON_PARTICIPANT</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>    <span class="c1">// This peer is a read (async) replica and gets informed of the quorum write
-</span><span class="c1"></span>    <span class="c1">// activity and provides time-line consistent reads.
-</span><span class="c1"></span>    <span class="n">READ_REPLICA</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span>    <span class="n">UNKNOWN_ROLE</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
-</span><span class="err"></span>  <span class="p">};</span><span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl">  <span class="c1">// The possible roles for peers.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">enum</span> <span class="n">Role</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// Indicates this node is a follower in the configuration, i.e. that it participates
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// in majorities and accepts Consensus::Update() calls.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">FOLLOWER</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// Indicates this node is the current leader of the configuration, i.e. that it
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// participates in majorities and accepts Consensus::Append() calls.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LEADER</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// New peers joining a quorum will be in this role for both PRE_VOTER and PRE_OBSERVER
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// while the tablet data is being remote bootstrapped. The peer does not participate
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// in starting elections or majorities.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LEARNER</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// Indicates that this node is not a participant of the configuration, i.e. does
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// not accept Consensus::Update() or Consensus::Update() and cannot
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// participate in elections or majorities. This is usually the role of a node
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// that leaves the configuration.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">NON_PARTICIPANT</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// This peer is a read (async) replica and gets informed of the quorum write
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// activity and provides time-line consistent reads.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">READ_REPLICA</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="n">UNKNOWN_ROLE</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="p">};</span><span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>After locating the leader master, the client can close connections to any non-leader master and continue communicating with a leader master only.</p>
 <p>YugabyteDB master leader can change at any time of the cluster lifecycle. This might be due to:</p>
@@ -649,16 +649,16 @@ find . -name *.proto <span class="p">|</span> grep -v <span class="nb">test</spa
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://github.com/apache/hbase/blob/master/src/main/asciidoc/_chapters/rpc.adoc" target="_blank" rel="noopener">The HBase RPC protocol description</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/apache/hbase/blob/master/src/main/asciidoc/_chapters/rpc.adoc" target="_blank" rel="noopener">The HBase RPC protocol description</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/YRpc.java#L274-L293" target="_blank" rel="noopener">YugabyteDB Java client payload handling</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/YRpc.java#L274-L293" target="_blank" rel="noopener">YugabyteDB Java client payload handling</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p>Sourcegraph: <a href="https://sourcegraph.com/search?q=context:global+repo:yugabyte/yugabyte-db.*+set_rows_data_sidecar&amp;patternType=literal" target="_blank" rel="noopener">usage of side cars in YugabyteDB code</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p>Sourcegraph: <a href="https://sourcegraph.com/search?q=context:global+repo:yugabyte/yugabyte-db.*+set_rows_data_sidecar&amp;patternType=literal" target="_blank" rel="noopener">usage of side cars in YugabyteDB code</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/CallResponse.java#L134-L155" target="_blank" rel="noopener">Reading side cars in YugabyteDB Java code</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/CallResponse.java#L134-L155" target="_blank" rel="noopener">Reading side cars in YugabyteDB Java code</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

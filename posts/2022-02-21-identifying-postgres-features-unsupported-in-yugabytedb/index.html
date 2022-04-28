@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-02-21T00:00:00+00:00",
-        "dateModified": "2022-03-22T01:28:59+01:00",
+        "dateModified": "2022-02-21T21:27:42+01:00",
         "url": "https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/",
         "headline": "Identifying Postgres features unsupported in YugabyteDB",
         "description": "when the roadmap isn't enough",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1099 ,
+        "wordCount":  1096 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-02-21T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-03-22T01:28:59&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-21T21:27:42&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1099</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1096</span>
     
     
         
@@ -275,23 +275,23 @@
 <p>I have been recently looking at exactly that problem while preparing the end-user documentation for one of the projects where YugabyteDB plays the core role.</p>
 <p>As it turns out, there&rsquo;s a very simple method to learn what&rsquo;s missing. PostgreSQL contains a YACC grammar file, and yugabyteDB contains the same-but-slightly-modified <a href="https://github.com/yugabyte/yugabyte-db/blob/master/src/postgres/src/backend/parser/gram.y" target="_blank" rel="noopener"><em>gram.y</em> file</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>.</p>
 <p>We can learm some interesting things from the grammar, for example these YugabyteDB specific definitions:</p>
-<pre><code class="language-yacc" data-lang="yacc">#define parser_yyerror(msg)  scanner_yyerror(msg, yyscanner)
+<pre tabindex="0"><code class="language-yacc" data-lang="yacc">#define parser_yyerror(msg)  scanner_yyerror(msg, yyscanner)
 #define parser_errposition(pos)  scanner_errposition(pos, yyscanner)
 
 #define parser_ybc_not_support(pos, feature) \
-	ybc_not_support(pos, yyscanner, feature &quot; not supported yet&quot;, -1)
+	ybc_not_support(pos, yyscanner, feature &#34; not supported yet&#34;, -1)
 
 #define parser_ybc_warn_ignored(pos, feature, issue) \
-	ybc_not_support_signal(pos, yyscanner, feature &quot; not supported yet and will be ignored&quot;, issue, WARNING)
+	ybc_not_support_signal(pos, yyscanner, feature &#34; not supported yet and will be ignored&#34;, issue, WARNING)
 
 #define parser_ybc_signal_unsupported(pos, feature, issue) \
-	ybc_not_support(pos, yyscanner, feature &quot; not supported yet&quot;, issue)
+	ybc_not_support(pos, yyscanner, feature &#34; not supported yet&#34;, issue)
 
 #define parser_ybc_not_support_in_templates(pos, feature) \
-	ybc_not_support_in_templates(pos, yyscanner, feature &quot; is not supported in template0/template1 yet&quot;)
+	ybc_not_support_in_templates(pos, yyscanner, feature &#34; is not supported in template0/template1 yet&#34;)
 
 #define parser_ybc_beta_feature(pos, feature, has_own_flag) \
-	check_beta_feature(pos, yyscanner, has_own_flag ? &quot;FLAGS_ysql_beta_feature_&quot; feature : NULL, feature)
+	check_beta_feature(pos, yyscanner, has_own_flag ? &#34;FLAGS_ysql_beta_feature_&#34; feature : NULL, feature)
 </code></pre><p>These definitions are used further in the grammar to annotate which features are not yet implemented. The ones which are of the most interest to us are:</p>
 <ul>
 <li><code>parser_ybc_not_support</code>: indicates an unsupported feature, no tracking issue,</li>
@@ -302,52 +302,52 @@
 <p>And, we can do it for each individual version. Let&rsquo;s try for <em>2.11.1</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">export</span> <span class="nv">YBDBV</span><span class="o">=</span>2.11.1
-<span class="nb">cd</span> /tmp
-wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v<span class="si">${</span><span class="nv">YBDBV</span><span class="si">}</span>/src/postgres/src/backend/parser/gram.y -O gram-<span class="si">${</span><span class="nv">YBDBV</span><span class="si">}</span>.y
-grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">YBDBV</span><span class="o">=</span>2.11.1
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /tmp
+</span></span><span class="line"><span class="cl">wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v<span class="si">${</span><span class="nv">YBDBV</span><span class="si">}</span>/src/postgres/src/backend/parser/gram.y -O gram-<span class="si">${</span><span class="nv">YBDBV</span><span class="si">}</span>.y
+</span></span><span class="line"><span class="cl">grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Produces output similar to:</p>
-<pre><code>#define parser_ybc_not_support(pos, feature) \
-			| AlterObjectDependsStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| AlterSystemStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| AlterCompositeTypeStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| AlterPublicationStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| AlterSubscriptionStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| AlterTSConfigurationStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| AlterTSDictionaryStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| ClusterStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreateAmStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreateAssertStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreateConversionStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreateMatViewStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreatePublicationStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreatePLangStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreateSubscriptionStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreateStatsStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| CreateTransformStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| DropAssertStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| DropPLangStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| DropSubscriptionStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| DropTransformStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| RefreshMatViewStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| LoadStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| ReindexStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-			| SecLabelStmt { parser_ybc_not_support(@1, &quot;This statement&quot;); }
-						parser_ybc_not_support(@6, &quot;CREATE SCHEMA with elements&quot;);
-						parser_ybc_not_support(@4, &quot;CREATE SCHEMA with elements&quot;);
-					parser_ybc_not_support(@1, &quot;CREATE STATISTICS&quot;);
-					parser_ybc_not_support(@1, &quot;CREATE STATISTICS&quot;);
-				parser_ybc_not_support(@1, &quot;CREATE LANGUAGE&quot;);
-				parser_ybc_not_support(@1, &quot;CREATE LANGUAGE&quot;);
-					parser_ybc_not_support(@1, &quot;DROP LANGUAGE&quot;);
+<pre tabindex="0"><code>#define parser_ybc_not_support(pos, feature) \
+			| AlterObjectDependsStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| AlterSystemStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| AlterCompositeTypeStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| AlterPublicationStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| AlterSubscriptionStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| AlterTSConfigurationStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| AlterTSDictionaryStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| ClusterStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreateAmStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreateAssertStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreateConversionStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreateMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreatePublicationStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreatePLangStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreateSubscriptionStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreateStatsStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| CreateTransformStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| DropAssertStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| DropPLangStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| DropSubscriptionStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| DropTransformStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| RefreshMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| LoadStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| ReindexStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+			| SecLabelStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+						parser_ybc_not_support(@6, &#34;CREATE SCHEMA with elements&#34;);
+						parser_ybc_not_support(@4, &#34;CREATE SCHEMA with elements&#34;);
+					parser_ybc_not_support(@1, &#34;CREATE STATISTICS&#34;);
+					parser_ybc_not_support(@1, &#34;CREATE STATISTICS&#34;);
+				parser_ybc_not_support(@1, &#34;CREATE LANGUAGE&#34;);
+				parser_ybc_not_support(@1, &#34;CREATE LANGUAGE&#34;);
+					parser_ybc_not_support(@1, &#34;DROP LANGUAGE&#34;);
 ...
 </code></pre><p>Okay, so we can use the same method to search for:</p>
 <ul>
@@ -359,7 +359,7 @@ grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDB
 <p>Now that we can identify unsupported and ignored features, let&rsquo;s see if we can identify progress between versions. We are going to compare <em>2.11.1</em> and <em>2.11.2</em>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -368,39 +368,39 @@ grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDB
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> /tmp
-<span class="nb">export</span> <span class="nv">YBDBV_OLD</span><span class="o">=</span>2.11.1
-<span class="nb">export</span> <span class="nv">YBDBV_NEW</span><span class="o">=</span>2.11.2
-wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>/src/postgres/src/backend/parser/gram.y -O gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y
-grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates <span class="p">|</span> wc -l
-wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>/src/postgres/src/backend/parser/gram.y -O gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y
-grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates <span class="p">|</span> wc -l
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> /tmp
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">YBDBV_OLD</span><span class="o">=</span>2.11.1
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">YBDBV_NEW</span><span class="o">=</span>2.11.2
+</span></span><span class="line"><span class="cl">wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>/src/postgres/src/backend/parser/gram.y -O gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y
+</span></span><span class="line"><span class="cl">grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates <span class="p">|</span> wc -l
+</span></span><span class="line"><span class="cl">wget https://raw.githubusercontent.com/yugabyte/yugabyte-db/v<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>/src/postgres/src/backend/parser/gram.y -O gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y
+</span></span><span class="line"><span class="cl">grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates <span class="p">|</span> wc -l
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The line counts are <code>139</code> and <code>136</code> respectively. Let&rsquo;s see what has been removed from <em>2.11.2</em>, which indicates that feature support has been added:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates &gt; out-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
-grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates &gt; out-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates &gt; out-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y <span class="p">|</span> grep -v parser_ybc_not_support_in_templates &gt; out-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and compare the out files:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">diff out-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span> out-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">diff out-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span> out-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>which produces:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -408,33 +408,33 @@ grep parser_ybc_not_support gram-<span class="si">${</span><span class="nv">YBDB
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-diff" data-lang="diff">13d12
-&lt; 			| CreateMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
-23d21
-&lt; 			| RefreshMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
-44d41
-&lt; 					parser_ybc_not_support(@1, &#34;DROP MATERIALIZED VIEW&#34;);
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl">13d12
+</span></span><span class="line"><span class="cl">&lt; 			| CreateMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+</span></span><span class="line"><span class="cl">23d21
+</span></span><span class="line"><span class="cl">&lt; 			| RefreshMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+</span></span><span class="line"><span class="cl">44d41
+</span></span><span class="line"><span class="cl">&lt; 					parser_ybc_not_support(@1, &#34;DROP MATERIALIZED VIEW&#34;);
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This indicates that the <em>2.11.2</em> version of YugabyteDB added support for <code>CREATE/REFRESH/DROP MATERIALIZED VIEW</code> statements.</p>
 <p>Indeed, if we look at the <a href="https://github.com/yugabyte/yugabyte-db/releases/tag/v2.11.2" target="_blank" rel="noopener">release notes for 2.11.2</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>, we will find the following line: <code>[YSQL] Add support for CREATE, DROP, and REFRESH MATERIALIZED VIEW</code>.</p>
 <p>Release notes also suggest that <code>ALTER TYPE .. RENAME TO</code> and <code>ADD CONSTRAINT .. UNIQUE .. USING INDEX</code> are supported in <em>2.11.2</em>. Let&rsquo;s try to identify those using this method:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">grep parser_ybc_signal_unsupported gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y &gt; out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
-grep parser_ybc_signal_unsupported gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y &gt; out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
-diff out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span> out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">grep parser_ybc_signal_unsupported gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y &gt; out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">grep parser_ybc_signal_unsupported gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y &gt; out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">diff out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span> out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>gives:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -444,38 +444,38 @@ diff out-parser_ybc_signal_unsupported-<span class="si">${</span><span class="nv
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-diff" data-lang="diff">9d8
-&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER INDEX&#34;, 1130);
-60,62d58
-&lt; 					parser_ybc_signal_unsupported(@1, &#34;CREATE MATERIALIZED VIEW&#34;, 1131);
-&lt; 					parser_ybc_signal_unsupported(@1, &#34;CREATE MATERIALIZED VIEW&#34;, 1131);
-&lt; 					parser_ybc_signal_unsupported(@1, &#34;REFRESH MATERIALIZED VIEW&#34;, 1131);
-97d92
-&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893);
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl">9d8
+</span></span><span class="line"><span class="cl">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER INDEX&#34;, 1130);
+</span></span><span class="line"><span class="cl">60,62d58
+</span></span><span class="line"><span class="cl">&lt; 					parser_ybc_signal_unsupported(@1, &#34;CREATE MATERIALIZED VIEW&#34;, 1131);
+</span></span><span class="line"><span class="cl">&lt; 					parser_ybc_signal_unsupported(@1, &#34;CREATE MATERIALIZED VIEW&#34;, 1131);
+</span></span><span class="line"><span class="cl">&lt; 					parser_ybc_signal_unsupported(@1, &#34;REFRESH MATERIALIZED VIEW&#34;, 1131);
+</span></span><span class="line"><span class="cl">97d92
+</span></span><span class="line"><span class="cl">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893);
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>There it is. Next to already established materialized views features, we can find new <code>ALTER INDEX</code> and <code>ALTER TYPE</code>. Let&rsquo;s gain a little bit more context into, say, <code>ALTER TYPE</code> change.</p>
 <p>We know that the feature has been added in <em>2.11.2</em>, those lines do not exist in the output for <em>2.11.2</em> but exist in the output for <em>2.11.1</em>. So we can do:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">grep <span class="s1">&#39;parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893)&#39;</span> <span class="se">\
-</span><span class="se"></span>  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
-grep <span class="s1">&#39;parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893)&#39;</span> <span class="se">\
-</span><span class="se"></span>  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
-diff out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span> out-alter-type-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">grep <span class="s1">&#39;parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893)&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">grep <span class="s1">&#39;parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893)&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">diff out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span> out-alter-type-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>gives:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -485,15 +485,15 @@ diff out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-diff" data-lang="diff">11,17d10
-&lt; 			| ALTER TYPE_P any_name RENAME TO name
-&lt; 				{
-&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893);
-&lt; --
-&lt; 					n-&gt;missing_ok = false;
-&lt; 					$$ = (Node *)n;
-&lt; 				}
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl">11,17d10
+</span></span><span class="line"><span class="cl">&lt; 			| ALTER TYPE_P any_name RENAME TO name
+</span></span><span class="line"><span class="cl">&lt; 				{
+</span></span><span class="line"><span class="cl">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893);
+</span></span><span class="line"><span class="cl">&lt; --
+</span></span><span class="line"><span class="cl">&lt; 					n-&gt;missing_ok = false;
+</span></span><span class="line"><span class="cl">&lt; 					$$ = (Node *)n;
+</span></span><span class="line"><span class="cl">&lt; 				}
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>For some of those statements, it might be necessary to adjust the value of <code>-B</code>. In this case <code>5</code> was enough, we can see that the <code>parser_ybc_signal_unsupported</code> for <code>ALTER TYPE_P any_name RENAME TO name</code> disappeared from the grammar file in <em>2.11.2</em>.</p>
 <p>With little to no work, it&rsquo;s possible to quickly compare the level of support for all three definitions across whatever arbitrary versions we are interested in.</p>
@@ -501,13 +501,13 @@ diff out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db#current-roadmap" target="_blank" rel="noopener">YugabyteDB roadmap</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db#current-roadmap" target="_blank" rel="noopener">YugabyteDB roadmap</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db/blob/master/src/postgres/src/backend/parser/gram.y" target="_blank" rel="noopener">YugabyteDB Postgres YACC grammar</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/blob/master/src/postgres/src/backend/parser/gram.y" target="_blank" rel="noopener">YugabyteDB Postgres YACC grammar</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
-<p><a href="https://github.com/yugabyte/yugabyte-db/releases/tag/v2.11.2" target="_blank" rel="noopener">YugabyteDB 2.11.2 release notes</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/releases/tag/v2.11.2" target="_blank" rel="noopener">YugabyteDB 2.11.2 release notes</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

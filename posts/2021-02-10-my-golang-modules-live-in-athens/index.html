@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-02-10T00:00:00+00:00",
-        "dateModified": "2021-02-10T21:42:44+01:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/",
         "headline": "My golang modules live in Athens",
         "description": "Historical place with great weather and fantastic cuisine, no wonder...",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-02-10/athens.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-02-10T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-02-10T21:42:44&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -284,7 +284,7 @@
 <p>KISS, Docker service backed with the disk type storage. Basically like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -293,14 +293,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir -p /var/lib/gomod
-docker run --rm <span class="se">\
-</span><span class="se"></span>    -p 15001:3000 <span class="se">\
-</span><span class="se"></span>    -v /var/lib/gomod:/gomod <span class="se">\
-</span><span class="se"></span>    -e <span class="nv">ATHENS_STORAGE_TYPE</span><span class="o">=</span>disk <span class="se">\
-</span><span class="se"></span>    -e <span class="nv">ATHENS_DISK_STORAGE_ROOT</span><span class="o">=</span>/gomod <span class="se">\
-</span><span class="se"></span>    -d gomods/athens:latest
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p /var/lib/gomod
+</span></span><span class="line"><span class="cl">docker run --rm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p 15001:3000 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v /var/lib/gomod:/gomod <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">ATHENS_STORAGE_TYPE</span><span class="o">=</span>disk <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">ATHENS_DISK_STORAGE_ROOT</span><span class="o">=</span>/gomod <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d gomods/athens:latest
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>I&rsquo;ve exported the <code>GOPROXY=http://localhost:15001</code> in my Bash profile so tools use it automatically. I have a dedicated git repository where I sync my local modules to a couple of time a day.</p>
 <p>Long term, maybe something like the S3 storage would be a better option but I&rsquo;m not sure how expensive it can get.</p>
@@ -420,6 +420,10 @@ docker run --rm <span class="se">\
                 
                     <li class="related-item">
                         <a href="/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/" class="related-link">On golang os.Expand and os.ExpandEnv</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-04-28-private-go-modules-with-multiple-git-identities/" class="related-link">Private go modules with multiple git identities</a>
                     </li>
                 
                     <li class="related-item">

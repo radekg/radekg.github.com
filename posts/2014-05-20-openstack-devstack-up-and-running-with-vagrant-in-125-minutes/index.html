@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -59,7 +59,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2014-05-20T00:00:00+00:00",
-        "dateModified": "2020-09-03T02:03:27+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/",
         "headline": "OpenStack Devstack up and running with Vagrant, in 12.5 minutes",
         "description": "I’d like to develop for OpenStack The eaiest way to start, is to use a project called devstack. Devstack is:\n A documented shell script to build complete OpenStack development environments.\n It looks promising. Unfortunately, the script is not as simple as what is claimed on the website:",
@@ -109,7 +109,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2014-05-20T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2020-09-03T02:03:27&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -289,7 +289,7 @@ cd devstack; ./stack.sh
 <p>After looking at a number of different search results on the Internets, digging through some Chef cookbooks, Puppet stuff, here&rsquo;s a Vagrant file to set up Devstack using Vagrant (Ubuntu 12.04):</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -324,40 +324,40 @@ cd devstack; ./stack.sh
 </span><span class="lnt">33
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&#34;2&#34;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">&#34;virtualbox&#34;</span> <span class="k">do</span> <span class="o">|</span><span class="n">vbox</span><span class="p">,</span> <span class="n">override</span><span class="o">|</span>
-    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&#34;precise64&#34;</span>
-    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&#34;http://files.vagrantup.com/precise64_vmware.box&#34;</span>
-    <span class="n">vbox</span><span class="o">.</span><span class="n">customize</span> <span class="o">[</span><span class="s2">&#34;modifyvm&#34;</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="s2">&#34;--memory&#34;</span><span class="p">,</span> <span class="s2">&#34;2048&#34;</span><span class="o">]</span>
-  <span class="k">end</span>
-
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="s2">&#34;devstack&#34;</span> <span class="k">do</span> <span class="o">|</span><span class="n">devstack</span><span class="o">|</span>
-    <span class="c1"># redirect horizon, we can&#39;t run on port 80</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:forwarded_port</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">9000</span>
-    <span class="c1"># redirect the API        </span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:forwarded_port</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">8774</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">8774</span>
-    <span class="c1"># redirect the auth API</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:forwarded_port</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">35357</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">35357</span>
-    <span class="c1"># install git</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;apt-get install -y git-core&#34;</span>
-    <span class="c1"># clone Devstack</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;cd /opt &amp;&amp; git clone https://github.com/openstack-dev/devstack.git&#34;</span>
-    <span class="c1"># Create the stack user</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;/opt/devstack/tools/create-stack-user.sh&#34;</span>
-    <span class="c1"># add user to sudoers</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;echo </span><span class="se">\&#34;</span><span class="s2">stack ALL=(ALL) NOPASSWD: ALL</span><span class="se">\&#34;</span><span class="s2"> &gt;&gt; /etc/sudoers&#34;</span>
-    <span class="c1"># localrc file, explained below</span>
-    <span class="c1"># we are going to copy this file from the host to the guest where we run Devstack</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;cat &gt; /opt/devstack/localrc &lt;&lt;&#39;VAGRANTEOP&#39;</span><span class="se">\n</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;/setup/devstack-localrc&#34;</span> <span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">VAGRANTEOP&#34;</span>
-    <span class="c1"># just make it work, it&#39;s dev</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;chmod -R 0777 /opt/devstack&#34;</span>
-    <span class="c1"># and stack it all up</span>
-    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;su - stack -c &#39;/opt/devstack/stack.sh&#39;&#34;</span>
-  <span class="k">end</span>
-
-<span class="k">end</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&#34;2&#34;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">&#34;virtualbox&#34;</span> <span class="k">do</span> <span class="o">|</span><span class="n">vbox</span><span class="p">,</span> <span class="n">override</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&#34;precise64&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&#34;http://files.vagrantup.com/precise64_vmware.box&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vbox</span><span class="o">.</span><span class="n">customize</span> <span class="o">[</span><span class="s2">&#34;modifyvm&#34;</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="s2">&#34;--memory&#34;</span><span class="p">,</span> <span class="s2">&#34;2048&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="s2">&#34;devstack&#34;</span> <span class="k">do</span> <span class="o">|</span><span class="n">devstack</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># redirect horizon, we can&#39;t run on port 80</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:forwarded_port</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">9000</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># redirect the API        </span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:forwarded_port</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">8774</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">8774</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># redirect the auth API</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:forwarded_port</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">35357</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">35357</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># install git</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;apt-get install -y git-core&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># clone Devstack</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;cd /opt &amp;&amp; git clone https://github.com/openstack-dev/devstack.git&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Create the stack user</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;/opt/devstack/tools/create-stack-user.sh&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># add user to sudoers</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;echo </span><span class="se">\&#34;</span><span class="s2">stack ALL=(ALL) NOPASSWD: ALL</span><span class="se">\&#34;</span><span class="s2"> &gt;&gt; /etc/sudoers&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># localrc file, explained below</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># we are going to copy this file from the host to the guest where we run Devstack</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;cat &gt; /opt/devstack/localrc &lt;&lt;&#39;VAGRANTEOP&#39;</span><span class="se">\n</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;/setup/devstack-localrc&#34;</span> <span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">VAGRANTEOP&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># just make it work, it&#39;s dev</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;chmod -R 0777 /opt/devstack&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># and stack it all up</span>
+</span></span><span class="line"><span class="cl">    <span class="n">devstack</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:shell</span><span class="p">,</span> <span class="ss">:inline</span> <span class="o">=&gt;</span> <span class="s2">&#34;su - stack -c &#39;/opt/devstack/stack.sh&#39;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>About 12.5 minutes Vagrant should display something like this:</p>
 <pre><code>2014-05-20 15:03:49.711 | stack.sh completed in 758 seconds.

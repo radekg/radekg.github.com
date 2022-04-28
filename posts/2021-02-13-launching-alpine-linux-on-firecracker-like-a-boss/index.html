@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-02-13T00:00:00+00:00",
-        "dateModified": "2021-02-17T22:44:47+01:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/",
         "headline": "Launching Alpine Linux on Firecracker like a boss",
         "description": "One step back, two steps forward; create a base image to investigate Firecracker further",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  2068 ,
+        "wordCount":  2066 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/shared/fc_logo_full_white-bg-small.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-02-13T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-02-17T22:44:47&#43;01:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2068</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2066</span>
     
     
         
@@ -280,7 +280,7 @@
 <p>The root file system is built from an Alpine 3.13 Docker image.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -305,30 +305,30 @@
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.13</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> apk update <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default<span class="err">
-</span><span class="err"></span><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
-</span><span class="err"></span><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> alpine:3.13</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apk update <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Plenty but rather straightforward, let&rsquo;s break it down:</p>
 <ol>
@@ -340,66 +340,66 @@
 </ul>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">apk update <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">apk update <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="2">
 <li>generate host keys:</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">    <span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">    <span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="3">
 <li>create the home directory structure for the <code>alpine</code> user:</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="4">
 <li>create the <code>alpine</code> group and the user, assign home directory, init shell and a random password; without the password the user account stays disabled and it&rsquo;s not possible to SSH as that user:</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="6">
 <li>make the user a password-less <code>sudoer</code>:</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="7">
 <li>mount special file systems on boot and enable local services:</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -408,25 +408,25 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="8">
 <li>copy the generated public key to authorized keys, there&rsquo;s a single key so add directly to <code>authorized_keys</code>:</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="9">
 <li>finally, apply settings required to access the system via SSH:</li>
@@ -437,7 +437,7 @@
 </ul>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -446,21 +446,21 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
-</span><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
-</span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>I have a <code>/firecracker</code> directory structure which I described in <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>. The <code>Dockerfile</code> is saved in <code>/firecracker/docker/alpine-3.13/Dockerfile</code>.</p>
 <h2 id="file-system"><a href="#file-system" class="anchor-link">§</a>File system</h2>
 <p>Now I put together the program to start the container and extract the file system. The program is saved as <code>/firecracker/docker/create-alpine-3.13.sh</code> and goes like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -475,43 +475,43 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nb">set</span> -eu
-<span class="nv">build_dir</span><span class="o">=</span><span class="s2">&#34;/tmp/alpine-build&#34;</span>
-<span class="nv">dockerfile</span><span class="o">=</span><span class="s2">&#34;/firecracker/docker/alpine-3.13/Dockerfile&#34;</span>
-<span class="nv">filesystem_target</span><span class="o">=</span><span class="s2">&#34;/firecracker/filesystems/alpine-base-root.ext4&#34;</span>
-<span class="nv">key_file</span><span class="o">=</span><span class="s2">&#34;alpine&#34;</span>
-<span class="nv">image_tag</span><span class="o">=</span><span class="s2">&#34;local/alpine-base:latest&#34;</span>
-<span class="nv">pre_build_dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
-
-<span class="nb">echo</span> <span class="s2">&#34;Generating a keypair...&#34;</span>
-<span class="nb">set</span> +e
-ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;alpine@firecracker&#34;</span> -f <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/</span><span class="si">${</span><span class="nv">key_file</span><span class="si">}</span><span class="s2">&#34;</span>
-<span class="nb">set</span> -e
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -eu
+</span></span><span class="line"><span class="cl"><span class="nv">build_dir</span><span class="o">=</span><span class="s2">&#34;/tmp/alpine-build&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">dockerfile</span><span class="o">=</span><span class="s2">&#34;/firecracker/docker/alpine-3.13/Dockerfile&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">filesystem_target</span><span class="o">=</span><span class="s2">&#34;/firecracker/filesystems/alpine-base-root.ext4&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">key_file</span><span class="o">=</span><span class="s2">&#34;alpine&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">image_tag</span><span class="o">=</span><span class="s2">&#34;local/alpine-base:latest&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">pre_build_dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Generating a keypair...&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> +e
+</span></span><span class="line"><span class="cl">ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;alpine@firecracker&#34;</span> -f <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/</span><span class="si">${</span><span class="nv">key_file</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> -e
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>First, I&rsquo;m setting up the build context and generating a key pair. <code>ssh-keygen</code> is smart to check if the key pair already exists and answering <code>no</code> will prevent it from overwriting on every run.</p>
 <p>In the <code>Dockerfile</code>, I was using a build local <code>key.pub</code> for the image (step 8). Here&rsquo;s how I make sure it exists:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Creating build directory...&#34;</span>
-mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
-
-<span class="nb">echo</span> <span class="s2">&#34;Copying public key to the build directory...&#34;</span>
-cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/</span><span class="si">${</span><span class="nv">key_file</span><span class="si">}</span><span class="s2">.pub&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/key.pub&#34;</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Creating build directory...&#34;</span>
+</span></span><span class="line"><span class="cl">mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Copying public key to the build directory...&#34;</span>
+</span></span><span class="line"><span class="cl">cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/</span><span class="si">${</span><span class="nv">key_file</span><span class="si">}</span><span class="s2">.pub&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/key.pub&#34;</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Next, bring the <code>Dockerfile</code> to the build directory and build the Docker image. Tag the image with a known name. If the <code>docker build</code> fails, the program will report that fact and exit.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -524,23 +524,23 @@ cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME<
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Building Docker image...&#34;</span>
-cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">dockerfile</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/Dockerfile&#34;</span>
-docker build -t <span class="s2">&#34;</span><span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span><span class="s2">&#34;</span> .
-<span class="nv">retVal</span><span class="o">=</span><span class="nv">$?</span>
-<span class="nb">cd</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">pre_build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
-rm -r <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
-
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$retVal</span> -ne <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="nb">echo</span> <span class="s2">&#34; ==&gt; build failed with status </span><span class="nv">$?</span><span class="s2">&#34;</span>
-        <span class="nb">exit</span> <span class="nv">$retVal</span>
-<span class="k">fi</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Building Docker image...&#34;</span>
+</span></span><span class="line"><span class="cl">cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">dockerfile</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/Dockerfile&#34;</span>
+</span></span><span class="line"><span class="cl">docker build -t <span class="s2">&#34;</span><span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span><span class="s2">&#34;</span> .
+</span></span><span class="line"><span class="cl"><span class="nv">retVal</span><span class="o">=</span><span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">pre_build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">rm -r <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="nv">$retVal</span> -ne <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34; ==&gt; build failed with status </span><span class="nv">$?</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">exit</span> <span class="nv">$retVal</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The next step is to prepare the root file system:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -548,45 +548,45 @@ rm -r <span class="s2">&#34;</span><span class="si">${</span><span class="nv">bu
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Creating file system...&#34;</span>
-mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
-dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">500</span>
-mkfs.ext4 <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span>
-<span class="nb">echo</span> <span class="s2">&#34;Mounting file system...&#34;</span>
-sudo mount <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Creating file system...&#34;</span>
+</span></span><span class="line"><span class="cl">mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">500</span>
+</span></span><span class="line"><span class="cl">mkfs.ext4 <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Mounting file system...&#34;</span>
+</span></span><span class="line"><span class="cl">sudo mount <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and start the container:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Starting container from new image </span><span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span><span class="s2">...&#34;</span>
-<span class="nv">CONTAINER_ID</span><span class="o">=</span><span class="k">$(</span>docker run --rm -v <span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span>/fsmnt:/export-rootfs -td <span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span> /bin/sh<span class="k">)</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Starting container from new image </span><span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span><span class="s2">...&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">CONTAINER_ID</span><span class="o">=</span><span class="k">$(</span>docker run --rm -v <span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span>/fsmnt:/export-rootfs -td <span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span> /bin/sh<span class="k">)</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>followed by copying everything out of the container to the file system file. I do it the same way as with the Vault VMM root file system in my previous articles.</p>
 <p>I could combine the first two commands together but I decided to keep them separate to distinguish what belongs to the file system and what&rsquo;s mine, in this case that&rsquo;s the <code>/home</code> directory alone:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Copying Docker file system...&#34;</span>
-docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for d in home; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
-docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for d in bin dev etc lib root sbin usr; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
-docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for dir in proc run sys var; do mkdir /export-rootfs/${dir}; done; exit 0&#39;</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Copying Docker file system...&#34;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for d in home; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for d in bin dev etc lib root sbin usr; do tar c &#34;/$d&#34; | tar x -C /export-rootfs; done; exit 0&#39;</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">CONTAINER_ID</span><span class="si">}</span> /bin/sh -c <span class="s1">&#39;for dir in proc run sys var; do mkdir /export-rootfs/${dir}; done; exit 0&#39;</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>When everything is copied, unmount the file system, stop the container and clean up:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -604,23 +604,23 @@ docker <span class="nb">exec</span> <span class="si">${</span><span class="nv">C
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="s2">&#34;Unmounting file system...&#34;</span>
-sudo umount <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
-
-<span class="nb">echo</span> <span class="s2">&#34;Removing docker container...&#34;</span>
-docker stop <span class="nv">$CONTAINER_ID</span>
-
-<span class="nb">echo</span> <span class="s2">&#34;Moving file system...&#34;</span>
-mv <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">filesystem_target</span><span class="si">}</span><span class="s2">&#34;</span>
-
-<span class="nb">echo</span> <span class="s2">&#34;Cleaning up build directory...&#34;</span>
-rm -r <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
-
-<span class="nb">echo</span> <span class="s2">&#34;Removing Docker image...&#34;</span>
-docker rmi <span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span>
-
-<span class="nb">echo</span> <span class="s2">&#34; \\o/ File system written to </span><span class="si">${</span><span class="nv">filesystem_target</span><span class="si">}</span><span class="s2">.&#34;</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Unmounting file system...&#34;</span>
+</span></span><span class="line"><span class="cl">sudo umount <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/fsmnt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Removing docker container...&#34;</span>
+</span></span><span class="line"><span class="cl">docker stop <span class="nv">$CONTAINER_ID</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Moving file system...&#34;</span>
+</span></span><span class="line"><span class="cl">mv <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">/rootfs.ext4&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">filesystem_target</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Cleaning up build directory...&#34;</span>
+</span></span><span class="line"><span class="cl">rm -r <span class="s2">&#34;</span><span class="si">${</span><span class="nv">build_dir</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Removing Docker image...&#34;</span>
+</span></span><span class="line"><span class="cl">docker rmi <span class="si">${</span><span class="nv">image_tag</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34; \\o/ File system written to </span><span class="si">${</span><span class="nv">filesystem_target</span><span class="si">}</span><span class="s2">.&#34;</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>To run it simply execute <code>/firecracker/docker/create-alpine-3.13.sh</code>. On my machine, assuming that I already have <code>alpine:3.13</code> Docker image, the process takes about 20 seconds.</p>
 <h2 id="networking"><a href="#networking" class="anchor-link">§</a>Networking</h2>
@@ -628,7 +628,7 @@ docker rmi <span class="si">${</span><span class="nv">image_tag</span><span clas
 <p>Here, I&rsquo;m using the method from Julia&rsquo;s article - use the <code>docker0</code> bridge. This is really straightforward. I have the following <code>/firecracker/docker/tap-alpine-3.13.sh</code> program:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -645,53 +645,53 @@ docker rmi <span class="si">${</span><span class="nv">image_tag</span><span clas
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nb">set</span> -eu
-sudo apt-get install bridge-utils -y
-<span class="c1"># create and configure a tap device</span>
-<span class="c1"># to launch firecracker VMM on the docker0 bridge</span>
-<span class="nv">TAP_DEV</span><span class="o">=</span>alpine-test
-<span class="nv">CONTAINER_IP</span><span class="o">=</span>172.17.0.42
-<span class="nv">GATEWAY_IP</span><span class="o">=</span>172.17.0.1
-<span class="nv">DOCKER_MASK_LONG</span><span class="o">=</span>255.255.255.0
-sudo ip tuntap add dev <span class="s2">&#34;</span><span class="nv">$TAP_DEV</span><span class="s2">&#34;</span> mode tap
-sudo brctl addif docker0 <span class="nv">$TAP_DEV</span>
-sudo ip link <span class="nb">set</span> dev <span class="s2">&#34;</span><span class="nv">$TAP_DEV</span><span class="s2">&#34;</span> up
-<span class="c1"># as Julia Evans, I also need to figure out the meaning of this:</span>
-sudo sysctl -w net.ipv4.conf.<span class="si">${</span><span class="nv">TAP_DEV</span><span class="si">}</span>.proxy_arp<span class="o">=</span><span class="m">1</span> &gt; /dev/null
-sudo sysctl -w net.ipv6.conf.<span class="si">${</span><span class="nv">TAP_DEV</span><span class="si">}</span>.disable_ipv6<span class="o">=</span><span class="m">1</span> &gt; /dev/null
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -eu
+</span></span><span class="line"><span class="cl">sudo apt-get install bridge-utils -y
+</span></span><span class="line"><span class="cl"><span class="c1"># create and configure a tap device</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># to launch firecracker VMM on the docker0 bridge</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TAP_DEV</span><span class="o">=</span>alpine-test
+</span></span><span class="line"><span class="cl"><span class="nv">CONTAINER_IP</span><span class="o">=</span>172.17.0.42
+</span></span><span class="line"><span class="cl"><span class="nv">GATEWAY_IP</span><span class="o">=</span>172.17.0.1
+</span></span><span class="line"><span class="cl"><span class="nv">DOCKER_MASK_LONG</span><span class="o">=</span>255.255.255.0
+</span></span><span class="line"><span class="cl">sudo ip tuntap add dev <span class="s2">&#34;</span><span class="nv">$TAP_DEV</span><span class="s2">&#34;</span> mode tap
+</span></span><span class="line"><span class="cl">sudo brctl addif docker0 <span class="nv">$TAP_DEV</span>
+</span></span><span class="line"><span class="cl">sudo ip link <span class="nb">set</span> dev <span class="s2">&#34;</span><span class="nv">$TAP_DEV</span><span class="s2">&#34;</span> up
+</span></span><span class="line"><span class="cl"><span class="c1"># as Julia Evans, I also need to figure out the meaning of this:</span>
+</span></span><span class="line"><span class="cl">sudo sysctl -w net.ipv4.conf.<span class="si">${</span><span class="nv">TAP_DEV</span><span class="si">}</span>.proxy_arp<span class="o">=</span><span class="m">1</span> &gt; /dev/null
+</span></span><span class="line"><span class="cl">sudo sysctl -w net.ipv6.conf.<span class="si">${</span><span class="nv">TAP_DEV</span><span class="si">}</span>.disable_ipv6<span class="o">=</span><span class="m">1</span> &gt; /dev/null
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The gateway IP and mask come from the <code>docker0</code> bridge:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ ip addr show docker0
-6: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc noqueue state DOWN group default
-    link/ether 02:42:3c:de:fe:d5 brd ff:ff:ff:ff:ff:ff
-    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
-       valid_lft forever preferred_lft forever
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ ip addr show docker0
+</span></span><span class="line"><span class="cl">6: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc noqueue state DOWN group default
+</span></span><span class="line"><span class="cl">    link/ether 02:42:3c:de:fe:d5 brd ff:ff:ff:ff:ff:ff
+</span></span><span class="line"><span class="cl">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+</span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The IP address of the VMM is an arbitrary selection.</p>
 <p>Run it with <code>/firecracker/docker/tap-alpine-3.13.sh</code>, the outcome will be similar to:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ ip link show alpine-test
-13: alpine-test: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc fq_codel master docker0 state DOWN mode DEFAULT group default qlen <span class="m">1000</span>
-    link/ether b6:53:d1:78:ee:2d brd ff:ff:ff:ff:ff:ff
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ ip link show alpine-test
+</span></span><span class="line"><span class="cl">13: alpine-test: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc fq_codel master docker0 state DOWN mode DEFAULT group default qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">    link/ether b6:53:d1:78:ee:2d brd ff:ff:ff:ff:ff:ff
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Time to configure the VMM.</p>
 <h2 id="vmm-configuration-file"><a href="#vmm-configuration-file" class="anchor-link">§</a>VMM configuration file</h2>
@@ -702,7 +702,7 @@ sudo sysctl -w net.ipv6.conf.<span class="si">${</span><span class="nv">TAP_DEV<
 </ul>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -732,48 +732,48 @@ sudo sysctl -w net.ipv6.conf.<span class="si">${</span><span class="nv">TAP_DEV<
 </span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">cat <span class="s">&lt;&lt;EOF &gt; /firecracker/configs/alpine-config.json
-</span><span class="s">{
-</span><span class="s">  &#34;boot-source&#34;: {
-</span><span class="s">    &#34;kernel_image_path&#34;: &#34;/firecracker/kernels/vmlinux-v5.8&#34;,
-</span><span class="s">    &#34;boot_args&#34;: &#34;ro console=ttyS0 noapic reboot=k panic=1 pci=off nomodules random.trust_cpu=on ip=172.17.0.42::172.17.0.1:255.255.255.0::eth0:off&#34;
-</span><span class="s">  },
-</span><span class="s">  &#34;drives&#34;: [
-</span><span class="s">    {
-</span><span class="s">      &#34;drive_id&#34;: &#34;rootfs&#34;,
-</span><span class="s">      &#34;path_on_host&#34;: &#34;/firecracker/filesystems/alpine-base-root.ext4&#34;,
-</span><span class="s">      &#34;is_root_device&#34;: true,
-</span><span class="s">      &#34;is_read_only&#34;: false
-</span><span class="s">    }
-</span><span class="s">  ],
-</span><span class="s">  &#34;network-interfaces&#34;: [
-</span><span class="s">      {
-</span><span class="s">          &#34;iface_id&#34;: &#34;eth0&#34;,
-</span><span class="s">          &#34;guest_mac&#34;: &#34;02:FC:00:00:00:05&#34;,
-</span><span class="s">          &#34;host_dev_name&#34;: &#34;alpine-test&#34;
-</span><span class="s">      }
-</span><span class="s">  ],
-</span><span class="s">  &#34;machine-config&#34;: {
-</span><span class="s">    &#34;vcpu_count&#34;: 1,
-</span><span class="s">    &#34;mem_size_mib&#34;: 128,
-</span><span class="s">    &#34;ht_enabled&#34;: false
-</span><span class="s">  }
-</span><span class="s">}
-</span><span class="s">EOF</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; /firecracker/configs/alpine-config.json
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;boot-source&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;kernel_image_path&#34;: &#34;/firecracker/kernels/vmlinux-v5.8&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;boot_args&#34;: &#34;ro console=ttyS0 noapic reboot=k panic=1 pci=off nomodules random.trust_cpu=on ip=172.17.0.42::172.17.0.1:255.255.255.0::eth0:off&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  },
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;drives&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">    {
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;drive_id&#34;: &#34;rootfs&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;path_on_host&#34;: &#34;/firecracker/filesystems/alpine-base-root.ext4&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;is_root_device&#34;: true,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;is_read_only&#34;: false
+</span></span></span><span class="line"><span class="cl"><span class="s">    }
+</span></span></span><span class="line"><span class="cl"><span class="s">  ],
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;network-interfaces&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">      {
+</span></span></span><span class="line"><span class="cl"><span class="s">          &#34;iface_id&#34;: &#34;eth0&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">          &#34;guest_mac&#34;: &#34;02:FC:00:00:00:05&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">          &#34;host_dev_name&#34;: &#34;alpine-test&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">  ],
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;machine-config&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;vcpu_count&#34;: 1,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;mem_size_mib&#34;: 128,
+</span></span></span><span class="line"><span class="cl"><span class="s">    &#34;ht_enabled&#34;: false
+</span></span></span><span class="line"><span class="cl"><span class="s">  }
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="run-the-vmm"><a href="#run-the-vmm" class="anchor-link">§</a>Run the VMM</h2>
 <p>To start the VMM, simply execute:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">sudo firecracker --no-api --config-file /firecracker/configs/alpine-config.json
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo firecracker --no-api --config-file /firecracker/configs/alpine-config.json
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>About two seconds later:</p>
-<pre><code> * Mounting misc binary format filesystem ... [ ok ]
+<pre tabindex="0"><code> * Mounting misc binary format filesystem ... [ ok ]
  * Mounting /sys ... [ ok ]
  * Mounting security filesystem ... [ ok ]
  * Mounting debug filesystem ... [ ok ]
@@ -789,17 +789,17 @@ Kernel 5.8.0 on an x86_64 (ttyS0)
 <p>In another terminal:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">ssh -i ~/.ssh/alpine alpine@172.17.0.42
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh -i ~/.ssh/alpine alpine@172.17.0.42
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>The authenticity of host '172.17.0.42 (172.17.0.42)' can't be established.
+</div><pre tabindex="0"><code>The authenticity of host &#39;172.17.0.42 (172.17.0.42)&#39; can&#39;t be established.
 ECDSA key fingerprint is SHA256:gYxEJdQIXM3242/yV/RV9qVQBaGSdLoUtpFSmBKEyHE.
 Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added '172.17.0.42' (ECDSA) to the list of known hosts.
-Enter passphrase for key '/home/radek/.ssh/alpine':
+Warning: Permanently added &#39;172.17.0.42&#39; (ECDSA) to the list of known hosts.
+Enter passphrase for key &#39;/home/radek/.ssh/alpine&#39;:
 Welcome to Alpine!
 
 The Alpine Wiki contains a large amount of how-to guides and general
@@ -811,28 +811,28 @@ You can setup the system with the command: setup-alpine
 You may change this message by editing /etc/motd.
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">172:~$ sudo sh
-172:/home/alpine# apk update
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">172:~$ sudo sh
+</span></span><span class="line"><span class="cl">172:/home/alpine# apk update
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
+</div><pre tabindex="0"><code>fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
 fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/APKINDEX.tar.gz
 v3.13.1-115-gf65775dfbc [https://dl-cdn.alpinelinux.org/alpine/v3.13/main]
 v3.13.1-117-g6a5e33f63c [https://dl-cdn.alpinelinux.org/alpine/v3.13/community]
 OK: 13880 distinct packages available
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ping 1.1.1.1
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">172:/home/alpine# ping 1.1.1.1
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>PING 1.1.1.1 (1.1.1.1): 56 data bytes
+</div><pre tabindex="0"><code>PING 1.1.1.1 (1.1.1.1): 56 data bytes
 64 bytes from 1.1.1.1: seq=0 ttl=58 time=18.995 ms
 64 bytes from 1.1.1.1: seq=1 ttl=58 time=15.660 ms
 64 bytes from 1.1.1.1: seq=2 ttl=58 time=16.246 ms
@@ -843,19 +843,19 @@ OK: 13880 distinct packages available
 round-trip min/avg/max = 15.660/17.197/18.995 ms
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ip link
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">172:/home/alpine# ip link
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+</div><pre tabindex="0"><code>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
     link/ether 02:fc:00:00:00:05 brd ff:ff:ff:ff:ff:ff
 </code></pre><div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -870,31 +870,31 @@ round-trip min/avg/max = 15.660/17.197/18.995 ms
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ip addr
-1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class="m">65536</span> qdisc noqueue state UNKNOWN qlen <span class="m">1000</span>
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host
-       valid_lft forever preferred_lft forever
-2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc pfifo_fast state UP qlen <span class="m">1000</span>
-    link/ether 02:fc:00:00:00:05 brd ff:ff:ff:ff:ff:ff
-    inet 172.17.0.42/24 brd 172.17.0.255 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::fc:ff:fe00:5/64 scope link
-       valid_lft forever preferred_lft forever
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">172:/home/alpine# ip addr
+</span></span><span class="line"><span class="cl">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class="m">65536</span> qdisc noqueue state UNKNOWN qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span></span><span class="line"><span class="cl">    inet 127.0.0.1/8 scope host lo
+</span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
+</span></span><span class="line"><span class="cl">    inet6 ::1/128 scope host
+</span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
+</span></span><span class="line"><span class="cl">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc pfifo_fast state UP qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">    link/ether 02:fc:00:00:00:05 brd ff:ff:ff:ff:ff:ff
+</span></span><span class="line"><span class="cl">    inet 172.17.0.42/24 brd 172.17.0.255 scope global eth0
+</span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
+</span></span><span class="line"><span class="cl">    inet6 fe80::fc:ff:fe00:5/64 scope link
+</span></span><span class="line"><span class="cl">       valid_lft forever preferred_lft forever
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Nice. Everything is working as expected. The UX is not fully complete, to <code>ping</code> stuff I do have to <code>sudo</code>. Whatever, if I can <code>ping</code> the BBC, I&rsquo;m good:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# ping bbc.co.uk
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">172:/home/alpine# ping bbc.co.uk
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>PING bbc.co.uk (151.101.64.81): 56 data bytes
+</div><pre tabindex="0"><code>PING bbc.co.uk (151.101.64.81): 56 data bytes
 64 bytes from 151.101.64.81: seq=0 ttl=58 time=23.371 ms
 64 bytes from 151.101.64.81: seq=1 ttl=58 time=20.238 ms
 64 bytes from 151.101.64.81: seq=2 ttl=58 time=24.788 ms
@@ -908,22 +908,22 @@ round-trip min/avg/max = 20.238/23.111/24.788 ms
 <p>That&rsquo;s it for today:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">172:/home/alpine# reboot
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">172:/home/alpine# reboot
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>172:/home/alpine# Connection to 172.17.0.42 closed by remote host.
+</div><pre tabindex="0"><code>172:/home/alpine# Connection to 172.17.0.42 closed by remote host.
 Connection to 172.17.0.42 closed.
 </code></pre><section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/" target="_blank" rel="noopener">Day 41: Trying to understand what a bridge is</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/" target="_blank" rel="noopener">Day 41: Trying to understand what a bridge is</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>

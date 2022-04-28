@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2014-10-12T00:00:00+00:00",
-        "dateModified": "2020-09-03T02:03:37+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/",
         "headline": "Apache Thrift via UDP in Erlang",
         "description": "A few months ago I have started learning Erlang, mostly for fun but it was right about time to jump on the functional bandwagon. The best way to learn a new language is to find an engaging project, in my case its been something what has been on my mind for quite a while: a cloud communication protocol / framework for distributed computing.",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2014-10-12T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2020-09-03T02:03:37&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -287,23 +287,23 @@
 <p>A bare minimum required for installing dependencies.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">deps</span><span class="p">,</span> <span class="p">[</span>
-  <span class="p">{</span><span class="n">thrift</span><span class="p">,</span> <span class="s">&#34;.*&#34;</span><span class="p">,</span>
-    <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&#34;https://github.com/radekg/thrift-erlang.git&#34;</span><span class="p">,</span> <span class="s">&#34;master&#34;</span><span class="p">}}</span>
-<span class="p">]}.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">{</span><span class="n">deps</span><span class="p">,</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">thrift</span><span class="p">,</span> <span class="s">&#34;.*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&#34;https://github.com/radekg/thrift-erlang.git&#34;</span><span class="p">,</span> <span class="s">&#34;master&#34;</span><span class="p">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]}.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>I am using my own fork of Thrift, it contains updated JSX dependencies.</p>
 <h4 id="srcudp_thriftappsrc"><a href="#srcudp_thriftappsrc" class="anchor-link">§</a>src/udp_thrift.app.src</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -317,24 +317,24 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">{</span><span class="n">application</span><span class="p">,</span> <span class="n">udp_thrift</span><span class="p">,</span>
-  <span class="p">[{</span><span class="n">description</span><span class="p">,</span> <span class="s">&#34;Example of using Thrift with UDP&#34;</span><span class="p">},</span>
-  <span class="p">{</span><span class="n">vsn</span><span class="p">,</span> <span class="s">&#34;1&#34;</span><span class="p">},</span>
-  <span class="p">{</span><span class="n">modules</span><span class="p">,</span> <span class="p">[</span><span class="n">udp_thrift_types</span><span class="p">,</span>
-             <span class="n">udp_thrift_app</span><span class="p">,</span>
-             <span class="n">udp_thrift_common</span><span class="p">,</span>
-             <span class="n">udp_thrift_sup</span><span class="p">,</span>
-             <span class="n">udp_thrift_messaging</span><span class="p">,</span>
-             <span class="n">udp_thrift_serialization</span><span class="p">]},</span>
-  <span class="p">{</span><span class="n">registered</span><span class="p">,</span> <span class="n">udp_thrift_sup</span><span class="p">},</span>
-  <span class="p">{</span><span class="n">applications</span><span class="p">,</span> <span class="p">[</span><span class="n">kernel</span><span class="p">,</span> <span class="n">stdlib</span><span class="p">,</span> <span class="n">crypto</span><span class="p">,</span> <span class="n">thrift</span><span class="p">]},</span>
-  <span class="p">{</span><span class="n">mod</span><span class="p">,</span> <span class="p">{</span><span class="n">udp_thrift_app</span><span class="p">,</span> <span class="p">[]}}]}.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">{</span><span class="n">application</span><span class="p">,</span> <span class="n">udp_thrift</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[{</span><span class="n">description</span><span class="p">,</span> <span class="s">&#34;Example of using Thrift with UDP&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">vsn</span><span class="p">,</span> <span class="s">&#34;1&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">modules</span><span class="p">,</span> <span class="p">[</span><span class="n">udp_thrift_types</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">udp_thrift_app</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">udp_thrift_common</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">udp_thrift_sup</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">udp_thrift_messaging</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="n">udp_thrift_serialization</span><span class="p">]},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">registered</span><span class="p">,</span> <span class="n">udp_thrift_sup</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">applications</span><span class="p">,</span> <span class="p">[</span><span class="n">kernel</span><span class="p">,</span> <span class="n">stdlib</span><span class="p">,</span> <span class="n">crypto</span><span class="p">,</span> <span class="n">thrift</span><span class="p">]},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">mod</span><span class="p">,</span> <span class="p">{</span><span class="n">udp_thrift_app</span><span class="p">,</span> <span class="p">[]}}]}.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="srcudp_thrift_apperl"><a href="#srcudp_thrift_apperl" class="anchor-link">§</a>src/udp_thrift_app.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -344,20 +344,20 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_app</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">application</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">1</span><span class="p">]).</span>
-
-<span class="nf">start</span><span class="p">(_</span><span class="nv">Type</span><span class="p">,</span> <span class="p">_</span><span class="nv">Args</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="nn">udp_thrift_sup</span><span class="p">:</span><span class="nf">start_link</span><span class="p">().</span>
-<span class="nf">stop</span><span class="p">(_</span><span class="nv">State</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="n">ok</span><span class="p">.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_app</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">application</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">1</span><span class="p">]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">start</span><span class="p">(_</span><span class="nv">Type</span><span class="p">,</span> <span class="p">_</span><span class="nv">Args</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">udp_thrift_sup</span><span class="p">:</span><span class="nf">start_link</span><span class="p">().</span>
+</span></span><span class="line"><span class="cl"><span class="nf">stop</span><span class="p">(_</span><span class="nv">State</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ok</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="srcudp_thrift_commonerl"><a href="#srcudp_thrift_commonerl" class="anchor-link">§</a>src/udp_thrift_common.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -370,23 +370,23 @@
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_common</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">export</span><span class="p">([</span>
-  <span class="n">get_timestamp</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span>
-  <span class="n">get_message_id_as_string</span><span class="o">/</span><span class="mi">0</span> <span class="p">]).</span>
-
-<span class="nf">get_timestamp</span><span class="p">()</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="nv">Mega</span><span class="p">,</span><span class="nv">Sec</span><span class="p">,</span><span class="nv">Micro</span><span class="p">}</span> <span class="o">=</span> <span class="nn">os</span><span class="p">:</span><span class="nf">timestamp</span><span class="p">(),</span>
-  <span class="nb">trunc</span><span class="p">(</span> <span class="p">((</span><span class="nv">Mega</span><span class="o">*</span><span class="mi">1000000</span><span class="o">+</span><span class="nv">Sec</span><span class="p">)</span><span class="o">*</span><span class="mi">1000000</span><span class="o">+</span><span class="nv">Micro</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000000</span> <span class="p">).</span>
-
-<span class="nf">get_message_id_as_string</span><span class="p">()</span> <span class="o">-&gt;</span>
-  <span class="nn">lists</span><span class="p">:</span><span class="nf">flatten</span><span class="p">(</span> <span class="nn">io_lib</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span> <span class="s">&#34;</span><span class="si">~p</span><span class="s">&#34;</span><span class="p">,</span> <span class="p">[</span> <span class="n">make_ref</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span> <span class="p">).</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_common</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">export</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">  <span class="n">get_timestamp</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">get_message_id_as_string</span><span class="o">/</span><span class="mi">0</span> <span class="p">]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">get_timestamp</span><span class="p">()</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="nv">Mega</span><span class="p">,</span><span class="nv">Sec</span><span class="p">,</span><span class="nv">Micro</span><span class="p">}</span> <span class="o">=</span> <span class="nn">os</span><span class="p">:</span><span class="nf">timestamp</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">trunc</span><span class="p">(</span> <span class="p">((</span><span class="nv">Mega</span><span class="o">*</span><span class="mi">1000000</span><span class="o">+</span><span class="nv">Sec</span><span class="p">)</span><span class="o">*</span><span class="mi">1000000</span><span class="o">+</span><span class="nv">Micro</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000000</span> <span class="p">).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">get_message_id_as_string</span><span class="p">()</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">lists</span><span class="p">:</span><span class="nf">flatten</span><span class="p">(</span> <span class="nn">io_lib</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span> <span class="s">&#34;</span><span class="si">~p</span><span class="s">&#34;</span><span class="p">,</span> <span class="p">[</span> <span class="n">make_ref</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span> <span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="srcudp_thrift_superl"><a href="#srcudp_thrift_superl" class="anchor-link">§</a>src/udp_thrift_sup.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -433,58 +433,58 @@
 </span><span class="lnt">45
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_sup</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">supervisor</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">]).</span>
-
-<span class="nf">start_link</span><span class="p">()</span> <span class="o">-&gt;</span>
-  <span class="nn">supervisor</span><span class="p">:</span><span class="nf">start_link</span><span class="p">({</span><span class="n">local</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">},</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="p">[]).</span>
-
-<span class="nf">init</span><span class="p">([])</span> <span class="o">-&gt;</span>
-  <span class="nv">Port</span> <span class="o">=</span> <span class="k">case</span> <span class="nn">application</span><span class="p">:</span><span class="nf">get_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span> <span class="k">of</span>
-    <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Value</span> <span class="p">}</span> <span class="o">-&gt;</span>
-      <span class="nv">Value</span><span class="p">;</span>
-    <span class="n">undefined</span> <span class="o">-&gt;</span>
-      <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">no_port</span> <span class="p">}</span>
-  <span class="k">end</span><span class="p">,</span>
-  <span class="nv">PeerPort</span> <span class="o">=</span> <span class="k">case</span> <span class="nn">application</span><span class="p">:</span><span class="nf">get_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">)</span> <span class="k">of</span>
-    <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Value2</span> <span class="p">}</span> <span class="o">-&gt;</span>
-      <span class="nv">Value2</span><span class="p">;</span>
-    <span class="n">undefined</span> <span class="o">-&gt;</span>
-      <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">no_peer_port</span> <span class="p">}</span>
-  <span class="k">end</span><span class="p">,</span>
-  <span class="k">case</span> <span class="nn">application</span><span class="p">:</span><span class="nf">get_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">of</span>
-    <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Name</span> <span class="p">}</span> <span class="o">-&gt;</span>
-        <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">{</span> <span class="p">{</span> <span class="n">one_for_all</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">},</span>
-          <span class="p">[</span>
-            <span class="p">{</span>
-              <span class="n">udp_thrift_messaging</span><span class="p">,</span>
-              <span class="p">{</span><span class="n">udp_thrift_messaging</span><span class="p">,</span> <span class="n">start_link</span><span class="p">,</span> <span class="p">[</span> <span class="p">{</span><span class="mi">127</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="nv">Port</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">]},</span>
-              <span class="n">permanent</span><span class="p">,</span>
-              <span class="n">brutal_kill</span><span class="p">,</span>
-              <span class="n">worker</span><span class="p">,</span>
-              <span class="p">[]</span>
-            <span class="p">},</span> <span class="p">{</span>
-              <span class="n">udp_thrift_serialization</span><span class="p">,</span>
-              <span class="p">{</span><span class="n">udp_thrift_serialization</span><span class="p">,</span> <span class="n">start_link</span><span class="p">,</span> <span class="p">[]},</span>
-              <span class="n">permanent</span><span class="p">,</span>
-              <span class="n">brutal_kill</span><span class="p">,</span>
-              <span class="n">worker</span><span class="p">,</span>
-              <span class="p">[]</span>
-            <span class="p">}</span>
-          <span class="p">]</span>
-        <span class="p">}</span>
-      <span class="p">};</span>
-    <span class="n">undefined</span> <span class="o">-&gt;</span>
-      <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">no_name_given</span> <span class="p">}</span>
-  <span class="k">end</span><span class="p">.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_sup</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">supervisor</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">start_link</span><span class="p">()</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">supervisor</span><span class="p">:</span><span class="nf">start_link</span><span class="p">({</span><span class="n">local</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">},</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="p">[]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">init</span><span class="p">([])</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">Port</span> <span class="o">=</span> <span class="k">case</span> <span class="nn">application</span><span class="p">:</span><span class="nf">get_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Value</span> <span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">Value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">undefined</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">no_port</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">PeerPort</span> <span class="o">=</span> <span class="k">case</span> <span class="nn">application</span><span class="p">:</span><span class="nf">get_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Value2</span> <span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">Value2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">undefined</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">no_peer_port</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="nn">application</span><span class="p">:</span><span class="nf">get_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Name</span> <span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">{</span> <span class="p">{</span> <span class="n">one_for_all</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="p">[</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">              <span class="n">udp_thrift_messaging</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="p">{</span><span class="n">udp_thrift_messaging</span><span class="p">,</span> <span class="n">start_link</span><span class="p">,</span> <span class="p">[</span> <span class="p">{</span><span class="mi">127</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="nv">Port</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">]},</span>
+</span></span><span class="line"><span class="cl">              <span class="n">permanent</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">brutal_kill</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">worker</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">              <span class="n">udp_thrift_serialization</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="p">{</span><span class="n">udp_thrift_serialization</span><span class="p">,</span> <span class="n">start_link</span><span class="p">,</span> <span class="p">[]},</span>
+</span></span><span class="line"><span class="cl">              <span class="n">permanent</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">brutal_kill</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">worker</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">undefined</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">no_name_given</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The supervisor expects a number of environment properties to be set. This will be provided later on, in <em>Running and testing</em> section. If one or more of these is not provided, the application will not start or fail at a worker start step.</p>
 <h4 id="srcudp_thrift_messagingerl"><a href="#srcudp_thrift_messagingerl" class="anchor-link">§</a>src/udp_thrift_messaging.erl</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -585,110 +585,110 @@
 </span><span class="lnt">99
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_messaging</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">gen_server</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
-<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span> <span class="n">handle_call</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">handle_cast</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">handle_info</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">code_change</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">terminate</span><span class="o">/</span><span class="mi">2</span><span class="p">]).</span>
-
-<span class="p">-</span><span class="ni">define</span><span class="p">(</span><span class="no">SERVER</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">).</span>
-
-<span class="p">-</span><span class="ni">include</span><span class="p">(</span><span class="s">&#34;udp_thrift_types.hrl&#34;</span><span class="p">).</span>
-
-<span class="nf">start_link</span><span class="p">(</span><span class="nv">BindAddress</span><span class="p">,</span> <span class="nv">BindPort</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="nn">gen_server</span><span class="p">:</span><span class="nf">start_link</span><span class="p">({</span><span class="n">local</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">},</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span>
-                         <span class="p">[</span><span class="nv">BindAddress</span><span class="p">,</span> <span class="nv">BindPort</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">],</span> <span class="p">[]).</span>
-
-<span class="nf">stop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nn">gen_server</span><span class="p">:</span><span class="nf">cast</span><span class="p">(</span><span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">stop</span><span class="p">).</span>
-
-<span class="nf">init</span><span class="p">([</span><span class="nv">BindAddress</span><span class="p">,</span> <span class="nv">BindPort</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">])</span> <span class="o">-&gt;</span>
-  <span class="k">case</span> <span class="nn">gen_udp</span><span class="p">:</span><span class="nf">open</span><span class="p">(</span><span class="nv">BindPort</span><span class="p">,</span> <span class="p">[</span><span class="n">binary</span><span class="p">,</span> <span class="p">{</span><span class="n">ip</span><span class="p">,</span> <span class="nv">BindAddress</span><span class="p">}])</span> <span class="k">of</span>
-    <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">}</span> <span class="o">-&gt;</span>
-      <span class="nn">erlang</span><span class="p">:</span><span class="nb">send_after</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">self</span><span class="p">(),</span> <span class="p">{</span> <span class="n">contact_peer</span><span class="p">,</span> <span class="nv">BindPort</span> <span class="p">}),</span>
-      <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">{</span><span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">}};</span>
-    <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="nv">Reason</span><span class="p">}</span> <span class="o">-&gt;</span>
-      <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="nv">Reason</span><span class="p">}</span>
-  <span class="k">end</span><span class="p">.</span>
-
-<span class="nf">terminate</span><span class="p">(_</span><span class="nv">Reason</span><span class="p">,</span> <span class="p">{</span><span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="p">_})</span> <span class="o">-&gt;</span>
-  <span class="nn">gen_udp</span><span class="p">:</span><span class="nf">close</span><span class="p">(</span><span class="nv">Socket</span><span class="p">).</span>
-
-<span class="nf">handle_cast</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
-
-<span class="c">%% SENDING
-</span><span class="c"></span>
-<span class="nf">handle_info</span><span class="p">({</span> <span class="n">contact_peer</span><span class="p">,</span> <span class="nv">Port</span> <span class="p">},</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span> <span class="s">&#34;Sending digest to </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span> <span class="nv">PeerPort</span> <span class="p">]</span> <span class="p">),</span>
-  <span class="nv">Digest</span> <span class="o">=</span> <span class="nl">#digest</span><span class="p">{</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="nv">Name</span><span class="p">,</span>
-    <span class="n">port</span> <span class="o">=</span> <span class="nv">Port</span><span class="p">,</span>
-    <span class="n">heartbeat</span> <span class="o">=</span> <span class="nn">udp_thrift_common</span><span class="p">:</span><span class="nf">get_timestamp</span><span class="p">(),</span>
-    <span class="n">id</span> <span class="o">=</span> <span class="nn">udp_thrift_common</span><span class="p">:</span><span class="nf">get_message_id_as_string</span><span class="p">()</span> <span class="p">},</span>
-  <span class="n">udp_thrift_serialization</span> <span class="o">!</span> <span class="p">{</span> <span class="n">serialize</span><span class="p">,</span> <span class="n">digest</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="n">self</span><span class="p">()</span> <span class="p">},</span>
-  <span class="nn">erlang</span><span class="p">:</span><span class="nb">send_after</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">self</span><span class="p">(),</span> <span class="p">{</span> <span class="n">contact_peer</span><span class="p">,</span> <span class="nv">Port</span> <span class="p">}),</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
-
-<span class="nf">handle_info</span><span class="p">({</span> <span class="n">message_serialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">SerializedMessage</span> <span class="p">}</span> <span class="p">},</span>
-             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="nn">gen_udp</span><span class="p">:</span><span class="nb">send</span><span class="p">(</span>
-    <span class="nv">Socket</span><span class="p">,</span>
-    <span class="p">{</span> <span class="mi">127</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span> <span class="p">},</span>
-    <span class="nv">PeerPort</span><span class="p">,</span>
-    <span class="nv">SerializedMessage</span> <span class="p">),</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}</span> <span class="p">};</span>
-
-<span class="c">%% RECEIVING
-</span><span class="c"></span>
-<span class="nf">handle_info</span><span class="p">({</span><span class="n">udp</span><span class="p">,</span> <span class="p">_</span><span class="nv">ClientSocket</span><span class="p">,</span> <span class="p">_</span><span class="nv">ClientIp</span><span class="p">,</span> <span class="p">_</span><span class="nv">ClientPort</span><span class="p">,</span> <span class="nv">Msg</span><span class="p">},</span>
-             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="n">udp_thrift_serialization</span> <span class="o">!</span> <span class="p">{</span> <span class="n">deserialize</span><span class="p">,</span> <span class="nv">Msg</span><span class="p">,</span> <span class="n">self</span><span class="p">()</span> <span class="p">},</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
-
-<span class="nf">handle_info</span><span class="p">({</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedPayloadType</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">}</span> <span class="p">},</span>
-             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="n">self</span><span class="p">()</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message</span><span class="p">,</span> <span class="nv">DecodedPayloadType</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">},</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
-
-<span class="nf">handle_info</span><span class="p">({</span> <span class="n">message</span><span class="p">,</span> <span class="n">digest</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">},</span>
-             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span><span class="s">&#34;Received digest from </span><span class="si">~p</span><span class="s">. Replying to </span><span class="si">~p</span><span class="s">&#34;</span><span class="p">,</span>
-                         <span class="p">[</span> <span class="nv">DecodedPayload</span><span class="nl">#digest.name</span><span class="p">,</span> <span class="nv">DecodedPayload</span><span class="nl">#digest.port</span> <span class="p">]),</span>
-  <span class="nv">DigestAck</span> <span class="o">=</span> <span class="nl">#digestAck</span><span class="p">{</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="nv">Name</span><span class="p">,</span>
-    <span class="n">heartbeat</span> <span class="o">=</span> <span class="nn">udp_thrift_common</span><span class="p">:</span><span class="nf">get_timestamp</span><span class="p">(),</span>
-    <span class="n">reply_id</span> <span class="o">=</span> <span class="nv">DecodedPayload</span><span class="nl">#digest.id</span> <span class="p">},</span>
-  <span class="n">udp_thrift_serialization</span> <span class="o">!</span> <span class="p">{</span> <span class="n">serialize</span><span class="p">,</span> <span class="n">digestAck</span><span class="p">,</span> <span class="nv">DigestAck</span><span class="p">,</span> <span class="n">self</span><span class="p">()</span> <span class="p">},</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
-
-<span class="nf">handle_info</span><span class="p">({</span> <span class="n">message</span><span class="p">,</span> <span class="n">digestAck</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">},</span>
-             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span><span class="s">&#34;Received digestAck to digest </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span>
-                         <span class="p">[</span> <span class="nv">DecodedPayload</span><span class="nl">#digestAck.reply_id</span> <span class="p">]),</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
-
-<span class="c">%% ERROR HANDLING
-</span><span class="c"></span>
-<span class="nf">handle_info</span><span class="p">({</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="nv">Reason</span><span class="p">}</span> <span class="p">},</span>
-             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Message decode failed. Reason </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">Reason</span><span class="p">]),</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
-
-<span class="nf">handle_info</span><span class="p">(</span><span class="nv">Msg</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span><span class="s">&#34;Unhandled handle_info </span><span class="si">~p</span><span class="s">&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">Msg</span><span class="p">]),</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
-
-<span class="c">%% REMAINDER OF GEN_SERVER BEHAVIOUR
-</span><span class="c"></span>
-<span class="nf">handle_call</span><span class="p">({</span><span class="n">message</span><span class="p">,</span> <span class="p">_</span><span class="nv">Msg</span><span class="p">},</span> <span class="p">_</span><span class="nv">From</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">reply</span><span class="p">,</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
-
-<span class="nf">code_change</span><span class="p">(_</span><span class="nv">OldVsn</span><span class="p">,</span> <span class="nv">State</span><span class="p">,</span> <span class="p">_</span><span class="nv">Extra</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">State</span><span class="p">}.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_messaging</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">gen_server</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span> <span class="n">handle_call</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">handle_cast</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">handle_info</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">code_change</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">terminate</span><span class="o">/</span><span class="mi">2</span><span class="p">]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">define</span><span class="p">(</span><span class="no">SERVER</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">include</span><span class="p">(</span><span class="s">&#34;udp_thrift_types.hrl&#34;</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">start_link</span><span class="p">(</span><span class="nv">BindAddress</span><span class="p">,</span> <span class="nv">BindPort</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">gen_server</span><span class="p">:</span><span class="nf">start_link</span><span class="p">({</span><span class="n">local</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">},</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="p">[</span><span class="nv">BindAddress</span><span class="p">,</span> <span class="nv">BindPort</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">],</span> <span class="p">[]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">stop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nn">gen_server</span><span class="p">:</span><span class="nf">cast</span><span class="p">(</span><span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">stop</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">init</span><span class="p">([</span><span class="nv">BindAddress</span><span class="p">,</span> <span class="nv">BindPort</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">])</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="nn">gen_udp</span><span class="p">:</span><span class="nf">open</span><span class="p">(</span><span class="nv">BindPort</span><span class="p">,</span> <span class="p">[</span><span class="n">binary</span><span class="p">,</span> <span class="p">{</span><span class="n">ip</span><span class="p">,</span> <span class="nv">BindAddress</span><span class="p">}])</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nn">erlang</span><span class="p">:</span><span class="nb">send_after</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">self</span><span class="p">(),</span> <span class="p">{</span> <span class="n">contact_peer</span><span class="p">,</span> <span class="nv">BindPort</span> <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">{</span><span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span><span class="p">}};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="nv">Reason</span><span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="nv">Reason</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">terminate</span><span class="p">(_</span><span class="nv">Reason</span><span class="p">,</span> <span class="p">{</span><span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="p">_})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">gen_udp</span><span class="p">:</span><span class="nf">close</span><span class="p">(</span><span class="nv">Socket</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_cast</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">%% SENDING
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">contact_peer</span><span class="p">,</span> <span class="nv">Port</span> <span class="p">},</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span> <span class="s">&#34;Sending digest to </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span> <span class="nv">PeerPort</span> <span class="p">]</span> <span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">Digest</span> <span class="o">=</span> <span class="nl">#digest</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="nv">Name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">port</span> <span class="o">=</span> <span class="nv">Port</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">heartbeat</span> <span class="o">=</span> <span class="nn">udp_thrift_common</span><span class="p">:</span><span class="nf">get_timestamp</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">id</span> <span class="o">=</span> <span class="nn">udp_thrift_common</span><span class="p">:</span><span class="nf">get_message_id_as_string</span><span class="p">()</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">udp_thrift_serialization</span> <span class="o">!</span> <span class="p">{</span> <span class="n">serialize</span><span class="p">,</span> <span class="n">digest</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="n">self</span><span class="p">()</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">erlang</span><span class="p">:</span><span class="nb">send_after</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">self</span><span class="p">(),</span> <span class="p">{</span> <span class="n">contact_peer</span><span class="p">,</span> <span class="nv">Port</span> <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">message_serialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">SerializedMessage</span> <span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">gen_udp</span><span class="p">:</span><span class="nb">send</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">Socket</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="mi">127</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">PeerPort</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">SerializedMessage</span> <span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">%% RECEIVING
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span><span class="n">udp</span><span class="p">,</span> <span class="p">_</span><span class="nv">ClientSocket</span><span class="p">,</span> <span class="p">_</span><span class="nv">ClientIp</span><span class="p">,</span> <span class="p">_</span><span class="nv">ClientPort</span><span class="p">,</span> <span class="nv">Msg</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">udp_thrift_serialization</span> <span class="o">!</span> <span class="p">{</span> <span class="n">deserialize</span><span class="p">,</span> <span class="nv">Msg</span><span class="p">,</span> <span class="n">self</span><span class="p">()</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedPayloadType</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">self</span><span class="p">()</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message</span><span class="p">,</span> <span class="nv">DecodedPayloadType</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">message</span><span class="p">,</span> <span class="n">digest</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span><span class="s">&#34;Received digest from </span><span class="si">~p</span><span class="s">. Replying to </span><span class="si">~p</span><span class="s">&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="p">[</span> <span class="nv">DecodedPayload</span><span class="nl">#digest.name</span><span class="p">,</span> <span class="nv">DecodedPayload</span><span class="nl">#digest.port</span> <span class="p">]),</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">DigestAck</span> <span class="o">=</span> <span class="nl">#digestAck</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="nv">Name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">heartbeat</span> <span class="o">=</span> <span class="nn">udp_thrift_common</span><span class="p">:</span><span class="nf">get_timestamp</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">reply_id</span> <span class="o">=</span> <span class="nv">DecodedPayload</span><span class="nl">#digest.id</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">udp_thrift_serialization</span> <span class="o">!</span> <span class="p">{</span> <span class="n">serialize</span><span class="p">,</span> <span class="n">digestAck</span><span class="p">,</span> <span class="nv">DigestAck</span><span class="p">,</span> <span class="n">self</span><span class="p">()</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">message</span><span class="p">,</span> <span class="n">digestAck</span><span class="p">,</span> <span class="nv">DecodedPayload</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span><span class="s">&#34;Received digestAck to digest </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                         <span class="p">[</span> <span class="nv">DecodedPayload</span><span class="nl">#digestAck.reply_id</span> <span class="p">]),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">%% ERROR HANDLING
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="nv">Reason</span><span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">             <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Message decode failed. Reason </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">Reason</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">messaging</span><span class="p">,</span> <span class="nv">Socket</span><span class="p">,</span> <span class="nv">Name</span><span class="p">,</span> <span class="nv">PeerPort</span> <span class="p">}};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">(</span><span class="nv">Msg</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">error_logger</span><span class="p">:</span><span class="nf">info_msg</span><span class="p">(</span><span class="s">&#34;Unhandled handle_info </span><span class="si">~p</span><span class="s">&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">Msg</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">%% REMAINDER OF GEN_SERVER BEHAVIOUR
+</span></span></span><span class="line"><span class="cl"><span class="c"></span>
+</span></span><span class="line"><span class="cl"><span class="nf">handle_call</span><span class="p">({</span><span class="n">message</span><span class="p">,</span> <span class="p">_</span><span class="nv">Msg</span><span class="p">},</span> <span class="p">_</span><span class="nv">From</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">reply</span><span class="p">,</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">code_change</span><span class="p">(_</span><span class="nv">OldVsn</span><span class="p">,</span> <span class="nv">State</span><span class="p">,</span> <span class="p">_</span><span class="nv">Extra</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">State</span><span class="p">}.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="privateudp_thriftthrift"><a href="#privateudp_thriftthrift" class="anchor-link">§</a>private/udp_thrift.thrift</h4>
 <p>The task of this example is for every client, at two seconds interval, send a <code>Digest</code> to the other client. On the other side of the wire, upon receiving the <code>Digest</code>, send a <code>DigestAck</code> message back. Every message is wrapped in a <code>DigestEnvelope</code> container so the program can easily establish what is the digest type sent. The <code>thrift</code> file looks like this:</p>
-<pre><code>namespace erl udp_thrift
+<pre tabindex="0"><code>namespace erl udp_thrift
 
 struct DigestEnvelope {
   1: required string payload_type;
@@ -711,7 +711,7 @@ struct DigestAck {
 <p>Once thrift is installed on the system, the code can be generated from the <code>thrift</code> file. To do so:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -721,30 +721,30 @@ struct DigestAck {
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> &lt;project root&gt;/private/
-thrift --gen erl udp_thrift.thrift
-mkdir -p ../include
-<span class="c1"># make the generated code available for the program:</span>
-mv gen-erl/udp_thrift_types.erl ../src/udp_thrift_types.erl
-mv gen-erl/udp_thrift_constants.hrl ../include/udp_thrift_constants.hrl
-mv gen-erl/udp_thrift_types.hrl ../include/udp_thrift_types.hrl
-rm -Rf gen-erl
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> &lt;project root&gt;/private/
+</span></span><span class="line"><span class="cl">thrift --gen erl udp_thrift.thrift
+</span></span><span class="line"><span class="cl">mkdir -p ../include
+</span></span><span class="line"><span class="cl"><span class="c1"># make the generated code available for the program:</span>
+</span></span><span class="line"><span class="cl">mv gen-erl/udp_thrift_types.erl ../src/udp_thrift_types.erl
+</span></span><span class="line"><span class="cl">mv gen-erl/udp_thrift_constants.hrl ../include/udp_thrift_constants.hrl
+</span></span><span class="line"><span class="cl">mv gen-erl/udp_thrift_types.hrl ../include/udp_thrift_types.hrl
+</span></span><span class="line"><span class="cl">rm -Rf gen-erl
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The source code on github contains a Vagrant box which can be used to generate the code:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">vagrant up thrift
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vagrant up thrift
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="thrift-serialisation-and-deserialisation"><a href="#thrift-serialisation-and-deserialisation" class="anchor-link">§</a>Thrift serialisation and deserialisation</h2>
 <p>The module responsible for these tasks has been already started in the supervisor. Let’s go through the code and discuss the parts in detail.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -758,41 +758,41 @@ rm -Rf gen-erl
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_serialization</span><span class="p">).</span>
-<span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">gen_server</span><span class="p">).</span>
-
-<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
-<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span>
-          <span class="n">handle_call</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>
-          <span class="n">handle_cast</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
-          <span class="n">handle_info</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
-          <span class="n">code_change</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>
-          <span class="n">terminate</span><span class="o">/</span><span class="mi">2</span><span class="p">]).</span>
-
-<span class="p">-</span><span class="ni">include</span><span class="p">(</span><span class="s">&#34;udp_thrift_types.hrl&#34;</span><span class="p">).</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">udp_thrift_serialization</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">behaviour</span><span class="p">(</span><span class="n">gen_server</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start_link</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">init</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">handle_call</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">handle_cast</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">handle_info</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">code_change</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">terminate</span><span class="o">/</span><span class="mi">2</span><span class="p">]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">include</span><span class="p">(</span><span class="s">&#34;udp_thrift_types.hrl&#34;</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>First, these records are required. As the serialisation happens within this single module, I include them directly by copying from Erlang Thrift sources.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">record</span><span class="p">(</span><span class="nl">binary_protocol</span><span class="p">,</span> <span class="p">{</span><span class="n">transport</span><span class="p">,</span>
-                          <span class="n">strict_read</span><span class="o">=</span><span class="n">true</span><span class="p">,</span>
-                          <span class="n">strict_write</span><span class="o">=</span><span class="n">true</span>
-                         <span class="p">}).</span>
-<span class="p">-</span><span class="ni">record</span><span class="p">(</span><span class="nl">memory_buffer</span><span class="p">,</span> <span class="p">{</span><span class="n">buffer</span><span class="p">}).</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="p">-</span><span class="ni">record</span><span class="p">(</span><span class="nl">binary_protocol</span><span class="p">,</span> <span class="p">{</span><span class="n">transport</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">strict_read</span><span class="o">=</span><span class="n">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">strict_write</span><span class="o">=</span><span class="n">true</span>
+</span></span><span class="line"><span class="cl">                         <span class="p">}).</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span><span class="ni">record</span><span class="p">(</span><span class="nl">memory_buffer</span><span class="p">,</span> <span class="p">{</span><span class="n">buffer</span><span class="p">}).</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Following is the code for the module setup. For serialisation, a single protocol instance may be used for all serialized messages.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -803,21 +803,21 @@ rm -Rf gen-erl
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">start_link</span><span class="p">()</span> <span class="o">-&gt;</span>
-  <span class="nn">gen_server</span><span class="p">:</span><span class="nf">start_link</span><span class="p">({</span><span class="n">local</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">},</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]).</span>
-
-<span class="nf">init</span><span class="p">([])</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">OutThriftTransport</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_memory_buffer</span><span class="p">:</span><span class="nf">new</span><span class="p">(),</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_binary_protocol</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">OutThriftTransport</span><span class="p">),</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">{</span> <span class="n">serialization</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span> <span class="p">}}.</span>
-
-<span class="nf">stop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nn">gen_server</span><span class="p">:</span><span class="nf">cast</span><span class="p">(</span><span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">stop</span><span class="p">).</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">start_link</span><span class="p">()</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">gen_server</span><span class="p">:</span><span class="nf">start_link</span><span class="p">({</span><span class="n">local</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">},</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">init</span><span class="p">([])</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">OutThriftTransport</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_memory_buffer</span><span class="p">:</span><span class="nf">new</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_binary_protocol</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">OutThriftTransport</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">{</span> <span class="n">serialization</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span> <span class="p">}}.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">stop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nn">gen_server</span><span class="p">:</span><span class="nf">cast</span><span class="p">(</span><span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">stop</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h4 id="serialization"><a href="#serialization" class="anchor-link">§</a>Serialization</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -836,30 +836,30 @@ rm -Rf gen-erl
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="n">self</span><span class="p">()</span> <span class="o">!</span> <span class="p">{</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span>
-              <span class="nv">Digest</span><span class="p">,</span> <span class="nn">udp_thrift_types</span><span class="p">:</span><span class="nf">struct_info</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">),</span>
-              <span class="nv">CallerPid</span> <span class="p">},</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">};</span>
-
-<span class="nf">handle_info</span><span class="p">({</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span>
-             <span class="p">{</span> <span class="n">serialization</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span> <span class="p">})</span> <span class="o">-&gt;</span>
-  <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_serialized</span><span class="p">,</span>
-                 <span class="p">{</span> <span class="n">ok</span><span class="p">,</span>
-                    <span class="n">digest_to_binary</span><span class="p">(</span> <span class="nl">#digestEnvelope</span><span class="p">{</span>
-                        <span class="n">payload_type</span> <span class="o">=</span> <span class="nb">atom_to_list</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">),</span>
-                        <span class="n">bin_payload</span> <span class="o">=</span> <span class="n">digest_to_binary</span><span class="p">(</span><span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">)</span>
-                      <span class="p">},</span>
-                      <span class="nn">udp_thrift_types</span><span class="p">:</span><span class="nf">struct_info</span><span class="p">(</span><span class="n">digestEnvelope</span><span class="p">),</span>
-                      <span class="nv">OutThriftProtocol</span> <span class="p">)</span> <span class="p">}</span> <span class="p">},</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">serialization</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span> <span class="p">}</span> <span class="p">};</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">self</span><span class="p">()</span> <span class="o">!</span> <span class="p">{</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="nv">Digest</span><span class="p">,</span> <span class="nn">udp_thrift_types</span><span class="p">:</span><span class="nf">struct_info</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">              <span class="nv">CallerPid</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">serialize</span><span class="p">,</span> <span class="nv">DigestType</span><span class="p">,</span> <span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">             <span class="p">{</span> <span class="n">serialization</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span> <span class="p">})</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_serialized</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="p">{</span> <span class="n">ok</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">digest_to_binary</span><span class="p">(</span> <span class="nl">#digestEnvelope</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">payload_type</span> <span class="o">=</span> <span class="nb">atom_to_list</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">bin_payload</span> <span class="o">=</span> <span class="n">digest_to_binary</span><span class="p">(</span><span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                      <span class="nn">udp_thrift_types</span><span class="p">:</span><span class="nf">struct_info</span><span class="p">(</span><span class="n">digestEnvelope</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                      <span class="nv">OutThriftProtocol</span> <span class="p">)</span> <span class="p">}</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="p">{</span> <span class="n">serialization</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span> <span class="p">}</span> <span class="p">};</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>First <code>handle_info</code> receives the data to serialize, it uses <code>udp_thrift_types:struct_info</code> provided by the thrift generated modules to get the <code>thrift</code> type definition. This is forwarded to the the second <code>handle_info</code>. <code>digest_to_binary</code> is where all the action happens (presented shortly). The inner <code>digest_to_binary</code> call serializes the digest received from <code>messaging</code> component. This is then wrapped inside of the <code>digestEnvelope</code> digest which has to be converted to binary data for UDP delivery.</p>
 <h4 id="deserialization"><a href="#deserialization" class="anchor-link">§</a>Deserialization</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -893,45 +893,45 @@ rm -Rf gen-erl
 </span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">deserialize</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="k">try</span>
-    <span class="k">case</span> <span class="n">digest_from_binary</span><span class="p">(</span><span class="n">digestEnvelope</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">)</span> <span class="k">of</span>
-      <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult</span><span class="p">}</span> <span class="o">-&gt;</span>
-        <span class="k">case</span> <span class="n">payload_type_as_known_atom</span><span class="p">(</span><span class="nv">DecodedResult</span><span class="nl">#digestEnvelope.payload_type</span><span class="p">)</span> <span class="k">of</span>
-          <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">PayloadTypeAtom</span> <span class="p">}</span> <span class="o">-&gt;</span>
-            <span class="k">case</span> <span class="n">digest_from_binary</span><span class="p">(</span>
-                  <span class="nv">PayloadTypeAtom</span><span class="p">,</span>
-                  <span class="nv">DecodedResult</span><span class="nl">#digestEnvelope.bin_payload</span><span class="p">)</span> <span class="k">of</span>
-              <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult2</span> <span class="p">}</span> <span class="o">-&gt;</span>
-                <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">PayloadTypeAtom</span><span class="p">,</span> <span class="nv">DecodedResult2</span> <span class="p">}</span> <span class="p">};</span>
-              <span class="p">_</span> <span class="o">-&gt;</span>
-                <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Message could not be decoded.&#34;</span><span class="p">),</span>
-                <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">decode_binary_content_failed</span> <span class="p">}</span> <span class="p">}</span>
-            <span class="k">end</span><span class="p">;</span>
-          <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="nv">UnsupportedPayloadType</span> <span class="p">}</span> <span class="o">-&gt;</span>
-            <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Unsupprted message </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">UnsupportedPayloadType</span><span class="p">]),</span>
-            <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="n">unsuppoted_payload_type</span><span class="p">}</span> <span class="p">}</span>
-        <span class="k">end</span><span class="p">;</span>
-      <span class="p">_</span> <span class="o">-&gt;</span>
-        <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Could not open digestEnvelope.&#34;</span><span class="p">),</span>
-        <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="n">digest_envelope_open_failed</span><span class="p">}</span> <span class="p">}</span>
-    <span class="k">end</span>
-  <span class="k">catch</span>
-    <span class="p">_</span><span class="nv">Error</span><span class="p">:</span><span class="nv">Reason</span> <span class="o">-&gt;</span>
-      <span class="nn">gossiper_log</span><span class="p">:</span><span class="nf">err</span><span class="p">(</span><span class="s">&#34;Error while reading digest: </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">Reason</span><span class="p">]),</span>
-      <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">digest_read</span> <span class="p">}</span> <span class="p">}</span>
-  <span class="k">end</span><span class="p">,</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">};</span>
-
-<span class="nf">handle_info</span><span class="p">(_</span><span class="nv">Info</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">({</span> <span class="n">deserialize</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">,</span> <span class="nv">CallerPid</span> <span class="p">},</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">try</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="n">digest_from_binary</span><span class="p">(</span><span class="n">digestEnvelope</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult</span><span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">case</span> <span class="n">payload_type_as_known_atom</span><span class="p">(</span><span class="nv">DecodedResult</span><span class="nl">#digestEnvelope.payload_type</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">PayloadTypeAtom</span> <span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">digest_from_binary</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                  <span class="nv">PayloadTypeAtom</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="nv">DecodedResult</span><span class="nl">#digestEnvelope.bin_payload</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">              <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult2</span> <span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">PayloadTypeAtom</span><span class="p">,</span> <span class="nv">DecodedResult2</span> <span class="p">}</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">              <span class="p">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Message could not be decoded.&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">decode_binary_content_failed</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="nv">UnsupportedPayloadType</span> <span class="p">}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Unsupprted message </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">UnsupportedPayloadType</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">            <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="n">unsuppoted_payload_type</span><span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nn">error_logger</span><span class="p">:</span><span class="nf">error_msg</span><span class="p">(</span><span class="s">&#34;Could not open digestEnvelope.&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="n">digest_envelope_open_failed</span><span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">  <span class="k">catch</span>
+</span></span><span class="line"><span class="cl">    <span class="p">_</span><span class="nv">Error</span><span class="p">:</span><span class="nv">Reason</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nn">gossiper_log</span><span class="p">:</span><span class="nf">err</span><span class="p">(</span><span class="s">&#34;Error while reading digest: </span><span class="si">~p</span><span class="s">.&#34;</span><span class="p">,</span> <span class="p">[</span><span class="nv">Reason</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">CallerPid</span> <span class="o">!</span> <span class="p">{</span> <span class="n">message_deserialized</span><span class="p">,</span> <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="n">digest_read</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_info</span><span class="p">(_</span><span class="nv">Info</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Upon received a deserialization request, the first thing that happens is <code>deserialize_from_binary</code>. This function assumes that the data received is Thrift and the data is of type <code>digestEnvelope</code>. The details will be presented shortly. Once the payload carried by the envelope has been read, the program detects if the payload is of a supported type. If so, it attempts deserializing the content. If all of the above succeeds, the result is passed back to messaging (caller of the serialization). Majority of that function is simple error handling.</p>
 <h4 id="digest_to_binary-digest_from_binary-and-payload_type_as_known_atom"><a href="#digest_to_binary-digest_from_binary-and-payload_type_as_known_atom" class="anchor-link">§</a>digest_to_binary, digest_from_binary and payload_type_as_known_atom</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -939,18 +939,18 @@ rm -Rf gen-erl
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang">  <span class="n">digest_to_binary</span><span class="p">(</span><span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">)</span> <span class="o">-&gt;</span>
-    <span class="p">{</span><span class="nv">PacketThrift</span><span class="p">,</span> <span class="n">ok</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_protocol</span><span class="p">:</span><span class="nf">write</span><span class="p">(</span><span class="nv">OutThriftProtocol</span><span class="p">,</span>
-                                               <span class="p">{</span> <span class="p">{</span><span class="n">struct</span><span class="p">,</span> <span class="nb">element</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">)},</span> <span class="nv">Digest</span><span class="p">}),</span>
-    <span class="p">{</span><span class="n">protocol</span><span class="p">,</span> <span class="p">_,</span> <span class="nv">OutProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nv">PacketThrift</span><span class="p">,</span>
-    <span class="p">{</span><span class="n">transport</span><span class="p">,</span> <span class="p">_,</span> <span class="nv">OutTransport</span><span class="p">}</span> <span class="o">=</span> <span class="nv">OutProtocol</span><span class="nl">#binary_protocol.transport</span><span class="p">,</span>
-    <span class="nb">iolist_to_binary</span><span class="p">(</span><span class="nv">OutTransport</span><span class="nl">#memory_buffer.buffer</span><span class="p">).</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl">  <span class="n">digest_to_binary</span><span class="p">(</span><span class="nv">Digest</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">,</span> <span class="nv">OutThriftProtocol</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nv">PacketThrift</span><span class="p">,</span> <span class="n">ok</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_protocol</span><span class="p">:</span><span class="nf">write</span><span class="p">(</span><span class="nv">OutThriftProtocol</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                               <span class="p">{</span> <span class="p">{</span><span class="n">struct</span><span class="p">,</span> <span class="nb">element</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nv">StructInfo</span><span class="p">)},</span> <span class="nv">Digest</span><span class="p">}),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">protocol</span><span class="p">,</span> <span class="p">_,</span> <span class="nv">OutProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nv">PacketThrift</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="n">transport</span><span class="p">,</span> <span class="p">_,</span> <span class="nv">OutTransport</span><span class="p">}</span> <span class="o">=</span> <span class="nv">OutProtocol</span><span class="nl">#binary_protocol.transport</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">iolist_to_binary</span><span class="p">(</span><span class="nv">OutTransport</span><span class="nl">#memory_buffer.buffer</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><code>digest_to_binary</code> serializes the payload. It uses the copy of the protocol defined in <code>init</code> to write the thrift binary representation of data to be sent. All what has to be done afterwards is converting <code>iolist</code> contained in the resulting <code>OutTransport</code> to <code>binary</code> data. This is returned to <code>CallerPid</code> and sent via UDP to the destination.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -964,24 +964,24 @@ rm -Rf gen-erl
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">digest_from_binary</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">InTransport</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_memory_buffer</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">BinaryDigest</span><span class="p">),</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">InProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_binary_protocol</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">InTransport</span><span class="p">),</span>
-  <span class="k">case</span> <span class="nn">thrift_protocol</span><span class="p">:</span><span class="nf">read</span><span class="p">(</span>
-         <span class="nv">InProtocol</span><span class="p">,</span>
-         <span class="p">{</span><span class="n">struct</span><span class="p">,</span> <span class="nb">element</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nn">udp_thrift_types</span><span class="p">:</span><span class="nf">struct_info</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">))},</span>
-         <span class="nv">DigestType</span><span class="p">)</span> <span class="k">of</span>
-    <span class="p">{_,</span> <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult</span><span class="p">}}</span> <span class="o">-&gt;</span>
-      <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult</span><span class="p">};</span>
-    <span class="p">_</span> <span class="o">-&gt;</span>
-      <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="n">not_thrift</span><span class="p">}</span>
-  <span class="k">end</span><span class="p">.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">digest_from_binary</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">,</span> <span class="nv">BinaryDigest</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">InTransport</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_memory_buffer</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">BinaryDigest</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">InProtocol</span><span class="p">}</span> <span class="o">=</span> <span class="nn">thrift_binary_protocol</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="nv">InTransport</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="nn">thrift_protocol</span><span class="p">:</span><span class="nf">read</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">         <span class="nv">InProtocol</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="p">{</span><span class="n">struct</span><span class="p">,</span> <span class="nb">element</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nn">udp_thrift_types</span><span class="p">:</span><span class="nf">struct_info</span><span class="p">(</span><span class="nv">DigestType</span><span class="p">))},</span>
+</span></span><span class="line"><span class="cl">         <span class="nv">DigestType</span><span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{_,</span> <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult</span><span class="p">}}</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">DecodedResult</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span><span class="n">error</span><span class="p">,</span> <span class="n">not_thrift</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><code>digest_from_binary</code> receives an <code>atom</code> of an expected digest type and a binary digest as an input. First, a <code>memory_buffer</code> transport is constructed from the binary data. It is then converted into a binary protocol and an attempt to read the data from <code>thrift</code> is made using a structure provided by <code>udp_thrift_types:struct_info</code>.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -991,21 +991,21 @@ rm -Rf gen-erl
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">payload_type_as_known_atom</span><span class="p">(</span><span class="nv">DigestTypeBin</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="nv">KnownDigestTypes</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="o">&lt;&lt;</span><span class="s">&#34;digest&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">digest</span> <span class="p">},</span>
-    <span class="p">{</span> <span class="o">&lt;&lt;</span><span class="s">&#34;digestAck&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">digestAck</span> <span class="p">}</span> <span class="p">],</span>
-  <span class="k">case</span> <span class="nn">lists</span><span class="p">:</span><span class="nf">keyfind</span><span class="p">(</span> <span class="nv">DigestTypeBin</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">KnownDigestTypes</span> <span class="p">)</span> <span class="k">of</span>
-    <span class="n">false</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="nv">DigestTypeBin</span> <span class="p">};</span>
-    <span class="p">{</span> <span class="p">_</span><span class="nv">Bin</span><span class="p">,</span> <span class="nv">Atom</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Atom</span> <span class="p">}</span>
-  <span class="k">end</span><span class="p">.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">payload_type_as_known_atom</span><span class="p">(</span><span class="nv">DigestTypeBin</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">KnownDigestTypes</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="o">&lt;&lt;</span><span class="s">&#34;digest&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">digest</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="o">&lt;&lt;</span><span class="s">&#34;digestAck&#34;</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">digestAck</span> <span class="p">}</span> <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="nn">lists</span><span class="p">:</span><span class="nf">keyfind</span><span class="p">(</span> <span class="nv">DigestTypeBin</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">KnownDigestTypes</span> <span class="p">)</span> <span class="k">of</span>
+</span></span><span class="line"><span class="cl">    <span class="n">false</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">error</span><span class="p">,</span> <span class="nv">DigestTypeBin</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="p">_</span><span class="nv">Bin</span><span class="p">,</span> <span class="nv">Atom</span> <span class="p">}</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">Atom</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The above function is rather self explanatory. The deserialization will be attempted if an <code>atom</code> can be found in the <code>KnownDigestTypes</code> for given digest type. Otherwise an error is returned.</p>
 <p>The module ends with the rest of required <code>gen_server</code> behaviour.</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1018,46 +1018,46 @@ rm -Rf gen-erl
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nf">handle_call</span><span class="p">(_</span><span class="nv">Msg</span><span class="p">,</span> <span class="p">_</span><span class="nv">From</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">reply</span><span class="p">,</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
-
-<span class="nf">handle_cast</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
-
-<span class="nf">terminate</span><span class="p">(_</span><span class="nv">Reason</span><span class="p">,</span> <span class="p">_</span><span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">}.</span>
-  
-<span class="nf">code_change</span><span class="p">(_</span><span class="nv">OldVsn</span><span class="p">,</span> <span class="nv">State</span><span class="p">,</span> <span class="p">_</span><span class="nv">Extra</span><span class="p">)</span> <span class="o">-&gt;</span>
-  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">State</span><span class="p">}.</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nf">handle_call</span><span class="p">(_</span><span class="nv">Msg</span><span class="p">,</span> <span class="p">_</span><span class="nv">From</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">reply</span><span class="p">,</span> <span class="n">ok</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">handle_cast</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">noreply</span><span class="p">,</span> <span class="nv">LoopData</span><span class="p">}.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">terminate</span><span class="p">(_</span><span class="nv">Reason</span><span class="p">,</span> <span class="p">_</span><span class="nv">LoopData</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">}.</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="nf">code_change</span><span class="p">(_</span><span class="nv">OldVsn</span><span class="p">,</span> <span class="nv">State</span><span class="p">,</span> <span class="p">_</span><span class="nv">Extra</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">State</span><span class="p">}.</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="running-and-testing"><a href="#running-and-testing" class="anchor-link">§</a>Running and testing</h2>
 <p>Preparation:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> &lt;project directory&gt;
-./rebar get-deps
-./rebar compile
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> &lt;project directory&gt;
+</span></span><span class="line"><span class="cl">./rebar get-deps
+</span></span><span class="line"><span class="cl">./rebar compile
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>To run, two terminal windows are required. In the first window, start Erlang with this command:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">erl -pa ebin/ -pa deps/*/ebin
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">erl -pa ebin/ -pa deps/*/ebin
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Run the application:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1065,27 +1065,27 @@ rm -Rf gen-erl
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberA&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">6666</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">,</span> <span class="mi">6667</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">thrift</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">).</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberA&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">6666</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">,</span> <span class="mi">6667</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">thrift</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>In the second terminal window, start Erlang:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">erl -pa ebin/ -pa deps/*/ebin
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">erl -pa ebin/ -pa deps/*/ebin
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Run the application:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1093,33 +1093,33 @@ rm -Rf gen-erl
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-erlang" data-lang="erlang"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberB&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">6667</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">,</span> <span class="mi">6666</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">thrift</span><span class="p">).</span>
-<span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">).</span>
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-erlang" data-lang="erlang"><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">&#34;memberB&#34;</span><span class="o">&gt;&gt;</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">6667</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">set_env</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">,</span> <span class="n">peer_port</span><span class="p">,</span> <span class="mi">6666</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">crypto</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">thrift</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nn">application</span><span class="p">:</span><span class="nf">start</span><span class="p">(</span><span class="n">udp_thrift</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Both windows should be showing output similar to this:</p>
-<pre><code>…
+<pre tabindex="0"><code>…
 Sending digest to 6667.
 =INFO REPORT==== 12-Oct-2014::21:43:43 ===
 Sending digest to 6667.
 =INFO REPORT==== 12-Oct-2014::21:43:43 ===
-Received digestAck to digest &lt;&lt;&quot;#Ref&lt;0.0.0.95&gt;&quot;&gt;&gt;.
+Received digestAck to digest &lt;&lt;&#34;#Ref&lt;0.0.0.95&gt;&#34;&gt;&gt;.
 =INFO REPORT==== 12-Oct-2014::21:43:45 ===
-Received digest from &lt;&lt;&quot;memberB&quot;&gt;&gt;. Replying to 6667
+Received digest from &lt;&lt;&#34;memberB&#34;&gt;&gt;. Replying to 6667
 =INFO REPORT==== 12-Oct-2014::21:43:45 ===
 Sending digest to 6667.
 =INFO REPORT==== 12-Oct-2014::21:43:45 ===
-Received digestAck to digest &lt;&lt;&quot;#Ref&lt;0.0.0.100&gt;&quot;&gt;&gt;.
+Received digestAck to digest &lt;&lt;&#34;#Ref&lt;0.0.0.100&gt;&#34;&gt;&gt;.
 =INFO REPORT==== 12-Oct-2014::21:43:47 ===
-Received digest from &lt;&lt;&quot;memberB&quot;&gt;&gt;. Replying to 6667
+Received digest from &lt;&lt;&#34;memberB&#34;&gt;&gt;. Replying to 6667
 =INFO REPORT==== 12-Oct-2014::21:43:47 ===
 Sending digest to 6667.
 =INFO REPORT==== 12-Oct-2014::21:43:47 ===
-Received digestAck to digest &lt;&lt;&quot;#Ref&lt;0.0.0.105&gt;&quot;&gt;&gt;.
+Received digestAck to digest &lt;&lt;&#34;#Ref&lt;0.0.0.105&gt;&#34;&gt;&gt;.
 …
 </code></pre><p>If that is the case, both clients are communicating via UDP with Thrift protocol.</p>
 <h2 id="code-and-license"><a href="#code-and-license" class="anchor-link">§</a>Code and license</h2>
@@ -1239,7 +1239,7 @@ Received digestAck to digest &lt;&lt;&quot;#Ref&lt;0.0.0.105&gt;&quot;&gt;&gt;.
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/" class="related-link">Gossiperl   gossip middleware in Erlang</a>
+                        <a href="/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/" class="related-link">Gossiperl gossip middleware in Erlang</a>
                     </li>
                 
                     <li class="related-item">
@@ -1298,7 +1298,7 @@ Received digestAck to digest &lt;&lt;&quot;#Ref&lt;0.0.0.105&gt;&quot;&gt;&gt;.
         <ul class="post-nav">
             
                 <li class="post-nav-prev">
-                    <a href="/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/" rel="prev">&lt; Gossiperl   gossip middleware in Erlang</a>
+                    <a href="/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/" rel="prev">&lt; Gossiperl gossip middleware in Erlang</a>
                 </li>
             
             

@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.23336c0ab28f7f46a1fd615235bffae1441553a19c58092119156cb729dbddb3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-03-31T00:00:00+00:00",
-        "dateModified": "2021-04-01T00:41:30+02:00",
+        "dateModified": "2022-02-21T02:30:40+01:00",
         "url": "https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/",
         "headline": "Kafka 2.8 is out in the wild and does not need ZooKeeper anymore",
         "description": "KIP-500 is implemented and Kafka is now completely standalone",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  544 ,
+        "wordCount":  543 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-03-31T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-04-01T00:41:30&#43;02:00" />
+    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -256,7 +256,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;544</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;543</span>
     
     
         
@@ -277,36 +277,36 @@
 <p>First, generate a new cluster ID:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ ~/dev/kafka-2.8/bin/kafka-storage.sh random-uuid
-HCsQovjcTs-8xhS1DSU5Gw
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ ~/dev/kafka-2.8/bin/kafka-storage.sh random-uuid
+</span></span><span class="line"><span class="cl">HCsQovjcTs-8xhS1DSU5Gw
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Next, format the storage directory. The default directory is <code>/tmp/kraft-combined-logs</code> and the setting can be found under the <code>log.dirs</code> property of the new <code>config/kraft/server.properties</code> file:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ ~/dev/kafka-2.8/bin/kafka-storage.sh format -t HCsQovjcTs-8xhS1DSU5Gw -c ~/dev/kafka-2.8/config/kraft/server.properties
-Formatting /tmp/kraft-combined-logs
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ ~/dev/kafka-2.8/bin/kafka-storage.sh format -t HCsQovjcTs-8xhS1DSU5Gw -c ~/dev/kafka-2.8/config/kraft/server.properties
+</span></span><span class="line"><span class="cl">Formatting /tmp/kraft-combined-logs
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>And simply start the broker:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ ~/dev/kafka-2.8/bin/kafka-server-start.sh ~/dev/kafka-2.8/config/kraft/server.properties
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ ~/dev/kafka-2.8/bin/kafka-server-start.sh ~/dev/kafka-2.8/config/kraft/server.properties
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Which produces the following output:</p>
-<pre><code>[2021-03-31 23:25:56,097] INFO Registered kafka:type=kafka.Log4jController MBean (kafka.utils.Log4jControllerRegistration$)
+<pre tabindex="0"><code>[2021-03-31 23:25:56,097] INFO Registered kafka:type=kafka.Log4jController MBean (kafka.utils.Log4jControllerRegistration$)
 [2021-03-31 23:25:56,425] INFO Setting -D jdk.tls.rejectClientInitiatedRenegotiation=true to disable client-initiated TLS renegotiation (org.apache.zookeeper.common.X509Util)
 [2021-03-31 23:25:56,664] INFO [Log partition=@metadata-0, dir=/tmp/kraft-combined-logs] Loading producer state till offset 0 with message format version 2 (kafka.log.Log)
 [2021-03-31 23:25:56,727] INFO [raft-expiration-reaper]: Starting (kafka.raft.TimingWheelExpirationService$ExpiredOperationReaper)
@@ -326,21 +326,21 @@ Formatting /tmp/kraft-combined-logs
 </code></pre><p>It&rsquo;s alive. A topic can be created using the usual tooling:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">$ ~/dev/kafka-2.8/bin/kafka-topics.sh --create <span class="se">\
-</span><span class="se"></span>    --topic test-topic <span class="se">\
-</span><span class="se"></span>    --partitions <span class="m">1</span> <span class="se">\
-</span><span class="se"></span>    --replication-factor <span class="m">1</span> <span class="se">\
-</span><span class="se"></span>    --bootstrap-server localhost:9092
-</code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ ~/dev/kafka-2.8/bin/kafka-topics.sh --create <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic test-topic <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --partitions <span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --replication-factor <span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092
+</span></span></code></pre></td></tr></table></div>
 </div>
-</div><pre><code>[2021-03-31 23:28:21,836] INFO [Controller 1] createTopics result(s): CreatableTopic(name='test-topic', numPartitions=1, replicationFactor=1, assignments=[]): SUCCESS (org.apache.kafka.controller.ReplicationControlManager)
+</div><pre tabindex="0"><code>[2021-03-31 23:28:21,836] INFO [Controller 1] createTopics result(s): CreatableTopic(name=&#39;test-topic&#39;, numPartitions=1, replicationFactor=1, assignments=[]): SUCCESS (org.apache.kafka.controller.ReplicationControlManager)
 [2021-03-31 23:28:21,838] INFO [Controller 1] Created topic test-topic with ID H6YadkN7SUGXheMu6MJ1uA. (org.apache.kafka.controller.ReplicationControlManager)
 [2021-03-31 23:28:21,838] INFO [Controller 1] Created partition H6YadkN7SUGXheMu6MJ1uA:0 with PartitionControlInfo(replicas=[1], isr=[1], removingReplicas=null, addingReplicas=null, leader=1, leaderEpoch=0, partitionEpoch=0). (org.apache.kafka.controller.ReplicationControlManager)
 [2021-03-31 23:28:21,904] INFO [ReplicaFetcherManager on broker 1] Removed fetcher for partitions Set(test-topic-0) (kafka.server.ReplicaFetcherManager)
@@ -353,10 +353,10 @@ Formatting /tmp/kraft-combined-logs
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-500%3A+Replace+ZooKeeper+with+a+Self-Managed+Metadata+Quorum" target="_blank" rel="noopener">KIP-500 </a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-500%3A+Replace+ZooKeeper+with+a+Self-Managed+Metadata+Quorum" target="_blank" rel="noopener">KIP-500 </a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p><a href="https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/" target="_blank" rel="noopener">Apache Kafka Made Simple: A First Glimpse of a Kafka Without ZooKeeper</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/" target="_blank" rel="noopener">Apache Kafka Made Simple: A First Glimpse of a Kafka Without ZooKeeper</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </section>
