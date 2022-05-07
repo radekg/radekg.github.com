@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://gruchalski.com/</loc>
+    <lastmod>2022-05-06T23:15:48+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/opa/</loc>
+    <lastmod>2022-05-06T23:15:48+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2022-05-06T23:15:48+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/rego/</loc>
+    <lastmod>2022-05-06T23:15:48+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2022-05-06T23:15:48+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/zanzibar/</loc>
+    <lastmod>2022-05-06T23:15:48+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/</loc>
+    <lastmod>2022-05-06T23:15:48+02:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/tags/git/</loc>
     <lastmod>2022-04-28T23:26:40+02:00</lastmod>
   </url><url>
@@ -11,34 +32,16 @@
     <loc>https://gruchalski.com/tags/golang/</loc>
     <lastmod>2022-04-28T23:26:40+02:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/</loc>
-    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/posts/2022-04-28-private-go-modules-with-multiple-git-identities/</loc>
     <lastmod>2022-04-28T23:26:40+02:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2022-04-28T23:33:25+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/tags/keto/</loc>
-    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/opa/</loc>
     <lastmod>2022-04-28T22:38:04+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/</loc>
     <lastmod>2022-04-28T22:38:04+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/ory/</loc>
-    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/rego/</loc>
-    <lastmod>2022-04-28T22:38:04+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/zanzibar/</loc>
     <lastmod>2022-04-28T22:38:04+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/categories/</loc>

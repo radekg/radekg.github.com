@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Zanzibar-style ACLs with OPA Rego | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.2a066069a1d2940b3a3107397cddde65473ce8d29a2313ccc3989759c9372a79.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="what does it take to convert Zanzibar ACLs to OPA Rego?" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2022-05-07T00:00:00+00:00",
+        "dateModified": "2022-05-06T23:15:48+02:00",
+        "url": "https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/",
+        "headline": "Zanzibar-style ACLs with OPA Rego",
+        "description": "what does it take to convert Zanzibar ACLs to OPA Rego?",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  2180 ,
+        "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+
+    
+
+
+
+<meta property="og:title" content="Zanzibar-style ACLs with OPA Rego" />
+<meta property="og:description" content="what does it take to convert Zanzibar ACLs to OPA Rego?" />
+<meta property="og:url" content="https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-05-07/header.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2022-05-07T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2022-05-06T23:15:48&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+        <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+        
+
+
+
+
+    
+    <script>
+        var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+        var doNotTrack = (dnt == "1" || dnt == "yes");
+        if (!doNotTrack) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            if (window.sessionStorage) {
+                var GA_SESSION_STORAGE_KEY = 'ga:clientId';
+                ga('create', 'UA-39073034-1', {
+                'storage': 'none',
+                'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
+               });
+               ga(function(tracker) {
+                sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
+               });
+           }
+            ga('set', 'anonymizeIp', true);
+            ga('send', 'pageview');
+        }
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="icon code-branch"><path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/></svg><span class="menu-item-name">categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Zanzibar-style ACLs with OPA Rego</h1>
+
+            
+
+            
+                <div class="post-description p-summary">what does it take to convert Zanzibar ACLs to OPA Rego?</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2022-05-07T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;May 7, 2022</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2180</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;11&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+                <img src="/assets/posts/2022-05-07/header.png" alt="thumbnail" class="p-article__thumbnail">
+            
+
+            <div class="post-body e-content">
+              <p>In <a href="https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/" target="_blank" rel="noopener">the previous article on OPA</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>, I asked this question:</p>
+<blockquote>
+<p><em>why would Ory Keto drop OPA from its implementation?</em></p>
+</blockquote>
+<p>What&rsquo;s Ory Keto? After <a href="https://www.ory.sh/docs/keto/" target="_blank" rel="noopener">Ory Keto documentation</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>:</p>
+<blockquote>
+<p>Ory Keto is the first and only open source implementation of &ldquo;Zanzibar: Google&rsquo;s Consistent, Global Authorization System&rdquo;.</p>
+</blockquote>
+<p>The question bothered me to the point that I sat down and reread the <a href="https://research.google/pubs/pub48190/" target="_blank" rel="noopener">Zanzibar white paper</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> in search for clues on OPA applicability to this problem. It&rsquo;s been about a year since I last looked into Zanzibar so I&rsquo;m coming back to this with a fresh mind.</p>
+<p>Google Zanzibar white paper describes a consistent globally distributed authorization system. The paper discusses three facets:</p>
+<ul>
+<li>The notation: defines a method to describe ACLs and their hierarchy.</li>
+<li>The API: defines an ACL read, write, check, and expand API.</li>
+<li>The architecture and design: describes how Google implemented Zanzibar.</li>
+</ul>
+<p>The ACL notation format:</p>
+<pre tabindex="0"><code>namespace:object#relation@namespace:user
+</code></pre><p>Rules should be read from right to left. That rule means: <em>a user</em> is in a relation <em>relation</em> to an <em>object</em>. Namespaces offer a logical grouping of object types.</p>
+<p>The <em>user</em> part of the ACL can be substituted with a <em>userset</em>:</p>
+<blockquote>
+<p>allows ACLs to refer to groups and thus supports representing nested group membership</p>
+</blockquote>
+<p>Essentially, it could be a result of a different rule evaluation. A <em>userset</em> is always an <em>object#relation</em>.</p>
+<p>The white paper gives two prominent examples. The first one (page 2, table 1):</p>
+<blockquote>
+<p>Members of group:eng are viewers of doc:readme.</p>
+</blockquote>
+<pre tabindex="0"><code>doc:readme#viewer@group:eng#member
+</code></pre><p>The second one (page 4, figure 1) is written in pseudo code:</p>
+<blockquote>
+<p>Simple namespace configuration with concentric relations on documents. All owners are editors, and all editors are viewers. Further, viewers of the parent folder are also viewers of the document.</p>
+</blockquote>
+<pre tabindex="0"><code>name: &#34;doc&#34;
+
+relation { name: &#34;owner&#34; }
+
+relation {
+  name: &#34;editor&#34;
+  userset_rewrite {
+    union {
+      child { _this {} }
+      child { computed_userset { relation: &#34;owner&#34; } }
+} } }
+
+relation {
+  name: &#34;viewer&#34;
+  userset_rewrite {
+    union {
+      child { _this {} }
+      child { computed_userset { relation: &#34;editor&#34; } }
+      child { tuple_to_userset {
+        tupleset { relation: &#34;parent&#34; }
+        computed_userset {
+          object: $TUPLE_USERSET_OBJECT # parent folder
+          relation: &#34;viewer&#34;
+   } } }
+} } }
+</code></pre><p>This one is somewhat troublesome because we aren&rsquo;t offered a notation. Let&rsquo;s try reverse-engineering it. Each line builds on the previous one to arrive at the final notation:</p>
+<pre tabindex="0"><code># document has owners;
+# per the white paper: the namespace and the relation are predefined in client configuration;
+# clearly noted here:
+doc#owner
+# document owners are document editors:
+doc#editor@doc#owner
+# document editors are document vieweres:
+doc#viewer@doc#editor@doc#owner
+# the complete ACL notation for the first part, with namespaces for completness:
+doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
+</code></pre><p>This isn&rsquo;t complete yet because the latter statement is still missing:</p>
+<blockquote>
+<p>Further, viewers of the parent folder are also viewers of the document.</p>
+</blockquote>
+<p>There doesn&rsquo;t seem to be a way to encode this information continuously within the first rule. The decision tree is:</p>
+<pre tabindex="0"><code>is a viewer
+       ├&lt; if is an editor; is editor -&lt; if is an owner
+       └&lt; if is a viewer of the parent folder
+</code></pre><p>The Zanzibar notation doesn&rsquo;t have a union notion. So there have to be two rules defined like this:</p>
+<pre tabindex="0"><code>doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
+doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
+</code></pre><p>A few interesting things can be inferred from this notation:</p>
+<ul>
+<li>Checks are in the form of <code>narrow set ⊂ wider set ⊂ wider set ...</code>.</li>
+<li>The white paper isn&rsquo;t explicit about it but checks can be seemingly chained together as long as we&rsquo;re chaining on the same object and narrowing down within a set of the same the <em>user</em>/<em>userset</em>. I actually like how Keto refers to this s <em>subject</em>. Not sure how ergonomic this really is but interesting to keep in mind.</li>
+<li>Order doesn&rsquo;t matter, reversing individual ACLs produces the same end result.</li>
+</ul>
+<pre tabindex="0"><code>doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
+doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
+</code></pre><p>produces the same union as:</p>
+<pre tabindex="0"><code>doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
+doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
+</code></pre><ul>
+<li>To find all viewers of the document <code>doc:some-doc</code>, one needs to find (and evaluate) all ACLs starting with <code>doc:some-doc#viewer</code>.</li>
+<li>To find out what relations can be used in combination with <code>doc:some-doc</code>, one needs to list all ACLs starting with <code>doc:some-doc#</code>.</li>
+<li>Whatever the decision tree is, it&rsquo;s possible to find all ACLs contributing to a single union by finding all rules with the required object and relation prefix, then evaluating them. As the Zanzibar white paper suggests, individual rules could be evaluated in parallel.</li>
+<li>It&rsquo;s handy to have the ergonomy of using strings as user identifiers as Ory Keto does it.</li>
+</ul>
+<h2 id="how-easy-is-it-to-translate-zanzibar-notation-to-rego"><a href="#how-easy-is-it-to-translate-zanzibar-notation-to-rego" class="anchor-link">§</a>how easy is it to translate zanzibar notation to rego</h2>
+<p>OPA policies are written using Rego:</p>
+<blockquote>
+<p>&hellip; a declarative language &hellip; purpose-built for expressing policies over complex hierarchical data structures.</p>
+</blockquote>
+<p>A handy way to work with policies is to write them in <em>rego</em> files. A policy file starts with a <em>package</em> declaration and includes one or more <em>rules</em>. Policy documents may define variables, import data from <em>data documents</em>, and include other policies so rules can be combined and reused. There&rsquo;s a great <a href="https://www.openpolicyagent.org/docs/latest/policy-language/" target="_blank" rel="noopener">introduction to Rego on the OPA website</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</p>
+<p>It should be possible to rewrite a Zanzibar ACL as a Rego policy.</p>
+<h3 id="a-member-of-the-engineering-group-is-a-document-viewer"><a href="#a-member-of-the-engineering-group-is-a-document-viewer" class="anchor-link">§</a>a member of the engineering group is a document viewer</h3>
+<p>The first example from the white paper would be:</p>
+<script type="application/javascript" src="https://gist.github.com/radekg/cfeaf4edf81d43b653155755459a8040.js?file=eng-member-doc-viewer.rego"></script>
+
+<p>Feeding it with:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;doc&#34;</span><span class="p">:</span> <span class="s2">&#34;readme&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;groups&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;employee&#34;</span><span class="p">,</span> <span class="s2">&#34;eng&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>produces:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;doc_viewer&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>An example of an invalid input:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;doc&#34;</span><span class="p">:</span> <span class="s2">&#34;readme&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;groups&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;hr&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>returns:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;doc_viewer&#34;</span><span class="p">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>This policy can be tested with <a href="https://play.openpolicyagent.org/" target="_blank" rel="noopener">OPA Playground</a>.</p>
+<h3 id="owner-is-an-editor-and-a-viewer-a-viewer-of-the-parent-folder-is-also-anbspdocument-viewer"><a href="#owner-is-an-editor-and-a-viewer-a-viewer-of-the-parent-folder-is-also-anbspdocument-viewer" class="anchor-link">§</a>owner is an editor and a viewer, a viewer of the parent folder is also a document viewer</h3>
+<p>The second example could be translated to the following Rego representation:</p>
+<script type="application/javascript" src="https://gist.github.com/radekg/cfeaf4edf81d43b653155755459a8040.js?file=ownership-hierarchy-v1.rego"></script>
+
+<p>For this input:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;userid&#34;</span><span class="p">:</span> <span class="s2">&#34;owner&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;parent_viewers&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;viewer&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>The output is:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;editor&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;owner&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;parent_viewer&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;viewer&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Similarly, for:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;userid&#34;</span><span class="p">:</span> <span class="s2">&#34;owner&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;viewers&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;viewer&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>we get:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;editor&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;owner&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;viewer&#34;</span><span class="p">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>This policy can be also tested with the Playground.</p>
+<h2 id="lets-take-this-up-a-notch"><a href="#lets-take-this-up-a-notch" class="anchor-link">§</a>let&rsquo;s take this up a notch</h2>
+<p>I&rsquo;m going to build on the second policy. For the next step, I&rsquo;m going to put the policy and some data on the OPA server.  The server is running in a container with in-memory storage. Data will be lost on the restart but it doesn&rsquo;t matter right now.</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti openpolicyagent/opa:0.40.0 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  run --server --log-format<span class="o">=</span>json-pretty --set<span class="o">=</span>decision_logs.console<span class="o">=</span><span class="nb">true</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>I&rsquo;ve made a couple of significant changes:</p>
+<ul>
+<li>When working with the OPA server, policies make decisions based on structured data loaded onto the server. Those <em>data documents</em> provide facts about the external world. Instead of passing facts to the policies via <code>input</code> (like I did with <code>input.viewers</code>, <code>input.editors</code>, and <code>input.owners</code> in the original implementation), I&rsquo;m using this data storage mechanism. OPA cannot answer queries about data not it doesn&rsquo;t know about. Storing data on the server also allows importing it into Rego documents. This is an ergonomic way of working with OPA. The previous iteration of this document was written for the playground.</li>
+<li>There&rsquo;s more structure in the data model. I&rsquo;m storing user identifiers as relationship object keys. Here, <code>user-id</code> and <code>another-user-id</code> have a <code>viewer</code> relationship. It&rsquo;s a key/value storage.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;viewers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;user-id&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;another-user-id&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><ul>
+<li>With this, I can use OPA patch support to add, modify, and remove object-to-subject relationships.</li>
+</ul>
+<p>First, the modified policy document:</p>
+<script type="application/javascript" src="https://gist.github.com/radekg/cfeaf4edf81d43b653155755459a8040.js?file=ownership-hierarchy-v2.rego"></script>
+
+<p>with relevant test data:</p>
+<ul>
+<li>documents:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;readme&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;properties&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;directory&#34;</span><span class="p">:</span> <span class="s2">&#34;parent-folder-id&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;permissions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;editors&#34;</span><span class="p">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;owners&#34;</span><span class="p">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;viewers&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><ul>
+<li>folders:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;parent-folder-id&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;permissions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;viewers&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>In real-world those document and folder IDs would be something more cryptic, for example, an UUID. Here, I&rsquo;m using literal values for better readability. This data model isn&rsquo;t optimal, it could be improved. But it is good enough to visualize what&rsquo;s happening so it&rsquo;s good enough for this article.</p>
+<p>Assuming that the Docker container is already running, I can load the data from the terminal:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># load the policy:</span>
+</span></span><span class="line"><span class="cl">curl --silent -X PUT --data-binary @doc-policy.rego <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  localhost:8181/v1/policies/doc-policy
+</span></span><span class="line"><span class="cl"><span class="c1"># load the data:</span>
+</span></span><span class="line"><span class="cl">curl --silent -X PUT <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --data-binary @data-docs.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    localhost:8181/v1/data/docs
+</span></span><span class="line"><span class="cl">curl --silent -X PUT <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --data-binary @data-folders.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    localhost:8181/v1/data/folders
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>All default data is loaded into OPA. What&rsquo;s worth paying the attention to:</p>
+<ul>
+<li>The path the JSON data is loaded into reflects the policy import:
+<ul>
+<li><code>/v1/data/docs</code> maps directly to <code>import data.docs</code>,</li>
+<li><code>/v1/data/folders</code> maps directly to <code>import data.folders</code>.</li>
+</ul>
+</li>
+</ul>
+<p>First, a query to check if a user is <em>a viewer</em> of the <em>readme document</em>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;decision_id&#34;</span><span class="p">:</span> <span class="s2">&#34;b5f14892-d92c-4804-8a02-150e3d437da5&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>It&rsquo;s <code>false</code>, as expected. There are no permissions defined in the data document. I will now give the <em>user-viewer</em> permission to <em>view</em> the document:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># the path is a combination of the JSON placement and the path</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># within the JSON data document:</span>
+</span></span><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/docs/readme/permissions/viewers <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;add&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;value&#34;: true
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }]&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Can the user view the <em>readme document</em> now?</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;decision_id&#34;</span><span class="p">:</span> <span class="s2">&#34;4c73a96a-1f5f-4c08-9339-816ef97b7328&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>They do. This works with a direct <em>viewer</em> permission assignment. One of the ACL statements is that <em>a viewer</em> of <em>a parent folder</em> is <em>a viewer</em> of the <em>document</em>. I can test that by removing the direct permission and giving the <em>user-viewer</em> a <em>viewer</em> permission on the folder:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># remove the direct permission:</span>
+</span></span><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/docs/readme/permissions/viewers <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;remove&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }]&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># document contains a property with an ID of its parent folder:</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">parent_folder_id</span><span class="o">=</span><span class="k">$(</span>curl --silent localhost:8181/v1/data/docs/readme/properties/directory <span class="p">|</span> jq <span class="s1">&#39;.result&#39;</span> -r<span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># assign the `viewer` permission to the `user-viewer` on the `parent folder`:</span>
+</span></span><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/folders/<span class="si">${</span><span class="nv">parent_folder_id</span><span class="si">}</span>/permissions/viewers <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;add&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;value&#34;: true
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }]&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>And verify:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;decision_id&#34;</span><span class="p">:</span> <span class="s2">&#34;a9ed829a-c66e-4435-8e97-85a644ac879b&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>It indeed works. To be completely sure, let&rsquo;s remove the permission from the <em>parent folder</em> and repeat the query:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/folders/<span class="si">${</span><span class="nv">parent_folder_id</span><span class="si">}</span>/permissions/viewers <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;remove&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }]&#39;</span>
+</span></span><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;decision_id&#34;</span><span class="p">:</span> <span class="s2">&#34;83e2b6e0-ef0f-4d6d-9e2a-5e9cb740c50f&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Let&rsquo;s test that the first rule of the policy holds ⤳ an owner:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/docs/readme/permissions/owners <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;add&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-owner&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;value&#34;: true
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }]&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><ul>
+<li>is an editor:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/editor <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-owner&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;decision_id&#34;</span><span class="p">:</span> <span class="s2">&#34;9e95e5dd-1622-496b-8ccd-50bb2ac7fa7b&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><ul>
+<li>and a viewer:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-owner&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;decision_id&#34;</span><span class="p">:</span> <span class="s2">&#34;b960f9c9-3d2a-4cb1-afbd-53df618a36f0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;result&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>This works surprisingly well.</p>
+<h2 id="observations"><a href="#observations" class="anchor-link">§</a>observations</h2>
+<p>A few observations after researching this solution:</p>
+<ul>
+<li>The Zanzibar namespace translates very nicely to the object type: for example, the <em>doc</em> namespace maps very well to a Rego <em>doc</em> policy. A Rego <em>doc</em> policy is what would be attached to any <em>document</em>.</li>
+<li>Zanzibar relationship maps to a Rego rule: <em>onwer</em>, <em>editor</em>, <em>viewer</em>, those are Zanzibar relationships and Rego rules.</li>
+<li>Object identifier and user identifier are variables: <em>doc:document-id#relation@user:user-id</em> says that a user with a <em>user-id</em> is in a relationship with a document with an id of <em>document-id</em>. This ACL will hold for any document and any user. Hence <em>document-id</em> and <em>user-id</em> are variable.</li>
+</ul>
+<h2 id="caveats"><a href="#caveats" class="anchor-link">§</a>caveats</h2>
+<p>I haven&rsquo;t answered the question from the beginning of this write-up. It&rsquo;s a little bit too early for that. I am able to translate Zanzibar ACLs to Rego but a Zanzibar-like ACL solution does much more than an ACL evaluation. There are the following aspects of Zanzibar still to evaluate:</p>
+<ul>
+<li>API to read relationships for an object.</li>
+<li>API to read all users for an object and relationship.</li>
+<li>API to read all users for an object regardless of the relationship.</li>
+<li>Expand API.</li>
+<li>A viable, somewhat scalable architecture for storing individual ACLs.</li>
+<li>A method to reference them in a robust way when querying <em>usersets</em>.</li>
+</ul>
+<p>Nevertheless, it&rsquo;s a good start.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/" target="_blank" rel="noopener">OPA: logical or conditions</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://www.ory.sh/docs/keto/" target="_blank" rel="noopener">Ory Keto documentation</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://research.google/pubs/pub48190/" target="_blank" rel="noopener">Zanzibar: Google’s Consistent, Global Authorization System</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://www.openpolicyagent.org/docs/latest/policy-language/" target="_blank" rel="noopener">Policy Language</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
+</section>
+
+            </div>
+
+            <div class="subscribe-container">
+
+    <h2 class="subscribe">Never miss a post</h2>
+    <p class="subscribe">Interested in similar content? Get it right into your mailbox. <strong>Sign up now.</strong></p>
+
+    <div class="inner">
+        <form action="https://gruchalski.us1.list-manage.com/subscribe/post?u=7cc31051b7ae9b4636244cbb2&amp;id=80eb233246"
+            method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+            
+            <div class="away" aria-hidden="true"><input type="text" name="b_7cc31051b7ae9b4636244cbb2_80eb233246" tabindex="-1" value=""></div>
+            <div class="form-fields">
+                <input type="email" value="" name="EMAIL" placeholder="email address" />
+                <input type="submit" value="Subscribe" name="subscribe" />
+            </div>
+        </form>
+    </div>
+
+</div>
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/" target="_blank" rel="noopener">https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/&amp;text=Zanzibar-style%20ACLs%20with%20OPA%20Rego&amp;hashtags=opa,rego,zanzibar,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/&amp;title=Zanzibar-style%20ACLs%20with%20OPA%20Rego&amp;summary=what%20does%20it%20take%20to%20convert%20Zanzibar%20ACLs%20to%20OPA%20Rego?&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2022-05-07-zanzibar-style-acls-with-opa-rego\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-04-27-opa-logical-or-conditions/" class="related-link">OPA: logical or conditions</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/" class="related-link">Keto RBAC - listing roles of a user</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-05-15-rbac-with-ory-keto/" class="related-link">RBAC with Ory Keto</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/" class="related-link">Looking at Zanzibar through ORY Keto</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/opa/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>opa</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/rego/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>rego</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/zanzibar/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>zanzibar</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2022-04-28-private-go-modules-with-multiple-git-identities/" rel="next">Private go modules with multiple git identities &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            <p>this website uses Google Analytics but<br />
+    it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses </p>
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
