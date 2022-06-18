@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 18 Jun 2022 14:26:36 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sat, 18 Jun 2022 14:31:15 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -38,7 +38,7 @@
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
-                    <description>&lt;p&gt;Streaming data is a commodity. Thanks to all sorts of streaming data sources we can build reactive systems whereby an event occuring in one corner of the organisation triggers events somewhere else. Streaming data speeds up processes because businesses can react to events instead of proactively having to ask for &lt;em&gt;&amp;ldquo;what&amp;rsquo;s new&amp;rdquo;&lt;/em&gt;. IAM is no exception. Actually, an IAM system should be a source of critical information shared with other systems because IAM events are core to everything else happening within a modern, data-driven organisation.&lt;/p&gt;
+                    <description>&lt;p&gt;Streaming data is a commodity. Thanks to all sorts of streaming data sources we can build reactive systems whereby an event occuring in one corner of the system triggers events somewhere else. Streaming data speeds up processes because businesses can react to events instead of proactively having to ask for &lt;em&gt;&amp;ldquo;what&amp;rsquo;s new&amp;rdquo;&lt;/em&gt;. IAM is no exception. Actually, an IAM system should be a source of critical information shared with other systems because IAM events are core to everything else happening within a modern, data-driven organization.&lt;/p&gt;
 &lt;p&gt;Why? Here are some reasons:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A sign-up triggers a welcome email and a follow-up email campaign.&lt;/li&gt;

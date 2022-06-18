@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-06-18T14:26:36&#43;02:00</updated>
+    <updated>2022-06-18T14:31:15&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Streaming Keycloak events</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/" />
             <id>https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/</id>
-            <updated>2022-06-18T14:22:49&#43;02:00</updated>
+            <updated>2022-06-18T14:30:54&#43;02:00</updated>
             <published>2022-06-18T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -29,7 +29,7 @@
                     </author>
             <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">reactive IAM with Keycloak event listeners</summary>
             
-                <content type="html">&lt;p&gt;Streaming data is a commodity. Thanks to all sorts of streaming data sources we can build reactive systems whereby an event occuring in one corner of the organisation triggers events somewhere else. Streaming data speeds up processes because businesses can react to events instead of proactively having to ask for &lt;em&gt;&amp;ldquo;what&amp;rsquo;s new&amp;rdquo;&lt;/em&gt;. IAM is no exception. Actually, an IAM system should be a source of critical information shared with other systems because IAM events are core to everything else happening within a modern, data-driven organisation.&lt;/p&gt;
+                <content type="html">&lt;p&gt;Streaming data is a commodity. Thanks to all sorts of streaming data sources we can build reactive systems whereby an event occuring in one corner of the system triggers events somewhere else. Streaming data speeds up processes because businesses can react to events instead of proactively having to ask for &lt;em&gt;&amp;ldquo;what&amp;rsquo;s new&amp;rdquo;&lt;/em&gt;. IAM is no exception. Actually, an IAM system should be a source of critical information shared with other systems because IAM events are core to everything else happening within a modern, data-driven organization.&lt;/p&gt;
 &lt;p&gt;Why? Here are some reasons:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A sign-up triggers a welcome email and a follow-up email campaign.&lt;/li&gt;
