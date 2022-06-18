@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.97.3" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.101.0" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.6038ea36b9a01164ee9dca991434104653bda7aa6cd9eae93f3ce76118d5faa0.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
 
     
 
@@ -58,7 +58,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2021-04-02T00:00:00+00:00",
-        "dateModified": "2022-02-21T02:30:40+01:00",
+        "dateModified": "2021-04-29T19:10:25+02:00",
         "url": "https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/",
         "headline": "I hacked infinite retention into my open source Kafka",
         "description": "Well, sort of...",
@@ -106,7 +106,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2021-04-02/kafka-infinite-storage.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2021-04-02T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2022-02-21T02:30:40&#43;01:00" />
+    <meta property="article:modified_time" content="2021-04-29T19:10:25&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -359,20 +359,20 @@
 [2021-04-02 23:39:10,105] INFO Deleted time index /tmp/kraft-combined-logs/test-topic-0.fe590aa674124d0c81bb5b3d718a73ab-delete/00000000000000007646.timeindex.deleted. (kafka.log.LogSegment)
 [2021-04-02 23:39:10,111] INFO Deleted log for partition test-topic-0 in /tmp/kraft-combined-logs/test-topic-0.fe590aa674124d0c81bb5b3d718a73ab-delete. (kafka.log.LogManager)
 </code></pre><p>The upload would take less time if I was running my Kafka in EC2. This method works for deleted topics, regular segment rolls and also compacted topics. Basically, every time a segment is about to be removed from disk.</p>
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
+<li id="fn:1">
 <p><a href="https://radek-gruchalski.medium.com/the-case-for-kafka-cold-storage-32929d0a57b2" target="_blank" rel="noopener">The case for Kafka cold storage</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
+<li id="fn:2">
 <p><a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-405%3A+Kafka+Tiered+Storage" target="_blank" rel="noopener">KIP-405: Kafka Tiered Storage</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
-<li id="fn:3" role="doc-endnote">
+<li id="fn:3">
 <p><a href="https://www.confluent.io/project-metamorphosis/infinite" target="_blank" rel="noopener">Confluent Platform infinite Kafka retention</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
-</section>
+</div>
 
             </div>
 

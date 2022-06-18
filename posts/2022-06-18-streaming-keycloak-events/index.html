@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.101.0" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Streaming Keycloak events | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.2a066069a1d2940b3a3107397cddde65473ce8d29a2313ccc3989759c9372a79.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="reactive IAM with Keycloak event listeners" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2022-06-18T00:00:00+00:00",
+        "dateModified": "2022-06-18T14:22:49+02:00",
+        "url": "https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/",
+        "headline": "Streaming Keycloak events",
+        "description": "reactive IAM with Keycloak event listeners",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  1201 ,
+        "image": ["https://gruchalski.com/assets/posts/2022-06-18/01-realm-events.png","https://gruchalski.com/assets/posts/2022-06-18/02-configure-event-listener.png"],
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+
+    
+
+
+
+<meta property="og:title" content="Streaming Keycloak events" />
+<meta property="og:description" content="reactive IAM with Keycloak event listeners" />
+<meta property="og:url" content="https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-06-18/header.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2022-06-18T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2022-06-18T14:22:49&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+        <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+        
+
+
+
+
+    
+    <script>
+        var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+        var doNotTrack = (dnt == "1" || dnt == "yes");
+        if (!doNotTrack) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            if (window.sessionStorage) {
+                var GA_SESSION_STORAGE_KEY = 'ga:clientId';
+                ga('create', 'UA-39073034-1', {
+                'storage': 'none',
+                'clientId': sessionStorage.getItem(GA_SESSION_STORAGE_KEY)
+               });
+               ga(function(tracker) {
+                sessionStorage.setItem(GA_SESSION_STORAGE_KEY, tracker.get('clientId'));
+               });
+           }
+            ga('set', 'anonymizeIp', true);
+            ga('send', 'pageview');
+        }
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="icon code-branch"><path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/></svg><span class="menu-item-name">categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Streaming Keycloak events</h1>
+
+            
+
+            
+                <div class="post-description p-summary">reactive IAM with Keycloak event listeners</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2022-06-18T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;June 18, 2022</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1201</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;6&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+                <img src="/assets/posts/2022-06-18/header.png" alt="thumbnail" class="p-article__thumbnail">
+            
+
+            <div class="post-body e-content">
+              <p>Streaming data is a commodity. Thanks to all sorts of streaming data sources we can build reactive systems whereby an event occuring in one corner of the organisation triggers events somewhere else. Streaming data speeds up processes because businesses can react to events instead of proactively having to ask for <em>&ldquo;what&rsquo;s new&rdquo;</em>. IAM is no exception. Actually, an IAM system should be a source of critical information shared with other systems because IAM events are core to everything else happening within a modern, data-driven organisation.</p>
+<p>Why? Here are some reasons:</p>
+<ul>
+<li>A sign-up triggers a welcome email and a follow-up email campaign.</li>
+<li>A customer modifying their profile propagates new data to a CRM or an HR system.</li>
+<li>A large number of login attempts triggers alerts or flag an account with suspicious activity.</li>
+<li>A membership change reconfigures external systems, for example, database permissions or Kafka ACLs.</li>
+<li>It&rsquo;s a general auditing mechanism.</li>
+<li>Data from other systems can be actively fused directly back to IAM in response to selected events.</li>
+</ul>
+<p>You can surely come up with other reasons within your business domain.</p>
+<p>Various IAM solutions offer different notification methods, webhooks are the most common. Systems like <em>Auth0</em> or <em>Ory</em> offer webhook extension points. An action, for example, a sign in triggers a preconfigured URI with some payload. When triggered, the endpoint can further pass the received information, and sometimes modify it.</p>
+<p>The problem with this approach is that we are often faced with a biased choice of events we can subscribe to. This choice might be for several less and more nefarious reasons. Maybe the original architect of the IAM solution didn&rsquo;t think of a particular use case? Or specific events would enable users to implement what the provider offers in a higher-paid plan. Sometimes we are lucky and can contribute additional notifications, but there&rsquo;s often friction. Open-source is excellent, but many maintainers suffer feature creep and hesitate to take in one-off features serving a limited number of users because every additional feature comes with a maintenance burden.</p>
+<p>An <em>event bus</em> is a better solution. All events flow through the event bus, there is a universal way to subscribe to the event bus. Events contain raw information, they can be observed and reacted on. Many modern infrastructure components come with an event bus. Docker and Kubernetes come to mind. Surprisingly, Kafka doesn&rsquo;t have one.</p>
+<h2 id="keycloak-event-listener-spi"><a href="#keycloak-event-listener-spi" class="anchor-link">§</a>Keycloak Event Listener SPI</h2>
+<p>Keycloak has one, too, and it comes in the form of an Event Listener SPI. An implementation of an Event Listener SPI plugs in directly into the core of Keycloak and receives all events happening inside of Keycloak deployment. Keycloak comes with a default implementation - its logging mechanism. There are <em>one hundred and four</em> events in Keycloak 18.0.1 we can act on. That&rsquo;s pretty significant. There are some very useful event types defined in there. User-related, for example:</p>
+<ul>
+<li>Login, logout.</li>
+<li>OAuth client login and logout.</li>
+<li>Account linking.</li>
+<li>Consent grant, update, and rejection.</li>
+<li>Various account information changes.</li>
+</ul>
+<p>But also internal Keycloak changes, the most significant one being <code>CLIENT_UPDATE</code> because it carries all information modified in OAuth clients, even event authorization services!</p>
+<p><a href="https://github.com/keycloak/keycloak/blob/18.0.1/server-spi-private/src/main/java/org/keycloak/events/EventType.java" target="_blank" rel="noopener">Have a look yourself</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
+<h2 id="but-i-said-streaming"><a href="#but-i-said-streaming" class="anchor-link">§</a>but I said streaming</h2>
+<p>Let&rsquo;s face it. Tailing and parsing logs isn&rsquo;t the most convenient way of working with streaming data. The best would be to have a method to consume structured data. Like JSON. Or protocol buffers. Well, the good news is that Event Listener is a Keycloak SPI. We can write one. More than 2.5 years ago, I wrote one and put it somewhere on GitHub, then forgot about it. I rediscovered it recently while cleaning up old GitHub repositories. I have updated it for Keycloak 18 and made it available on GitHub.</p>
+<p>What is it?</p>
+<ul>
+<li><a href="https://github.com/radekg/keycloak-protobuf-spi" target="_blank" rel="noopener">Keycloak protobuf SPI</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> streams protobuf Keycloak events in real-time to a gRPC server.</li>
+<li><a href="https://github.com/radekg/keycloak-protobuf-event-server" target="_blank" rel="noopener">Keycloak protobuf event server</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> is a reference implementation of the gRPC server.</li>
+<li><a href="https://github.com/radekg/keycloak-protobuf-spi-compose" target="_blank" rel="noopener">Keycloak protobuf SPI compose</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup> contains a reference Docker Compose environment with instructions required to run Keycloak behind an Envoy proxy with the event listener SPI, all TLS-enabled.</li>
+</ul>
+<p>This SPI shows how to turn Keycloak into a streaming IAM source. I have chosen gRPC, I can&rsquo;t remember the exact reason, but nothing is preventing us from streaming those events directly to Apache Kafka or any other system.</p>
+<h2 id="how-try-it-out"><a href="#how-try-it-out" class="anchor-link">§</a>how: try it out</h2>
+<p>If you have Docker and Docker Compose available, you can try it now, and it shouldn&rsquo;t take more than 10 minutes of your time. Simply follow the instructions from the <a href="https://github.com/radekg/keycloak-protobuf-spi-compose" target="_blank" rel="noopener">Keycloak protobuf SPI compose</a><sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> repository readme.</p>
+<p>The Docker Compose configuration in that example builds on my previous articles showing how to run local Keycloak with TLS behind an Envoy proxy, so there is a little friction related to setting up TLS. The following sections of one of the previous articles about Keycloak contain relevant details:</p>
+<ul>
+<li><a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#envoy-configuration">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy: envoy configuration</a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup></li>
+<li><a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#certificates">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy:certificates</a><sup id="fnref1:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></li>
+</ul>
+<p>Once running and configured, you can see what&rsquo;s going on by looking at the logs of the gRPC server:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker logs -f <span class="k">$(</span>docker ps <span class="p">|</span> grep keycloak-protobuf-event-server <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Open the browser and go to <a href="https://idp-dev.gruchalski.com" target="_blank" rel="noopener">https://idp-dev.gruchalski.com</a>, click on the <em>Administration Console</em> link to navigate to Keycloak login screen. The username is <em>admin</em>, password is <em>admin</em>. In the left menu, click on <em>Events</em>.</p>
+<p><img src="/assets/posts/2022-06-18/01-realm-events.png" alt="realm events"></p>
+<p>Next, click on the <em>Events Config</em> tab and focus the <em>Event Listeners</em> field, you will see a drop-down with the new SPI listed:</p>
+<p><img src="/assets/posts/2022-06-18/02-configure-event-listener.png" alt="realm events config"></p>
+<p>Select the new SPI, switch all possible options to <em>On</em>, and click <em>Save</em>.</p>
+<p>Look at the log of the event server:</p>
+<pre tabindex="0"><code>2022-06-18T11:00:33.359Z [INFO]  keycloak-protobuf-event-server: OnAdminEvent: admin-event=&#34;time:1655550032713  realmId:{value:\&#34;a3149aad-f5bf-4213-b771-004c95322ce9\&#34;}  authDetails:{realmId:{value:\&#34;a3149aad-f5bf-4213-b771-004c95322ce9\&#34;}  clientId:{value:\&#34;1d0bdadd-b82b-49dd-9193-f18a2e9e461c\&#34;}  userId:{value:\&#34;cff2f608-293b-4cac-b640-fb399009274c\&#34;}  ipAddress:{value:\&#34;172.18.0.4\&#34;}}  resourceType:{value:\&#34;REALM\&#34;}  operationType:UPDATE  resourcePath:{value:\&#34;events/config\&#34;}  representation:{value:\&#34;{\\\&#34;eventsEnabled\\\&#34;:true,\\\&#34;eventsListeners\\\&#34;:[\\\&#34;jboss-logging\\\&#34;,\\\&#34;keycloak-protobuf-spi-event-listener\\\&#34;],\\\&#34;enabledEventTypes\\\&#34;:[\\\&#34;LOGIN\\\&#34;,\\\&#34;LOGIN_ERROR\\\&#34;,\\\&#34;REGISTER\\\&#34;,\\\&#34;REGISTER_ERROR\\\&#34;,\\\&#34;LOGOUT\\\&#34;,\\\&#34;LOGOUT_ERROR\\\&#34;,\\\&#34;CODE_TO_TOKEN\\\&#34;,\\\&#34;CODE_TO_TOKEN_ERROR\\\&#34;,\\\&#34;CLIENT_LOGIN\\\&#34;,\\\&#34;CLIENT_LOGIN_ERROR\\\&#34;,\\\&#34;FEDERATED_IDENTITY_LINK\\\&#34;,\\\&#34;FEDERATED_IDENTITY_LINK_ERROR\\\&#34;,\\\&#34;REMOVE_FEDERATED_IDENTITY\\\&#34;,\\\&#34;REMOVE_FEDERATED_IDENTITY_ERROR\\\&#34;,\\\&#34;UPDATE_EMAIL\\\&#34;,\\\&#34;UPDATE_EMAIL_ERROR\\\&#34;,\\\&#34;UPDATE_PROFILE\\\&#34;,\\\&#34;UPDATE_PROFILE_ERROR\\\&#34;,\\\&#34;UPDATE_PASSWORD\\\&#34;,\\\&#34;UPDATE_PASSWORD_ERROR\\\&#34;,\\\&#34;UPDATE_TOTP\\\&#34;,\\\&#34;UPDATE_TOTP_ERROR\\\&#34;,\\\&#34;VERIFY_EMAIL\\\&#34;,\\\&#34;VERIFY_EMAIL_ERROR\\\&#34;,\\\&#34;VERIFY_PROFILE\\\&#34;,\\\&#34;VERIFY_PROFILE_ERROR\\\&#34;,\\\&#34;REMOVE_TOTP\\\&#34;,\\\&#34;REMOVE_TOTP_ERROR\\\&#34;,\\\&#34;GRANT_CONSENT\\\&#34;,\\\&#34;GRANT_CONSENT_ERROR\\\&#34;,\\\&#34;UPDATE_CONSENT\\\&#34;,\\\&#34;UPDATE_CONSENT_ERROR\\\&#34;,\\\&#34;REVOKE_GRANT\\\&#34;,\\\&#34;REVOKE_GRANT_ERROR\\\&#34;,\\\&#34;SEND_VERIFY_EMAIL\\\&#34;,\\\&#34;SEND_VERIFY_EMAIL_ERROR\\\&#34;,\\\&#34;SEND_RESET_PASSWORD\\\&#34;,\\\&#34;SEND_RESET_PASSWORD_ERROR\\\&#34;,\\\&#34;SEND_IDENTITY_PROVIDER_LINK\\\&#34;,\\\&#34;SEND_IDENTITY_PROVIDER_LINK_ERROR\\\&#34;,\\\&#34;RESET_PASSWORD\\\&#34;,\\\&#34;RESET_PASSWORD_ERROR\\\&#34;,\\\&#34;RESTART_AUTHENTICATION\\\&#34;,\\\&#34;RESTART_AUTHENTICATION_ERROR\\\&#34;,\\\&#34;IDENTITY_PROVIDER_LINK_ACCOUNT\\\&#34;,\\\&#34;IDENTITY_PROVIDER_LINK_ACCOUNT_ERROR\\\&#34;,\\\&#34;IDENTITY_PROVIDER_FIRST_LOGIN\\\&#34;,\\\&#34;IDENTITY_PROVIDER_FIRST_LOGIN_ERROR\\\&#34;,\\\&#34;IDENTITY_PROVIDER_POST_LOGIN\\\&#34;,\\\&#34;IDENTITY_PROVIDER_POST_LOGIN_ERROR\\\&#34;,\\\&#34;IMPERSONATE\\\&#34;,\\\&#34;IMPERSONATE_ERROR\\\&#34;,\\\&#34;CUSTOM_REQUIRED_ACTION\\\&#34;,\\\&#34;CUSTOM_REQUIRED_ACTION_ERROR\\\&#34;,\\\&#34;EXECUTE_ACTIONS\\\&#34;,\\\&#34;EXECUTE_ACTIONS_ERROR\\\&#34;,\\\&#34;EXECUTE_ACTION_TOKEN\\\&#34;,\\\&#34;EXECUTE_ACTION_TOKEN_ERROR\\\&#34;,\\\&#34;CLIENT_REGISTER\\\&#34;,\\\&#34;CLIENT_REGISTER_ERROR\\\&#34;,\\\&#34;CLIENT_UPDATE\\\&#34;,\\\&#34;CLIENT_UPDATE_ERROR\\\&#34;,\\\&#34;CLIENT_DELETE\\\&#34;,\\\&#34;CLIENT_DELETE_ERROR\\\&#34;,\\\&#34;CLIENT_INITIATED_ACCOUNT_LINKING\\\&#34;,\\\&#34;CLIENT_INITIATED_ACCOUNT_LINKING_ERROR\\\&#34;,\\\&#34;TOKEN_EXCHANGE\\\&#34;,\\\&#34;TOKEN_EXCHANGE_ERROR\\\&#34;,\\\&#34;OAUTH2_DEVICE_AUTH\\\&#34;,\\\&#34;OAUTH2_DEVICE_AUTH_ERROR\\\&#34;,\\\&#34;OAUTH2_DEVICE_VERIFY_USER_CODE\\\&#34;,\\\&#34;OAUTH2_DEVICE_VERIFY_USER_CODE_ERROR\\\&#34;,\\\&#34;OAUTH2_DEVICE_CODE_TO_TOKEN\\\&#34;,\\\&#34;OAUTH2_DEVICE_CODE_TO_TOKEN_ERROR\\\&#34;,\\\&#34;AUTHREQID_TO_TOKEN\\\&#34;,\\\&#34;AUTHREQID_TO_TOKEN_ERROR\\\&#34;,\\\&#34;PERMISSION_TOKEN\\\&#34;,\\\&#34;DELETE_ACCOUNT\\\&#34;,\\\&#34;DELETE_ACCOUNT_ERROR\\\&#34;],\\\&#34;adminEventsEnabled\\\&#34;:true,\\\&#34;adminEventsDetailsEnabled\\\&#34;:true}\&#34;}  error:{noValue:{}}&#34;
+</code></pre><p>This is a string-serialized protobuf object printed to the log. What can we infer from this event?</p>
+<ul>
+<li>It&rsquo;s an admin event: <code>OnAdminEvent: admin-event=&quot;time:1655549196131</code>.</li>
+<li>Modified entity was a realm: <code>resourceType:{value:\&quot;REALM\&quot;}</code>.</li>
+<li>We have opted-in for admin events: <code>\\\&quot;adminEventsEnabled\\\&quot;:true</code>.</li>
+<li>We hvae opted-in for regular events: <code>\\\&quot;eventsEnabled\\\&quot;:true</code>.</li>
+</ul>
+<p>Any action executed in the <em>Master</em> realm will now be logged. For example, log out from the realm and observe the log:</p>
+<pre tabindex="0"><code>2022-06-18T11:03:16.875Z [INFO]  keycloak-protobuf-event-server: OnEvent: event=&#34;time:1655550196794  type:LOGOUT  realmId:{value:\&#34;a3149aad-f5bf-4213-b771-004c95322ce9\&#34;}  clientId:{noValue:{}}  userId:{value:\&#34;cff2f608-293b-4cac-b640-fb399009274c\&#34;}  sessionId:{value:\&#34;241a5172-107d-48e0-b5c2-d6b83966648f\&#34;}  ipAddress:{value:\&#34;172.18.0.4\&#34;}  error:{noValue:{}}  details:{key:\&#34;redirect_uri\&#34;  value:\&#34;https://idp-dev.gruchalski.com/admin/master/console/#/realms/master/events-settings\&#34;}&#34;
+</code></pre><p>Log back in:</p>
+<pre tabindex="0"><code>2022-06-18T11:03:34.235Z [INFO]  keycloak-protobuf-event-server: OnEvent: event=&#34;time:1655550214221  realmId:{value:\&#34;a3149aad-f5bf-4213-b771-004c95322ce9\&#34;}  clientId:{value:\&#34;security-admin-console\&#34;}  userId:{value:\&#34;cff2f608-293b-4cac-b640-fb399009274c\&#34;}  sessionId:{value:\&#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&#34;}  ipAddress:{value:\&#34;172.18.0.4\&#34;}  error:{noValue:{}}  details:{key:\&#34;auth_method\&#34;  value:\&#34;openid-connect\&#34;}  details:{key:\&#34;auth_type\&#34;  value:\&#34;code\&#34;}  details:{key:\&#34;code_id\&#34;  value:\&#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&#34;}  details:{key:\&#34;consent\&#34;  value:\&#34;no_consent_required\&#34;}  details:{key:\&#34;redirect_uri\&#34;  value:\&#34;https://idp-dev.gruchalski.com/admin/master/console/#/realms/master/events-settings\&#34;}  details:{key:\&#34;username\&#34;  value:\&#34;admin\&#34;}&#34;
+2022-06-18T11:03:34.741Z [INFO]  keycloak-protobuf-event-server: OnEvent: event=&#34;time:1655550214737  type:CODE_TO_TOKEN  realmId:{value:\&#34;a3149aad-f5bf-4213-b771-004c95322ce9\&#34;}  clientId:{value:\&#34;security-admin-console\&#34;}  userId:{value:\&#34;cff2f608-293b-4cac-b640-fb399009274c\&#34;}  sessionId:{value:\&#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&#34;}  ipAddress:{value:\&#34;172.18.0.4\&#34;}  error:{noValue:{}}  details:{key:\&#34;client_auth_method\&#34;  value:\&#34;client-secret\&#34;}  details:{key:\&#34;code_id\&#34;  value:\&#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&#34;}  details:{key:\&#34;grant_type\&#34;  value:\&#34;authorization_code\&#34;}  details:{key:\&#34;refresh_token_id\&#34;  value:\&#34;2a19e586-bf5c-417f-b314-75df22335b33\&#34;}  details:{key:\&#34;refresh_token_type\&#34;  value:\&#34;Refresh\&#34;}  details:{key:\&#34;scope\&#34;  value:\&#34;openid profile email\&#34;}  details:{key:\&#34;token_id\&#34;  value:\&#34;ce75b467-73e3-46b7-b97b-a259780b12ce\&#34;}&#34;
+</code></pre><p>And so on.</p>
+<p>Of course, in a real implementation, you&rsquo;d be streaming those events directly to something like Kafka instead of printing them to the screen, so other apps in your company could react to those.</p>
+<p>Event listeners are registered on a <em>per-realm</em> basis. To observe events in another realm, you need to repeat the installation steps on every realm for which you want to observe events.</p>
+<h2 id="get-in-touch"><a href="#get-in-touch" class="anchor-link">§</a>get in touch</h2>
+<p>Are you integrating Keycloak into your company and need a partner who can help you take it beyond where you thought it was possible? Reach out to me at <a href="mailto:radek.gruchalski@klarrio.com">radek.gruchalski@klarrio.com</a>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/keycloak/keycloak/blob/18.0.1/server-spi-private/src/main/java/org/keycloak/events/EventType.java" target="_blank" rel="noopener">Keycloak 18.0.1 event types</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://github.com/radekg/keycloak-protobuf-spi" target="_blank" rel="noopener">Keycloak protobuf SPI</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://github.com/radekg/keycloak-protobuf-event-server" target="_blank" rel="noopener">Keycloak protobuf event server</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://github.com/radekg/keycloak-protobuf-spi-compose" target="_blank" rel="noopener">Keycloak protobuf SPI compose</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p><a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a>&#160;<a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+            </div>
+
+            <div class="subscribe-container">
+
+    <h2 class="subscribe">Never miss a post</h2>
+    <p class="subscribe">Interested in similar content? Get it right into your mailbox. <strong>Sign up now.</strong></p>
+
+    <div class="inner">
+        <form action="https://gruchalski.us1.list-manage.com/subscribe/post?u=7cc31051b7ae9b4636244cbb2&amp;id=80eb233246"
+            method="post" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+            
+            <div class="away" aria-hidden="true"><input type="text" name="b_7cc31051b7ae9b4636244cbb2_80eb233246" tabindex="-1" value=""></div>
+            <div class="form-fields">
+                <input type="email" value="" name="EMAIL" placeholder="email address" />
+                <input type="submit" value="Subscribe" name="subscribe" />
+            </div>
+        </form>
+    </div>
+
+</div>
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2022-06-18-streaming-keycloak-events/" target="_blank" rel="noopener">https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/&amp;text=Streaming%20Keycloak%20events&amp;hashtags=keycloak,keycloak18,grpc,streaming,iam,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/&amp;title=Streaming%20Keycloak%20events&amp;summary=reactive%20IAM%20with%20Keycloak%20event%20listeners&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2022-06-18-streaming-keycloak-events\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/" class="related-link">Keycloak Authorization Services - RPT, permissions or a decision only</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2020-09-06-keycloak-authorization-services-decision-only/" class="related-link">Keycloak Authorization Services - retrieving the decision only</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2020-09-05-introduction-to-keycloak-authorization-services/" class="related-link">Introduction to Keycloak Authorization Services</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2020-09-03-keycloak-with-docker-compose/" class="related-link">Keycloak With Docker Compose</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" class="related-link">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/keycloak/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keycloak</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/keycloak18/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keycloak18</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/grpc/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>grpc</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/streaming/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>streaming</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/iam/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>iam</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/" rel="next">Zanzibar-style ACLs with OPA Rego &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            <p>this website uses Google Analytics but<br />
+    it respects your DNT settings, stores tracking ID in session storage instead of cookies and anonymizes IP addresses </p>
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>

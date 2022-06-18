@@ -10,7 +10,7 @@
         <title>gruchalski.com</title>
         <link>https://gruchalski.com/</link>
         <description>engineering software for 20&#43; years</description>
-        <generator>Hugo 0.97.3 https://gohugo.io/</generator>
+        <generator>Hugo 0.101.0 https://gohugo.io/</generator>
         
             <language>en</language>
         
@@ -23,10 +23,168 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 07 May 2022 14:19:58 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sat, 18 Jun 2022 14:26:36 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>Streaming Keycloak events</title>
+                <link>https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/</guid>
+                <pubDate>Sat, 18 Jun 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;Streaming data is a commodity. Thanks to all sorts of streaming data sources we can build reactive systems whereby an event occuring in one corner of the organisation triggers events somewhere else. Streaming data speeds up processes because businesses can react to events instead of proactively having to ask for &lt;em&gt;&amp;ldquo;what&amp;rsquo;s new&amp;rdquo;&lt;/em&gt;. IAM is no exception. Actually, an IAM system should be a source of critical information shared with other systems because IAM events are core to everything else happening within a modern, data-driven organisation.&lt;/p&gt;
+&lt;p&gt;Why? Here are some reasons:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A sign-up triggers a welcome email and a follow-up email campaign.&lt;/li&gt;
+&lt;li&gt;A customer modifying their profile propagates new data to a CRM or an HR system.&lt;/li&gt;
+&lt;li&gt;A large number of login attempts triggers alerts or flag an account with suspicious activity.&lt;/li&gt;
+&lt;li&gt;A membership change reconfigures external systems, for example, database permissions or Kafka ACLs.&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s a general auditing mechanism.&lt;/li&gt;
+&lt;li&gt;Data from other systems can be actively fused directly back to IAM in response to selected events.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can surely come up with other reasons within your business domain.&lt;/p&gt;
+&lt;p&gt;Various IAM solutions offer different notification methods, webhooks are the most common. Systems like &lt;em&gt;Auth0&lt;/em&gt; or &lt;em&gt;Ory&lt;/em&gt; offer webhook extension points. An action, for example, a sign in triggers a preconfigured URI with some payload. When triggered, the endpoint can further pass the received information, and sometimes modify it.&lt;/p&gt;
+&lt;p&gt;The problem with this approach is that we are often faced with a biased choice of events we can subscribe to. This choice might be for several less and more nefarious reasons. Maybe the original architect of the IAM solution didn&amp;rsquo;t think of a particular use case? Or specific events would enable users to implement what the provider offers in a higher-paid plan. Sometimes we are lucky and can contribute additional notifications, but there&amp;rsquo;s often friction. Open-source is excellent, but many maintainers suffer feature creep and hesitate to take in one-off features serving a limited number of users because every additional feature comes with a maintenance burden.&lt;/p&gt;
+&lt;p&gt;An &lt;em&gt;event bus&lt;/em&gt; is a better solution. All events flow through the event bus, there is a universal way to subscribe to the event bus. Events contain raw information, they can be observed and reacted on. Many modern infrastructure components come with an event bus. Docker and Kubernetes come to mind. Surprisingly, Kafka doesn&amp;rsquo;t have one.&lt;/p&gt;
+&lt;h2 id=&#34;keycloak-event-listener-spi&#34;&gt;Keycloak Event Listener SPI&lt;/h2&gt;
+&lt;p&gt;Keycloak has one, too, and it comes in the form of an Event Listener SPI. An implementation of an Event Listener SPI plugs in directly into the core of Keycloak and receives all events happening inside of Keycloak deployment. Keycloak comes with a default implementation - its logging mechanism. There are &lt;em&gt;one hundred and four&lt;/em&gt; events in Keycloak 18.0.1 we can act on. That&amp;rsquo;s pretty significant. There are some very useful event types defined in there. User-related, for example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Login, logout.&lt;/li&gt;
+&lt;li&gt;OAuth client login and logout.&lt;/li&gt;
+&lt;li&gt;Account linking.&lt;/li&gt;
+&lt;li&gt;Consent grant, update, and rejection.&lt;/li&gt;
+&lt;li&gt;Various account information changes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;But also internal Keycloak changes, the most significant one being &lt;code&gt;CLIENT_UPDATE&lt;/code&gt; because it carries all information modified in OAuth clients, even event authorization services!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/keycloak/keycloak/blob/18.0.1/server-spi-private/src/main/java/org/keycloak/events/EventType.java&#34;&gt;Have a look yourself&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;but-i-said-streaming&#34;&gt;but I said streaming&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s face it. Tailing and parsing logs isn&amp;rsquo;t the most convenient way of working with streaming data. The best would be to have a method to consume structured data. Like JSON. Or protocol buffers. Well, the good news is that Event Listener is a Keycloak SPI. We can write one. More than 2.5 years ago, I wrote one and put it somewhere on GitHub, then forgot about it. I rediscovered it recently while cleaning up old GitHub repositories. I have updated it for Keycloak 18 and made it available on GitHub.&lt;/p&gt;
+&lt;p&gt;What is it?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/keycloak-protobuf-spi&#34;&gt;Keycloak protobuf SPI&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; streams protobuf Keycloak events in real-time to a gRPC server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/keycloak-protobuf-event-server&#34;&gt;Keycloak protobuf event server&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; is a reference implementation of the gRPC server.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/keycloak-protobuf-spi-compose&#34;&gt;Keycloak protobuf SPI compose&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; contains a reference Docker Compose environment with instructions required to run Keycloak behind an Envoy proxy with the event listener SPI, all TLS-enabled.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This SPI shows how to turn Keycloak into a streaming IAM source. I have chosen gRPC, I can&amp;rsquo;t remember the exact reason, but nothing is preventing us from streaming those events directly to Apache Kafka or any other system.&lt;/p&gt;
+&lt;h2 id=&#34;how-try-it-out&#34;&gt;how: try it out&lt;/h2&gt;
+&lt;p&gt;If you have Docker and Docker Compose available, you can try it now, and it shouldn&amp;rsquo;t take more than 10 minutes of your time. Simply follow the instructions from the &lt;a href=&#34;https://github.com/radekg/keycloak-protobuf-spi-compose&#34;&gt;Keycloak protobuf SPI compose&lt;/a&gt;&lt;sup id=&#34;fnref1:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; repository readme.&lt;/p&gt;
+&lt;p&gt;The Docker Compose configuration in that example builds on my previous articles showing how to run local Keycloak with TLS behind an Envoy proxy, so there is a little friction related to setting up TLS. The following sections of one of the previous articles about Keycloak contain relevant details:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#envoy-configuration&#34;&gt;Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy: envoy configuration&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#certificates&#34;&gt;Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy:certificates&lt;/a&gt;&lt;sup id=&#34;fnref1:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Once running and configured, you can see what&amp;rsquo;s going on by looking at the logs of the gRPC server:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker logs -f &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;docker ps &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep keycloak-protobuf-event-server &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;{print $1}&amp;#39;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Open the browser and go to &lt;a href=&#34;https://idp-dev.gruchalski.com&#34;&gt;https://idp-dev.gruchalski.com&lt;/a&gt;, click on the &lt;em&gt;Administration Console&lt;/em&gt; link to navigate to Keycloak login screen. The username is &lt;em&gt;admin&lt;/em&gt;, password is &lt;em&gt;admin&lt;/em&gt;. In the left menu, click on &lt;em&gt;Events&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2022-06-18/01-realm-events.png&#34; alt=&#34;realm events&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Next, click on the &lt;em&gt;Events Config&lt;/em&gt; tab and focus the &lt;em&gt;Event Listeners&lt;/em&gt; field, you will see a drop-down with the new SPI listed:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2022-06-18/02-configure-event-listener.png&#34; alt=&#34;realm events config&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Select the new SPI, switch all possible options to &lt;em&gt;On&lt;/em&gt;, and click &lt;em&gt;Save&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Look at the log of the event server:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2022-06-18T11:00:33.359Z [INFO]  keycloak-protobuf-event-server: OnAdminEvent: admin-event=&amp;#34;time:1655550032713  realmId:{value:\&amp;#34;a3149aad-f5bf-4213-b771-004c95322ce9\&amp;#34;}  authDetails:{realmId:{value:\&amp;#34;a3149aad-f5bf-4213-b771-004c95322ce9\&amp;#34;}  clientId:{value:\&amp;#34;1d0bdadd-b82b-49dd-9193-f18a2e9e461c\&amp;#34;}  userId:{value:\&amp;#34;cff2f608-293b-4cac-b640-fb399009274c\&amp;#34;}  ipAddress:{value:\&amp;#34;172.18.0.4\&amp;#34;}}  resourceType:{value:\&amp;#34;REALM\&amp;#34;}  operationType:UPDATE  resourcePath:{value:\&amp;#34;events/config\&amp;#34;}  representation:{value:\&amp;#34;{\\\&amp;#34;eventsEnabled\\\&amp;#34;:true,\\\&amp;#34;eventsListeners\\\&amp;#34;:[\\\&amp;#34;jboss-logging\\\&amp;#34;,\\\&amp;#34;keycloak-protobuf-spi-event-listener\\\&amp;#34;],\\\&amp;#34;enabledEventTypes\\\&amp;#34;:[\\\&amp;#34;LOGIN\\\&amp;#34;,\\\&amp;#34;LOGIN_ERROR\\\&amp;#34;,\\\&amp;#34;REGISTER\\\&amp;#34;,\\\&amp;#34;REGISTER_ERROR\\\&amp;#34;,\\\&amp;#34;LOGOUT\\\&amp;#34;,\\\&amp;#34;LOGOUT_ERROR\\\&amp;#34;,\\\&amp;#34;CODE_TO_TOKEN\\\&amp;#34;,\\\&amp;#34;CODE_TO_TOKEN_ERROR\\\&amp;#34;,\\\&amp;#34;CLIENT_LOGIN\\\&amp;#34;,\\\&amp;#34;CLIENT_LOGIN_ERROR\\\&amp;#34;,\\\&amp;#34;FEDERATED_IDENTITY_LINK\\\&amp;#34;,\\\&amp;#34;FEDERATED_IDENTITY_LINK_ERROR\\\&amp;#34;,\\\&amp;#34;REMOVE_FEDERATED_IDENTITY\\\&amp;#34;,\\\&amp;#34;REMOVE_FEDERATED_IDENTITY_ERROR\\\&amp;#34;,\\\&amp;#34;UPDATE_EMAIL\\\&amp;#34;,\\\&amp;#34;UPDATE_EMAIL_ERROR\\\&amp;#34;,\\\&amp;#34;UPDATE_PROFILE\\\&amp;#34;,\\\&amp;#34;UPDATE_PROFILE_ERROR\\\&amp;#34;,\\\&amp;#34;UPDATE_PASSWORD\\\&amp;#34;,\\\&amp;#34;UPDATE_PASSWORD_ERROR\\\&amp;#34;,\\\&amp;#34;UPDATE_TOTP\\\&amp;#34;,\\\&amp;#34;UPDATE_TOTP_ERROR\\\&amp;#34;,\\\&amp;#34;VERIFY_EMAIL\\\&amp;#34;,\\\&amp;#34;VERIFY_EMAIL_ERROR\\\&amp;#34;,\\\&amp;#34;VERIFY_PROFILE\\\&amp;#34;,\\\&amp;#34;VERIFY_PROFILE_ERROR\\\&amp;#34;,\\\&amp;#34;REMOVE_TOTP\\\&amp;#34;,\\\&amp;#34;REMOVE_TOTP_ERROR\\\&amp;#34;,\\\&amp;#34;GRANT_CONSENT\\\&amp;#34;,\\\&amp;#34;GRANT_CONSENT_ERROR\\\&amp;#34;,\\\&amp;#34;UPDATE_CONSENT\\\&amp;#34;,\\\&amp;#34;UPDATE_CONSENT_ERROR\\\&amp;#34;,\\\&amp;#34;REVOKE_GRANT\\\&amp;#34;,\\\&amp;#34;REVOKE_GRANT_ERROR\\\&amp;#34;,\\\&amp;#34;SEND_VERIFY_EMAIL\\\&amp;#34;,\\\&amp;#34;SEND_VERIFY_EMAIL_ERROR\\\&amp;#34;,\\\&amp;#34;SEND_RESET_PASSWORD\\\&amp;#34;,\\\&amp;#34;SEND_RESET_PASSWORD_ERROR\\\&amp;#34;,\\\&amp;#34;SEND_IDENTITY_PROVIDER_LINK\\\&amp;#34;,\\\&amp;#34;SEND_IDENTITY_PROVIDER_LINK_ERROR\\\&amp;#34;,\\\&amp;#34;RESET_PASSWORD\\\&amp;#34;,\\\&amp;#34;RESET_PASSWORD_ERROR\\\&amp;#34;,\\\&amp;#34;RESTART_AUTHENTICATION\\\&amp;#34;,\\\&amp;#34;RESTART_AUTHENTICATION_ERROR\\\&amp;#34;,\\\&amp;#34;IDENTITY_PROVIDER_LINK_ACCOUNT\\\&amp;#34;,\\\&amp;#34;IDENTITY_PROVIDER_LINK_ACCOUNT_ERROR\\\&amp;#34;,\\\&amp;#34;IDENTITY_PROVIDER_FIRST_LOGIN\\\&amp;#34;,\\\&amp;#34;IDENTITY_PROVIDER_FIRST_LOGIN_ERROR\\\&amp;#34;,\\\&amp;#34;IDENTITY_PROVIDER_POST_LOGIN\\\&amp;#34;,\\\&amp;#34;IDENTITY_PROVIDER_POST_LOGIN_ERROR\\\&amp;#34;,\\\&amp;#34;IMPERSONATE\\\&amp;#34;,\\\&amp;#34;IMPERSONATE_ERROR\\\&amp;#34;,\\\&amp;#34;CUSTOM_REQUIRED_ACTION\\\&amp;#34;,\\\&amp;#34;CUSTOM_REQUIRED_ACTION_ERROR\\\&amp;#34;,\\\&amp;#34;EXECUTE_ACTIONS\\\&amp;#34;,\\\&amp;#34;EXECUTE_ACTIONS_ERROR\\\&amp;#34;,\\\&amp;#34;EXECUTE_ACTION_TOKEN\\\&amp;#34;,\\\&amp;#34;EXECUTE_ACTION_TOKEN_ERROR\\\&amp;#34;,\\\&amp;#34;CLIENT_REGISTER\\\&amp;#34;,\\\&amp;#34;CLIENT_REGISTER_ERROR\\\&amp;#34;,\\\&amp;#34;CLIENT_UPDATE\\\&amp;#34;,\\\&amp;#34;CLIENT_UPDATE_ERROR\\\&amp;#34;,\\\&amp;#34;CLIENT_DELETE\\\&amp;#34;,\\\&amp;#34;CLIENT_DELETE_ERROR\\\&amp;#34;,\\\&amp;#34;CLIENT_INITIATED_ACCOUNT_LINKING\\\&amp;#34;,\\\&amp;#34;CLIENT_INITIATED_ACCOUNT_LINKING_ERROR\\\&amp;#34;,\\\&amp;#34;TOKEN_EXCHANGE\\\&amp;#34;,\\\&amp;#34;TOKEN_EXCHANGE_ERROR\\\&amp;#34;,\\\&amp;#34;OAUTH2_DEVICE_AUTH\\\&amp;#34;,\\\&amp;#34;OAUTH2_DEVICE_AUTH_ERROR\\\&amp;#34;,\\\&amp;#34;OAUTH2_DEVICE_VERIFY_USER_CODE\\\&amp;#34;,\\\&amp;#34;OAUTH2_DEVICE_VERIFY_USER_CODE_ERROR\\\&amp;#34;,\\\&amp;#34;OAUTH2_DEVICE_CODE_TO_TOKEN\\\&amp;#34;,\\\&amp;#34;OAUTH2_DEVICE_CODE_TO_TOKEN_ERROR\\\&amp;#34;,\\\&amp;#34;AUTHREQID_TO_TOKEN\\\&amp;#34;,\\\&amp;#34;AUTHREQID_TO_TOKEN_ERROR\\\&amp;#34;,\\\&amp;#34;PERMISSION_TOKEN\\\&amp;#34;,\\\&amp;#34;DELETE_ACCOUNT\\\&amp;#34;,\\\&amp;#34;DELETE_ACCOUNT_ERROR\\\&amp;#34;],\\\&amp;#34;adminEventsEnabled\\\&amp;#34;:true,\\\&amp;#34;adminEventsDetailsEnabled\\\&amp;#34;:true}\&amp;#34;}  error:{noValue:{}}&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is a string-serialized protobuf object printed to the log. What can we infer from this event?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&amp;rsquo;s an admin event: &lt;code&gt;OnAdminEvent: admin-event=&amp;quot;time:1655549196131&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Modified entity was a realm: &lt;code&gt;resourceType:{value:\&amp;quot;REALM\&amp;quot;}&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;We have opted-in for admin events: &lt;code&gt;\\\&amp;quot;adminEventsEnabled\\\&amp;quot;:true&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;We hvae opted-in for regular events: &lt;code&gt;\\\&amp;quot;eventsEnabled\\\&amp;quot;:true&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Any action executed in the &lt;em&gt;Master&lt;/em&gt; realm will now be logged. For example, log out from the realm and observe the log:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2022-06-18T11:03:16.875Z [INFO]  keycloak-protobuf-event-server: OnEvent: event=&amp;#34;time:1655550196794  type:LOGOUT  realmId:{value:\&amp;#34;a3149aad-f5bf-4213-b771-004c95322ce9\&amp;#34;}  clientId:{noValue:{}}  userId:{value:\&amp;#34;cff2f608-293b-4cac-b640-fb399009274c\&amp;#34;}  sessionId:{value:\&amp;#34;241a5172-107d-48e0-b5c2-d6b83966648f\&amp;#34;}  ipAddress:{value:\&amp;#34;172.18.0.4\&amp;#34;}  error:{noValue:{}}  details:{key:\&amp;#34;redirect_uri\&amp;#34;  value:\&amp;#34;https://idp-dev.gruchalski.com/admin/master/console/#/realms/master/events-settings\&amp;#34;}&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Log back in:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2022-06-18T11:03:34.235Z [INFO]  keycloak-protobuf-event-server: OnEvent: event=&amp;#34;time:1655550214221  realmId:{value:\&amp;#34;a3149aad-f5bf-4213-b771-004c95322ce9\&amp;#34;}  clientId:{value:\&amp;#34;security-admin-console\&amp;#34;}  userId:{value:\&amp;#34;cff2f608-293b-4cac-b640-fb399009274c\&amp;#34;}  sessionId:{value:\&amp;#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&amp;#34;}  ipAddress:{value:\&amp;#34;172.18.0.4\&amp;#34;}  error:{noValue:{}}  details:{key:\&amp;#34;auth_method\&amp;#34;  value:\&amp;#34;openid-connect\&amp;#34;}  details:{key:\&amp;#34;auth_type\&amp;#34;  value:\&amp;#34;code\&amp;#34;}  details:{key:\&amp;#34;code_id\&amp;#34;  value:\&amp;#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&amp;#34;}  details:{key:\&amp;#34;consent\&amp;#34;  value:\&amp;#34;no_consent_required\&amp;#34;}  details:{key:\&amp;#34;redirect_uri\&amp;#34;  value:\&amp;#34;https://idp-dev.gruchalski.com/admin/master/console/#/realms/master/events-settings\&amp;#34;}  details:{key:\&amp;#34;username\&amp;#34;  value:\&amp;#34;admin\&amp;#34;}&amp;#34;
+2022-06-18T11:03:34.741Z [INFO]  keycloak-protobuf-event-server: OnEvent: event=&amp;#34;time:1655550214737  type:CODE_TO_TOKEN  realmId:{value:\&amp;#34;a3149aad-f5bf-4213-b771-004c95322ce9\&amp;#34;}  clientId:{value:\&amp;#34;security-admin-console\&amp;#34;}  userId:{value:\&amp;#34;cff2f608-293b-4cac-b640-fb399009274c\&amp;#34;}  sessionId:{value:\&amp;#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&amp;#34;}  ipAddress:{value:\&amp;#34;172.18.0.4\&amp;#34;}  error:{noValue:{}}  details:{key:\&amp;#34;client_auth_method\&amp;#34;  value:\&amp;#34;client-secret\&amp;#34;}  details:{key:\&amp;#34;code_id\&amp;#34;  value:\&amp;#34;5ccb5161-c3b1-4dee-935a-6c67bb8400da\&amp;#34;}  details:{key:\&amp;#34;grant_type\&amp;#34;  value:\&amp;#34;authorization_code\&amp;#34;}  details:{key:\&amp;#34;refresh_token_id\&amp;#34;  value:\&amp;#34;2a19e586-bf5c-417f-b314-75df22335b33\&amp;#34;}  details:{key:\&amp;#34;refresh_token_type\&amp;#34;  value:\&amp;#34;Refresh\&amp;#34;}  details:{key:\&amp;#34;scope\&amp;#34;  value:\&amp;#34;openid profile email\&amp;#34;}  details:{key:\&amp;#34;token_id\&amp;#34;  value:\&amp;#34;ce75b467-73e3-46b7-b97b-a259780b12ce\&amp;#34;}&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And so on.&lt;/p&gt;
+&lt;p&gt;Of course, in a real implementation, you&amp;rsquo;d be streaming those events directly to something like Kafka instead of printing them to the screen, so other apps in your company could react to those.&lt;/p&gt;
+&lt;p&gt;Event listeners are registered on a &lt;em&gt;per-realm&lt;/em&gt; basis. To observe events in another realm, you need to repeat the installation steps on every realm for which you want to observe events.&lt;/p&gt;
+&lt;h2 id=&#34;get-in-touch&#34;&gt;get in touch&lt;/h2&gt;
+&lt;p&gt;Are you integrating Keycloak into your company and need a partner who can help you take it beyond where you thought it was possible? Reach out to me at &lt;a href=&#34;mailto:radek.gruchalski@klarrio.com&#34;&gt;radek.gruchalski@klarrio.com&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/keycloak/keycloak/blob/18.0.1/server-spi-private/src/main/java/org/keycloak/events/EventType.java&#34;&gt;Keycloak 18.0.1 event types&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/keycloak-protobuf-spi&#34;&gt;Keycloak protobuf SPI&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/keycloak-protobuf-event-server&#34;&gt;Keycloak protobuf event server&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/keycloak-protobuf-spi-compose&#34;&gt;Keycloak protobuf SPI compose&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fnref1:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&#34;&gt;Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/#fnref1:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/categories/keycloak/">Keycloak</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/keycloak/">keycloak</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/keycloak18/">keycloak18</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/grpc/">grpc</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/streaming/">streaming</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/iam/">iam</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Zanzibar-style ACLs with OPA Rego</title>
@@ -698,23 +856,23 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 &lt;li&gt;A method to reference them in a robust way when querying &lt;em&gt;usersets&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Nevertheless, it&amp;rsquo;s a good start.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/&#34;&gt;OPA: logical or conditions&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.ory.sh/docs/keto/&#34;&gt;Ory Keto documentation&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar: Google’s Consistent, Global Authorization System&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.openpolicyagent.org/docs/latest/policy-language/&#34;&gt;Policy Language&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -1469,7 +1627,7 @@ require (
 &lt;/ul&gt;
 &lt;h3 id=&#34;discovering-tablet-ids-to-consume-changes-from&#34;&gt;discovering tablet IDs to consume changes from&lt;/h3&gt;
 &lt;p&gt;The implication of the &lt;code&gt;GetChangesRequestPB.tablet_id&lt;/code&gt; being required, is that we have to find all tablet IDs for each table of a database.&lt;/p&gt;
-&lt;p&gt;Forunately, the Debezium connector does this already. We can use the &lt;a href=&#34;https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L341-L365&#34;&gt;&lt;code&gt;YugabyteDBConnector.fetchTabletList(...)&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; method to reverse engineer this step.&lt;/p&gt;
+&lt;p&gt;Forunately, the Debezium connector does this already. We can use the &lt;a href=&#34;https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L341-L365&#34;&gt;&lt;code&gt;YugabyteDBConnector.fetchTabletList(...)&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref1:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; method to reverse engineer this step.&lt;/p&gt;
 &lt;p&gt;It boils down to listing all tables using the master service &lt;code&gt;ListTables&lt;/code&gt; request and filtering for &lt;code&gt;PGSQL&lt;/code&gt; relations, where the relation type isn&amp;rsquo;t &lt;code&gt;INDEX_TABLE_RELATION&lt;/code&gt; or &lt;code&gt;SYSTEM_TABLE_RELATION&lt;/code&gt; (effectively, &lt;code&gt;USER_TABLE_RELATION&lt;/code&gt; only).&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2318,50 +2476,50 @@ yb-tserver-shared-3    | libc++abi: terminating with uncaught exception of type 
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;YugabyteDB CDC is one of the features to track. The &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/architecture/design/docdb-change-data-capture.md#setting-up-a-cdc&#34;&gt;documentation in GitHub&lt;/a&gt;&lt;sup id=&#34;fnref:13&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fn:13&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;13&lt;/a&gt;&lt;/sup&gt; suggests some pretty cool features coming.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/&#34;&gt;YugabyteDB change data capture&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/debezium/tree/final-connector-ybdb&#34;&gt;YugabyteDB Debezium connector&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L263&#34;&gt;YugabyteDB Debezium connector: &lt;code&gt;YugabyteDBConnector.validateTServerConnection(...)&lt;/code&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L341-L365&#34;&gt;YugabyteDB Debezium connector: &lt;code&gt;YugabyteDBConnector.fetchTabletList(...)&lt;/code&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBConnector.java#L341-L365&#34;&gt;YugabyteDB Debezium connector: &lt;code&gt;YugabyteDBConnector.fetchTabletList(...)&lt;/code&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref1:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/debezium/blob/final-connector-ybdb/debezium-connector-yugabytedb2/src/main/java/io/debezium/connector/yugabytedb/YugabyteDBStreamingChangeEventSource.java#L243&#34;&gt;YugabyteDB Debezium connector: &lt;code&gt;YugabyteDBStreamingChangeEventSource.getChanges2(...)&lt;/code&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/tools/yb-admin_cli_ent.cc#L429-L460&#34;&gt;Currently undocumented yb-admin create_change_data_stream operation&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/tools/yb-admin_client_ent.cc#L1122-L1151&#34;&gt;YugabyteDB source code: &lt;code&gt;ClusterAdminClient::CreateCDCSDKDBStream&lt;/code&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:8&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/cdc/cdcsdk_producer.cc#L560-L828&#34;&gt;snapshot handling in YugabyteDB CDC SDK producer&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:9&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:9&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/java/yb-cdc/src/test/java/org/yb/cdc/TestCheckpoint.java#L63-L93&#34;&gt;Java client checkpoint handling tests&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:9&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:10&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:10&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#the-yugabytedb-cluster&#34;&gt;YugabyteDB change data capture: cluster configuration&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:10&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:11&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:11&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/cdc/cdc_service.cc#L736-L742&#34;&gt;YugabyteDB source code: do not create a CDC stream if table doesn&amp;rsquo;t have a primary key&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:11&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:12&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:12&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-cdctest&#34;&gt;YugabyteDB CDC test golang client&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:12&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:13&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:13&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/architecture/design/docdb-change-data-capture.md#setting-up-a-cdc&#34;&gt;2.13 DocDB CDC documentation&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/#fnref:13&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -3505,32 +3663,32 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;p&gt;Very straightforward to approach and a great foundation for integrating distributed SQL with real-time pipelines. CDC data can be easily ingested and transformed with Kafka or another data streaming solution to power all sorts of business applications inside of an enterprise.&lt;/p&gt;
 &lt;p&gt;Having an out-of-the-box possibility to fuse distributed SQL and real-time streaming data is a superpower with unlimited applications in today&amp;rsquo;s data-driven world.&lt;/p&gt;
 &lt;p&gt;That&amp;rsquo;s it for today, dipping the toes in YugabyteDB CDC.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/tree/master/java/yb-cdc&#34;&gt;YugabyteDB CDC Java client&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/&#34;&gt;A brief look at YugabyteDB RPC API&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/&#34;&gt;YugabyteDB Go RPC client&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-cdctest&#34;&gt;YugabyteDB CDC demo client&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-multi-tenant-paas-demo&#34;&gt;YugabyteDB multi-tenant PaaS demo&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://docs.docker.com/compose/install/#install-compose-on-linux-systems&#34;&gt;Install Compose on Linux systems&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://blog.yugabyte.com/geo-partitioning-of-data-in-yugabytedb/&#34;&gt;Geo-Partitioning of Data in YugabyteDB&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -3803,20 +3961,20 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;For some of those statements, it might be necessary to adjust the value of &lt;code&gt;-B&lt;/code&gt;. In this case &lt;code&gt;5&lt;/code&gt; was enough, we can see that the &lt;code&gt;parser_ybc_signal_unsupported&lt;/code&gt; for &lt;code&gt;ALTER TYPE_P any_name RENAME TO name&lt;/code&gt; disappeared from the grammar file in &lt;em&gt;2.11.2&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;With little to no work, it&amp;rsquo;s possible to quickly compare the level of support for all three definitions across whatever arbitrary versions we are interested in.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db#current-roadmap&#34;&gt;YugabyteDB roadmap&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/master/src/postgres/src/backend/parser/gram.y&#34;&gt;YugabyteDB Postgres YACC grammar&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/releases/tag/v2.11.2&#34;&gt;YugabyteDB 2.11.2 release notes&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -3877,7 +4035,7 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;blockquote&gt;
 &lt;p&gt;The &lt;code&gt;build&lt;/code&gt; command is responsible for producing an immutable and optimized server image, which is similar to building a container image. In addition to persisting any build option you have set, this command also performs a series of optimizations to deliver the best runtime when starting and running the server. As a result, a lot of processing that would usually happen when starting and running the server is no longer necessary and the server can start and run faster.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;There is no way to get away from executing &lt;em&gt;build&lt;/em&gt;. We can use the &lt;em&gt;start &amp;ndash;auto-build&lt;/em&gt; flag (also documented in &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;), but one way or another, we have to &lt;em&gt;build&lt;/em&gt; it. The &lt;em&gt;&amp;ndash;auto-build&lt;/em&gt; option takes some time to execute on every start and building a custom image helps us shave some time off on subsequent starts.&lt;/p&gt;
+&lt;p&gt;There is no way to get away from executing &lt;em&gt;build&lt;/em&gt;. We can use the &lt;em&gt;start &amp;ndash;auto-build&lt;/em&gt; flag (also documented in &lt;sup id=&#34;fnref1:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;), but one way or another, we have to &lt;em&gt;build&lt;/em&gt; it. The &lt;em&gt;&amp;ndash;auto-build&lt;/em&gt; option takes some time to execute on every start and building a custom image helps us shave some time off on subsequent starts.&lt;/p&gt;
 &lt;p&gt;I guessed that I wanted an optimized image so I opted in for building my own Docker image.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/server/containers&#34;&gt;Building a custom Docker image is documented here&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;My &lt;em&gt;Dockerfile&lt;/em&gt; (&lt;em&gt;.docker/keycloak/Dockerfile&lt;/em&gt;) looks like this:&lt;/p&gt;
@@ -3929,7 +4087,7 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s go through some of its most interesting aspects.&lt;/p&gt;
 &lt;p&gt;The &lt;em&gt;builder&lt;/em&gt; stage configures the database provider, here Postgres, and executes &lt;em&gt;kc.sh build&lt;/em&gt;. This is where the optimized build is created.&lt;/p&gt;
-&lt;p&gt;The second stage uses the &lt;em&gt;builder&lt;/em&gt; stage and simply copies the build output into the final container. If you have looked at the original Keycloak documentation&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;, you have probably noticed that I do not generate a certificate here. I am putting Keycloak behind Envoy, which will terminate TLS for me. I do not need a certificate.&lt;/p&gt;
+&lt;p&gt;The second stage uses the &lt;em&gt;builder&lt;/em&gt; stage and simply copies the build output into the final container. If you have looked at the original Keycloak documentation&lt;sup id=&#34;fnref1:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;, you have probably noticed that I do not generate a certificate here. I am putting Keycloak behind Envoy, which will terminate TLS for me. I do not need a certificate.&lt;/p&gt;
 &lt;p&gt;The new thing in &lt;em&gt;17.0.0&lt;/em&gt; is the use of &lt;em&gt;KEYCLOAK_ADMIN&lt;/em&gt; and &lt;em&gt;KEYCLOAK_ADMIN_PASSWORD&lt;/em&gt; environment variables. Prior to &lt;em&gt;17.0.0&lt;/em&gt;, to create an initial administrator account, we had to execute the &lt;em&gt;/opt/jboss/keycloak/bin/add-user-keycloak.sh&lt;/em&gt;. script and pass &lt;em&gt;-u user -p pass&lt;/em&gt; arguments. If you read some of my previous article, you maybe remember this command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -4248,26 +4406,26 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;/div&gt;&lt;h2 id=&#34;thats-it&#34;&gt;that&amp;rsquo;s it&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Keycloak 17.0.0&lt;/strong&gt; running locally in Docker Compose, with TLS, behind Envoy proxy.&lt;/p&gt;
 &lt;p&gt;Next step is to bring SPIs back into this setup!&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/2022/02/keycloak-1700-released.html&#34;&gt;Keycloak 17.0.0 released&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/server/configuration&#34;&gt;Configuring Keycloak&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/server/configuration&#34;&gt;Configuring Keycloak&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref1:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/server/containers&#34;&gt;Running Keycloak in a container&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/server/containers&#34;&gt;Running Keycloak in a container&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref1:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/&#34;&gt;Keycloak with TLS in Docker compose behind Envoy proxy&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/&#34;&gt;Let’s Encrypt certificates for local development&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -4291,6 +4449,12 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
                                 
                                 
                                     <category domain="https://gruchalski.com/tags/keycloak/">keycloak</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/keycloak17/">keycloak17</category>
                                 
                             
                                 
@@ -4917,23 +5081,23 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;li&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/master/src/yb/tools/yb-admin_client.cc&#34;&gt;regular operations&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Happy hacking!&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/apache/hbase/blob/master/src/main/asciidoc/_chapters/rpc.adoc&#34;&gt;The HBase RPC protocol description&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/YRpc.java#L274-L293&#34;&gt;YugabyteDB Java client payload handling&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;Sourcegraph: &lt;a href=&#34;https://sourcegraph.com/search?q=context:global+repo:yugabyte/yugabyte-db.*+set_rows_data_sidecar&amp;amp;patternType=literal&#34;&gt;usage of side cars in YugabyteDB code&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/blob/v2.11.1/java/yb-client/src/main/java/org/yb/client/CallResponse.java#L134-L155&#34;&gt;Reading side cars in YugabyteDB Java code&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -5022,35 +5186,35 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;p&gt;As I learned later, Jonathan also reached out to Franck Pachot—Developer Advocate at Yugabyte.&lt;/p&gt;
 &lt;p&gt;So I&amp;rsquo;ve spoken to Franck and we agreed to co-author a book. It&amp;rsquo;s all very early stages, the proposal is being written, priorities have to be taken care of, everybody has be aligned, everyone has to feel comfortable with choices being made. It can still go in every direction.&lt;/p&gt;
 &lt;p&gt;Stay tuned.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-multi-tenant-paas-demo&#34;&gt;YugabyteDB multi-tenant-paas&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/pull/9650&#34;&gt;[YSQL] Foreign Data Wrapper support&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/pull/9576&#34;&gt;[YSQL] Merge user provided shared_preload_libraries to enable custom PSQL extensions&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabytedb-extensions-build-infrastructure&#34;&gt;YugabyteDB build infrastructure&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-go-client&#34;&gt;YugabyteDB client for go&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://vimeo.com/609759675&#34;&gt;Workload isolation in a multi-tenant container based architecture - DSS21&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://books.japila.pl/apache-spark-internals/&#34;&gt;The Internals of Apache Spark 3.2.0&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:8&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/&#34;&gt;Apache Spark on Mesos with Docker bridge networking&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -5913,17 +6077,17 @@ tenant2db=&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;In one of the future posts, I am going to look at adding custom forms to the action.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services&#34;&gt;Introduction to Keycloak Authorization Services&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/docs/latest/server_development/#_providers&#34;&gt;Keycloak Service Provider Interfaces&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -6346,23 +6510,23 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The configuration is now complete.&lt;/p&gt;
 &lt;p&gt;After starting the setup with &lt;code&gt;docker compose -f compose.yml up&lt;/code&gt;, I can access my Keycloak by entering &lt;a href=&#34;https://idp.gruchalski.com&#34;&gt;https://idp.gruchalski.com&lt;/a&gt; in the browser address bar. The TLS request is terminated at Envoy and Envoy finds the &lt;em&gt;cluster&lt;/em&gt; based on the &lt;em&gt;hostname&lt;/em&gt; advertised during the TLS handshake. The request is then forwarded to Keycloak on port &lt;em&gt;8080&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Installtion finalization is exactly the same as &lt;a href=&#34;https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/#intermission&#34;&gt;in the previous article&lt;/a&gt;.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/&#34;&gt;Keycloak with Docker Compose&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/docs/latest/server_installation/#_setting_up_ssl&#34;&gt;Keycloak documentation: setting up SSL&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://letsencrypt.org/docs/challenge-types/&#34;&gt;Let&amp;rsquo;s Encrypt challenge types&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/&#34;&gt;Let’s Encrypt certificates for local development&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -6516,20 +6680,20 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
 &lt;p&gt;&lt;a href=&#34;https://go-acme.github.io/lego/&#34;&gt;Full documentation is available here&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;use-as-a-library&#34;&gt;use as a library&lt;/h2&gt;
 &lt;p&gt;The &lt;em&gt;LEGO&lt;/em&gt; client can be used as a library in any &lt;em&gt;go&lt;/em&gt; program. &lt;a href=&#34;github.com/eggsampler/acme&#34;&gt;Here&amp;rsquo;s a repository&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; wrapping the library in a more high level client. Very decent sample can be found in the &lt;em&gt;examples&lt;/em&gt; folder.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/go-acme/lego&#34;&gt;Let&amp;rsquo;s Encrypt client and ACME library written in Go&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://go-acme.github.io/lego/&#34;&gt;LEGO documentation&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;github.com/eggsampler/acme&#34;&gt;eggsampler/acme&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -6598,29 +6762,29 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
 &lt;p&gt;While the Postgres layer is amazing in itself, YugabyteDB is not only about Postgres. There&amp;rsquo;s also the YCQL layer which is basically Cassandra on steroids and there&amp;rsquo;s the Yedis layer—Redis on steroids. There&amp;rsquo;s change data capture, point in time restore, Kafka ingest integration and many more features adding up to a very solid all round database solution ready for the cloud-native XXI century.&lt;/p&gt;
 &lt;p&gt;It&amp;rsquo;s clear that the team behind the product understands the problem space and is focused on solving their clients problems in open source rather than chasing an ever longer feature list. There does not seem to be a secondary agenda. There are two commercial products next to the open source version: the enterprise fully managed solution and the self-managed licensed solution. The company behind clearly knowns &lt;em&gt;what&lt;/em&gt;, &lt;em&gt;how&lt;/em&gt; and &lt;em&gt;for whom&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;If you enjoy using PostgreSQL, you&amp;rsquo;ll love YugabyteDB.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/ACID&#34;&gt;ACID&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/CAP_theorem&#34;&gt;&lt;em&gt;CAP&lt;/em&gt; theorem&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Consistent_hashing&#34;&gt;Consistent hashing&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Distributed_hash_table&#34;&gt;Distributed hash table&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Eventual_consistency&#34;&gt;Eventual consistency&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.yugabyte.com/&#34;&gt;YugabyteDB&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-30-on-yugabytedb/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -7215,17 +7379,17 @@ Accept: application/json
 &lt;p&gt;Traefik would be an awesome choice because of automatic ACME and the ability to use a single &lt;em&gt;ForwardAuth&lt;/em&gt; to serve multiple sites via single Oathkeeper.&lt;/p&gt;
 &lt;p&gt;The reason why a custom &lt;em&gt;ForwardAuth&lt;/em&gt; might be required, is that Traefik forwards the original request data in headers. The custom &lt;em&gt;ForwardAuth&lt;/em&gt; would have to issue the Oathkeeper request constructed from those headers.&lt;/p&gt;
 &lt;p&gt;Well, it&amp;rsquo;s not so complicated after all&amp;hellip;&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.ory.sh/oathkeeper/docs/&#34;&gt;Oathkeeper Docs&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/ory/oathkeeper/issues/263&#34;&gt;Integrate with Traefik, Nginx, Ambassador, Envoy on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -7592,17 +7756,17 @@ fast-dev-director: {&amp;#34;allowed&amp;#34;:true}
 &lt;p&gt;The latter solution opens the door for extra features. If I was rooting for a high level RBAC solution, I&amp;rsquo;d go for the more complex one. The complexity is an implementation detail.&lt;/p&gt;
 &lt;p&gt;Getting the consistency right might be tricky with Keto REST / gRPC API only. This would probably require some sort of stateful state machine, possibly on top of etcd but it&amp;rsquo;s definitely doable. The extra benefit of the decision strategy is a nice side effect.&lt;/p&gt;
 &lt;p&gt;Food for thought.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/&#34;&gt;RBAC with Ory Keto&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/docs/latest/authorization_services/#_permission_decision_strategies&#34;&gt;Keycloak Authorization Services Decision Strategy&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -8253,20 +8417,20 @@ dev-director#member@Bender
 &lt;p&gt;This simple example shows that a simple RBAC is doable with Ory Keto. Without the &lt;em&gt;rewrites&lt;/em&gt;, the configuration can be quite verbose but the example shows that different relation tuples can be chained together to form a more complex decision tree.&lt;/p&gt;
 &lt;p&gt;The example with deletes not removing the expected tuples indicate that Keto might still not be totally bulletproof but things can only get better.&lt;/p&gt;
 &lt;p&gt;Working directly with tuples can probably lead to a big headache. An efficient way of working would definitely require a tool managing and verifying the relation tuples based on some higher level role and membership abstraction.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/ory/keto/issues/598#issuecomment-842301138&#34;&gt;usersets vs rewrites clarification&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Role-based_access_control&#34;&gt;Role-based Access Control&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar: Consistent, Global Authorization System&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -8725,20 +8889,20 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
 &lt;li&gt;service discovery integration; first step is to integrate with Consul service catalog and DNS - this will open the door for launching more complex infrastructures with firebuild&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;That&amp;rsquo;s it for today, thank you for reading!&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://combust-labs.github.io/firebuild-docs/&#34;&gt;firebuild documentation&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/combust-labs/firebuild#build-directly-from-a-docker-image&#34;&gt;firebuild readme: build directly from a Docker image&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/&#34;&gt;firebuild rootfs - gRPC with mTLS&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -9336,26 +9500,26 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
 &lt;p&gt;The API is very simple to use and understand. The flexibility and applicability is endless.&lt;/p&gt;
 &lt;p&gt;This is something what will greatly benefit &lt;code&gt;firebuild&lt;/code&gt; and I am sure we will see Keto being used all over the place.&lt;/p&gt;
 &lt;p&gt;The ORY team deserves huge applause for making this technology so easily approachable.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar: Google’s Consistent, Global Authorization System&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/&#34;&gt;ORY reference Docker Compose and thoughts on the platform&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/ory-reference-compose/blob/master/README.md&#34;&gt;Reference ORY Docker Compose setup readme&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.ory.sh/keto/docs/concepts/relation-tuples&#34;&gt;ORY Keto concepts: relation tuples&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.ory.sh/keto/docs/concepts/objects&#34;&gt;ORY Keto concepts: objects&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -9466,23 +9630,23 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
 &lt;li&gt;Oathkeeper v0.38.9-beta.1; &lt;a href=&#34;https://github.com/ory/oathkeeper/issues/689&#34;&gt;v0.38.10-beta.1 does not build from sources&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The reference is kept up to date on a best effort basis.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Cloud_native_computing&#34;&gt;Cloud native computing&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.ory.sh&#34;&gt;ORY&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://research.google/pubs/pub48190/&#34;&gt;Zanzibar: Google&amp;rsquo;s Consistent, Global Authorization System&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/ory-reference-compose&#34;&gt;Reference ORY Docker Compose setup on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -10123,20 +10287,20 @@ esac
 [2021-04-02 23:39:10,105] INFO Deleted time index /tmp/kraft-combined-logs/test-topic-0.fe590aa674124d0c81bb5b3d718a73ab-delete/00000000000000007646.timeindex.deleted. (kafka.log.LogSegment)
 [2021-04-02 23:39:10,111] INFO Deleted log for partition test-topic-0 in /tmp/kraft-combined-logs/test-topic-0.fe590aa674124d0c81bb5b3d718a73ab-delete. (kafka.log.LogManager)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The upload would take less time if I was running my Kafka in EC2. This method works for deleted topics, regular segment rolls and also compacted topics. Basically, every time a segment is about to be removed from disk.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://radek-gruchalski.medium.com/the-case-for-kafka-cold-storage-32929d0a57b2&#34;&gt;The case for Kafka cold storage&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://cwiki.apache.org/confluence/display/KAFKA/KIP-405%3A+Kafka+Tiered+Storage&#34;&gt;KIP-405: Kafka Tiered Storage&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.confluent.io/project-metamorphosis/infinite&#34;&gt;Confluent Platform infinite Kafka retention&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -10247,17 +10411,17 @@ esac
 [2021-03-31 23:28:21,931] INFO [Partition test-topic-0 broker=1] No checkpointed highwatermark is found for partition test-topic-0 (kafka.cluster.Partition)
 [2021-03-31 23:28:21,932] INFO [Partition test-topic-0 broker=1] Log loaded for partition test-topic-0 with initial high watermark 0 (kafka.cluster.Partition)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Impressive.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://cwiki.apache.org/confluence/display/KAFKA/KIP-500%3A+Replace+ZooKeeper+with+a+Self-Managed+Metadata+Quorum&#34;&gt;KIP-500 &lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/&#34;&gt;Apache Kafka Made Simple: A First Glimpse of a Kafka Without ZooKeeper&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -10456,17 +10620,17 @@ esac
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;With key sizes of &lt;code&gt;2048&lt;/code&gt; bits, it takes a reasonable time to start, the overhead isn&amp;rsquo;t significant. Considering that &lt;code&gt;rootfs&lt;/code&gt; build is not very time sensitive, this seems pretty okay. Of course, there will be an option to use an already deployed CA instead of this one.&lt;/p&gt;
 &lt;p&gt;The &lt;a href=&#34;https://github.com/combust-labs/firebuild-embedded-ca/&#34;&gt;embedded CA is available on GitHub&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; under an Apache 2 license.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/&#34;&gt;Certificate Authority is not Voodoo&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/combust-labs/firebuild-embedded-ca/&#34;&gt;embedded CA on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -10939,23 +11103,23 @@ esac
 &lt;/ul&gt;
 &lt;p&gt;And probably many, many more as the time goes by. I&amp;rsquo;ll be writing more as &lt;code&gt;firebuild&lt;/code&gt; develops.&lt;/p&gt;
 &lt;p&gt;Thanks for reading. Stay safe.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/combust-labs/firebuild&#34;&gt;The source code is on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-23-introducing-firebuild/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/&#34;&gt;firebuild prerequisites&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-23-introducing-firebuild/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/combust-labs/firebuild#caveats-when-building-from-the-url&#34;&gt;Caveats when building from the URL&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-23-introducing-firebuild/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/combust-labs/firebuild-mmds&#34;&gt;firebuild-mmds GitHub repository&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-23-introducing-firebuild/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -11488,14 +11652,14 @@ esac
 &lt;p&gt;So in AWS, one selects a base AMI and launches a VM from it. That creates a volume and subsequent VM starts use that volume. This could be a way forward to build something similar for Firecracker.&lt;/p&gt;
 &lt;h2 id=&#34;closing-words&#34;&gt;closing words&lt;/h2&gt;
 &lt;p&gt;I have subconsciously avoided touching the jailer before as I have seen it as a pretty complex feature. Considering what it gives, I must admit, it was very easy to get it in. I haven&amp;rsquo;t yet tried launching anything under a specific &lt;code&gt;uid:gid&lt;/code&gt; but I do not expect any issues there.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/firecracker-microvm/firecracker/blob/master/docs/jailer.md&#34;&gt;The jailer documentation&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-19-the-jailer/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -11819,26 +11983,26 @@ exit status 2: iptables v1.6.1: Couldn&amp;#39;t load target
 &lt;/ol&gt;
 &lt;p&gt;Maybe &lt;a href=&#34;https://github.com/weaveworks/ignite/blob/master/pkg/network/cni/cni.go&#34;&gt;the CNI implementation from Weaveworks Ignite&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; can serve as an inspiration (thanks, &lt;a href=&#34;https://github.com/everesio&#34;&gt;Michał&lt;/a&gt;&amp;hellip;)&lt;/p&gt;
 &lt;p&gt;Food for thought.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/&#34;&gt;Vault on Firecracker with CNI plugins and Nomad&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/firecracker-microvm/firectl&#34;&gt;&lt;code&gt;firectl&lt;/code&gt; GitHub repository&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/firecracker-microvm/firecracker-go-sdk&#34;&gt;Firecracker Golang SDK GitHub repository&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/firectl/compare/master...cni-network&#34;&gt;CNI network support for &lt;code&gt;firectl&lt;/code&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/weaveworks/ignite/blob/master/pkg/network/cni/cni.go&#34;&gt;the CNI implementation from Weaveworks Ignite&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -12018,20 +12182,20 @@ Connection: keep-alive
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo rm /tmp/alpine-base.sock
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;/div&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/&#34;&gt;Firecracker VMM with additional disks&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/firecracker-microvm/firecracker/blob/master/src/api_server/swagger/firecracker.yaml&#34;&gt;Firecracker server Swagger file&lt;/a&gt; at the time of writing the article, version &lt;code&gt;v0.22.4&lt;/code&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/firecracker-microvm/firecracker/blob/master/docs/api_requests/actions.md&#34;&gt;Firecracker API usage examples&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -12888,17 +13052,17 @@ round-trip min/avg/max = 20.238/23.111/24.788 ms
 &lt;/div&gt;
 &lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;172:/home/alpine# Connection to 172.17.0.42 closed by remote host.
 Connection to 172.17.0.42 closed.
-&lt;/code&gt;&lt;/pre&gt;&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://jvns.ca/blog/2021/01/19/day-41--trying-to-understand-what-a-bridge-is/&#34;&gt;Day 41: Trying to understand what a bridge is&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/&#34;&gt;Taking Firecracker for a spin&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -13271,7 +13435,7 @@ Connection to 172.17.0.42 closed.
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo mkdir -p /etc/nomad/jobs
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;And write the job definition. &lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/&#34;&gt;The process of getting the kernel and the root image is described in the previous post&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;And write the job definition. &lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/&#34;&gt;The process of getting the kernel and the root image is described in the previous post&lt;/a&gt;&lt;sup id=&#34;fnref1:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -13489,20 +13653,20 @@ Connection to 172.17.0.42 closed.
 &lt;li&gt;Stopping the job does not remove the &lt;code&gt;veth&lt;/code&gt; interface so a manual cleanup of the unused interfaces is needed.&lt;/li&gt;
 &lt;li&gt;Subsequent runs give the task the next IP address. If &lt;code&gt;192.168.127.2&lt;/code&gt; does not work for you, try &lt;code&gt;.1&lt;/code&gt; &lt;code&gt;.3&lt;/code&gt;, &lt;code&gt;.4&lt;/code&gt; and so on&amp;hellip; Something to look into in detail a little bit later.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/containernetworking/plugins&#34;&gt;CNI plugins GitHub repository&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/awslabs/tc-redirect-tap&#34;&gt;AWS Labs tcp-redirect-tap GitHub repository&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/&#34;&gt;Taking Firecracker for a spin&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/&#34;&gt;Taking Firecracker for a spin&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/#fnref1:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -14225,20 +14389,20 @@ Connection to 172.17.0.42 closed.
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;That&amp;rsquo;s all for today.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/firecracker-microvm/firecracker&#34;&gt;Firecracker on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://jvns.ca/blog/2021/01/23/firecracker--start-a-vm-in-less-than-a-second/&#34;&gt;Firecracker: start a VM in less than a second&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/radekg/firecracker-hashicorp-vault&#34;&gt;Complementary GitHub repository&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -14567,17 +14731,17 @@ Connection to 172.17.0.42 closed.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;/div&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/&#34;&gt;Keycloak Authorization Services - retrieving the decision only&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/&#34;&gt;Introduction to Keycloak Authorization Services&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -16052,23 +16216,23 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;/div&gt;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;Once the initial setting up of the program to create the CAs is finished, the rest of the process is straightforward. Adding new clients (intermediates) is fairly easy. Configuring Vault is not a big job. Vault PKI is a solid choice for a multi-tenant PKI solution.&lt;/p&gt;
 &lt;p&gt;Of course, there are still some challenges left on the table. Mainly storing the root and intermediate certificates safely and properly ensuring who can access them.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/&#34;&gt;Certificate Authority is not Voodoo&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://jamielinux.com/docs/openssl-certificate-authority/&#34;&gt;OpenSSL Certificate Authority&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/&#34;&gt;Introduction to Keycloak Authorization Services&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.vaultproject.io/api-docs/secret/pki#parameters-8&#34;&gt;Vault PKI Create/Update Role Parameters&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -16163,32 +16327,32 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;h2 id=&#34;conclusion-lower-bar-of-entry&#34;&gt;Conclusion: lower bar of entry&lt;/h2&gt;
 &lt;p&gt;No matter which tool is the tool of choice, there are still challenges in operating a Certificate Authority. Root and intermediate certificates have to be stored secure, they need to be rotated. Preparing an underlying, bulletproof infrastructure for reliably relaunching a Certificate Authority is not a walk in the park. Certificate Revocation Lists are still difficult. In certain environments, certificate distribution is a challenge.&lt;/p&gt;
 &lt;p&gt;On a positive note: the bar of running a CA is today much lower.&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.projectcalico.org/&#34;&gt;Project Calico&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://letsencrypt.org/&#34;&gt;Let&amp;rsquo;s Encrypt&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.feistyduck.com/books/bulletproof-ssl-and-tls/&#34;&gt;Understanding and deploying SSL/TLS and PKI to secure servers and web applications, by Ivan Ristić&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://jamielinux.com/docs/openssl-certificate-authority/&#34;&gt;OpenSSL Certificate Authority&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:5&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/cloudflare/cfssl&#34;&gt;CloudFlare&amp;rsquo;s PKI/TLS toolkit&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:6&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/square/certstrap&#34;&gt;Square certstrap&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:7&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.vaultproject.io/docs/secrets/pki&#34;&gt;HashiCorp Vault PKI&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -16357,14 +16521,14 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;/div&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/&#34;&gt;Introduction to Keycloak Authorization Services&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -17389,20 +17553,20 @@ It enables a resource owner to control the authorization of data sharing and oth
 &lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://docs.kantarainitiative.org/uma/wg/rec-oauth-uma-grant-2.0.html&#34;&gt;User-Managed Access (UMA) 2.0 Grant for OAuth 2.0 Authorization&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/&#34;&gt;Keycloak with Docker Compose&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/User-Managed_Access&#34;&gt;https://en.wikipedia.org/wiki/User-Managed_Access&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.keycloak.org/docs/latest/authorization_services/#_service_protection_whatis_obtain_pat&#34;&gt;What is a PAT and how to obtain it&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
@@ -17981,17 +18145,17 @@ $ sbt ++$SCALA_VERSION -Dscala.version=$SCALA_VERSION publishSigned
 &lt;p&gt;A well defined, standardized method for moving Kafka segments to the cold storage would significantly improve the availability and processing of historical data.&lt;/p&gt;
 &lt;h2 id=&#34;notes&#34;&gt;Notes&lt;/h2&gt;
 &lt;p&gt;This article has been published on Medium and LinkedIn. &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://medium.com/@rad_g/the-case-for-kafka-cold-storage-32929d0a57b2&#34;&gt;Medium&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/pulse/case-kafka-cold-storage-radek-gruchalski/&#34;&gt;LinkedIn&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
                 
                 
