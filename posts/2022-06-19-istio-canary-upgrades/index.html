@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.4424cdd0b18f6756065b96014474fe67611675b5e5cf63462b9fe0ac9a2c27d3.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-06-19T00:00:00+02:00",
-        "dateModified": "2022-06-19T01:04:19+02:00",
+        "dateModified": "2022-06-19T20:09:38+02:00",
         "url": "https://gruchalski.com/posts/2022-06-19-istio-canary-upgrades/",
         "headline": "Istio canary upgrades",
         "description": "I’ve been looking into upgrading Istio using canary upgrades. Canary upgrades let me test a new version of Istio by migrating part of the workloads to the new version and observing the impact of the change. If anything goes wrong, I can roll back to the old version.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  901 ,
+        "wordCount":  1023 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-06-19/header.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-06-19T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2022-06-19T01:04:19&#43;02:00" />
+    <meta property="article:modified_time" content="2022-06-19T20:09:38&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -255,7 +255,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;901</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1023</span>
     
     
         
@@ -514,7 +514,21 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    deployment/istiod-1-14-1
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>At this point I have <code>istiod-1-13-5</code> and <code>istiod-1-14-1</code> running. Move the <code>bookinfo</code> workload to the new version:</p>
+</div><p>At this point I have <code>istiod-1-13-5</code> and <code>istiod-1-14-1</code> running.</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get deployments -n istio-system
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+istio-egressgateway    1/1     1            1           2m11s
+istio-ingressgateway   1/1     1            1           2m11s
+istiod-1-13-5          1/1     1            1           2m11s
+istiod-1-14-1          1/1     1            1           75s
+</code></pre><p>Move the <code>bookinfo</code> workload to the new version:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -556,6 +570,33 @@
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>so that I can use <code>istio-injection=enabled</code> namespace label, or the <code>sidecar.istio.io/inject=true</code> selector.</p>
+<h3 id="what-happens-when-tag-set-default-is-executed"><a href="#what-happens-when-tag-set-default-is-executed" class="anchor-link">§</a>what happens when <code>tag set default</code> is executed</h3>
+<p>When a tag is created with <code>istioctl tag set default --revision</code> command, <code>istioctl</code> creates a <code>MutatingWebhookConfiguration</code> in the <code>istio-system</code> namespace. Without the default, we have:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get mutatingwebhookconfiguration -n istio-system
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>NAME                            WEBHOOKS   AGE
+istio-sidecar-injector-1-13-5   2          94s
+istio-sidecar-injector-1-14-1   2          38s
+</code></pre><p>With the default tag, we have:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get mutatingwebhookconfiguration -n istio-system
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>NAME                            WEBHOOKS   AGE
+istio-revision-tag-default      4          2m9s
+istio-sidecar-injector-1-13-5   2          6m1s
+istio-sidecar-injector-1-14-1   2          5m5s
+</code></pre><p>The tag is set from <a href="https://github.com/istio/istio/blob/1.14.1/istioctl/cmd/tag.go#L269" target="_blank" rel="noopener">this place</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> in Istio code, and <a href="https://github.com/istio/istio/blob/1.14.1/istioctl/pkg/tag/generate.go#L77" target="_blank" rel="noopener">generated here</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</p>
 <h2 id="notes-on-cdrs"><a href="#notes-on-cdrs" class="anchor-link">§</a>notes on CDRs</h2>
 <p>Istio CRDs are, at minimum, one version backward compatible. They are supposed to work fine when upgrading from <code>1.x</code> to <code>1.x+1</code>. When upgrading across multiple versions, the documentation suggests doing it version-by-version. For example, upgrading from <code>1.11.x</code> to <code>1.14.x</code> should be done as:</p>
 <pre tabindex="0"><code>1.11.x -&gt; 1.12.x -&gt; 1.13.x -&gt; 1.14.x
@@ -568,6 +609,12 @@
 </li>
 <li id="fn:2">
 <p><a href="https://istio.io/latest/docs/setup/upgrade/canary/#default-tag" target="_blank" rel="noopener">Istio Canary Upgrades documentation</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://github.com/istio/istio/blob/1.14.1/istioctl/cmd/tag.go#L269" target="_blank" rel="noopener">istioctl 1.14.1: setTag</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://github.com/istio/istio/blob/1.14.1/istioctl/pkg/tag/generate.go#L77" target="_blank" rel="noopener">istioctl 1.14.1: tag.Generate</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </div>
