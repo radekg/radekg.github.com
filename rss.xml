@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sun, 19 Jun 2022 20:10:30 &#43;0200</lastBuildDate>
+        <lastBuildDate>Mon, 20 Jun 2022 00:04:41 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -49,7 +49,7 @@
 &lt;li&gt;deprecated &lt;code&gt;istioctl operator&lt;/code&gt; method&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I prefer the &lt;code&gt;istio manifest generate&lt;/code&gt; method because I can feed it with the &lt;code&gt;IstioOperator&lt;/code&gt; manifest, so that generated manifests get fused with the &lt;code&gt;IstioOperator&lt;/code&gt; resource.&lt;/p&gt;
-&lt;h2 id=&#34;original-installtion&#34;&gt;original installtion&lt;/h2&gt;
+&lt;h2 id=&#34;first-installation-the-right-way&#34;&gt;first installation, the right way&lt;/h2&gt;
 &lt;p&gt;Okay, say that I have a cluster where Istio was installed like this:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;IstioOperator&lt;/code&gt; for Istio 1.13.5:&lt;/li&gt;
@@ -82,7 +82,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;EOF&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;The &lt;code&gt;revision&lt;/code&gt; property is the important one.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;The &lt;code&gt;revision&lt;/code&gt; property is the important one. It uses dashes instead of dots as separators because the revision property doesn&amp;rsquo;t support dots.&lt;/p&gt;
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;Manifests generated with &lt;code&gt;istioctl manifest generate&lt;/code&gt;:&lt;/li&gt;
 &lt;/ol&gt;

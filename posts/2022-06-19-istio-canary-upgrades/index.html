@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.4424cdd0b18f6756065b96014474fe67611675b5e5cf63462b9fe0ac9a2c27d3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-06-19T00:00:00+02:00",
-        "dateModified": "2022-06-19T20:09:38+02:00",
+        "dateModified": "2022-06-20T00:00:48+02:00",
         "url": "https://gruchalski.com/posts/2022-06-19-istio-canary-upgrades/",
         "headline": "Istio canary upgrades",
         "description": "I’ve been looking into upgrading Istio using canary upgrades. Canary upgrades let me test a new version of Istio by migrating part of the workloads to the new version and observing the impact of the change. If anything goes wrong, I can roll back to the old version.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1023 ,
+        "wordCount":  1041 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-06-19/header.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-06-19T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2022-06-19T20:09:38&#43;02:00" />
+    <meta property="article:modified_time" content="2022-06-20T00:00:48&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -255,7 +255,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1023</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1041</span>
     
     
         
@@ -283,7 +283,7 @@
 <li>deprecated <code>istioctl operator</code> method</li>
 </ul>
 <p>I prefer the <code>istio manifest generate</code> method because I can feed it with the <code>IstioOperator</code> manifest, so that generated manifests get fused with the <code>IstioOperator</code> resource.</p>
-<h2 id="original-installtion"><a href="#original-installtion" class="anchor-link">§</a>original installtion</h2>
+<h2 id="first-installation-the-right-way"><a href="#first-installation-the-right-way" class="anchor-link">§</a>first installation, the right way</h2>
 <p>Okay, say that I have a cluster where Istio was installed like this:</p>
 <ol>
 <li><code>IstioOperator</code> for Istio 1.13.5:</li>
@@ -316,7 +316,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>The <code>revision</code> property is the important one.</p>
+</div><p>The <code>revision</code> property is the important one. It uses dashes instead of dots as separators because the revision property doesn&rsquo;t support dots.</p>
 <ol start="2">
 <li>Manifests generated with <code>istioctl manifest generate</code>:</li>
 </ol>
