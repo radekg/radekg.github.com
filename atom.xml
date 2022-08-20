@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-08-20T22:02:50&#43;02:00</updated>
+    <updated>2022-08-20T22:12:44&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Learning Rust</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-08-20-learning-rust/" />
             <id>https://gruchalski.com/posts/2022-08-20-learning-rust/</id>
-            <updated>2022-08-20T22:02:17&#43;02:00</updated>
+            <updated>2022-08-20T22:11:53&#43;02:00</updated>
             <published>2022-08-20T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
