@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-06-20T00:04:41&#43;02:00</updated>
+    <updated>2022-08-20T22:02:50&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -16,6 +16,114 @@
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
     <generator uri="https://gohugo.io/" version="0.101.0">Hugo</generator>
+        <entry>
+            <title type="text">Learning Rust</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-08-20-learning-rust/" />
+            <id>https://gruchalski.com/posts/2022-08-20-learning-rust/</id>
+            <updated>2022-08-20T22:02:17&#43;02:00</updated>
+            <published>2022-08-20T00:00:00&#43;02:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">Six years ago, during my short stint at The Weather Company, I was on the lookout for a programming language that would let me build software with no dependency on the runtime. There were two obvious candidates: Go and Rust. For many reasons, Rust had me a little bit anxious.</summary>
+            
+                <content type="html">&lt;p&gt;Six years ago, during my short stint at The Weather Company, I was on the lookout for a programming language that would let me build software with no dependency on the runtime. There were two obvious candidates: Go and Rust. For many reasons, Rust had me a little bit anxious. The borrow checker, which I just could not fully understand back in the day, was the main sticking point. There were others like the concurrency story, which wasn’t very clear, with multiple implementations competing for the crown.&lt;/p&gt;
+&lt;p&gt;Go is an opinionated programming language. Some people have a problem with that, and I found that refreshing. It took a few hours to get comfortable with the syntax, but within a day, I had my first program completed. What a breath of fresh air that was.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The compiler was fast.&lt;/li&gt;
+&lt;li&gt;The resulting binaries were small compared to your regular JVM-based language build artifacts or Erlang distributions.&lt;/li&gt;
+&lt;li&gt;There was no runtime! Dropping them into a &lt;code&gt;scratch&lt;/code&gt; Docker image resulted in very small, portable, quick and easy to deploy programs.&lt;/li&gt;
+&lt;li&gt;One binary per target architecture, and I could cross-compile to different architectures right on my computer.&lt;/li&gt;
+&lt;li&gt;Working with dependencies wasn’t as easy as it is today with &lt;code&gt;modules&lt;/code&gt;, but even something like &lt;code&gt;dep&lt;/code&gt; was easy enough. I very much like how dependencies come simply by telling the toolchain to import a library from the URL.&lt;/li&gt;
+&lt;li&gt;The ecosystem was very rich. There were so many libraries to choose from and learn from.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Some things took longer to learn. Mastering channels and figuring out how to write concurrent code required some practice. I was never bothered with &lt;code&gt;nil&lt;/code&gt;. I have worked with &lt;code&gt;nulls&lt;/code&gt; for long enough to acknowledge their existence and deal with them. I also don’t have a problem with how &lt;code&gt;error&lt;/code&gt; values are handled in Go. They’re explicit, and I like explicit code. Admittedly, sometimes it is a bit tedious having to handle them every second or third line, but that’s a small price to pay for all other benefits.&lt;/p&gt;
+&lt;p&gt;There were some things I was missing. Before diving into Go, I worked a lot with Erlang and Scala so not having pattern matching, higher-kinded types, currying, and sometimes generics, was often limiting.&lt;/p&gt;
+&lt;p&gt;Regardless, I have written so much Go in the last few years, and I enjoyed every single line of code.&lt;/p&gt;
+&lt;p&gt;Go gets things done.&lt;/p&gt;
+&lt;h2 id=&#34;rust&#34;&gt;rust&lt;/h2&gt;
+&lt;p&gt;Last year I worked on the multi-tenant YugabyteDB implementation. That project took me out of my comfort zone in a positive way.&lt;/p&gt;
+&lt;p&gt;As part of that solution, I&amp;rsquo;ve built a Postgres extension in C, and I also contributed a couple of features to YugabyteDB, which required working with C++. I did not work with those two technologies before at all. But the amazing thing happened: I experienced the exact problem that Rust was claiming to be solving. GCC was barfing at me about variable lifetimes. Like I said, my C and C++ were pretty clumsy. But it gave me a chance to to understand lifetimes first hand.&lt;/p&gt;
+&lt;p&gt;And recently, Jatin asked me the following question:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;What’s your koolaid now? Go? Rust?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Of course, I answered that I write a lot of Go. However, that question had some interesting side effects.&lt;/p&gt;
+&lt;p&gt;Rust is very popular. The ecosystem is growing, there is so much interesting code written in it nowadays, and I’ve been pondering the idea of giving it another try anyway. And it finally happened, it was fun!&lt;/p&gt;
+&lt;p&gt;The tooling is really good. I used &lt;code&gt;rustup&lt;/code&gt; to install Rust and the toolchain. My editor of choice is Visual Studio Code. Instead of the Rust extension, I decided to use &lt;code&gt;rust-analyzer&lt;/code&gt;. This extension provides inline type annotations, code hints, syntax highlighting, go to definition, and more.&lt;/p&gt;
+&lt;p&gt;This time, rather than going through &lt;a href=&#34;https://doc.rust-lang.org/book/&#34;&gt;The Rust Book&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, I jumped right in with a goal of building a complete program.&lt;/p&gt;
+&lt;p&gt;The best method to evaluate a programming language is to apply it to the same class of problems one is already familiar with. As I have written many command line tools and plenty of networking code with TLS support, I went for a command line TCP echo server and client with TLS support in Rust. That felt challenging enough:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Command line with flags and arguments.&lt;/li&gt;
+&lt;li&gt;TLS with custom roots, certificates and private keys.&lt;/li&gt;
+&lt;li&gt;A concurrent TCP server.&lt;/li&gt;
+&lt;li&gt;A TCP client.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Certainly, Rust has gotten easier to use than what I used to remember from years ago. Certainly, the right tooling makes it easier to work with. Borrow checker, mutability, and lifetimes: while writing my first program, I haven’t had a need to think much about those. That was the biggest surprise.&lt;/p&gt;
+&lt;p&gt;Some additional thoughts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Building command line applications with &lt;a href=&#34;https://github.com/clap-rs/clap&#34;&gt;clap&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; crate is very easy.&lt;/li&gt;
+&lt;li&gt;Rust’s pattern matching is very refreshing. It’s one of those things I’ve been unconsciously missing in Go. Unlike Scala, Rust&amp;rsquo;s pattern matching is exhaustive.&lt;/li&gt;
+&lt;li&gt;Immutability by default. I enjoyed Erlang a lot. In Erlang, everything is immutable. I like this property because it makes is very easy to follow when state changes in the program.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;std::result::Result&amp;lt;T, E&amp;gt;&lt;/code&gt; type seems to be Rust&amp;rsquo;s composability workhorse.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;?&lt;/code&gt; operator is magical. Given function&amp;rsquo;s &lt;code&gt;std::result::Result&amp;lt;T, E&amp;gt;&lt;/code&gt; return type, if the code inside of the function results in an &lt;code&gt;Error&lt;/code&gt;, the function returns early with an error. Otherwise, the &lt;code&gt;variable&lt;/code&gt; (&lt;em&gt;do we even have a word describing an immutable variable&lt;/em&gt;?) in the &lt;code&gt;let variable = expression?;&lt;/code&gt; takes the value of &lt;code&gt;T&lt;/code&gt; and the function execution continues uninterrupted. A fancy &lt;code&gt;try&lt;/code&gt;. The code looks as clean as Scala with its &lt;code&gt;map&lt;/code&gt;, &lt;code&gt;flat map&lt;/code&gt;, &lt;code&gt;flatten&lt;/code&gt;, and whatnot, but it handles errors magically.&lt;/li&gt;
+&lt;li&gt;I was expecting that the &lt;code&gt;std::option::Option&amp;lt;T&amp;gt;&lt;/code&gt; type would be more common in my code, surprisingly that’s not the case. &lt;code&gt;std::result::Result&amp;lt;T, E&amp;gt;&lt;/code&gt; works better.&lt;/li&gt;
+&lt;li&gt;Rust has type aliases.&lt;/li&gt;
+&lt;li&gt;I was caught out by &lt;code&gt;dependency features&lt;/code&gt; in Cargo. It’s worth reading &lt;a href=&#34;https://dev.to/rimutaka/cargo-features-explained-with-examples-194g&#34;&gt;this article&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; before starting with Rust.&lt;/li&gt;
+&lt;li&gt;Macros will be a different game, but they are very powerful.&lt;/li&gt;
+&lt;li&gt;Inline type hints provided by &lt;code&gt;rust-analyzer&lt;/code&gt; can be difficult to work with because they don’t show type names with full namespaces. I often see something returns an &lt;code&gt;Error&lt;/code&gt;, but what exactly? &lt;code&gt;std::io::Error&lt;/code&gt;? &lt;code&gt;rustls::Error&lt;/code&gt;? &lt;code&gt;tokio_rustls::webpki::Error&lt;/code&gt;?&lt;/li&gt;
+&lt;li&gt;Cargo is very nice. It was six years ago, no surprise here.&lt;/li&gt;
+&lt;li&gt;There are many ways of doing concurrent code in Rust. I went with &lt;a href=&#34;https://github.com/tokio-rs/tokio&#34;&gt;Tokio&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;, and I don’t think I’ll be looking for a different approach.&lt;/li&gt;
+&lt;li&gt;Personally, I find working with Rust&amp;rsquo;s documentation pretty difficult, the type syntax with lifetime annotations is noisy, but I’m sure it will get better over time. I attribute this to my lack of experience rather than an issue with the documentation itself.&lt;/li&gt;
+&lt;li&gt;Rust &lt;a href=&#34;https://doc.rust-lang.org/rustdoc/write-documentation/documentation-tests.html&#34;&gt;documentation comments are executable&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;. I haven&amp;rsquo;t explored them yet but they&amp;rsquo;ll be definitely very useful.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;but-why&#34;&gt;but why?&lt;/h2&gt;
+&lt;p&gt;Is there anything wrong with Go? No, there’s nothing wrong with it. I don’t see myself leaving Go anytime soon. Go has some very cool interfaces for working with HTTP, TLS, and SSH. Ultimately Go gets things done, indeed.&lt;/p&gt;
+&lt;p&gt;I have looked into Rust simply out of curiosity. It&amp;rsquo;s been a couple of evenings so far, 10 hours in total, maybe? But I enjoyed this brief exposure, and now I&amp;rsquo;m even more curious. It is good to be able to read Rust, and there are some very interesting developments in the WebAssembly area that I am looking forward to exploring.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://doc.rust-lang.org/book/&#34;&gt;The Rust Programming Language Book&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/clap-rs/clap&#34;&gt;clap-rs/clap crate on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://dev.to/rimutaka/cargo-features-explained-with-examples-194g&#34;&gt;Cargo [features] explained with examples&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tokio-rs/tokio&#34;&gt;tokio-rs/tokio crate on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://doc.rust-lang.org/rustdoc/write-documentation/documentation-tests.html&#34;&gt;Rust documentation comments&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-20-learning-rust/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/rust/" term="rust" label="rust" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Istio canary upgrades</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-06-19-istio-canary-upgrades/" />
