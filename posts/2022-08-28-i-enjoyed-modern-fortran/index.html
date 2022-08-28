@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.4424cdd0b18f6756065b96014474fe67611675b5e5cf63462b9fe0ac9a2c27d3.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
 
     
 
@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-08-28T00:00:00+02:00",
-        "dateModified": "2022-08-28T16:40:29+02:00",
+        "dateModified": "2022-08-28T16:51:49+02:00",
         "url": "https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/",
         "headline": "I enjoyed modern Fortran",
         "description": "An exercise on its own rather than a conscious future career choice. This is a short sentence describing my recent venture into Fortran. The language has been on my to learn list for many, many years, but Fortran requires a particular type of problem.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1191 ,
+        "wordCount":  1200 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-08-28/header.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-08-28T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2022-08-28T16:40:29&#43;02:00" />
+    <meta property="article:modified_time" content="2022-08-28T16:51:49&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -255,7 +255,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1191</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1200</span>
     
     
         
@@ -279,7 +279,7 @@
 <li>Multi-dimensional arrays: up to 15 dimensions out of the box with a short syntax to declare them. For example: <code>real(8) :: var_name(10:20:30)</code>.</li>
 <li>Parallel computing: Fortran <em>coarrays</em> are a relatively simple mechanism to distribute work across CPUs, pin work to selected CPUs, and synchronize the computation across CPUs. Potentially thousands of them.</li>
 </ul>
-<p>However, Fortran isn’t a tool you’d apply in a modern microservice architecture. It lacks any networking capabilities, there are no operations on byte arrays, no sockets, no TCP, and so on.  It’s possible to use C interoperability to bolt sockets on, but that doesn’t feel like Fortran anymore.</p>
+<p>However, Fortran isn’t a tool you’d apply in a modern microservice architecture. It lacks any networking capabilities, there are no operations on byte arrays, no sockets, no TCP, numbers overflow, so one has to be rather careful, and so on. It’s possible to use C interoperability to bolt sockets on, but that doesn’t feel like Fortran anymore.</p>
 <p>Fortran provides <em>logical</em> values (<em>booleans</em>), <em>integers</em>, <em>reals</em>, <em>complex numbers</em>, and <em>characters</em> (<em>a string</em>). Modern Fortran provides <em>derived types</em>, which can be compared to <em>structures</em> or <em>records</em> in other languages. Those can be used to construct <em>class-like</em> structures with methods operating on an internal state of the type.</p>
 <p>Finding a reasonable problem for Fortran outside its scientific niche requires an open mind. It is definitely a command line application doing some sort of number crunching with a sprinkle of command line output. I was recently diving into the formulas required to calculate German salary social contributions for employers, as in, the total cost of an employee for a given gross salary. This sounded like a relatively applicable problem.</p>
 <p>So, what does the Fortran ecosystem look like today?</p>
@@ -321,7 +321,7 @@
 <li><em>coarrays</em>: my program doesn’t need parallel, multi-CPU processing, so I haven’t looked at these in detail, but from what I have seen, these can serve as a poor man’s plane for a multi-CPU actor-like processing framework.</li>
 <li>Teams, events, and collectives: an abstraction over <em>coarrays</em> enabling easier parallel development.</li>
 </ul>
-<p>Would I use Fortran today for a new application? It depends. If I ever have to work on multi-dimensional data, I will definitely pull it into my toolbox.</p>
+<p>Would I use Fortran today for a new application? It depends. If I ever have to work on multi-dimensional data, I will consider pulling it into my toolbox.</p>
 <p>I enjoyed modern Fortran because:</p>
 <ul>
 <li>It made me grateful for all the modern programming languages. So you don’t like how Go handles errors? You don’t like arrow functions in modern JavaScript? Or maybe you don’t like C# verbosity? Who cares, it’s a tool for the job. Try Fortran, and you will appreciate how good we have it today.</li>

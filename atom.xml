@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-08-28T16:42:58&#43;02:00</updated>
+    <updated>2022-08-28T16:52:21&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">I enjoyed modern Fortran</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/" />
             <id>https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/</id>
-            <updated>2022-08-28T16:40:29&#43;02:00</updated>
+            <updated>2022-08-28T16:51:49&#43;02:00</updated>
             <published>2022-08-28T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -36,7 +36,7 @@
 &lt;li&gt;Multi-dimensional arrays: up to 15 dimensions out of the box with a short syntax to declare them. For example: &lt;code&gt;real(8) :: var_name(10:20:30)&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Parallel computing: Fortran &lt;em&gt;coarrays&lt;/em&gt; are a relatively simple mechanism to distribute work across CPUs, pin work to selected CPUs, and synchronize the computation across CPUs. Potentially thousands of them.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;However, Fortran isn’t a tool you’d apply in a modern microservice architecture. It lacks any networking capabilities, there are no operations on byte arrays, no sockets, no TCP, and so on.  It’s possible to use C interoperability to bolt sockets on, but that doesn’t feel like Fortran anymore.&lt;/p&gt;
+&lt;p&gt;However, Fortran isn’t a tool you’d apply in a modern microservice architecture. It lacks any networking capabilities, there are no operations on byte arrays, no sockets, no TCP, numbers overflow, so one has to be rather careful, and so on. It’s possible to use C interoperability to bolt sockets on, but that doesn’t feel like Fortran anymore.&lt;/p&gt;
 &lt;p&gt;Fortran provides &lt;em&gt;logical&lt;/em&gt; values (&lt;em&gt;booleans&lt;/em&gt;), &lt;em&gt;integers&lt;/em&gt;, &lt;em&gt;reals&lt;/em&gt;, &lt;em&gt;complex numbers&lt;/em&gt;, and &lt;em&gt;characters&lt;/em&gt; (&lt;em&gt;a string&lt;/em&gt;). Modern Fortran provides &lt;em&gt;derived types&lt;/em&gt;, which can be compared to &lt;em&gt;structures&lt;/em&gt; or &lt;em&gt;records&lt;/em&gt; in other languages. Those can be used to construct &lt;em&gt;class-like&lt;/em&gt; structures with methods operating on an internal state of the type.&lt;/p&gt;
 &lt;p&gt;Finding a reasonable problem for Fortran outside its scientific niche requires an open mind. It is definitely a command line application doing some sort of number crunching with a sprinkle of command line output. I was recently diving into the formulas required to calculate German salary social contributions for employers, as in, the total cost of an employee for a given gross salary. This sounded like a relatively applicable problem.&lt;/p&gt;
 &lt;p&gt;So, what does the Fortran ecosystem look like today?&lt;/p&gt;
@@ -78,7 +78,7 @@
 &lt;li&gt;&lt;em&gt;coarrays&lt;/em&gt;: my program doesn’t need parallel, multi-CPU processing, so I haven’t looked at these in detail, but from what I have seen, these can serve as a poor man’s plane for a multi-CPU actor-like processing framework.&lt;/li&gt;
 &lt;li&gt;Teams, events, and collectives: an abstraction over &lt;em&gt;coarrays&lt;/em&gt; enabling easier parallel development.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Would I use Fortran today for a new application? It depends. If I ever have to work on multi-dimensional data, I will definitely pull it into my toolbox.&lt;/p&gt;
+&lt;p&gt;Would I use Fortran today for a new application? It depends. If I ever have to work on multi-dimensional data, I will consider pulling it into my toolbox.&lt;/p&gt;
 &lt;p&gt;I enjoyed modern Fortran because:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;It made me grateful for all the modern programming languages. So you don’t like how Go handles errors? You don’t like arrow functions in modern JavaScript? Or maybe you don’t like C# verbosity? Who cares, it’s a tool for the job. Try Fortran, and you will appreciate how good we have it today.&lt;/li&gt;
