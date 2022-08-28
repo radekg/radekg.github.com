@@ -23,10 +23,128 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 20 Aug 2022 22:12:45 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 28 Aug 2022 16:42:58 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>I enjoyed modern Fortran</title>
+                <link>https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/</guid>
+                <pubDate>Sun, 28 Aug 2022 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;An exercise on its own rather than a conscious future career choice. This is a short sentence describing my recent venture into Fortran. The language has been on my &lt;em&gt;to learn&lt;/em&gt; list for many, many years, but Fortran requires a particular type of problem. The first version of Fortran, the first high-level programming language, appeared in 1957. Fortran is still in active development, it has seen several iterations over the decades. Fortran is the oldest, actively maintained programming language in use today.&lt;/p&gt;
+&lt;p&gt;Fortran has its niche in scientific computing. Weather simulation, oceanographic simulations, aerospace, automotive, high-performance computing, finance. Anywhere where there’s a need to process vast arrays of numbers, most likely in parallel—that’s where you’ll find Fortran code. The main reasons for this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Array-oriented operations, for example, multiply every array element by two: &lt;code&gt;[10, 20, 45, 65] * 2&lt;/code&gt;. Or, multiply one array over another: &lt;code&gt;[10, 30, 46, 32] * [100, 134, 32, 87]&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Multi-dimensional arrays: up to 15 dimensions out of the box with a short syntax to declare them. For example: &lt;code&gt;real(8) :: var_name(10:20:30)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Parallel computing: Fortran &lt;em&gt;coarrays&lt;/em&gt; are a relatively simple mechanism to distribute work across CPUs, pin work to selected CPUs, and synchronize the computation across CPUs. Potentially thousands of them.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, Fortran isn’t a tool you’d apply in a modern microservice architecture. It lacks any networking capabilities, there are no operations on byte arrays, no sockets, no TCP, and so on.  It’s possible to use C interoperability to bolt sockets on, but that doesn’t feel like Fortran anymore.&lt;/p&gt;
+&lt;p&gt;Fortran provides &lt;em&gt;logical&lt;/em&gt; values (&lt;em&gt;booleans&lt;/em&gt;), &lt;em&gt;integers&lt;/em&gt;, &lt;em&gt;reals&lt;/em&gt;, &lt;em&gt;complex numbers&lt;/em&gt;, and &lt;em&gt;characters&lt;/em&gt; (&lt;em&gt;a string&lt;/em&gt;). Modern Fortran provides &lt;em&gt;derived types&lt;/em&gt;, which can be compared to &lt;em&gt;structures&lt;/em&gt; or &lt;em&gt;records&lt;/em&gt; in other languages. Those can be used to construct &lt;em&gt;class-like&lt;/em&gt; structures with methods operating on an internal state of the type.&lt;/p&gt;
+&lt;p&gt;Finding a reasonable problem for Fortran outside its scientific niche requires an open mind. It is definitely a command line application doing some sort of number crunching with a sprinkle of command line output. I was recently diving into the formulas required to calculate German salary social contributions for employers, as in, the total cost of an employee for a given gross salary. This sounded like a relatively applicable problem.&lt;/p&gt;
+&lt;p&gt;So, what does the Fortran ecosystem look like today?&lt;/p&gt;
+&lt;p&gt;While working on my &lt;a href=&#34;https://github.com/radekg/fortran-german-salary&#34;&gt;German salary calculator&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, I had the chance to explore the ecosystem and use some cool language features. Starting a new Fortran application is very easy. On macOS, &lt;em&gt;gcc&lt;/em&gt; comes with &lt;em&gt;GFortran&lt;/em&gt; compiler. The Fortran community built and maintains a tool called &lt;em&gt;FPM&lt;/em&gt;, the &lt;a href=&#34;https://fpm.fortran-lang.org/en/index.html&#34;&gt;Fortran Package Manager&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. FPM is modeled after Rust’s &lt;em&gt;cargo&lt;/em&gt;, and it is written in Fortran itself. FPM allows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Creating a new Fortran application.&lt;/li&gt;
+&lt;li&gt;Link and compile an application. This eliminates the need to maintain tedious Makefiles for linking complex programs.&lt;/li&gt;
+&lt;li&gt;Manage application dependencies. Dependencies can be pulled directly from Git remotes, it’s possible to work with tags and branches.&lt;/li&gt;
+&lt;li&gt;Run unit tests.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are some very interesting libraries to help write decent, modern, compact programs. The most notable ones:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/szaghi/FLAP&#34;&gt;FLAP&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;: a command line argument parser.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fortran-lang/stdlib&#34;&gt;stdlib&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;: an implementation of a standard library for Fortran as the language does not have one.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/modern-fortran/neural-fortran&#34;&gt;neural-fortran&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;: a microframework for building parallel neural nets.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/wavebitscientific/functional-fortran&#34;&gt;functional-fortran&lt;/a&gt;&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;: Functional programming for modern Fortran.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are, of course, dozens of algorithm implementations to choose from.&lt;/p&gt;
+&lt;p&gt;I used Visual Studio Code to write my simple program. The community doesn’t let you hang here. There are extensions for many editors providing syntax highlighting. I went for an &lt;a href=&#34;https://marketplace.visualstudio.com/items?itemName=fortran-lang.linter-gfortran&#34;&gt;extension called Modern Fortran&lt;/a&gt;&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;. Besides extensions, there is a Fortran language server enabling code suggestions and inline error notifications. I must admit, the ecosystem is very impressive and makes picking up Fortran a fun and straightforward task.&lt;/p&gt;
+&lt;p&gt;I have experienced the following firsthand:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FPM makes it easy to create and manage a program.&lt;/li&gt;
+&lt;li&gt;Handling command line arguments is easy with FLAP.&lt;/li&gt;
+&lt;li&gt;Fortran&amp;rsquo;s syntax is verbose but easy to read.&lt;/li&gt;
+&lt;li&gt;Modules allow for easy logic encapsulation. Modules make code portable between programs.&lt;/li&gt;
+&lt;li&gt;Derived types are like classes. These can be used to manage an object-local state. It’s possible to have private or public properties, functions, and subroutines.&lt;/li&gt;
+&lt;li&gt;The language is extensible. It’s possible to create custom operators and override existing ones.&lt;/li&gt;
+&lt;li&gt;Fortran provides a mechanism to write generic code.&lt;/li&gt;
+&lt;li&gt;Derived types support inheritance.&lt;/li&gt;
+&lt;li&gt;Programs compile to native binaries.&lt;/li&gt;
+&lt;li&gt;Functions and subroutines can be pure (no side effects). These are verified by the compiler and serve as a hint that they can be executed in parallel.&lt;/li&gt;
+&lt;li&gt;Working with modular code is easy. Fortran supports selective module member usage (like &lt;em&gt;import&lt;/em&gt; in other languages).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are other features that I haven’t had a chance to use, but I learned about them:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Previously mentioned &lt;em&gt;array-oriented&lt;/em&gt; operations. My program does not need to calculate more than one salary breakdown, so I haven’t needed those.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Elementary procedures&lt;/em&gt;. Such procedures accept a scalar argument but can be applied to an array.&lt;/li&gt;
+&lt;li&gt;Fortran arrays have no limitations of lower index. Virtually every other programming language comes with &lt;em&gt;zero-&lt;/em&gt; or &lt;em&gt;one-indexed&lt;/em&gt; arrays. Arrays in Fortran can be arbitrarily indexed. For example, the lower index can be &lt;em&gt;-10&lt;/em&gt;. Fortran has &lt;code&gt;lbound(array)&lt;/code&gt; and &lt;code&gt;ubound(array)&lt;/code&gt; functions for fetching lower and upper array bounds. These, of course, support multiple dimensions. By the way, Fortran arrays are &lt;em&gt;one-indexed&lt;/em&gt; by default.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;coarrays&lt;/em&gt;: my program doesn’t need parallel, multi-CPU processing, so I haven’t looked at these in detail, but from what I have seen, these can serve as a poor man’s plane for a multi-CPU actor-like processing framework.&lt;/li&gt;
+&lt;li&gt;Teams, events, and collectives: an abstraction over &lt;em&gt;coarrays&lt;/em&gt; enabling easier parallel development.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Would I use Fortran today for a new application? It depends. If I ever have to work on multi-dimensional data, I will definitely pull it into my toolbox.&lt;/p&gt;
+&lt;p&gt;I enjoyed modern Fortran because:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It made me grateful for all the modern programming languages. So you don’t like how Go handles errors? You don’t like arrow functions in modern JavaScript? Or maybe you don’t like C# verbosity? Who cares, it’s a tool for the job. Try Fortran, and you will appreciate how good we have it today.&lt;/li&gt;
+&lt;li&gt;But it’s not as bad as I make it sound. Diving into the longest-maintained programming language was a great way to observe how much modern languages are influenced by the concepts developed 60 years ago.&lt;/li&gt;
+&lt;li&gt;I can confidently pick up old Fortran code and understand what’s happening. For sure, Fortran77 or Fortran90 will be even more verbose than what I have written so far, but the general concept is the same. Considering that Fortran has its stronghold in many, many places and is not going anywhere, it’s a skill worth having.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As a final note, during my learning, I supported myself with &lt;a href=&#34;https://www.manning.com/books/modern-fortran&#34;&gt;the Modern Fortran book written by Milan Curcic&lt;/a&gt;&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;, and I can’t recommend it enough. The book is easy to follow and comes with fun examples and exercises. If you, like me, would like to dive deeper into Fortran, make sure you get your hands on a copy.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/fortran-german-salary&#34;&gt;German salary calculator&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://fpm.fortran-lang.org/en/index.html&#34;&gt;The Fortran Package Manager&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/szaghi/FLAP&#34;&gt;Fortran library: FLAP&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/fortran-lang/stdlib&#34;&gt;Fortran library: stdlib&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/modern-fortran/neural-fortran&#34;&gt;Fortran library: neural-fortran&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/wavebitscientific/functional-fortran&#34;&gt;Fortran library: functional-fortran&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://marketplace.visualstudio.com/items?itemName=fortran-lang.linter-gfortran&#34;&gt;Modern Fortran VSC extension&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.manning.com/books/modern-fortran&#34;&gt;Modern Fortran book written by Milan Curcic&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/fortran/">fortran</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Learning Rust</title>
