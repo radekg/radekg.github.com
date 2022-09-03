@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 03 Sep 2022 23:42:22 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sat, 03 Sep 2022 23:46:49 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -38,7 +38,7 @@
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
-                    <description>&lt;p&gt;Back in May, I have looked at an implementation of &lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/&#34;&gt;Zanzibar-style ACLs in Open Policy Agent Rego&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+                    <description>&lt;p&gt;Back in May, I looked at an implementation of &lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/&#34;&gt;Zanzibar-style ACLs in Open Policy Agent Rego&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;m revisiting that exact problem while learning Prolog, another language from the &lt;em&gt;to-learn list&lt;/em&gt;. There are some similarities to the previous article, but I&amp;rsquo;m taking the problem further: I&amp;rsquo;m adding permissions inheritance from anywhere within the filesystem tree.&lt;/p&gt;
 &lt;div&gt;
     &lt;h2&gt;table of contents&lt;/h2&gt;

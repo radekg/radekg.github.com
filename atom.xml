@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-09-03T23:42:22&#43;02:00</updated>
+    <updated>2022-09-03T23:46:49&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,17 +20,17 @@
             <title type="text">Zanzibar-style ACLs with Prolog</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/" />
             <id>https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/</id>
-            <updated>2022-09-03T23:41:50&#43;02:00</updated>
+            <updated>2022-09-03T23:46:22&#43;02:00</updated>
             <published>2022-09-03T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
                     <uri>https://io-oi.me/</uri>
                     <email>radek@gruchalski.com</email>
                     </author>
-            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">Back in May, I have looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.
 I&amp;rsquo;m revisiting that exact problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I&amp;rsquo;m taking the problem further: I&amp;rsquo;m adding permissions inheritance from anywhere within the filesystem tree.</summary>
             
-                <content type="html">&lt;p&gt;Back in May, I have looked at an implementation of &lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/&#34;&gt;Zanzibar-style ACLs in Open Policy Agent Rego&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+                <content type="html">&lt;p&gt;Back in May, I looked at an implementation of &lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/&#34;&gt;Zanzibar-style ACLs in Open Policy Agent Rego&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;m revisiting that exact problem while learning Prolog, another language from the &lt;em&gt;to-learn list&lt;/em&gt;. There are some similarities to the previous article, but I&amp;rsquo;m taking the problem further: I&amp;rsquo;m adding permissions inheritance from anywhere within the filesystem tree.&lt;/p&gt;
 &lt;div&gt;
     &lt;h2&gt;table of contents&lt;/h2&gt;
