@@ -28,7 +28,7 @@
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
     <meta name="author" content="Radek Gruchalski" /><meta name="description" content="Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.
-I’m revisiting that problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
+I’m revisiting that problem while learning Prolog, another language from my never-ending to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -58,13 +58,13 @@ I’m revisiting that problem while learning Prolog, another language from the t
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-09-03T00:00:00+02:00",
-        "dateModified": "2022-09-04T15:22:50+02:00",
+        "dateModified": "2022-09-04T16:41:30+02:00",
         "url": "https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/",
         "headline": "Zanzibar-style ACLs with Prolog",
-        "description": "Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.\nI’m revisiting that problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree.",
+        "description": "Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.\nI’m revisiting that problem while learning Prolog, another language from my never-ending to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  3065 ,
+        "wordCount":  3884 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -101,13 +101,13 @@ I’m revisiting that problem while learning Prolog, another language from the t
 
 <meta property="og:title" content="Zanzibar-style ACLs with Prolog" />
 <meta property="og:description" content="Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.
-I’m revisiting that problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
+I’m revisiting that problem while learning Prolog, another language from my never-ending to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
 <meta property="og:url" content="https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/" />
 <meta property="og:site_name" content="gruchalski.com" />
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-09-03/header.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-09-03T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2022-09-04T15:22:50&#43;02:00" />
+    <meta property="article:modified_time" content="2022-09-04T16:41:30&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -257,11 +257,11 @@ I’m revisiting that problem while learning Prolog, another language from the t
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3065</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3884</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;15&nbsp;mins</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;19&nbsp;mins</span>
     
     
     
@@ -275,14 +275,15 @@ I’m revisiting that problem while learning Prolog, another language from the t
 
             <div class="post-body e-content">
               <p>Back in May, I looked at an implementation of <a href="/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/">Zanzibar-style ACLs in Open Policy Agent Rego</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
-<p>I&rsquo;m revisiting that problem while learning Prolog, another language from the <em>to-learn list</em>. There are some similarities to the previous article, but I&rsquo;m taking the problem further: I&rsquo;m adding permissions inheritance from anywhere within the filesystem tree.</p>
+<p>I&rsquo;m revisiting that problem while learning Prolog, another language from my never-ending <em>to-learn list</em>. There are some similarities to the previous article, but I&rsquo;m taking the problem further: I&rsquo;m adding permissions inheritance from anywhere within the filesystem tree.</p>
 <div>
     <h2>table of contents</h2>
     <nav id="TableOfContents">
   <ol>
     <li><a href="#the-problem">the problem</a></li>
     <li><a href="#iterating-on-the-problem">iterating on the problem</a></li>
-    <li><a href="#the-facts">the facts</a></li>
+    <li><a href="#the-facts-filesystem">the facts: filesystem</a></li>
+    <li><a href="#the-facts-permissions">the facts: permissions</a></li>
     <li><a href="#utilities">utilities</a></li>
     <li><a href="#object-permissions-and-inheritance">object permissions and inheritance</a></li>
     <li><a href="#swi-prolog">SWI-Prolog</a></li>
@@ -296,6 +297,7 @@ I’m revisiting that problem while learning Prolog, another language from the t
     <li><a href="#trying-out-inheritance">trying out inheritance</a>
       <ol>
         <li><a href="#tracing-inherits3">tracing <code>inherits/3</code></a></li>
+        <li><a href="#tracing-the-curious-case-of-the-predicate-order">tracing: the curious case of the predicate order</a></li>
       </ol>
     </li>
     <li><a href="#querying-file-permissions-directly">querying file permissions directly</a></li>
@@ -343,7 +345,8 @@ relation {
 doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
 </code></pre><p>You can find the complete reasoning behind this in the article linked above in this section.</p>
 <h2 id="iterating-on-the-problem"><a href="#iterating-on-the-problem" class="anchor-link">§</a>iterating on the problem</h2>
-<p>While solving this problem in Prolog, I&rsquo;m going to take this a step further. I&rsquo;m going to assume that ACLs can be inherited from any parent directory anywhere in the tree, up to the root directory. I&rsquo;m going to be operating on UUIDs instead of filenames. The tree used in this example is small, so it can be easily reasoned about:</p>
+<p>While solving this problem in Prolog, I&rsquo;m going to take this a step further. ACLs can be inherited from any parent directory in the tree, up to the root directory.</p>
+<p>Code examples will operate on UUIDs exclusively but in the article, I will be referring to files and directories by their names. The tree used in this example is small, so that it can be easily reasoned about:</p>
 <pre tabindex="0"><code>data                           root, a bucket, UUID: 851a7566-b83d-4993-bd04-9b8244091d45
     ├-- a-data-item.png                  file, UUID: 9c57448c-e901-4fd3-a47e-b6ecf0470c5f
     └-- documents                   directory, UUID: b94c1f40-818b-47be-882b-ce1a8fbee254
@@ -357,24 +360,34 @@ doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
 <li>A <em>viewer</em> of <em>pdfs</em> can view <em>a-file.pdf</em> only.</li>
 <li>A <em>viewer</em> of <em>a-file.pdf</em> can view that file only and no other file inside of the parent directory <em>pdfs</em>.</li>
 </ul>
-<p>Permissions will be stored outside of filesystem objects and they are optional for an object. An object may or may not have some set of permissions attached. If an object does not have permissions attached, it&rsquo;s okay, they are simply inherited from a directory above.</p>
-<h2 id="the-facts"><a href="#the-facts" class="anchor-link">§</a>the facts</h2>
+<p>Permissions will be stored outside of filesystem objects and they are optional for an object. An object may or may not have a set of permissions attached. If an object does not have permissions attached, it&rsquo;s okay, they are simply inherited from a directory above.</p>
+<h2 id="the-facts-filesystem"><a href="#the-facts-filesystem" class="anchor-link">§</a>the facts: filesystem</h2>
 <p>The filesystem is defined using the following facts:</p>
 <script type="application/javascript" src="https://gist.github.com/radekg/192ed65e53299bce74f59cfdbabf94ac.js?file=01-filesystem.pl"></script>
 
-<p>followed by the permissions:</p>
+<p>A <code>directory</code> fact has three properties:</p>
+<ul>
+<li>A name.</li>
+<li>An object ID.</li>
+<li>A parent object ID. The root directory does not have a parent and that fact is encoded by using <code>parent(objectid())</code> with value in <code>objectid()</code>.</li>
+</ul>
+<p>A document has exactly one parent pointing at a <code>directory</code>.</p>
+<h2 id="the-facts-permissions"><a href="#the-facts-permissions" class="anchor-link">§</a>the facts: permissions</h2>
 <script type="application/javascript" src="https://gist.github.com/radekg/192ed65e53299bce74f59cfdbabf94ac.js?file=02-permissions.pl"></script>
 
+<p>Permissions are optional for an object hence there are less permissions than a total of directories and documents. A <code>permission</code> fact contains an object ID it attaches to, and a list of permissions.</p>
+<p>Permissions are represented as a list of <code>[role₁, [identity₁, ...], ... roleₙ, [identityₙ, ...]]</code>.</p>
+<p>From the set of facts, we can deduce the following:</p>
 <ul>
-<li>Berta is the <em>data</em> owner.</li>
+<li>Berta is the <em>data</em> <em>owner</em>.</li>
 <li>Charlie is an <em>editor</em> of <em>data</em>.</li>
 <li>Alan is a viewer of <em>pdfs</em>.</li>
 <li>Jake can only view the <em>a-file.pdf</em> file.</li>
 </ul>
 <h2 id="utilities"><a href="#utilities" class="anchor-link">§</a>utilities</h2>
-<p>The program requires a bunch of utilities, these are:</p>
+<p>The program requires a bunch of utilities:</p>
 <ol>
-<li><code>append(+L1, +L2, -OutList)</code>: appends a list to another list, for example <code>append([c, d], [a, b], -Out) → Out = [a, b, c, d]</code>.</li>
+<li><code>append(+L1, +L2, -OutList)</code>: appends a list to another list, for example <code>append([a, b], [c, d], -Out) → Out = [a, b, c, d]</code>.</li>
 <li><code>in_list(+Atom, +List)</code>: an implementation of <code>member</code>, it checks if an item exists in the list.</li>
 <li><code>find_kv(+Atom, +List, -OutList)</code>: given a list of <code>[k₁, v₁, k₂, v₂, ... kₙ, vₙ]</code>, finds <code>vₙ</code> for requested <code>kₙ</code>, returns a default value if nothing found. The program here assumes that <code>vₙ</code> is a list.</li>
 </ol>
@@ -415,7 +428,11 @@ doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
 <li>This predicate recurses on <code>+Roles</code> list, which is given as <code>[role₁, role₂, ... roleₙ]</code>. For each role, the following happens:
 <ul>
 <li>The program tries to get the permission list for an object ID.</li>
-<li>As we said, permissions for an object ID are optional, hence we have a guarding <code>object_permissions(_, _, []).</code>. If there are no permissions for an ID, return a default empty list.</li>
+<li>As we said, permissions for an object ID are optional, hence we have a guarding <code>object_permissions(_, _, []).</code>.
+<ul>
+<li>If there are no permissions for an ID, return an empty list.</li>
+</ul>
+</li>
 <li>If permissions for the ID exist, call <code>find_kv(+Role, +Permissions, -RolePermissions)</code>.</li>
 <li>Recurse on the <code>+RoleTail</code>.</li>
 <li>Whatever comes back from <code>find_kv</code> under <code>-RolePermissions</code> gets appended to the accumulator <code>-Out</code>.</li>
@@ -511,13 +528,18 @@ For built-in help, use ?- help(Topic). or ?- apropos(Word).
 <p><strong>Note2</strong>: To quit <em>swipl</em> back to the terminal shell, press CTRL+D.</p>
 <p>Let&rsquo;s move on to the inheritance.</p>
 <h2 id="explaining-inheritance"><a href="#explaining-inheritance" class="anchor-link">§</a>explaining inheritance</h2>
-<p>In the problem statement, I explained how inheritance works in this solution. Given a file ID, the program will traverse the parents up to the root directory (the bucket). To solve this question, the following facts need to be known:</p>
+<p>Let&rsquo;s recap: given a file ID, the program will traverse the parents up to the root directory (the bucket). To solve this question, the following facts need to be known:</p>
 <ul>
 <li>The object ID for which we want to know if the user has the required permission.</li>
 <li>The required access level.</li>
 <li>The identity.</li>
 </ul>
-<p>The traversal must continue only until the root has been reached or until the user has been found in any an inspected permission. If the user has been found to have permission before reaching the root, there is no point in traversing all the way to the root anymore.</p>
+<p>The traversal must continue only until:</p>
+<ul>
+<li>The root has been reached.</li>
+<li>Or until the user has been found in any inspected permission for the first time.</li>
+<li>If the user has been found to have permission before reaching the root, there is no point in traversing all the way to the root anymore.</li>
+</ul>
 <p>This process is implemented in the recursive <code>inherits/3</code> predicate. This predicate recurses over parent directories. There are three variants of this predicate defined:</p>
 <ol>
 <li>When reaching a root (above the root of the bucket), there is nothing else to do, if the user isn&rsquo;t found to be in a role until now, they are not allowed to perform the requested role:</li>
@@ -561,7 +583,8 @@ For built-in help, use ?- help(Topic). or ?- apropos(Word).
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="predicate-order"><a href="#predicate-order" class="anchor-link">§</a>predicate order</h3>
-<p>For this code, it is important to remember that the predicate order in Prolog is important. Those three predicates roughly translate to:</p>
+<p>For this code, it is important to remember that the predicate order in Prolog is significant. The second predicate uses <code>in_list/2</code> to check if the solution has been found, in which case, the recursion gets interrupted. The third predicate does not have a negating <code>\+ in_list/2</code> call so the order is important.</p>
+<p>Those three predicates roughly translate to:</p>
 <pre tabindex="0"><code>if reached_root
   false
 else if user_found in permissions
@@ -700,16 +723,200 @@ else
 </span></span><span class="line"><span class="cl"><span class="s">true</span><span class="p">.</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><h2 id="querying-file-permissions-directly"><a href="#querying-file-permissions-directly" class="anchor-link">§</a>querying file permissions directly</h2>
+</div><h3 id="tracing-the-curious-case-of-the-predicate-order"><a href="#tracing-the-curious-case-of-the-predicate-order" class="anchor-link">§</a>tracing: the curious case of the predicate order</h3>
+<p>An interesting trivia regarding the <code>inherits/3</code> predicate. Semantically, these two variants solve the same problem:</p>
+<ol>
+<li>Variant 1:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-prolog" data-lang="prolog"><span class="line"><span class="cl"><span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">),</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">User</span><span class="p">)</span> <span class="p">:-</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">optional_object_permissions</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">,</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">Permissions</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">in_list</span><span class="p">(</span><span class="nv">User</span><span class="p">,</span> <span class="nv">Permissions</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">),</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">User</span><span class="p">)</span> <span class="p">:-</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">directory</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="nf">objectid</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">),</span> <span class="nf">parent</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ParentObjectId</span><span class="p">))),</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ParentObjectId</span><span class="p">),</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">User</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><ol start="2">
+<li>Variant 2:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-prolog" data-lang="prolog"><span class="line"><span class="cl"><span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">),</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">User</span><span class="p">)</span> <span class="p">:-</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">optional_object_permissions</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">,</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">Permissions</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">in_list</span><span class="p">(</span><span class="nv">User</span><span class="p">,</span> <span class="nv">Permissions</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"><span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">),</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">User</span><span class="p">)</span> <span class="p">:-</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">directory</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="nf">objectid</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">),</span> <span class="nf">parent</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ParentObjectId</span><span class="p">))),</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">optional_object_permissions</span><span class="p">(</span><span class="nv">ObjectId</span><span class="p">,</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">Permissions</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="s">\+</span> <span class="nf">in_list</span><span class="p">(</span><span class="nv">User</span><span class="p">,</span> <span class="nv">Permissions</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="nv">ParentObjectId</span><span class="p">),</span> <span class="nv">Roles</span><span class="p">,</span> <span class="nv">User</span><span class="p">).</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Variant 2 is more explicit. However, Variant 2 is also very inefficient:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-prolog" data-lang="prolog"><span class="line"><span class="cl"><span class="s">?-</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;7f916bd9-f324-40f2-97d3-95e7cc7d722e&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;7f916bd9-f324-40f2-97d3-95e7cc7d722e&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;7f916bd9-f324-40f2-97d3-95e7cc7d722e&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="s">false</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Variant 1 is a much more efficient:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-prolog" data-lang="prolog"><span class="line"><span class="cl"><span class="s">?-</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;7f916bd9-f324-40f2-97d3-95e7cc7d722e&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">).</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;7f916bd9-f324-40f2-97d3-95e7cc7d722e&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Call</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;851a7566-b83d-4993-bd04-9b8244091d45&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;b94c1f40-818b-47be-882b-ce1a8fbee254&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">T</span> <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="nv">Fail</span><span class="s">:</span> <span class="nf">inherits</span><span class="p">(</span><span class="nf">objectid</span><span class="p">(</span><span class="s">&#39;7f916bd9-f324-40f2-97d3-95e7cc7d722e&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s">editors</span><span class="p">,</span> <span class="s">owners</span><span class="p">],</span> <span class="s">jake</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="s">false</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>While I wasn&rsquo;t able to understand why, I will come back to this problem in the future. This is a good opportunity to learn how to debug Prolog programs.</p>
+<h2 id="querying-file-permissions-directly"><a href="#querying-file-permissions-directly" class="anchor-link">§</a>querying file permissions directly</h2>
 <p>In the previous step, we had no ability to query for file permissions directly. Instead of a file ID, we had to use the ID of its parent directory. Let&rsquo;s define an API to query for file permissions directly. There are two cases to consider:</p>
 <ul>
-<li>Permissions can be attached directly to a file. This is the case for Jake who can view <em>a-file.pdf</em> file and nothing else.</li>
-<li>If there are no permissions attached directly to a file, resort to the traversal technique discussed before.</li>
+<li>Permissions can be attached directly to a file. This is the case for Jake who can view <em>a-file.pdf</em> and nothing else.</li>
+<li>If there are no permissions attached directly to a file, resort to the parent traversal technique.</li>
 </ul>
 <p>Here&rsquo;s the code:</p>
 <script type="application/javascript" src="https://gist.github.com/radekg/192ed65e53299bce74f59cfdbabf94ac.js?file=05-api.pl"></script>
 
-<p>There&rsquo;s a lot of duplication here, and this API could be made more general, but for now, it will be sufficient. There are three different APIs depending on the access level we intend to query for. Let&rsquo;s take one of those as an example:</p>
+<p>There&rsquo;s a lot of duplication here. This API could be generalized, but for now, it will be sufficient. There are three different APIs depending on the access level we intend to query for.</p>
+<p>Let&rsquo;s look at one of them:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -731,11 +938,26 @@ else
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Remembering that the predicate order is important, querying for a document ID will first check if there are permissions defined for the file object ID. This can be considered an <em>O(1)</em> operation, pretty cheap in terms of computing so safe to start with. If permissions have been found, we check if the user has been found in the complete list for that object.</p>
-<p>Otherwise, we revert to the inheritance check. This branch will be executed if:</p>
+<p>Otherwise, we revert to the inheritance check. The fallback happens in case of:</p>
 <ul>
 <li>There are no permissions attached directly to the file object.</li>
 <li>Permissions were found but used hasn&rsquo;t been granted the requested role directly on the file object.</li>
 </ul>
+<p>I like this example because it shows how efficient Prolog code can be. It translates to some thing like:</p>
+<pre tabindex="0"><code>function run_inheritance_check(objectid, roles, user)
+  parentid = get_document(objectid)
+  return inherits(parentid, roles, user)
+end function
+
+if exist, permitted = object_permissions(objectid, roles); exist
+  if in_list(user, permitted)
+    return true
+  // else
+  return run_inheritance_check(objectid, roles, user)
+else
+  return run_inheritance_check(objectid, roles, user)
+end if
+</code></pre><p><strong>Note:</strong> It reminds me very much of Erlang. The first version of Erlang was implemented in Prolog and the influence is clearly visible to this day.</p>
 <p>Let&rsquo;s load this up in <em>swipl</em>.</p>
 <p>First, download the API program from GitHub:</p>
 <div class="highlight"><div class="chroma">
@@ -825,14 +1047,14 @@ else
 </div>
 </div><p>Actually, that&rsquo;s not true. Alan owns an old Volvo. But he doesn&rsquo;t own any files so everything works as expected.</p>
 <h2 id="summary"><a href="#summary" class="anchor-link">§</a>summary</h2>
-<p>This program is 52 lines of code, half of it is a clumsy, non-generic API. The other half contains:</p>
+<p>This program is 52 lines of code, half of it is a clumsy, non-general API. The other half contains:</p>
 <ul>
-<li>Almost general solver for any inheritance problem where an object has exactly one parent. Almost, because inherits references the <code>directory(X, Y, Z).</code> fact directly.
+<li>Almost general solver for any inheritance problem where an object has exactly one parent. Almost, because <code>inherits/3</code> directly references <code>directory(X, Y, Z).</code> facts.
 <ul>
-<li>To generalize this solver for other types of facts, one has to either:
+<li>To generalize this solver for other fact types, one has to either:
 <ul>
 <li>find a way to provide the type of a fact to query for,</li>
-<li>or create a generic fact container.</li>
+<li>or create a general fact container.</li>
 <li>The second approach would probably be easier to implement.</li>
 <li>Frankly, the reason why I&rsquo;m calling the fact a <code>directory</code> and a <code>document</code> is illustrative only.</li>
 </ul>
@@ -841,7 +1063,7 @@ else
 </li>
 <li>A general solver for any number of roles.
 <ul>
-<li>Roles in permissions are represented as a list of <code>[role₁, [identity₁, ...], ..., roleₙ, [identityₙ, ...]]</code>.</li>
+<li>Roles in permissions are represented as a list of <code>[role₁, [identity₁, ...], ... roleₙ, [identityₙ, ...]]</code>.</li>
 <li>There can be any number of roles in that list.</li>
 <li>The API is where the knowledge of exact roles is required.</li>
 </ul>
@@ -967,7 +1189,7 @@ else
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/&amp;title=Zanzibar-style%20ACLs%20with%20Prolog&amp;summary=Back%20in%20May,%20I%20looked%20at%20an%20implementation%20of%20Zanzibar-style%20ACLs%20in%20Open%20Policy%20Agent%20Rego1.%0aI%e2%80%99m%20revisiting%20that%20problem%20while%20learning%20Prolog,%20another%20language%20from%20the%20to-learn%20list.%20There%20are%20some%20similarities%20to%20the%20previous%20article,%20but%20I%e2%80%99m%20taking%20the%20problem%20further:%20I%e2%80%99m%20adding%20permissions%20inheritance%20from%20anywhere%20within%20the%20filesystem%20tree.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/&amp;title=Zanzibar-style%20ACLs%20with%20Prolog&amp;summary=Back%20in%20May,%20I%20looked%20at%20an%20implementation%20of%20Zanzibar-style%20ACLs%20in%20Open%20Policy%20Agent%20Rego1.%0aI%e2%80%99m%20revisiting%20that%20problem%20while%20learning%20Prolog,%20another%20language%20from%20my%20never-ending%20to-learn%20list.%20There%20are%20some%20similarities%20to%20the%20previous%20article,%20but%20I%e2%80%99m%20taking%20the%20problem%20further:%20I%e2%80%99m%20adding%20permissions%20inheritance%20from%20anywhere%20within%20the%20filesystem%20tree.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
