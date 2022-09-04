@@ -28,7 +28,7 @@
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
     <meta name="author" content="Radek Gruchalski" /><meta name="description" content="Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.
-I’m revisiting that exact problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
+I’m revisiting that problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -58,13 +58,13 @@ I’m revisiting that exact problem while learning Prolog, another language from
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-09-03T00:00:00+02:00",
-        "dateModified": "2022-09-03T23:46:22+02:00",
+        "dateModified": "2022-09-04T15:22:50+02:00",
         "url": "https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/",
         "headline": "Zanzibar-style ACLs with Prolog",
-        "description": "Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.\nI’m revisiting that exact problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree.",
+        "description": "Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.\nI’m revisiting that problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree.",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  3067 ,
+        "wordCount":  3065 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -101,13 +101,13 @@ I’m revisiting that exact problem while learning Prolog, another language from
 
 <meta property="og:title" content="Zanzibar-style ACLs with Prolog" />
 <meta property="og:description" content="Back in May, I looked at an implementation of Zanzibar-style ACLs in Open Policy Agent Rego1.
-I’m revisiting that exact problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
+I’m revisiting that problem while learning Prolog, another language from the to-learn list. There are some similarities to the previous article, but I’m taking the problem further: I’m adding permissions inheritance from anywhere within the filesystem tree." />
 <meta property="og:url" content="https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/" />
 <meta property="og:site_name" content="gruchalski.com" />
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2022-09-03/header.png" />
 <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-09-03T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2022-09-03T23:46:22&#43;02:00" />
+    <meta property="article:modified_time" content="2022-09-04T15:22:50&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -257,7 +257,7 @@ I’m revisiting that exact problem while learning Prolog, another language from
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3067</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3065</span>
     
     
         
@@ -275,7 +275,7 @@ I’m revisiting that exact problem while learning Prolog, another language from
 
             <div class="post-body e-content">
               <p>Back in May, I looked at an implementation of <a href="/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/">Zanzibar-style ACLs in Open Policy Agent Rego</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
-<p>I&rsquo;m revisiting that exact problem while learning Prolog, another language from the <em>to-learn list</em>. There are some similarities to the previous article, but I&rsquo;m taking the problem further: I&rsquo;m adding permissions inheritance from anywhere within the filesystem tree.</p>
+<p>I&rsquo;m revisiting that problem while learning Prolog, another language from the <em>to-learn list</em>. There are some similarities to the previous article, but I&rsquo;m taking the problem further: I&rsquo;m adding permissions inheritance from anywhere within the filesystem tree.</p>
 <div>
     <h2>table of contents</h2>
     <nav id="TableOfContents">
@@ -343,7 +343,7 @@ relation {
 doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
 </code></pre><p>You can find the complete reasoning behind this in the article linked above in this section.</p>
 <h2 id="iterating-on-the-problem"><a href="#iterating-on-the-problem" class="anchor-link">§</a>iterating on the problem</h2>
-<p>While solving this problem in Prolog, I&rsquo;m going to take this a step further. I&rsquo;m going to assume that ACLs can be inherited from any parent directory anywhere in the tree, up to the root directory. I&rsquo;m going to be operating on UUIDs instead of a filename. The tree used in this example is small, so it can be easily reasoned about:</p>
+<p>While solving this problem in Prolog, I&rsquo;m going to take this a step further. I&rsquo;m going to assume that ACLs can be inherited from any parent directory anywhere in the tree, up to the root directory. I&rsquo;m going to be operating on UUIDs instead of filenames. The tree used in this example is small, so it can be easily reasoned about:</p>
 <pre tabindex="0"><code>data                           root, a bucket, UUID: 851a7566-b83d-4993-bd04-9b8244091d45
     ├-- a-data-item.png                  file, UUID: 9c57448c-e901-4fd3-a47e-b6ecf0470c5f
     └-- documents                   directory, UUID: b94c1f40-818b-47be-882b-ce1a8fbee254
@@ -353,7 +353,7 @@ doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
         └-- another.pdf                  file, UUID: ecf47371-fd08-44f1-9c06-7c970d948ae8
 </code></pre><p>A permission can be assigned to a file or directory. A permission assigned to a directory applies to all child directories and files. For example:</p>
 <ul>
-<li>An <em>editor</em> of <em>data</em> directory can <em>edit</em> and <em>view</em>: a-data-item.png, a-document.md, and <em>a-file.pdf</em>.</li>
+<li>An <em>editor</em> of <em>data</em> directory can <em>edit</em> and <em>view</em>: <em>a-data-item.png</em>, <em>a-document.md</em>, and <em>a-file.pdf</em>.</li>
 <li>A <em>viewer</em> of <em>pdfs</em> can view <em>a-file.pdf</em> only.</li>
 <li>A <em>viewer</em> of <em>a-file.pdf</em> can view that file only and no other file inside of the parent directory <em>pdfs</em>.</li>
 </ul>
@@ -967,7 +967,7 @@ else
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/&amp;title=Zanzibar-style%20ACLs%20with%20Prolog&amp;summary=Back%20in%20May,%20I%20looked%20at%20an%20implementation%20of%20Zanzibar-style%20ACLs%20in%20Open%20Policy%20Agent%20Rego1.%0aI%e2%80%99m%20revisiting%20that%20exact%20problem%20while%20learning%20Prolog,%20another%20language%20from%20the%20to-learn%20list.%20There%20are%20some%20similarities%20to%20the%20previous%20article,%20but%20I%e2%80%99m%20taking%20the%20problem%20further:%20I%e2%80%99m%20adding%20permissions%20inheritance%20from%20anywhere%20within%20the%20filesystem%20tree.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/&amp;title=Zanzibar-style%20ACLs%20with%20Prolog&amp;summary=Back%20in%20May,%20I%20looked%20at%20an%20implementation%20of%20Zanzibar-style%20ACLs%20in%20Open%20Policy%20Agent%20Rego1.%0aI%e2%80%99m%20revisiting%20that%20problem%20while%20learning%20Prolog,%20another%20language%20from%20the%20to-learn%20list.%20There%20are%20some%20similarities%20to%20the%20previous%20article,%20but%20I%e2%80%99m%20taking%20the%20problem%20further:%20I%e2%80%99m%20adding%20permissions%20inheritance%20from%20anywhere%20within%20the%20filesystem%20tree.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 

@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 03 Sep 2022 23:46:49 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 04 Sep 2022 15:27:40 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -39,7 +39,7 @@
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Back in May, I looked at an implementation of &lt;a href=&#34;https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/&#34;&gt;Zanzibar-style ACLs in Open Policy Agent Rego&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;m revisiting that exact problem while learning Prolog, another language from the &lt;em&gt;to-learn list&lt;/em&gt;. There are some similarities to the previous article, but I&amp;rsquo;m taking the problem further: I&amp;rsquo;m adding permissions inheritance from anywhere within the filesystem tree.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m revisiting that problem while learning Prolog, another language from the &lt;em&gt;to-learn list&lt;/em&gt;. There are some similarities to the previous article, but I&amp;rsquo;m taking the problem further: I&amp;rsquo;m adding permissions inheritance from anywhere within the filesystem tree.&lt;/p&gt;
 &lt;div&gt;
     &lt;h2&gt;table of contents&lt;/h2&gt;
     &lt;nav id=&#34;TableOfContents&#34;&gt;
@@ -107,7 +107,7 @@ relation {
 doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can find the complete reasoning behind this in the article linked above in this section.&lt;/p&gt;
 &lt;h2 id=&#34;iterating-on-the-problem&#34;&gt;iterating on the problem&lt;/h2&gt;
-&lt;p&gt;While solving this problem in Prolog, I&amp;rsquo;m going to take this a step further. I&amp;rsquo;m going to assume that ACLs can be inherited from any parent directory anywhere in the tree, up to the root directory. I&amp;rsquo;m going to be operating on UUIDs instead of a filename. The tree used in this example is small, so it can be easily reasoned about:&lt;/p&gt;
+&lt;p&gt;While solving this problem in Prolog, I&amp;rsquo;m going to take this a step further. I&amp;rsquo;m going to assume that ACLs can be inherited from any parent directory anywhere in the tree, up to the root directory. I&amp;rsquo;m going to be operating on UUIDs instead of filenames. The tree used in this example is small, so it can be easily reasoned about:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;data                           root, a bucket, UUID: 851a7566-b83d-4993-bd04-9b8244091d45
     ├-- a-data-item.png                  file, UUID: 9c57448c-e901-4fd3-a47e-b6ecf0470c5f
     └-- documents                   directory, UUID: b94c1f40-818b-47be-882b-ce1a8fbee254
@@ -117,7 +117,7 @@ doc:some-doc#viewer@folder:some-doc-parent-folder#viewer
         └-- another.pdf                  file, UUID: ecf47371-fd08-44f1-9c06-7c970d948ae8
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A permission can be assigned to a file or directory. A permission assigned to a directory applies to all child directories and files. For example:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;An &lt;em&gt;editor&lt;/em&gt; of &lt;em&gt;data&lt;/em&gt; directory can &lt;em&gt;edit&lt;/em&gt; and &lt;em&gt;view&lt;/em&gt;: a-data-item.png, a-document.md, and &lt;em&gt;a-file.pdf&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;An &lt;em&gt;editor&lt;/em&gt; of &lt;em&gt;data&lt;/em&gt; directory can &lt;em&gt;edit&lt;/em&gt; and &lt;em&gt;view&lt;/em&gt;: &lt;em&gt;a-data-item.png&lt;/em&gt;, &lt;em&gt;a-document.md&lt;/em&gt;, and &lt;em&gt;a-file.pdf&lt;/em&gt;.&lt;/li&gt;
 &lt;li&gt;A &lt;em&gt;viewer&lt;/em&gt; of &lt;em&gt;pdfs&lt;/em&gt; can view &lt;em&gt;a-file.pdf&lt;/em&gt; only.&lt;/li&gt;
 &lt;li&gt;A &lt;em&gt;viewer&lt;/em&gt; of &lt;em&gt;a-file.pdf&lt;/em&gt; can view that file only and no other file inside of the parent directory &lt;em&gt;pdfs&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
@@ -17866,32 +17866,76 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
                     <description>&lt;p&gt;As the number of applications and websites in the organization grows, the developer will inevitably receive a request to implement Single Sign-On. Single Sign-On (SSO for short) is an authentication scheme allowing the user to log in with a single set of credentials and share the session across multiple, independent, potentially unrelated systems.&lt;/p&gt;
 &lt;p&gt;The savvy developer will roll out Keycloak, enable Standard Flow client, maybe enable some of the social login options, like GitHub, Google or Facebook and call it a day. The users will be happy. When they go to any of the internet properties requiring signing in, if they are not signed in, they will be redirected to Keycloak login page. Once they log in, they receive a token, with which they can use to access any other property requiring login.&lt;/p&gt;
 &lt;p&gt;As a bonus, the SSO usually introduces a Single Log-Out (SLO). By invalidating the access token, the user is logged out of all the properties relying on that token.&lt;/p&gt;
-&lt;h2 id=&#34;setting-up-the-scene&#34;&gt;Setting up the scene&lt;/h2&gt;
+&lt;div&gt;
+    &lt;h2&gt;table of contents&lt;/h2&gt;
+    &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#setting-up-the-scene&#34;&gt;setting up the scene&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#the-goal&#34;&gt;the goal&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#add-a-realm&#34;&gt;add a realm&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#configure-roles&#34;&gt;configure roles&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#the-openid-client&#34;&gt;the OpenID Client&lt;/a&gt;
+      &lt;ol&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#settings-tab&#34;&gt;settings tab&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#scope-tab&#34;&gt;scope tab&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#authorization-tab&#34;&gt;authorization tab&lt;/a&gt;
+          &lt;ol&gt;
+            &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#authorization--settings&#34;&gt;authorization / settings&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#authorization--policies&#34;&gt;authorization / policies&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#authorization--authorization-scopes&#34;&gt;authorization / authorization scopes&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#authorization--resources&#34;&gt;authorization / resources&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#authorization--permissions&#34;&gt;authorization / permissions&lt;/a&gt;&lt;/li&gt;
+          &lt;/ol&gt;
+        &lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#create-a-user&#34;&gt;create a user&lt;/a&gt;
+      &lt;ol&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#user-credentials&#34;&gt;user credentials&lt;/a&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#fetch-the-openid-client-credentials&#34;&gt;fetch the OpenID Client credentials&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#play-time&#34;&gt;play time!&lt;/a&gt;
+      &lt;ol&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#uma-tickets&#34;&gt;UMA tickets&lt;/a&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#top-secret-customer&#34;&gt;top secret customer&lt;/a&gt;
+      &lt;ol&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#listing-available-customers&#34;&gt;listing available customers&lt;/a&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#conclusion&#34;&gt;conclusion&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#further-reading&#34;&gt;further reading&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;setting-up-the-scene&#34;&gt;setting up the scene&lt;/h2&gt;
 &lt;p&gt;But what if the complexity of the system goes one step further? For example, the user of the properties is a Member of the Support Team and the property in question is a support system where, for example, the Support Team member can view and manage some data on behalf of a Customer. The company has many Customers and many Support Team Members. Maybe some of the Support Team Members are dedicated to certain Customers? When they sign in to the Support System, they should only see and be able to act, on behalf of only those selected, dedicated Customers.&lt;/p&gt;
 &lt;p&gt;The first thought of any seasoned developer would most likely be to create a new database and store a mapping between the Support Team Member user and the Customer. The Support Application would then query the new database and only display the Customers for which the mappings exist. And that&amp;rsquo;s fine, there is nothing wrong with approach. However, that&amp;rsquo;s another database to maintain. Someone has to create the rules of which Member supports which Customer. This knowledge has to be stored somewhere and someone has to build an application to ensure the data in the new database is always up to date and relevant.&lt;/p&gt;
 &lt;p&gt;An alternative approach would be to use Keycloak for storing, managing and retrieval of all of this knowledge. If we consider Keycloak to be a single source of truth across the organization, we remove quite a lot of complexity.&lt;/p&gt;
 &lt;p&gt;So, further in this article, I am showing a proof of concept of Keycloak as a mechanism to allow Support Team Members to access selected Customers only, without any other database. This will also present how to use Keycloak Authorization Services in real-world scenario and give the reader a glimpse into User Managed Access (UMA).&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/&#34;&gt;I have described how to start a local development version of Keycloak&lt;/a&gt;. Examples here will build on top of the previous write up. &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;h2 id=&#34;the-goal&#34;&gt;The goal&lt;/h2&gt;
+&lt;h2 id=&#34;the-goal&#34;&gt;the goal&lt;/h2&gt;
 &lt;p&gt;The outcome of this article is to have a Keycloak realm with an OpenID client configured so that a program can be created to query Keycloak for users&amp;rsquo; entitlements and discover all available entitlements of a given type by leveraging Keycloak token and resource set endpoints.&lt;/p&gt;
 &lt;p&gt;We will configure a realm with required roles and set up Authorization Services resources, policies, scopes and permissions for two different access levels: a regular user, Service Team Member, and a supervisor, the user who is entitled to see all available resources, regardless of the role membership.&lt;/p&gt;
 &lt;p&gt;Without any further due, let&amp;rsquo;s start!&lt;/p&gt;
-&lt;h2 id=&#34;add-a-realm&#34;&gt;Add a realm&lt;/h2&gt;
+&lt;h2 id=&#34;add-a-realm&#34;&gt;add a realm&lt;/h2&gt;
 &lt;p&gt;Open the browser, go to &lt;a href=&#34;http://localhost:28080/auth/admin/master/console/&#34;&gt;http://localhost:28080/auth/admin/master/console/&lt;/a&gt;, sign in as &lt;code&gt;admin:admin&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;By default, we are signed in to the &lt;code&gt;Master&lt;/code&gt; realm. So the first thing to do, is to create a new realm. In the top left corner, under the Keycloak logo, hover over &lt;code&gt;Master&lt;/code&gt; or &lt;code&gt;Select realm&lt;/code&gt; text. A menu will appear, there is the &lt;code&gt;Add realm&lt;/code&gt; button. Click the button and on the form that shows up, type &lt;code&gt;multi-customer&lt;/code&gt; in the &lt;code&gt;Name&lt;/code&gt; field.&lt;/p&gt;
 &lt;p&gt;The realm is our disposable proving ground. All the users, roles and everything we will do further, resides inside. Deleting a realm, deletes all users and settings.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2020-09-05-introduction-to-keycloak-authorization-services/create-realm.png&#34; alt=&#34;adding new realm&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;configure-roles&#34;&gt;Configure roles&lt;/h2&gt;
+&lt;h2 id=&#34;configure-roles&#34;&gt;configure roles&lt;/h2&gt;
 &lt;p&gt;We will represent our imaginary Customers as roles. We have to add a role for every Customer. In the left menu, find and click &lt;code&gt;Roles&lt;/code&gt;. Create a role for every customer, for the sake of this article, I&amp;rsquo;ll go with:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;CustomerA&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;CustomerB&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2020-09-05-introduction-to-keycloak-authorization-services/realm-roles.png&#34; alt=&#34;adding realm roles&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;the-openid-client&#34;&gt;The OpenID Client&lt;/h2&gt;
+&lt;h2 id=&#34;the-openid-client&#34;&gt;the OpenID Client&lt;/h2&gt;
 &lt;p&gt;Now, we have to create an OpenID Client. Client is what allows the users of our application securely exchanging &lt;code&gt;client id&lt;/code&gt; and &lt;code&gt;secret&lt;/code&gt; for an &lt;code&gt;access token&lt;/code&gt;. Click &lt;code&gt;Clients&lt;/code&gt; in the left menu. On the page that opens, find the &lt;code&gt;Create&lt;/code&gt; button near the top of the right corner of the page, click it.&lt;/p&gt;
 &lt;p&gt;Type &lt;code&gt;customers&lt;/code&gt; as a &lt;code&gt;Client ID&lt;/code&gt;. Leave &lt;code&gt;Client Protocol&lt;/code&gt; as &lt;code&gt;openid-connect&lt;/code&gt; and put &lt;code&gt;http://localhost:28080&lt;/code&gt; as Root URL. Click &lt;code&gt;Save&lt;/code&gt;. The page will reload and a bunch of other settings will become available.&lt;/p&gt;
-&lt;h3 id=&#34;settings-tab&#34;&gt;Settings tab&lt;/h3&gt;
+&lt;h3 id=&#34;settings-tab&#34;&gt;settings tab&lt;/h3&gt;
 &lt;p&gt;Set them as follows:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Access Type&lt;/code&gt;: &lt;code&gt;confidential&lt;/code&gt;&lt;/li&gt;
@@ -17910,22 +17954,22 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;scope-tab&#34;&gt;Scope tab&lt;/h3&gt;
+&lt;h3 id=&#34;scope-tab&#34;&gt;scope tab&lt;/h3&gt;
 &lt;p&gt;Great, now go to &lt;code&gt;Scope&lt;/code&gt; tab.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Full Scope Allowed&lt;/code&gt;: &lt;code&gt;off&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;code&gt;Realm Roles&lt;/code&gt; will appear. Select all &lt;code&gt;Available Roles&lt;/code&gt; and click &lt;code&gt;Add selected&lt;/code&gt; button.&lt;/p&gt;
-&lt;h3 id=&#34;authorization-tab&#34;&gt;Authorization tab&lt;/h3&gt;
+&lt;h3 id=&#34;authorization-tab&#34;&gt;authorization tab&lt;/h3&gt;
 &lt;p&gt;This is where things get a little bit involved. A bunch of new tabs have appeared.&lt;/p&gt;
-&lt;h4 id=&#34;authorization--settings&#34;&gt;Authorization / Settings&lt;/h4&gt;
+&lt;h4 id=&#34;authorization--settings&#34;&gt;authorization / settings&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Policy Enforcement Mode&lt;/code&gt;: &lt;code&gt;Enforcing&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;Decision Strategy&lt;/code&gt;: &lt;code&gt;Unanimous&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;Remote Resource Management&lt;/code&gt;: &lt;code&gt;off&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Click &lt;code&gt;Save&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;authorization--policies&#34;&gt;Authorization / Policies&lt;/h4&gt;
+&lt;h4 id=&#34;authorization--policies&#34;&gt;authorization / policies&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;delete &lt;code&gt;Default Policy&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;For each Customer, create a &lt;code&gt;Role based&lt;/code&gt; policy (dropdown on the right side of the page):
@@ -17948,14 +17992,14 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2020-09-05-introduction-to-keycloak-authorization-services/policies.png&#34; alt=&#34;authorization services / policies&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;authorization--authorization-scopes&#34;&gt;Authorization / Authorization Scopes&lt;/h4&gt;
+&lt;h4 id=&#34;authorization--authorization-scopes&#34;&gt;authorization / authorization scopes&lt;/h4&gt;
 &lt;p&gt;Create a scope for each customer:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;for &lt;code&gt;CustomerA&lt;/code&gt;: &lt;code&gt;customer-a&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;for &lt;code&gt;CustomerB&lt;/code&gt;: &lt;code&gt;customer-b&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2020-09-05-introduction-to-keycloak-authorization-services/authorization-scopes.png&#34; alt=&#34;authorization services / authorization scopes&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;authorization--resources&#34;&gt;Authorization / Resources&lt;/h4&gt;
+&lt;h4 id=&#34;authorization--resources&#34;&gt;authorization / resources&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;delete &lt;code&gt;Default Resource&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -17984,7 +18028,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2020-09-05-introduction-to-keycloak-authorization-services/resources.png&#34; alt=&#34;resources&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;authorization--permissions&#34;&gt;Authorization / Permissions&lt;/h4&gt;
+&lt;h4 id=&#34;authorization--permissions&#34;&gt;authorization / permissions&lt;/h4&gt;
 &lt;p&gt;Finally, create permissions. One &lt;code&gt;Scope-Based&lt;/code&gt; permission per customer. As with policies, the option to add is on the right side of the screen, a dropdown.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;CustomerA&lt;/code&gt;:
@@ -18009,7 +18053,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2020-09-05-introduction-to-keycloak-authorization-services/permissions.png&#34; alt=&#34;permissions&#34;&gt;&lt;/p&gt;
 &lt;p&gt;We have finished setting up Authorization services.&lt;/p&gt;
 &lt;p&gt;Before we can play around, we will add our Support Team Member user to Keycloak.&lt;/p&gt;
-&lt;h2 id=&#34;create-a-user&#34;&gt;Create a user&lt;/h2&gt;
+&lt;h2 id=&#34;create-a-user&#34;&gt;create a user&lt;/h2&gt;
 &lt;p&gt;In the left Keycloak menu, click &lt;code&gt;Users&lt;/code&gt;. On the right hand side of the &lt;code&gt;Lookup&lt;/code&gt; header, there is an &lt;code&gt;Add user&lt;/code&gt; button. Click it. Populate the fields as follows:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Username&lt;/code&gt;: &lt;code&gt;member@service-team&lt;/code&gt;&lt;/li&gt;
@@ -18020,7 +18064,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;li&gt;&lt;code&gt;Email verified&lt;/code&gt;: &lt;code&gt;on&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Click &lt;code&gt;Save&lt;/code&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;user-credentials&#34;&gt;User credentials&lt;/h3&gt;
+&lt;h3 id=&#34;user-credentials&#34;&gt;user credentials&lt;/h3&gt;
 &lt;p&gt;We are going to be interacting with Keycloak via command line only and the purpose of this exercise is to validate specific user&amp;rsquo;s resource access. Hence, we need to set the password for the user because we will use &lt;strong&gt;Resource owner credentials grant&lt;/strong&gt; &lt;a href=&#34;http://tools.ietf.org/html/rfc6749#section-4.3&#34;&gt;Section 4.3&lt;/a&gt;.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Set password&lt;/code&gt;: &lt;code&gt;password123&lt;/code&gt;&lt;/li&gt;
@@ -18028,7 +18072,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;/ul&gt;
 &lt;p&gt;Click &lt;code&gt;Set password&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2020-09-05-introduction-to-keycloak-authorization-services/user-password.png&#34; alt=&#34;user password&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;fetch-the-openid-client-credentials&#34;&gt;Fetch the OpenID Client credentials&lt;/h2&gt;
+&lt;h2 id=&#34;fetch-the-openid-client-credentials&#34;&gt;fetch the OpenID Client credentials&lt;/h2&gt;
 &lt;p&gt;Once again, in the left Keycloak menu, click &lt;code&gt;Clients&lt;/code&gt;. Find &lt;code&gt;customers&lt;/code&gt; client and click on it. Go to &lt;code&gt;Credentials&lt;/code&gt; tab. Your &lt;code&gt;client id&lt;/code&gt; is the client name—&lt;code&gt;customers&lt;/code&gt;. The &lt;code&gt;secret&lt;/code&gt; is displayed. Copy it and in the terminal, export as:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -18060,7 +18104,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;USER_PASSWORD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;password123
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;play-time&#34;&gt;Play time!&lt;/h2&gt;
+&lt;/div&gt;&lt;h2 id=&#34;play-time&#34;&gt;play time!&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;If you receive an &lt;code&gt;Invalid bearer token&lt;/code&gt; error at any step further, you need to obtain a new access token. It simply means the token has expired.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -18569,13 +18613,13 @@ It enables a resource owner to control the authorization of data sharing and oth
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Cool! Everything works. Our regular user can now see all customers he has been given access to.&lt;/p&gt;
-&lt;h2 id=&#34;top-secret-customer&#34;&gt;Top secret customer&lt;/h2&gt;
+&lt;h2 id=&#34;top-secret-customer&#34;&gt;top secret customer&lt;/h2&gt;
 &lt;p&gt;Eventually, we may decide that we should be able to discover all &lt;code&gt;customer&lt;/code&gt; resources available in our Keycloak resource server. What would be unfortunate though, if our regular user could see customers who they should never be aware of.&lt;/p&gt;
 &lt;p&gt;Frankly speaking, we could have a &lt;code&gt;TopSecretCustomer&lt;/code&gt; in the system and nobody, &lt;strong&gt;ever&lt;/strong&gt;, except of the &lt;code&gt;TopSecretCustomer&lt;/code&gt; (and us) should be aware of their existence.&lt;/p&gt;
 &lt;p&gt;Keycloak offers something called a resource set. Resource set allows us to introspect resources available on our resource server.&lt;/p&gt;
 &lt;p&gt;In order to access the resource set, the user must have the &lt;code&gt;uma_protection&lt;/code&gt; role of the client assigned. Which is great. This implies we can just create a dedicated user with access to the resource set. Separation of concern at work! &amp;hellip;&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s do so.&lt;/p&gt;
-&lt;h3 id=&#34;listing-available-customers&#34;&gt;Listing available customers&lt;/h3&gt;
+&lt;h3 id=&#34;listing-available-customers&#34;&gt;listing available customers&lt;/h3&gt;
 &lt;p&gt;Go to &lt;code&gt;Manage&lt;/code&gt; / &lt;code&gt;Users&lt;/code&gt; and click &lt;code&gt;Add user&lt;/code&gt; once again. Set the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Username&lt;/code&gt;: &lt;code&gt;supervisor@company&lt;/code&gt;&lt;/li&gt;
@@ -18823,9 +18867,9 @@ It enables a resource owner to control the authorization of data sharing and oth
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;We could now easily create an application to find and return all available Customers. All with Keycloak and without querying any database directly.&lt;/p&gt;
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;conclusion&lt;/h2&gt;
 &lt;p&gt;Keycloak is a very versatile tool and can be easily used as a single source of truth for authentication, single sign-on and authorization within an organization. This article only touches a tip of an iceberg but it presents to the reader a real-world, useful scenario of using Keycloak as a driver for multi-tenant single sign-on.&lt;/p&gt;
-&lt;h2 id=&#34;further-reading&#34;&gt;Further reading&lt;/h2&gt;
+&lt;h2 id=&#34;further-reading&#34;&gt;further reading&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.keycloak.org/docs/latest/authorization_services/&#34;&gt;Authorization Services Guide&lt;/a&gt;
 &lt;ul&gt;
