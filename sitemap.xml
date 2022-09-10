@@ -2,25 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://gruchalski.com/tags/datalog/</loc>
-    <lastmod>2022-09-04T16:41:30+02:00</lastmod>
+    <loc>https://gruchalski.com/tags/firebuild/</loc>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2022-09-04T16:41:30+02:00</lastmod>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/keto/</loc>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/opa/</loc>
-    <lastmod>2022-09-04T16:41:30+02:00</lastmod>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2022-09-04T16:41:30+02:00</lastmod>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/prolog/</loc>
-    <lastmod>2022-09-04T16:41:30+02:00</lastmod>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2022-09-04T16:41:30+02:00</lastmod>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/zanzibar/</loc>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/</loc>
+    <lastmod>2022-09-11T00:44:47+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/datalog/</loc>
     <lastmod>2022-09-04T16:41:30+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/</loc>
@@ -88,9 +97,6 @@
   </url><url>
     <loc>https://gruchalski.com/posts/2022-04-28-private-go-modules-with-multiple-git-identities/</loc>
     <lastmod>2022-05-09T10:28:12+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/keto/</loc>
-    <lastmod>2022-04-28T01:24:01+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/</loc>
     <lastmod>2022-04-28T01:24:01+02:00</lastmod>
@@ -226,9 +232,6 @@
   </url><url>
     <loc>https://gruchalski.com/tags/consul/</loc>
     <lastmod>2021-04-14T23:41:35+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/firebuild/</loc>
-    <lastmod>2021-04-29T19:10:25+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/firecracker/</loc>
     <lastmod>2021-04-29T19:10:25+02:00</lastmod>
