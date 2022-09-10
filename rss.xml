@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sun, 11 Sep 2022 00:45:53 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 11 Sep 2022 01:01:39 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -38,7 +38,8 @@
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
-                    <description>&lt;p&gt;I&amp;rsquo;ve been working my way through &lt;em&gt;The Art of Prolog&lt;/em&gt;. The book is a fantastic eye-opener. The first five chapters are very science-heavy as they cover all the principles Prolog is built on. What follows are the twenty or so delightful, short, but on-subject chapters explaining the Prolog language in detail. I have a couple of chapters left to go through. I am looking forward to the compiler example from chapter 24.&lt;/p&gt;
+                    <description>&lt;p&gt;I&amp;rsquo;ve been working my way through &lt;em&gt;The Art of Prolog&lt;/em&gt;. The book is a fantastic eye-opener. The first five chapters are very science-heavy as they cover all Prolog principles. What follows are the twenty or so delightful, short, but on-subject chapters explaining the Prolog language in detail. I have a couple of chapters left to go through. I am looking forward to the compiler example from chapter 24.&lt;/p&gt;
+&lt;p&gt;However, I do have a couple of research problems to look at.&lt;/p&gt;
 &lt;div&gt;
     &lt;h2&gt;table of contents&lt;/h2&gt;
     &lt;nav id=&#34;TableOfContents&#34;&gt;
@@ -51,12 +52,13 @@
       &lt;/ol&gt;
     &lt;/li&gt;
     &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/#next-steps&#34;&gt;next steps&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/#database-yeah-no-thanks&#34;&gt;database? yeah, no, thanks&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/#scratching-the-itch&#34;&gt;scratching the itch&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
 &lt;/nav&gt;
 &lt;/div&gt;
 &lt;h2 id=&#34;on-swi-prolog&#34;&gt;on (SWI-)Prolog&lt;/h2&gt;
-&lt;p&gt;What strikes me when writing Prolog code: &lt;em&gt;what&lt;/em&gt;, not &lt;em&gt;how&lt;/em&gt;. Solving a Problem in Prolog puts the focus on data flow. A continuous data transformation. A Zen of thought process minted in composable predicates, which the Prolog VM uses to solve the problem on hand.&lt;/p&gt;
+&lt;p&gt;Before I jump into that, though, some thoughts on Prolog.&lt;/p&gt;
+&lt;p&gt;What strikes me when writing Prolog code: &lt;em&gt;what&lt;/em&gt;, not &lt;em&gt;how&lt;/em&gt;. Solving a Problem in Prolog puts the focus on data flow. A continuous data transformation. &lt;em&gt;The Zen&lt;/em&gt; of the thought process is minted in composable predicates, which the Prolog VM uses to solve the problem at hand.&lt;/p&gt;
 &lt;p&gt;I had such an &lt;em&gt;aha moment&lt;/em&gt; six years ago when I was learning Erlang. Bugs appear when the logic applied to the problem isn&amp;rsquo;t correct.&lt;/p&gt;
 &lt;p&gt;There are no loops, no syntactical conditionals, no return statements, and no state mutation. There is so little noise in the code. Individual predicates replacing traditional conditional branches from imperative languages make the reasoning about each branch easy to follow and test. The code is much more composable and ready to test in isolation. Now I remember why I enjoyed Erlang so much. There is one more language family  with such utility—everything Lisp, everything S-expressions.&lt;/p&gt;
 &lt;p&gt;Prolog is not your grandma&amp;rsquo;s programming language. Definitely not SWI-Prolog, a Prolog implementation actively developed since 1985. It&amp;rsquo;s a very modern platform for any task one can imagine having today.&lt;/p&gt;
@@ -80,7 +82,7 @@
 &lt;li&gt;Find a way to provide the type of fact to query for.&lt;/li&gt;
 &lt;li&gt;Or create a general fact container.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;It does not come as a surprise that both of those are an option. What is surprising, both are equally easy to implement.&lt;/p&gt;
+&lt;p&gt;Both are equally easy to implement, but there are significant differences in the user experience.&lt;/p&gt;
 &lt;h3 id=&#34;general-fact-container&#34;&gt;general fact container&lt;/h3&gt;
 &lt;p&gt;The inheritance resolution program requires something to resolve the parent object of an object with a given ID to traverse the inheritance tree. Given an ID, fetch the parent reference and use it further to seek a solution. Given:&lt;/p&gt;
 &lt;ul&gt;
@@ -293,17 +295,17 @@
 &lt;h2 id=&#34;next-steps&#34;&gt;next steps&lt;/h2&gt;
 &lt;p&gt;The immediate next step is to integrate this into the actual program so that I have a general inheritance API. The next problem is more interesting: the distribution of the individual facts close to the compute so that a small Prolog program can use a minimum necessary number of facts required to make a decision. The simplest way of doing it is to provide something similar to the Open Policy Agent bundles.&lt;/p&gt;
 &lt;p&gt;The second step is a little bit more mundane task to provide a trace facility to the user so that the user knows why permission is granted or denied. Similar to the Open Policy Agent playground trace feature, or the explanation API in Keto. A pure Prolog recipe exists in chapter 17 of &lt;em&gt;The Art of Prolog&lt;/em&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;database-yeah-no-thanks&#34;&gt;database? yeah, no, thanks&lt;/h2&gt;
-&lt;p&gt;Having solved this problem in OPA and Prolog, I&amp;rsquo;m pretty confident the permissions API does not need a database to work. Neither does one want a database for this because:&lt;/p&gt;
+&lt;h2 id=&#34;scratching-the-itch&#34;&gt;scratching the itch&lt;/h2&gt;
+&lt;p&gt;Having solved this problem in OPA and Prolog, I&amp;rsquo;m pretty confident the permissions API does not need a database to work. Neither does one want a database for this because:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A single-node RDBMS will be a single point of failure, always.&lt;/li&gt;
 &lt;li&gt;Building and operating a leader/follower RDBMS setup reliably is not easy.&lt;/li&gt;
 &lt;li&gt;A distributed RDBMS is a massive cost and operational factor.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;OPA is the best example of how to do this best. Rego is very lightweight. The OPA VM is embeddable and available in many programming languages as a library.&lt;/p&gt;
-&lt;p&gt;That makes it easy to move the compute very close to where the problem is, even into the actual application. Inside of the application, that&amp;rsquo;s where this journey started for me two years ago. I was trying to &lt;em&gt;scratch my own itch&lt;/em&gt;, which was to provide permissions API to Firebuild.&lt;/p&gt;
+&lt;p&gt;That makes it easy to move the compute very close to where the problem is, even into the actual application. Inside of the application, that&amp;rsquo;s where this journey started for me two years ago. I was trying to &lt;em&gt;scratch my itch&lt;/em&gt;, which was to provide permissions API to Firebuild. Today, I know I could have used OPA. But I now understand why that would have been the best choice back then.&lt;/p&gt;
 &lt;p&gt;The problem is not in querying for permissions, the problem is in bringing the facts to where the decision has to be made. The key to solving this in Prolog is sticking to standard Prolog and leveraging whatever implementation there exists for a programming language a developer is using for their application.&lt;/p&gt;
-&lt;p&gt;Or just use OPA.&lt;/p&gt;
+&lt;p&gt;Time to refocus and bring two years&amp;rsquo; worth of learnings together.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
