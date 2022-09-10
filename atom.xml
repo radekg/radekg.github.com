@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-09-11T01:01:39&#43;02:00</updated>
+    <updated>2022-09-11T01:08:22&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Zanzibar with Prolog, week 2</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/" />
             <id>https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/</id>
-            <updated>2022-09-11T01:00:23&#43;02:00</updated>
+            <updated>2022-09-11T01:06:03&#43;02:00</updated>
             <published>2022-09-10T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -75,7 +75,7 @@
 &lt;/ul&gt;
 &lt;p&gt;Both are equally easy to implement, but there are significant differences in the user experience.&lt;/p&gt;
 &lt;h3 id=&#34;general-fact-container&#34;&gt;general fact container&lt;/h3&gt;
-&lt;p&gt;The inheritance resolution program requires something to resolve the parent object of an object with a given ID to traverse the inheritance tree. Given an ID, fetch the parent reference and use it further to seek a solution. Given:&lt;/p&gt;
+&lt;p&gt;The inheritance resolution program requires something to resolve the parent of an object with a given ID to traverse the inheritance tree. Given an ID, fetch the parent reference and use it further to seek a solution. Given:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A needle name in form of an atom&lt;/li&gt;
 &lt;li&gt;A compound container term.&lt;/li&gt;

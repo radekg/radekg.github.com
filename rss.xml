@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sun, 11 Sep 2022 01:01:39 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 11 Sep 2022 01:08:23 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -84,7 +84,7 @@
 &lt;/ul&gt;
 &lt;p&gt;Both are equally easy to implement, but there are significant differences in the user experience.&lt;/p&gt;
 &lt;h3 id=&#34;general-fact-container&#34;&gt;general fact container&lt;/h3&gt;
-&lt;p&gt;The inheritance resolution program requires something to resolve the parent object of an object with a given ID to traverse the inheritance tree. Given an ID, fetch the parent reference and use it further to seek a solution. Given:&lt;/p&gt;
+&lt;p&gt;The inheritance resolution program requires something to resolve the parent of an object with a given ID to traverse the inheritance tree. Given an ID, fetch the parent reference and use it further to seek a solution. Given:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A needle name in form of an atom&lt;/li&gt;
 &lt;li&gt;A compound container term.&lt;/li&gt;
