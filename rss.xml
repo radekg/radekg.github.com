@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Sat, 22 Oct 2022 23:43:26 &#43;0200</lastBuildDate>
+        <lastBuildDate>Sun, 23 Oct 2022 01:04:32 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -64,7 +64,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Based on those points, I have implemented a tuple parser and a namespace configuration parser with a lexer. The output of a lexer could be used to implement the API.&lt;/p&gt;
+&lt;p&gt;Based on those points, I have implemented a tuple parser and a namespace configuration parser with a lexer. The output of the parser could be used to implement the API.&lt;/p&gt;
 &lt;p&gt;Working on the lexer, I have realized that pursuing this project further does not make sense. There are many types of applications: embedded, desktop, server-side microservices, distributed permissions API, sharded systems, geo-sensitive systems, and more.&lt;/p&gt;
 &lt;p&gt;A cliché: for a permissions API, there&amp;rsquo;s no &lt;em&gt;one size fits all&lt;/em&gt;.&lt;/p&gt;
 &lt;ul&gt;

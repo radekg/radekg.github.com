@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-10-22T23:43:26&#43;02:00</updated>
+    <updated>2022-10-23T01:04:32&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Zanzibar with Prolog - summary</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/" />
             <id>https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/</id>
-            <updated>2022-10-22T23:41:57&#43;02:00</updated>
+            <updated>2022-10-23T01:04:00&#43;02:00</updated>
             <published>2022-10-22T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -55,7 +55,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Based on those points, I have implemented a tuple parser and a namespace configuration parser with a lexer. The output of a lexer could be used to implement the API.&lt;/p&gt;
+&lt;p&gt;Based on those points, I have implemented a tuple parser and a namespace configuration parser with a lexer. The output of the parser could be used to implement the API.&lt;/p&gt;
 &lt;p&gt;Working on the lexer, I have realized that pursuing this project further does not make sense. There are many types of applications: embedded, desktop, server-side microservices, distributed permissions API, sharded systems, geo-sensitive systems, and more.&lt;/p&gt;
 &lt;p&gt;A cliché: for a permissions API, there&amp;rsquo;s no &lt;em&gt;one size fits all&lt;/em&gt;.&lt;/p&gt;
 &lt;ul&gt;
