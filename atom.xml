@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-09-11T01:08:22&#43;02:00</updated>
+    <updated>2022-10-22T23:43:26&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -16,6 +16,87 @@
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
     <generator uri="https://gohugo.io/" version="0.101.0">Hugo</generator>
+        <entry>
+            <title type="text">Zanzibar with Prolog - summary</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/" />
+            <id>https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/</id>
+            <updated>2022-10-22T23:41:57&#43;02:00</updated>
+            <published>2022-10-22T00:00:00&#43;02:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">Hanging the towel on the Zanzibar work</summary>
+            
+                <content type="html">&lt;p&gt;Up until about a month ago, my understanding of how Zanzibar was supposed to work was wrong. Some quick notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I completely misunderstood Section 2.3. of the whitepaper. The pseudo-code notation is, in fact, a namespace configuration language.&lt;/li&gt;
+&lt;li&gt;Zanzibar tuples aren&amp;rsquo;t enough to infer relationships in a Zanzibar-style system.&lt;/li&gt;
+&lt;li&gt;This clarifies some of my misconceptions related to the implementation of unions, exclusions, and inheritance.
+&lt;ul&gt;
+&lt;li&gt;It was clear in my previous posts that all my implementations missed the ability to define such relations.&lt;/li&gt;
+&lt;li&gt;Tuples are a query language.&lt;/li&gt;
+&lt;li&gt;The namespace configuration defines said relations.&lt;/li&gt;
+&lt;li&gt;A configuration consists of a set of relations.&lt;/li&gt;
+&lt;li&gt;A relation can define a set operation over user sets.
+&lt;ul&gt;
+&lt;li&gt;An operation is usually one of &lt;em&gt;union&lt;/em&gt;, &lt;em&gt;exclusion&lt;/em&gt;, or &lt;em&gt;intersection&lt;/em&gt;. Other operation types can be defined as needed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;User sets to apply the operation are defined via the child element.&lt;/li&gt;
+&lt;li&gt;There are three child types:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;_this()&lt;/code&gt;: implies any user in the direct relationship.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;computed_userset&lt;/code&gt;: any computed user referenced via another relationship.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tuple_to_userset&lt;/code&gt;: a computed user set of a relation defined by another &lt;em&gt;tupleset&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Based on those points, I have implemented a tuple parser and a namespace configuration parser with a lexer. The output of a lexer could be used to implement the API.&lt;/p&gt;
+&lt;p&gt;Working on the lexer, I have realized that pursuing this project further does not make sense. There are many types of applications: embedded, desktop, server-side microservices, distributed permissions API, sharded systems, geo-sensitive systems, and more.&lt;/p&gt;
+&lt;p&gt;A cliché: for a permissions API, there&amp;rsquo;s no &lt;em&gt;one size fits all&lt;/em&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Almost every application is unique in detail.&lt;/li&gt;
+&lt;li&gt;Almost every use case is unique.&lt;/li&gt;
+&lt;li&gt;There&amp;rsquo;s always an implementation detail preventing one from using an upstream library, or a project, without the necessity for minor adjustments to make it fit.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Many applications require the decision engine right at the edge close to the code where the decision has to be made. Thus negating a centralized API. OPA with Rego is the thing to use. No need to reinvent the wheel. Period. Full stop.&lt;/p&gt;
+&lt;p&gt;I said this before:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The challenge isn&amp;rsquo;t the API or general-purpose query mechanism. The challenge is the distribution of the facts used to make the decision.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Hence delivering the functional Zanzibar namespace configuration parser and lexer is an excellent moment to hang the towel. &lt;a href=&#34;https://github.com/radekg/zanzibar-prolog&#34;&gt;The code is available on GitHub&lt;/a&gt;.&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/prolog/" term="prolog" label="prolog" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/zanzibar/" term="zanzibar" label="zanzibar" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Zanzibar with Prolog, week 2</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/" />
