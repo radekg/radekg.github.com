@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2022-10-23T01:04:32&#43;02:00</updated>
+    <updated>2022-11-01T13:07:56&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -15,7 +15,93 @@
                 <email>radek@gruchalski.com</email>
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
-    <generator uri="https://gohugo.io/" version="0.101.0">Hugo</generator>
+    <generator uri="https://gohugo.io/" version="0.104.3">Hugo</generator>
+        <entry>
+            <title type="text">What does not scale in software</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/" />
+            <id>https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/</id>
+            <updated>2022-11-01T13:07:25&#43;01:00</updated>
+            <published>2022-11-01T00:00:00&#43;02:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">Regardless of the technology, most general-purpose software is easy.
+There&amp;rsquo;s a set of requirements. Someone implements said requirements. Code gets tested, problems are fixed, and code issues are resolved. Code is promoted to production. New requirements come in, and the process repeats. Dependencies change.</summary>
+            
+                <content type="html">&lt;p&gt;Regardless of the technology, most general-purpose software is easy.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;There&amp;rsquo;s a set of requirements.&lt;/li&gt;
+&lt;li&gt;Someone implements said requirements.&lt;/li&gt;
+&lt;li&gt;Code gets tested, problems are fixed, and code issues are resolved.&lt;/li&gt;
+&lt;li&gt;Code is promoted to production.&lt;/li&gt;
+&lt;li&gt;New requirements come in, and the process repeats.&lt;/li&gt;
+&lt;li&gt;Dependencies change. Someone tests them and releases a new version.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Like anything else critical to the business, software needs to be monitored. Every aspect from the list above can be streamlined and/or automated.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open Source software and libraries: use the global brain. Someone already had that problem.&lt;br/&gt;&lt;strong&gt;Be a good citizen, open source your code, and contribute back wherever possible, please.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Unit and integration tests: clicking through test scenarios does not scale.&lt;br/&gt;Someone is paid to sit there and click through tests. One person can click through one scenario at a time. Automate that process. Have thousands of virtual persons doing it at a whim.&lt;/li&gt;
+&lt;li&gt;CI/CD: automated upgrades and production promotion: once the code is automatically tested, there&amp;rsquo;s nothing preventing automatic production code release. There are exceptions to this rule, of course. YMMV.&lt;/li&gt;
+&lt;li&gt;Automatic monitoring: released software adheres to specific KPIs. Any non-conformity results in automatic rollback or notification to the operation team.&lt;/li&gt;
+&lt;li&gt;Rollbacks can be automated.&lt;/li&gt;
+&lt;li&gt;Backups can be automated.&lt;/li&gt;
+&lt;li&gt;Backup restore can be automated, but human supervision is advised.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The software does not live in isolation. Software is constrained by technical, societal, and political issues.&lt;/p&gt;
+&lt;p&gt;Technical ones usually do not go beyond some head-scratching. Maybe there&amp;rsquo;s VPN, or maybe there&amp;rsquo;s a need for a proxy. A wire format has to be converted to another one. Maybe there&amp;rsquo;s very little compute available, or storage can be done only via some third-party object storage. We can generalize: in software, there are no unsolvable technical issues.&lt;/p&gt;
+&lt;p&gt;Societal and political problems are tougher to solve because human interaction is involved, often centered around emotional matters.&lt;/p&gt;
+&lt;p&gt;But two things do not scale for sure:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Meetings: once someone attends a meeting, they&amp;rsquo;re bound to commit their full attention. They cannot do anything else at that time. Is the meeting necessary?&lt;/li&gt;
+&lt;li&gt;Custom code: if the global brain does not have the answer, someone has to write the code. A pair of hands can only crank out so many lines per day. Make it count and avoid politics. A brain of a developer is focused on solving a problem. Any interruption derails the thought process. The longer the interruption, the more difficult it is to get the thought process back on track. Political interruptions cause uncertainty, and the focus shifts to a different track, the one the developer is often not accustomed to dealing with.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Solutions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Prefer asynchronous communication with continuous documentation. Good knowledge is documented, not passed on by word.
+&lt;ul&gt;
+&lt;li&gt;Passing on knowledge by word promotes cliques.&lt;/li&gt;
+&lt;li&gt;Cliques lead to office politics.&lt;/li&gt;
+&lt;li&gt;If the meeting must be:
+&lt;ul&gt;
+&lt;li&gt;Announce before what&amp;rsquo;s the expected outcome. What is the meeting about?&lt;/li&gt;
+&lt;li&gt;Document the outcome: take minutes.&lt;/li&gt;
+&lt;li&gt;Allow healthy deviation from the beaten path but identify side-tracks quickly, and move them offline.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Remove political obstacles. Developers are paid to write code, not to participate in the power struggle theatre.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/software/" term="software" label="software" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/thoughts/" term="thoughts" label="thoughts" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Zanzibar with Prolog - summary</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/" />

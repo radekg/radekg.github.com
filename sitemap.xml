@@ -3,15 +3,24 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2022-10-23T01:04:00+02:00</lastmod>
+    <lastmod>2022-11-01T13:07:25+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2022-10-23T01:04:00+02:00</lastmod>
+    <lastmod>2022-11-01T13:07:25+01:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/tags/prolog/</loc>
-    <lastmod>2022-10-23T01:04:00+02:00</lastmod>
+    <loc>https://gruchalski.com/tags/software/</loc>
+    <lastmod>2022-11-01T13:07:25+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2022-11-01T13:07:25+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/thoughts/</loc>
+    <lastmod>2022-11-01T13:07:25+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/</loc>
+    <lastmod>2022-11-01T13:07:25+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/prolog/</loc>
     <lastmod>2022-10-23T01:04:00+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/zanzibar/</loc>
