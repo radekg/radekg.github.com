@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2023-02-06T00:52:56&#43;01:00</updated>
+    <updated>2023-07-05T00:11:16&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -15,12 +15,12 @@
                 <email>radek@gruchalski.com</email>
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
-    <generator uri="https://gohugo.io/" version="0.104.3">Hugo</generator>
+    <generator uri="https://gohugo.io/" version="0.115.1">Hugo</generator>
         <entry>
             <title type="text">What does not scale in software</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/" />
             <id>https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/</id>
-            <updated>2022-11-01T13:07:25&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-11-01T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -106,7 +106,7 @@ There&amp;rsquo;s a set of requirements. Someone implements said requirements. C
             <title type="text">Zanzibar with Prolog - summary</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/" />
             <id>https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/</id>
-            <updated>2022-10-23T01:04:00&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-10-22T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -187,7 +187,7 @@ There&amp;rsquo;s a set of requirements. Someone implements said requirements. C
             <title type="text">Zanzibar with Prolog, week 2</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/" />
             <id>https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/</id>
-            <updated>2022-09-11T01:06:03&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-09-10T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -522,7 +522,7 @@ There&amp;rsquo;s a set of requirements. Someone implements said requirements. C
             <title type="text">Zanzibar-style ACLs with Prolog</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/" />
             <id>https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/</id>
-            <updated>2022-09-04T16:41:30&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-09-03T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -1340,7 +1340,7 @@ end if
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-prolog&#34; data-lang=&#34;prolog&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;H&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:-&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;B&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;₁&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;...,&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;Bₙ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-prolog&#34; data-lang=&#34;prolog&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;H&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:-&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;B&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;₁&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;...,&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;B&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;ₙ.&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Which means:&lt;/p&gt;
@@ -1423,7 +1423,7 @@ end if
             <title type="text">I enjoyed modern Fortran</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/" />
             <id>https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/</id>
-            <updated>2022-08-28T16:51:49&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-08-28T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -1544,7 +1544,7 @@ end if
             <title type="text">Learning Rust</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-08-20-learning-rust/" />
             <id>https://gruchalski.com/posts/2022-08-20-learning-rust/</id>
-            <updated>2022-08-20T22:11:53&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-08-20T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -1652,7 +1652,7 @@ end if
             <title type="text">Istio canary upgrades</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-06-19-istio-canary-upgrades/" />
             <id>https://gruchalski.com/posts/2022-06-19-istio-canary-upgrades/</id>
-            <updated>2022-06-20T00:00:48&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-06-19T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -2039,7 +2039,7 @@ istio-sidecar-injector-1-14-1   2          5m5s
             <title type="text">Streaming Keycloak events</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/" />
             <id>https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/</id>
-            <updated>2022-06-18T14:30:54&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-06-18T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -2200,7 +2200,7 @@ istio-sidecar-injector-1-14-1   2          5m5s
             <title type="text">Zanzibar-style ACLs with OPA Rego</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/" />
             <id>https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/</id>
-            <updated>2022-09-03T23:41:50&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-05-07T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -2924,7 +2924,7 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
             <title type="text">Private go modules with multiple git identities</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-04-28-private-go-modules-with-multiple-git-identities/" />
             <id>https://gruchalski.com/posts/2022-04-28-private-go-modules-with-multiple-git-identities/</id>
-            <updated>2022-05-09T10:28:12&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-04-28T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -3073,7 +3073,7 @@ require (
             <title type="text">OPA: logical or conditions</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/" />
             <id>https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/</id>
-            <updated>2022-04-28T01:24:01&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-04-27T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -3440,7 +3440,7 @@ require (
             <title type="text">YugabyteDB CDC SDK beta, a high level overview</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/" />
             <id>https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-03-19T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -4582,7 +4582,7 @@ yb-tserver-shared-3    | libc++abi: terminating with uncaught exception of type 
             <title type="text">YugabyteDB change data capture</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/" />
             <id>https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-02-23T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -5754,7 +5754,7 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
             <title type="text">Identifying Postgres features unsupported in YugabyteDB</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/" />
             <id>https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-02-21T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -5900,13 +5900,13 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;13d12
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 			| CreateMatViewStmt { parser_ybc_not_support(@1, &amp;#34;This statement&amp;#34;); }
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;23d21
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 			| RefreshMatViewStmt { parser_ybc_not_support(@1, &amp;#34;This statement&amp;#34;); }
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;44d41
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					parser_ybc_not_support(@1, &amp;#34;DROP MATERIALIZED VIEW&amp;#34;);
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;13d12
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 			| CreateMatViewStmt { parser_ybc_not_support(@1, &amp;#34;This statement&amp;#34;); }
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gu&#34;&gt;23d21
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 			| RefreshMatViewStmt { parser_ybc_not_support(@1, &amp;#34;This statement&amp;#34;); }
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gu&#34;&gt;44d41
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					parser_ybc_not_support(@1, &amp;#34;DROP MATERIALIZED VIEW&amp;#34;);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;This indicates that the &lt;em&gt;2.11.2&lt;/em&gt; version of YugabyteDB added support for &lt;code&gt;CREATE/REFRESH/DROP MATERIALIZED VIEW&lt;/code&gt; statements.&lt;/p&gt;
 &lt;p&gt;Indeed, if we look at the &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db/releases/tag/v2.11.2&#34;&gt;release notes for 2.11.2&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;, we will find the following line: &lt;code&gt;[YSQL] Add support for CREATE, DROP, and REFRESH MATERIALIZED VIEW&lt;/code&gt;.&lt;/p&gt;
@@ -5936,15 +5936,15 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;9d8
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER INDEX&amp;#34;, 1130);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;60,62d58
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;CREATE MATERIALIZED VIEW&amp;#34;, 1131);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;CREATE MATERIALIZED VIEW&amp;#34;, 1131);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;REFRESH MATERIALIZED VIEW&amp;#34;, 1131);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;97d92
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893);
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;9d8
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER INDEX&amp;#34;, 1130);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gu&#34;&gt;60,62d58
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;CREATE MATERIALIZED VIEW&amp;#34;, 1131);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;CREATE MATERIALIZED VIEW&amp;#34;, 1131);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;REFRESH MATERIALIZED VIEW&amp;#34;, 1131);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gu&#34;&gt;97d92
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;There it is. Next to already established materialized views features, we can find new &lt;code&gt;ALTER INDEX&lt;/code&gt; and &lt;code&gt;ALTER TYPE&lt;/code&gt;. Let&amp;rsquo;s gain a little bit more context into, say, &lt;code&gt;ALTER TYPE&lt;/code&gt; change.&lt;/p&gt;
 &lt;p&gt;We know that the feature has been added in &lt;em&gt;2.11.2&lt;/em&gt;, those lines do not exist in the output for &lt;em&gt;2.11.2&lt;/em&gt; but exist in the output for &lt;em&gt;2.11.1&lt;/em&gt;. So we can do:&lt;/p&gt;
@@ -5977,15 +5977,15 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;11,17d10
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 			| ALTER TYPE_P any_name RENAME TO name
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 				{
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; --
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					n-&amp;gt;missing_ok = false;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 					$$ = (Node *)n;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt; 				}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;11,17d10
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 			| ALTER TYPE_P any_name RENAME TO name
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 				{
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					parser_ybc_signal_unsupported(@1, &amp;#34;ALTER TYPE&amp;#34;, 1893);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; --
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					n-&amp;gt;missing_ok = false;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 					$$ = (Node *)n;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&amp;lt; 				}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;For some of those statements, it might be necessary to adjust the value of &lt;code&gt;-B&lt;/code&gt;. In this case &lt;code&gt;5&lt;/code&gt; was enough, we can see that the &lt;code&gt;parser_ybc_signal_unsupported&lt;/code&gt; for &lt;code&gt;ALTER TYPE_P any_name RENAME TO name&lt;/code&gt; disappeared from the grammar file in &lt;em&gt;2.11.2&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;With little to no work, it&amp;rsquo;s possible to quickly compare the level of support for all three definitions across whatever arbitrary versions we are interested in.&lt;/p&gt;
@@ -6037,7 +6037,7 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
             <title type="text">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" />
             <id>https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</id>
-            <updated>2022-06-18T12:22:07&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-02-20T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -6510,7 +6510,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             <title type="text">YugabyteDB Go RPC client</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/" />
             <id>https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-02-16T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -6659,7 +6659,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Maybe you need to adjust the master addresses list in line &lt;code&gt;20&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2022-02-16/yugabytedb-go-rpc-client.jpg&#34; alt=&#34;but wait, there&amp;amp;rsquo;s more&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2022-02-16/yugabytedb-go-rpc-client.jpg&#34; alt=&#34;but wait, there&amp;rsquo;s more&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The client comes with &lt;code&gt;github.com/radekg/yugabyte-db-go-client/testutils/master&lt;/code&gt; and &lt;code&gt;github.com/radekg/yugabyte-db-go-client/testutils/tserver&lt;/code&gt; packages. Those contain a bunch of &lt;code&gt;dockertest&lt;/code&gt; based utilities for writing tests using containers. Simply write your integration test and have a cluster right there, when running &lt;code&gt;go test&lt;/code&gt; (use some higher timeout, these need some time for the cluster to spin up).&lt;/p&gt;
 &lt;p&gt;For reference:&lt;/p&gt;
 &lt;ul&gt;
@@ -6736,7 +6736,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             <title type="text">A brief look at YugabyteDB RPC API</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/" />
             <id>https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2022-02-12T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -7182,7 +7182,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             <title type="text">YugabyteDB: the book</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/" />
             <id>https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-11-11T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -7302,7 +7302,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             <title type="text">YugabyteDB: Postgres foreign data wrapper</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/" />
             <id>https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-11-08T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -7663,7 +7663,7 @@ tenant2db=&amp;gt;
             <title type="text">Postgres in Docker with persistent storage</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/" />
             <id>https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</id>
-            <updated>2021-07-12T22:05:17&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-07-12T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -7795,7 +7795,7 @@ tenant2db=&amp;gt;
             <title type="text">YugabyteDB Docker image</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/" />
             <id>https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-06-15T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -7920,7 +7920,7 @@ tenant2db=&amp;gt;
             <title type="text">Extending Keycloak—required actions: user must be approved</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/" />
             <id>https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/</id>
-            <updated>2021-06-16T00:28:17&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-06-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -8176,7 +8176,7 @@ One of my previous post, Introduction to Keycloak Authorization Services1, gets 
             <title type="text">Keycloak with TLS in Docker compose behind Envoy proxy</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/" />
             <id>https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-06-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -8632,7 +8632,7 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
             <title type="text">Let’s Encrypt certificates for local development</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/" />
             <id>https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</id>
-            <updated>2021-06-04T17:50:44&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-06-04T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -8788,7 +8788,7 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
             <title type="text">On YugabyteDB</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-05-30-on-yugabytedb/" />
             <id>https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</id>
-            <updated>2022-03-22T01:28:59&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-05-30T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -8890,7 +8890,7 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
             <title type="text">Do you really need a database for that Ory stack?</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/" />
             <id>https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</id>
-            <updated>2021-06-16T00:28:17&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-05-23T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -9061,7 +9061,7 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
             <title type="text">Figuring out Ory Oathkeeper</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/" />
             <id>https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</id>
-            <updated>2021-06-16T00:28:17&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-05-20T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -9429,22 +9429,43 @@ Accept: application/json
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;and would normally be placed behind a reverse proxy. For example, the following Nginx configuration could take advantage of this:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt;http {
-    #...
-    server {
-        #...
-        location /private/ {
-            auth_request /auth;
-            auth_request_set $auth_status $upstream_status;
-        }
-        location = /auth {
-            internal;
-            proxy_pass http://oathkeeper:4456/decisions$request_uri;
-            #...
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;summary&#34;&gt;summary&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;http&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c&#34;&gt;#...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;server&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c&#34;&gt;#...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;nv&#34;&gt;location&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;private&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;/&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nv&#34;&gt;auth_request&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;auth&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nv&#34;&gt;auth_request_set&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;auth_status&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;upstream_status&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nv&#34;&gt;location&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;auth&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nv&#34;&gt;internal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nv&#34;&gt;proxy_pass&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;http&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;://&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;oathkeeper&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;4456&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;decisions&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;request_uri&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;c&#34;&gt;#...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;summary&#34;&gt;summary&lt;/h2&gt;
 &lt;p&gt;This was a quick, 10 minute-like, introduction into Oathkeeper. A brain dump of sorts.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;m not sure if I&amp;rsquo;d ever use it as a pure proxy but the decision API looks very neat. Putting it behind Traefik would be an awesome feat but first investigations imply that a custom &lt;em&gt;ForwardAuth&lt;/em&gt; plugin would be required.&lt;/p&gt;
 &lt;p&gt;Traefik would be an awesome choice because of automatic ACME and the ability to use a single &lt;em&gt;ForwardAuth&lt;/em&gt; to serve multiple sites via single Oathkeeper.&lt;/p&gt;
@@ -9513,7 +9534,7 @@ Accept: application/json
             <title type="text">Keto RBAC - listing roles of a user</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/" />
             <id>https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/</id>
-            <updated>2021-06-16T00:28:17&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-05-17T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -9905,7 +9926,7 @@ fast-dev-director: {&amp;#34;allowed&amp;#34;:true}
             <title type="text">RBAC with Ory Keto</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/" />
             <id>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</id>
-            <updated>2021-06-16T00:28:17&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-05-15T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -10566,7 +10587,7 @@ dev-director#member@Bender
             <title type="text">On software testing with dockertest</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/" />
             <id>https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/</id>
-            <updated>2021-04-24T20:34:29&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-04-24T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -10778,7 +10799,7 @@ dev-director#member@Bender
             <title type="text">Launching Consul cluster with firebuild and other news</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/" />
             <id>https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/</id>
-            <updated>2021-04-14T23:41:35&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-04-14T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -11030,7 +11051,7 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
             <title type="text">Looking at Zanzibar through ORY Keto</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/" />
             <id>https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/</id>
-            <updated>2021-06-16T01:13:30&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-04-11T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -11652,7 +11673,7 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
             <title type="text">ORY reference Docker Compose and thoughts on the platform</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/" />
             <id>https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/</id>
-            <updated>2021-04-10T22:03:28&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-04-10T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -11804,7 +11825,7 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
             <title type="text">Apache Mesos reaches end of life</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/" />
             <id>https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/</id>
-            <updated>2021-04-10T09:03:59&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-04-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -11866,7 +11887,7 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
             <title type="text">On golang os.Expand and os.ExpandEnv</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/" />
             <id>https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</id>
-            <updated>2021-04-06T18:46:38&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-04-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -12291,7 +12312,7 @@ esac
             <title type="text">I hacked infinite retention into my open source Kafka</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/" />
             <id>https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/</id>
-            <updated>2021-04-29T19:10:25&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-04-02T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -12425,7 +12446,7 @@ esac
             <title type="text">Kafka 2.8 is out in the wild and does not need ZooKeeper anymore</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/" />
             <id>https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</id>
-            <updated>2021-04-01T00:41:30&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-03-31T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -12555,7 +12576,7 @@ esac
             <title type="text">firebuild rootfs - gRPC with mTLS</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/" />
             <id>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</id>
-            <updated>2021-03-28T03:01:51&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-03-28T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -12791,7 +12812,7 @@ esac
             <title type="text">Introducing firebuild</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-03-23-introducing-firebuild/" />
             <id>https://gruchalski.com/posts/2021-03-23-introducing-firebuild/</id>
-            <updated>2021-04-29T19:10:25&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-03-23T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -13271,7 +13292,7 @@ esac
             <title type="text">firebuild prerequisites</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/" />
             <id>https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/</id>
-            <updated>2021-03-23T20:09:01&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-03-22T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -13508,7 +13529,7 @@ esac
             <title type="text">Thoughts on creating VMMs from Docker images</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/" />
             <id>https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/</id>
-            <updated>2021-03-02T22:22:49&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-03-02T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -13638,7 +13659,7 @@ esac
             <title type="text">The jailer</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-19-the-jailer/" />
             <id>https://gruchalski.com/posts/2021-02-19-the-jailer/</id>
-            <updated>2021-02-19T01:07:06&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-19T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -13814,7 +13835,7 @@ esac
             <title type="text">It’s all about the the Iface name</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/" />
             <id>https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/</id>
-            <updated>2021-02-18T21:07:45&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-18T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -13906,7 +13927,7 @@ esac
             <title type="text">Bridging the Firecracker network gap</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/" />
             <id>https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/</id>
-            <updated>2021-02-18T02:27:37&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-17T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -14157,7 +14178,7 @@ exit status 2: iptables v1.6.1: Couldn&amp;#39;t load target
             <title type="text">Live resize Firecracker VMM drive</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/" />
             <id>https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/</id>
-            <updated>2021-02-16T20:31:47&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-16T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -14353,7 +14374,7 @@ Connection: keep-alive
             <title type="text">Firecracker VMM with additional disks</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/" />
             <id>https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/</id>
-            <updated>2021-02-14T17:15:16&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-14T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -14531,7 +14552,7 @@ drwx------    2 root     root         12288 Feb 14 15:07 lost+found
             <title type="text">Launching Alpine Linux on Firecracker like a boss</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/" />
             <id>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</id>
-            <updated>2021-02-17T22:44:47&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-13T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -15238,7 +15259,7 @@ Connection to 172.17.0.42 closed.
             <title type="text">My golang modules live in Athens</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/" />
             <id>https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/</id>
-            <updated>2021-02-10T21:42:44&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-10T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -15304,7 +15325,7 @@ Connection to 172.17.0.42 closed.
             <title type="text">Vault on Firecracker with CNI plugins and Nomad</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/" />
             <id>https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/</id>
-            <updated>2021-02-09T20:43:25&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-07T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -15854,7 +15875,7 @@ Connection to 172.17.0.42 closed.
             <title type="text">Taking Firecracker for a spin</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" />
             <id>https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/</id>
-            <updated>2021-02-07T15:24:36&#43;01:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2021-02-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -16022,7 +16043,7 @@ Connection to 172.17.0.42 closed.
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id=&#34;configure-the-kernel&#34;&gt;Configure the kernel&lt;/h2&gt;
 &lt;p&gt;So, I&amp;rsquo;m not really fluent at this and&amp;hellip;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2021-02-06-taking-firecracker-for-a-spin/no-idea-what-im-doing.png&#34; alt=&#34;I have no idea what I&amp;amp;rsquo;m doing&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://gruchalski.com/assets/posts/2021-02-06-taking-firecracker-for-a-spin/no-idea-what-im-doing.png&#34; alt=&#34;I have no idea what I&amp;rsquo;m doing&#34;&gt;&lt;/p&gt;
 &lt;p&gt;This is the first time I&amp;rsquo;m building the kernel but fortunately &lt;a href=&#34;https://github.com/firecracker-microvm/firecracker/blob/master/docs/rootfs-and-kernel-setup.md&#34;&gt;one of the the Firecracker getting started documents&lt;/a&gt; points to a &lt;a href=&#34;https://github.com/firecracker-microvm/firecracker/blob/master/resources/microvm-kernel-x86_64.config&#34;&gt;recommended kernel config&lt;/a&gt;. What&amp;rsquo;s less fortunate, the document talks about kernel &lt;code&gt;v4.20&lt;/code&gt; and the config is for &lt;code&gt;v4.14.174&lt;/code&gt;. I&amp;rsquo;ve downloaded the file and placed it in &lt;code&gt;/firecracker/linux.git/.config&lt;/code&gt; anyway but when I tried building the &lt;code&gt;v5.8&lt;/code&gt; kernel, &lt;code&gt;make&lt;/code&gt; was insisting on recreating the config and asked me a lot of questions about what I want.&lt;/p&gt;
 &lt;p&gt;I don&amp;rsquo;t know what I want and I don&amp;rsquo;t know if &lt;code&gt;make&lt;/code&gt; took the values from the old &lt;code&gt;.config&lt;/code&gt; so I basically held &lt;code&gt;Enter&lt;/code&gt; down for a bit. &lt;code&gt;make&lt;/code&gt; moved my &lt;code&gt;.config&lt;/code&gt; to &lt;code&gt;.config.old&lt;/code&gt; and gave me a new &lt;code&gt;.config&lt;/code&gt; file for &lt;code&gt;v5.8&lt;/code&gt; kernel. I took the new generated file and compared it with the original &lt;code&gt;v4.14.174&lt;/code&gt; config.&lt;/p&gt;
 &lt;p&gt;These files have few thousand lines so I wrote a program in Golang which loads both versions and compares the values.&lt;/p&gt;
@@ -16581,7 +16602,7 @@ Connection to 172.17.0.42 closed.
             <title type="text">Keycloak Authorization Services - RPT, permissions or a decision only</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/" />
             <id>https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/</id>
-            <updated>2022-05-09T10:28:12&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2020-09-16T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -16931,7 +16952,7 @@ Connection to 172.17.0.42 closed.
             <title type="text">Authenticate to private JFrog npm registry</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/" />
             <id>https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/</id>
-            <updated>2020-09-09T22:31:53&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2020-09-09T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -17011,7 +17032,7 @@ npm ERR!     /Users/rad/.npm/_logs/...Z-debug.log
             <title type="text">Multi-tenant Vault PKI with custom root PEM bundles</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/" />
             <id>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</id>
-            <updated>2020-09-09T23:10:15&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2020-09-09T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -18438,7 +18459,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
             <title type="text">Certificate Authority is not Voodoo</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/" />
             <id>https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</id>
-            <updated>2020-09-07T17:52:09&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2020-09-07T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -18555,7 +18576,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
             <title type="text">Keycloak Authorization Services - retrieving the decision only</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/" />
             <id>https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</id>
-            <updated>2022-05-09T10:28:12&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2020-09-06T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -18730,7 +18751,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
             <title type="text">Introduction to Keycloak Authorization Services</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/" />
             <id>https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/</id>
-            <updated>2022-09-04T15:26:50&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2020-09-05T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -19827,7 +19848,7 @@ It enables a resource owner to control the authorization of data sharing and oth
             <title type="text">Keycloak With Docker Compose</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/" />
             <id>https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/</id>
-            <updated>2021-06-16T00:28:17&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2020-09-03T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20019,7 +20040,7 @@ POSTGRESQL_DB=keycloak
             <title type="text">Publish to Maven Central via Sonatype with SBT</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/" />
             <id>https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/</id>
-            <updated>2020-09-03T02:05:15&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2017-01-31T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20323,7 +20344,7 @@ $ sbt ++$SCALA_VERSION -Dscala.version=$SCALA_VERSION publishSigned
             <title type="text">The case for Kafka cold storage</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/" />
             <id>https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/</id>
-            <updated>2021-04-29T19:10:25&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2016-05-08T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20399,7 +20420,7 @@ $ sbt ++$SCALA_VERSION -Dscala.version=$SCALA_VERSION publishSigned
             <title type="text">Apache Spark on Mesos with Docker bridge networking</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/" />
             <id>https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/</id>
-            <updated>2020-09-03T13:57:24&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2015-11-23T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20570,7 +20591,7 @@ git apply path/to/${SPARK_VERSION}.patch
             <title type="text">Gossiperl at EUC 2015 and next steps</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/" />
             <id>https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/</id>
-            <updated>2020-09-03T02:04:51&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2015-06-17T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20641,7 +20662,7 @@ git apply path/to/${SPARK_VERSION}.patch
             <title type="text">Control Keynote presentation with your mobile browser</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/" />
             <id>https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/</id>
-            <updated>2020-09-03T02:04:38&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2015-05-11T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20707,7 +20728,7 @@ git apply path/to/${SPARK_VERSION}.patch
             <title type="text">Crowd sourced unit testing / CI</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/" />
             <id>https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/</id>
-            <updated>2022-05-09T10:28:12&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2015-04-21T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20741,7 +20762,7 @@ git apply path/to/${SPARK_VERSION}.patch
             <title type="text">State of gossiperl and some JavaScript Thrift goodies</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2015-01-05-state-of-gossiperl-and-some-javascript-thrift-goodies/" />
             <id>https://gruchalski.com/posts/2015-01-05-state-of-gossiperl-and-some-javascript-thrift-goodies/</id>
-            <updated>2020-09-03T02:04:12&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2015-01-05T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20805,7 +20826,7 @@ git apply path/to/${SPARK_VERSION}.patch
             <title type="text">Gossiperl gossip middleware in Erlang</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/" />
             <id>https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/</id>
-            <updated>2022-05-09T10:28:12&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2014-12-09T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -20880,7 +20901,7 @@ Main intent was to create a common communication middleware enabled over gossip 
             <title type="text">Apache Thrift via UDP in Erlang</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/" />
             <id>https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/</id>
-            <updated>2020-09-03T02:03:37&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2014-10-12T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -21775,7 +21796,7 @@ Received digestAck to digest &amp;lt;&amp;lt;&amp;#34;#Ref&amp;lt;0.0.0.105&amp;
             <title type="text">OpenStack Devstack up and running with Vagrant, in 12.5 minutes</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/" />
             <id>https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/</id>
-            <updated>2022-05-09T10:28:12&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2014-05-20T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -21944,7 +21965,7 @@ RECLONE=yes
             <title type="text">Erflux, InfluxDB client for Erlang</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/" />
             <id>https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/</id>
-            <updated>2020-09-03T02:03:50&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2013-10-21T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -22198,7 +22219,7 @@ erflux_http:get_databases().
             <title type="text">Apache Zookeeper authentication</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/" />
             <id>https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/</id>
-            <updated>2020-09-03T02:03:11&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2013-06-24T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -22356,7 +22377,7 @@ z.create(:path =&amp;gt; &amp;quot;/nodes/#{@@ipv4}&amp;quot;, :acl =&amp;gt; zk
             <title type="text">Git: chopping out part of the repo into a separate repo</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2013-03-22-git-chopping-out-part-of-the-repo-into-a-separate-repo/" />
             <id>https://gruchalski.com/posts/2013-03-22-git-chopping-out-part-of-the-repo-into-a-separate-repo/</id>
-            <updated>2020-09-03T02:02:57&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2013-03-22T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -22443,7 +22464,7 @@ git push --mirror git@github.com:.../NEWREPO.git
             <title type="text">Setting up knife ec2</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2013-03-07-setting-up-knife-ec2/" />
             <id>https://gruchalski.com/posts/2013-03-07-setting-up-knife-ec2/</id>
-            <updated>2020-09-03T02:02:44&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2013-03-07T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -22557,7 +22578,7 @@ git push --mirror git@github.com:.../NEWREPO.git
             <title type="text">DevOps box</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2013-03-05-devops-box/" />
             <id>https://gruchalski.com/posts/2013-03-05-devops-box/</id>
-            <updated>2020-09-03T02:01:43&#43;02:00</updated>
+            <updated>2023-07-04T23:40:31&#43;02:00</updated>
             <published>2013-03-05T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
