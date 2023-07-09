@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2023-07-09T13:19:02&#43;02:00</updated>
+    <updated>2023-07-10T00:19:50&#43;02:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -16,6 +16,122 @@
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
     <generator uri="https://gohugo.io/" version="0.115.1">Hugo</generator>
+        <entry>
+            <title type="text">Windows Terminal text selection productivity tips</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/" />
+            <id>https://gruchalski.com/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/</id>
+            <updated>2023-07-09T23:47:44&#43;02:00</updated>
+            <published>2023-07-10T00:00:00&#43;02:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">boost your productivity when working with WSL2 in Windows Terminal</summary>
+            
+                <content type="html">&lt;p&gt;I am a heavy macOS user but my current work requires the use of Windows and its Terminal for WSL2. Working with Windows Terminal was very frustrating until I changed a couple of settings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Copy-on-select.&lt;/li&gt;
+&lt;li&gt;Set the word delimiters setting to match the one of iTerm2.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div&gt;
+    &lt;h2&gt;table of contents&lt;/h2&gt;
+    &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/#copy-on-select&#34;&gt;copy-on-select&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/#word-delimiters&#34;&gt;word delimiters&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/#bonus-trim-whitespace-on-paste&#34;&gt;bonus: trim whitespace on paste&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;copy-on-select&#34;&gt;copy-on-select&lt;/h2&gt;
+&lt;p&gt;Selecting text automatically copies it to the clipboard. No need to hit CTRL+C to copy. This is a massive time saver. To enable copy-on-select:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open Windows Terminal &lt;em&gt;Settings&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Go to the &lt;em&gt;Interaction&lt;/em&gt; tab.&lt;/li&gt;
+&lt;li&gt;Enable &lt;em&gt;Automatically copy selection to clipboard&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;word-delimiters&#34;&gt;word delimiters&lt;/h2&gt;
+&lt;p&gt;There are two main text selection methods in Windows Terminal:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Click-and-drag to select desired text portion.&lt;/li&gt;
+&lt;li&gt;Double-click on text to select.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The double-click with copy-on-select speeds up working in terminal.&lt;/p&gt;
+&lt;p&gt;However, double-click must select the right thing. The default Windows Terminal word delimiters setting isn&amp;rsquo;t very well suited to working with Linux-based systems.&lt;/p&gt;
+&lt;p&gt;As a—primarily—macOS user, I work with iTerm2 which comes with the best word delimiter setting out there, in my humble opinion. It correctly selects strings representing complex variable names and paths. Consider the following example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;hello-world_example=/path/to/a/file.md
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;With the default Windows Terminal setting, double-clicking on:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;hello&lt;/em&gt; selects &lt;em&gt;hello&lt;/em&gt; only.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;world&lt;/em&gt; selects &lt;em&gt;world_example&lt;/em&gt; only.&lt;/li&gt;
+&lt;li&gt;any part of the path selects only that part of the path, for example clicking on &lt;em&gt;file&lt;/em&gt; selects &lt;em&gt;file&lt;/em&gt; only.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To make it better, change the &lt;em&gt;Word delimiters&lt;/em&gt; setting in &lt;em&gt;Settings&lt;/em&gt; / &lt;em&gt;Interaction&lt;/em&gt; to:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; ()&amp;#34;&amp;#39;:,;&amp;lt;&amp;gt;~!@#$%^&amp;amp;*|=[]{}?│
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;There&amp;rsquo;s a space as the first character. In &lt;em&gt;settings.json&lt;/em&gt;, this would be:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;wordDelimiters&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34; ()\&amp;#34;&amp;#39;:,;&amp;lt;&amp;gt;~!@#$%^&amp;amp;*|=[]{}?│&amp;#34;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;If you&amp;rsquo;re having trouble updating the setting to the proposed value due to the &lt;em&gt;&amp;quot;&lt;/em&gt;, use the &lt;em&gt;Open JSON file&lt;/em&gt; button in the bottom left corner to modify the &lt;em&gt;settings.json&lt;/em&gt; file directly.&lt;/p&gt;
+&lt;p&gt;After that change, double-clicking on:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;hello&lt;/em&gt; selects &lt;em&gt;hello-world_example&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;any part of the path selects the complete &lt;em&gt;/path/to/a/file.md&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is a productivity boost when working with:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tools like find, grep, tree, and so on.&lt;/li&gt;
+&lt;li&gt;Various outputs. For example textual, JSON and YAML &lt;em&gt;kubectl&lt;/em&gt; outputs.&lt;/li&gt;
+&lt;li&gt;Editing bash programs or any other files directly in the terminal.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Don&amp;rsquo;t dismiss this advice based on the fact that it originates from macOS. At least give it a try, if you don&amp;rsquo;t like it, you can always change it back.&lt;/p&gt;
+&lt;h2 id=&#34;bonus-trim-whitespace-on-paste&#34;&gt;bonus: trim whitespace on paste&lt;/h2&gt;
+&lt;p&gt;Two more settings I always make sure are enabled:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Remove trailing white-space in rectangular selection&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Remove trailing white-space when pasting&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Both available under the same &lt;em&gt;Interaction&lt;/em&gt; section.&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/productivity/" term="productivity" label="productivity" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/windows/" term="windows" label="windows" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/terminal/" term="terminal" label="terminal" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Istio, cert-manager, Let’s Encrypt and HTTPS redirect</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2023-07-09-istio-cert-manager-lets-encrypt-and-https-redirect/" />

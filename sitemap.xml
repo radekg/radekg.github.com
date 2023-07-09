@@ -2,10 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://gruchalski.com/tags/cert-manager/</loc>
-    <lastmod>2023-07-09T13:15:24+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/</loc>
+    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/productivity/</loc>
+    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/terminal/</loc>
+    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/windows/</loc>
+    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/</loc>
+    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/cert-manager/</loc>
     <lastmod>2023-07-09T13:15:24+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/istio/</loc>
@@ -21,12 +39,6 @@
     <lastmod>2023-07-09T13:15:24+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/letsencrypt/</loc>
-    <lastmod>2023-07-09T13:15:24+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2023-07-09T13:15:24+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2023-07-09T13:15:24+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/tls/</loc>
