@@ -3,16 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/k8s/</loc>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/kubernetes/</loc>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/productivity/</loc>
-    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/software/</loc>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/</loc>
-    <lastmod>2023-07-09T23:47:44+02:00</lastmod>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2023-07-10-yq-the-yaml-power-tool/</loc>
+    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/terminal/</loc>
     <lastmod>2023-07-09T23:47:44+02:00</lastmod>
@@ -32,12 +44,6 @@
     <loc>https://gruchalski.com/posts/2023-07-09-istio-cert-manager-lets-encrypt-and-https-redirect/</loc>
     <lastmod>2023-07-09T13:15:24+02:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/tags/k8s/</loc>
-    <lastmod>2023-07-09T13:15:24+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/kubernetes/</loc>
-    <lastmod>2023-07-09T13:15:24+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/tags/letsencrypt/</loc>
     <lastmod>2023-07-09T13:15:24+02:00</lastmod>
   </url><url>
@@ -55,9 +61,6 @@
   </url><url>
     <loc>https://gruchalski.com/privacy/</loc>
     <lastmod>2023-07-06T11:44:17+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/software/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/</loc>
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
