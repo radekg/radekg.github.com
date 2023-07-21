@@ -12,7 +12,7 @@
     
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <title>Postgres in Docker with persistent storage | gruchalski.com</title>
+    <title>YugabyteDB build infrastructure upgrade | gruchalski.com</title>
 
     <link rel="stylesheet" href="/css/meme.min.fe3b4eabe26125d7716d7271d1dcc928f862e422b39cc80a8c45354f89084434.css"/>
 
@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
-    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="keep the postgres data across container restarts" />
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="build the latest and greatest 2.19.0.0 in Docker" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -45,7 +45,7 @@
 
     
     
-        <link rel="canonical" href="https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/" />
+        <link rel="canonical" href="https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/" />
     
 
     
@@ -54,14 +54,14 @@
     {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "datePublished": "2021-07-12T00:00:00+00:00",
-        "dateModified": "2023-07-04T23:40:31+02:00",
-        "url": "https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/",
-        "headline": "Postgres in Docker with persistent storage",
-        "description": "keep the postgres data across container restarts",
+        "datePublished": "2023-07-21T00:00:00+02:00",
+        "dateModified": "2023-07-21T23:48:35+02:00",
+        "url": "https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/",
+        "headline": "YugabyteDB build infrastructure upgrade",
+        "description": "build the latest and greatest 2.19.0.0 in Docker",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  387 ,
+        "wordCount":  236 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -96,14 +96,14 @@
 
 
 
-<meta property="og:title" content="Postgres in Docker with persistent storage" />
-<meta property="og:description" content="keep the postgres data across container restarts" />
-<meta property="og:url" content="https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/" />
+<meta property="og:title" content="YugabyteDB build infrastructure upgrade" />
+<meta property="og:description" content="build the latest and greatest 2.19.0.0 in Docker" />
+<meta property="og:url" content="https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/" />
 <meta property="og:site_name" content="gruchalski.com" />
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2021-07-12T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2023-07-04T23:40:31&#43;02:00" />
+    <meta property="article:published_time" content="2023-07-21T00:00:00&#43;02:00" />
+    <meta property="article:modified_time" content="2023-07-21T23:48:35&#43;02:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -205,12 +205,12 @@
 
         <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
 
-            <h1 class="post-title p-name">Postgres in Docker with persistent storage</h1>
+            <h1 class="post-title p-name">YugabyteDB build infrastructure upgrade</h1>
 
             
 
             
-                <div class="post-description p-summary">keep the postgres data across container restarts</div>
+                <div class="post-description p-summary">build the latest and greatest 2.19.0.0 in Docker</div>
                 
             
 
@@ -220,7 +220,7 @@
 <div class="post-meta">
     
         
-        <time datetime="2021-07-12T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;July 12, 2021</time>
+        <time datetime="2023-07-21T00:00:00&#43;02:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;July 21, 2023</time>
     
     
     
@@ -231,7 +231,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;387</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;236</span>
     
     
         
@@ -246,97 +246,39 @@
             
 
             <div class="post-body e-content">
-              <p>Yes, it&rsquo;s perfectly fine to run databases in containers. The only challenge is to make sure that the data stored by the database does not reside within the file system of the container. Otherwise, after removing the container, the data will be gone, too.</p>
-<h2 id="basic-docker"><a href="#basic-docker" class="anchor-link">§</a>basic docker</h2>
-<p>Let&rsquo;s have a look at the most basic example <a href="https://hub.docker.com/_/postgres" target="_blank" rel="noopener">from the Postgres Docker Hub</a>:</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name some-postgres <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>mysecretpassword <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d postgres
-</span></span></code></pre></td></tr></table></div>
+              <p>A couple of weeks ago I had a pleasure talking to <em>Denis Magda</em> and <em>Franck Pachot</em> from <em>Yugabyte</em> about my past <em>Postgres</em> foreign data wrapper contributions to the awesome <em>YugabyteDB RDBMS</em>. We discussed the whys and the hows, and reflected on my experiences as a contributor. Thanks for having me!</p>
+<p>Towards the end we touched on the build infrastructure I created to support my work on said contributions. I was chuffed to learn that <em>Franck</em> used it internally!</p>
+<p>The guys got a commitment out of me. I&rsquo;ll publish a write up on how I build <em>YugabyteDB</em> from sources, and share some light on working with the code in the process of explaining the former.</p>
+<p>So&hellip; after this long and boring introduction. As a prep for the write up I upgraded the build infrastructure to support the latest and greatest <em>YugabyteDB v2.19.0.0</em>.</p>
+<p><a href="https://github.com/radekg/yugabyte-db-build-infrastructure" target="_blank" rel="noopener">The code is on GitHub</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
+<p>Lots of changes in there, mainly:</p>
+<ul>
+<li>AlmaLinux 8.8 for the build infrastructure, because CentOS Red Hat feud &hellip;</li>
+<li>Single Docker image with Clang and GCC.</li>
+<li>Build infrastructure supports multiple build targets.</li>
+<li>Comes with preconfigured Ccache.</li>
+<li>Build infrastructure targets <em>linux/amd64</em>, resulting YugabyteDB also <em>linux/amd64</em>.</li>
+<li>Tested on Intel and ARM mac, and amd64 Linux, check the <a href="https://github.com/radekg/yugabyte-db-build-infrastructure#compatibility" target="_blank" rel="noopener">compatibility matrix</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>.</li>
+<li><a href="https://github.com/radekg/yugabyte-db-build-infrastructure#known-problems-and-caveats" target="_blank" rel="noopener">Faced some issues</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</li>
+</ul>
+<p><a href="https://www.youtube.com/watch?v=JaHqZ5Dp4AE" target="_blank" rel="noopener">Watch the recording for more context</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/radekg/yugabyte-db-build-infrastructure" target="_blank" rel="noopener">YugabyteDB build infrastructure on GitHub</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://github.com/radekg/yugabyte-db-build-infrastructure#compatibility" target="_blank" rel="noopener">Build infrastructure: compatibility matrix</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://github.com/radekg/yugabyte-db-build-infrastructure#known-problems-and-caveats" target="_blank" rel="noopener">Build infrastructure: Known issues and caveats</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://www.youtube.com/watch?v=JaHqZ5Dp4AE" target="_blank" rel="noopener">YouTube: Contributing to YugabyteDB: Enhancing Multi-Tenancy with Foreign Data Wrappers</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
 </div>
-</div><p>The problem here is, once we stop working with this container, if we do <em>docker stop some-postgres &amp;&amp; docker rm some-postgres</em>, the data stored in the database will be gone because the default Postgres data directory resides within the container file system.</p>
-<p>To prevent this from happening, the Postgres container can be configured with <em>a volume</em> mapped to the <em>host directory</em>. For example, to store the data in the <em>/tmp/postgres-data</em> directory of the host, the container can be started like this:</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name some-postgres <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>mysecretpassword <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">PGDATA</span><span class="o">=</span>/var/lib/postgresql/data/pgdata <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v /tmp/postgres-data:/var/lib/postgresql/data <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    postgres
-</span></span></code></pre></td></tr></table></div>
-</div>
-</div><p>The <em>-v</em>, or long <em>&ndash;volume</em>, option has the form of <em>[host path]:[container path]</em>. The <em>PGDATA</em> environment variable tells the <em>docker-entrypoint.sh</em> to configure the <em>pgdata</em> directory with its value. At the same time, the container starts with that directory mapped from the host.</p>
-<p>The <em>-v</em> option can be specified multiple times to map different directories or files. The option <a href="https://docs.docker.com/engine/reference/run/#volume-shared-filesystems" target="_blank" rel="noopener">is documented here</a>.</p>
-<h2 id="docker-compose"><a href="#docker-compose" class="anchor-link">§</a>docker compose</h2>
-<p>When working with Docker Compose, the best option is to use a <em>bind volume</em> mount. The simplest example would be:</p>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.3&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">postgres:13.2</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l">mydb</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l">myuser</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">mysecretpassword</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">PGDATA</span><span class="p">:</span><span class="w"> </span><span class="l">/var/lib/postgresql/data/pgdata</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;5432:5432&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>-<span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">bind</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l">/tmp/postgres-data</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l">/var/lib/postgresql/data</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">reference</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">reference</span><span class="p">:</span><span class="w">
-</span></span></span></code></pre></td></tr></table></div>
-</div>
-</div><h2 id="running-in-the-cloud"><a href="#running-in-the-cloud" class="anchor-link">§</a>running in the cloud</h2>
-<p>When running containers in a cloud environment, say on an EC2 instance in AWS, the preferred way is to use an EBS like volume (block storage) as the host volume for the container <em>host path</em> location. This will ensure data survivability across container instances and VM instances, as long as the EBS volume with the host directory is attached to the expected host running the Docker container.</p>
 
             </div>
 
@@ -350,7 +292,7 @@
                 
                 
                 
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-07-12-postgres-in-docker-with-persistent-storage/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</a></li>
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/" target="_blank" rel="noopener">https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/</a></li>
             
             <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
             
@@ -378,7 +320,7 @@
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/&amp;text=Postgres%20in%20Docker%20with%20persistent%20storage&amp;hashtags=docker,postgres,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/&amp;text=YugabyteDB%20build%20infrastructure%20upgrade&amp;hashtags=yugabytedb,postgres,docker,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -387,7 +329,7 @@
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/&amp;title=Postgres%20in%20Docker%20with%20persistent%20storage&amp;summary=keep%20the%20postgres%20data%20across%20container%20restarts&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/&amp;title=YugabyteDB%20build%20infrastructure%20upgrade&amp;summary=build%20the%20latest%20and%20greatest%202.19.0.0%20in%20Docker&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
@@ -411,7 +353,7 @@
     var typeNumber = 0;
     var errorCorrectionLevel = 'L';
     var qr = qrcode(typeNumber, errorCorrectionLevel);
-    qr.addData('https:\/\/gruchalski.com\/posts\/2021-07-12-postgres-in-docker-with-persistent-storage\/');
+    qr.addData('https:\/\/gruchalski.com\/posts\/2023-07-21-yugabytedb-build-infrastructure-upgrade\/');
     qr.make();
     document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
 </script>
@@ -434,11 +376,11 @@
             <ul class="related-list">
                 
                     <li class="related-item">
-                        <a href="/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/" class="related-link">YugabyteDB build infrastructure upgrade</a>
+                        <a href="/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/" class="related-link">YugabyteDB: Postgres foreign data wrapper</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/" class="related-link">YugabyteDB: Postgres foreign data wrapper</a>
+                        <a href="/posts/2021-07-12-postgres-in-docker-with-persistent-storage/" class="related-link">Postgres in Docker with persistent storage</a>
                     </li>
                 
                     <li class="related-item">
@@ -446,11 +388,11 @@
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-04-24-on-software-testing-with-dockertest/" class="related-link">On software testing with dockertest</a>
+                        <a href="/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/" class="related-link">YugabyteDB CDC SDK beta, a high level overview</a>
                     </li>
                 
                     <li class="related-item">
-                        <a href="/posts/2021-03-23-introducing-firebuild/" class="related-link">Introducing firebuild</a>
+                        <a href="/posts/2022-02-23-yugabytedb-change-data-capture/" class="related-link">YugabyteDB change data capture</a>
                     </li>
                 
             </ul>
@@ -468,7 +410,7 @@
                 
                 
                     
-                    <a href="/tags/docker/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>docker</a>
+                    <a href="/tags/yugabytedb/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>yugabytedb</a>
                 
             
                 
@@ -477,6 +419,14 @@
                 
                     
                     <a href="/tags/postgres/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>postgres</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/docker/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>docker</a>
                 
             
         </div>
@@ -500,13 +450,9 @@
     
         <ul class="post-nav">
             
-                <li class="post-nav-prev">
-                    <a href="/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/" rel="prev">&lt; YugabyteDB: Postgres foreign data wrapper</a>
-                </li>
-            
             
                 <li class="post-nav-next">
-                    <a href="/posts/2021-06-15-yugabytedb-docker-image/" rel="next">YugabyteDB Docker image &gt;</a>
+                    <a href="/posts/2023-07-10-yq-the-yaml-power-tool/" rel="next">yq - the yaml power tool &gt;</a>
                 </li>
             
         </ul>

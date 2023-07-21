@@ -23,10 +23,87 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Mon, 10 Jul 2023 22:31:43 &#43;0200</lastBuildDate>
+        <lastBuildDate>Fri, 21 Jul 2023 23:51:29 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>YugabyteDB build infrastructure upgrade</title>
+                <link>https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/</guid>
+                <pubDate>Fri, 21 Jul 2023 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;A couple of weeks ago I had a pleasure talking to &lt;em&gt;Denis Magda&lt;/em&gt; and &lt;em&gt;Franck Pachot&lt;/em&gt; from &lt;em&gt;Yugabyte&lt;/em&gt; about my past &lt;em&gt;Postgres&lt;/em&gt; foreign data wrapper contributions to the awesome &lt;em&gt;YugabyteDB RDBMS&lt;/em&gt;. We discussed the whys and the hows, and reflected on my experiences as a contributor. Thanks for having me!&lt;/p&gt;
+&lt;p&gt;Towards the end we touched on the build infrastructure I created to support my work on said contributions. I was chuffed to learn that &lt;em&gt;Franck&lt;/em&gt; used it internally!&lt;/p&gt;
+&lt;p&gt;The guys got a commitment out of me. I&amp;rsquo;ll publish a write up on how I build &lt;em&gt;YugabyteDB&lt;/em&gt; from sources, and share some light on working with the code in the process of explaining the former.&lt;/p&gt;
+&lt;p&gt;So&amp;hellip; after this long and boring introduction. As a prep for the write up I upgraded the build infrastructure to support the latest and greatest &lt;em&gt;YugabyteDB v2.19.0.0&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-build-infrastructure&#34;&gt;The code is on GitHub&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Lots of changes in there, mainly:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AlmaLinux 8.8 for the build infrastructure, because CentOS Red Hat feud &amp;hellip;&lt;/li&gt;
+&lt;li&gt;Single Docker image with Clang and GCC.&lt;/li&gt;
+&lt;li&gt;Build infrastructure supports multiple build targets.&lt;/li&gt;
+&lt;li&gt;Comes with preconfigured Ccache.&lt;/li&gt;
+&lt;li&gt;Build infrastructure targets &lt;em&gt;linux/amd64&lt;/em&gt;, resulting YugabyteDB also &lt;em&gt;linux/amd64&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Tested on Intel and ARM mac, and amd64 Linux, check the &lt;a href=&#34;https://github.com/radekg/yugabyte-db-build-infrastructure#compatibility&#34;&gt;compatibility matrix&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-build-infrastructure#known-problems-and-caveats&#34;&gt;Faced some issues&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=JaHqZ5Dp4AE&#34;&gt;Watch the recording for more context&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-build-infrastructure&#34;&gt;YugabyteDB build infrastructure on GitHub&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-build-infrastructure#compatibility&#34;&gt;Build infrastructure: compatibility matrix&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/radekg/yugabyte-db-build-infrastructure#known-problems-and-caveats&#34;&gt;Build infrastructure: Known issues and caveats&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=JaHqZ5Dp4AE&#34;&gt;YouTube: Contributing to YugabyteDB: Enhancing Multi-Tenancy with Foreign Data Wrappers&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/yugabytedb/">yugabytedb</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/postgres/">postgres</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/docker/">docker</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>yq - the yaml power tool</title>
@@ -11051,7 +11128,7 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
                                 
                                 
                                 
-                                    <category domain="https://gruchalski.com/tags/postgresql/">postgresql</category>
+                                    <category domain="https://gruchalski.com/tags/postgres/">postgres</category>
                                 
                             
                         

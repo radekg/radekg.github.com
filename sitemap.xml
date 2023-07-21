@@ -2,8 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://gruchalski.com/tags/docker/</loc>
+    <lastmod>2023-07-21T23:48:35+02:00</lastmod>
+  </url><url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
+    <lastmod>2023-07-21T23:48:35+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/postgres/</loc>
+    <lastmod>2023-07-21T23:48:35+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2023-07-21T23:48:35+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2023-07-21T23:48:35+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
+    <lastmod>2023-07-21T23:48:35+02:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/</loc>
+    <lastmod>2023-07-21T23:48:35+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/k8s/</loc>
     <lastmod>2023-07-10T19:26:05+02:00</lastmod>
@@ -11,16 +29,10 @@
     <loc>https://gruchalski.com/tags/kubernetes/</loc>
     <lastmod>2023-07-10T19:26:05+02:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/tags/productivity/</loc>
     <lastmod>2023-07-10T19:26:05+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/software/</loc>
-    <lastmod>2023-07-10T19:26:05+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2023-07-10T19:26:05+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2023-07-10-yq-the-yaml-power-tool/</loc>
@@ -108,7 +120,7 @@
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/categories/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
+    <lastmod>2023-07-21T23:33:53+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/grpc/</loc>
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
@@ -158,11 +170,8 @@
     <loc>https://gruchalski.com/tags/cdc/</loc>
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/tags/yugabytedb/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/categories/yugabytedb/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
+    <lastmod>2023-07-21T23:33:53+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/</loc>
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
@@ -203,13 +212,7 @@
     <loc>https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</loc>
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
   </url><url>
-    <loc>https://gruchalski.com/tags/postgres/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
-  </url><url>
     <loc>https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/docker/</loc>
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</loc>
@@ -228,10 +231,7 @@
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/postgresql/</loc>
-    <lastmod>2023-07-04T23:40:31+02:00</lastmod>
+    <lastmod>2023-07-21T23:33:53+02:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</loc>
     <lastmod>2023-07-04T23:40:31+02:00</lastmod>
