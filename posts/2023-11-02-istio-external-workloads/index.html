@@ -55,7 +55,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2023-11-02T00:00:00+02:00",
-        "dateModified": "2023-11-02T16:35:47+01:00",
+        "dateModified": "2023-11-02T18:40:15+01:00",
         "url": "https://gruchalski.com/posts/2023-11-02-istio-external-workloads/",
         "headline": "Istio VM workloads",
         "description": "setting up a proof-of-concept connectivity with a VM in an Istio mesh",
@@ -103,7 +103,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2023-11-02T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2023-11-02T16:35:47&#43;01:00" />
+    <meta property="article:modified_time" content="2023-11-02T18:40:15&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -1445,7 +1445,7 @@ istiod   ClusterIP   10.43.26.124   &lt;none&gt;        15010/TCP,15012/TCP,443/
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="p">|</span> kubectl apply -n sample -f -
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>Again, both example images published by Istio do not exist for the <em>linux/arm64</em> architecture, I build them from my own <em>Dockerfile</em> for <em>linux/arm64</em>. <a href="https://github.com/radekg/istio-vms/tree/version-1/istio-examples" target="_blank" rel="noopener">The source code is here</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</p>
+</div><p>Again, both example images published by Istio do not exist for the <em>linux/arm64</em> architecture, I build them from my own <em>Dockerfile</em> for <em>linux/arm64</em>. <a href="https://github.com/radekg/istio-vms/tree/mainistio-examples" target="_blank" rel="noopener">The source code is here</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</p>
 <h4 id="hello-world-pods-are-running"><a href="#hello-world-pods-are-running" class="anchor-link">§</a>hello world pods are running</h4>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -1942,7 +1942,7 @@ pod &#34;vm-response-test&#34; deleted
 <p><a href="https://github.com/mikefarah/yq#install" target="_blank" rel="noopener">yq installation instructions</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4">
-<p><a href="https://github.com/radekg/istio-vms/tree/version-1/istio-examples" target="_blank" rel="noopener">Istio hello world examples for linux/arm64</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/radekg/istio-vms/tree/main/istio-examples" target="_blank" rel="noopener">Istio hello world examples for linux/arm64</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </div>
