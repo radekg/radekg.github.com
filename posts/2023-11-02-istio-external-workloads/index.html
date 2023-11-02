@@ -55,13 +55,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2023-11-02T00:00:00+02:00",
-        "dateModified": "2023-11-02T18:40:15+01:00",
+        "dateModified": "2023-11-03T00:56:46+01:00",
         "url": "https://gruchalski.com/posts/2023-11-02-istio-external-workloads/",
         "headline": "Istio VM workloads",
         "description": "setting up a proof-of-concept connectivity with a VM in an Istio mesh",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  4282 ,
+        "wordCount":  4387 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -103,7 +103,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2023-11-02T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2023-11-02T18:40:15&#43;01:00" />
+    <meta property="article:modified_time" content="2023-11-03T00:56:46&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -231,7 +231,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;4282</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;4387</span>
     
     
         
@@ -260,7 +260,7 @@
 <li>A VM on <em>Multipass</em>, same network as the <em>k3s</em> cluster.</li>
 </ul>
 <p>After setting up the <em>k3s</em> cluster I follow the steps from Istio documentation: <a href="https://istio.io/latest/docs/setup/install/virtual-machine/" target="_blank" rel="noopener">Virtual Machine Installation</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
-<p>The outcome is a working Istio mesh with a VM in the mesh supporting bidirectional traffic and a short dive into network policies.</p>
+<p>The outcome is a working Istio mesh with a VM in the mesh supporting bidirectional traffic, and a short dive into network policies.</p>
 <div>
     <h2>table of contents</h2>
     <nav id="TableOfContents">
@@ -322,23 +322,40 @@
 <h2 id="tools"><a href="#tools" class="anchor-link">§</a>tools</h2>
 <p>Besides the standard <code>kubectl</code>:</p>
 <ul>
-<li><code>multipass</code>: macOS <code>brew install multipass</code>, Linux <a href="https://multipass.run/docs/installing-on-linux" target="_blank" rel="noopener">official instructions</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> or follow instructions for your distribution</li>
-<li><code>go</code> for <code>yq</code></li>
-<li><code>yq</code>: <code>YQ_VERSION=v4.35.2 go install &quot;github.com/mikefarah/yq/v4@${YQ_VERSION}&quot;</code> or follow <a href="https://github.com/mikefarah/yq#install" target="_blank" rel="noopener">an official guide</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup></li>
-<li><code>docker</code> or <code>podman</code> if you are on an <em>arm64-based</em> host</li>
-<li><code>istioctl</code>: instructions <a href="#install-istioctl">further in the article</a></li>
+<li><code>multipass</code>: macOS <code>brew install multipass</code>, Linux <a href="https://multipass.run/docs/installing-on-linux" target="_blank" rel="noopener">official instructions</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> or follow instructions for your distribution,</li>
+<li><code>git</code>: to fetch the additional data,</li>
+<li><code>yq</code>: follow <a href="https://github.com/mikefarah/yq#install" target="_blank" rel="noopener">an official guide</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>,</li>
+<li><code>docker</code> or <code>podman</code> if you are on an <em>arm64-based</em> host,</li>
+<li><code>istioctl</code>: instructions <a href="#install-istioctl">further in the article</a>.</li>
 </ul>
 <h2 id="working-directory"><a href="#working-directory" class="anchor-link">§</a>working directory</h2>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p ~/.project <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/.project
+</span></span><span class="line"><span class="cl">git clone https://github.com/radekg/istio-vms.git .
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>All commands further in this article assume that you remain in the newly created directory.</p>
+<p>You can place it wherever you like, name it however you like, but that&rsquo;s <em><strong>the working directory</strong></em>.</p>
 <h2 id="environment-configuration"><a href="#environment-configuration" class="anchor-link">§</a>environment configuration</h2>
+<p>A few settings. Mainly:</p>
+<ul>
+<li>where&rsquo;s the data stored</li>
+<li>the temp directory, some artifacts will be downloaded and extracted to disk</li>
+<li>where&rsquo;s the <em>kubeconfig</em>?</li>
+<li>settings:
+<ul>
+<li>operating system to use</li>
+<li>Istio version to use</li>
+<li>VM resource settings</li>
+<li>VM-related configuration</li>
+</ul>
+</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -445,13 +462,51 @@
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.k3s.sh
 </span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass delete k3s-master k3s-worker-1 k3s-worker-2
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass purge
+</span></span></span><span class="line"><span class="cl"><span class="s">delete=&#34;false&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">recreate=&#34;false&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">for var in &#34;$@&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">do
+</span></span></span><span class="line"><span class="cl"><span class="s">  [ &#34;${var}&#34; == &#34;--delete&#34; ] &amp;&amp; delete=&#34;true&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  [ &#34;${var}&#34; == &#34;--recreate&#34; ] &amp;&amp; recreate=&#34;true&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">done
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">if [ &#34;${delete}&#34; == &#34;true&#34; ]; then
+</span></span></span><span class="line"><span class="cl"><span class="s">  echo &gt;&amp;2 &#34;Deleting the k3s cluster...&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass delete k3s-master k3s-worker-1 k3s-worker-2
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass purge
+</span></span></span><span class="line"><span class="cl"><span class="s">  exit 0
+</span></span></span><span class="line"><span class="cl"><span class="s">fi
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">if [ &#34;${recreate}&#34; == &#34;true&#34; ]; then
+</span></span></span><span class="line"><span class="cl"><span class="s">  echo &gt;&amp;2 &#34;Recreating the k3s cluster...&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass delete k3s-master k3s-worker-1 k3s-worker-2
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass purge
+</span></span></span><span class="line"><span class="cl"><span class="s">fi
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s">set -eu
 </span></span></span><span class="line"><span class="cl"><span class="s">
@@ -483,10 +538,27 @@
 </span></span><span class="line"><span class="cl">chmod +x install.k3s.sh <span class="o">&amp;&amp;</span> ./install.k3s.sh
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><p>The result is a <em>k3s</em> cluster with one control plane and two workers. <em>Traefik</em> is disabled because we use Istio. Also, the default load balancer is on: <em>Klipper</em>.</p>
+</div><p>The result is a <em>k3s</em> cluster with one control plane and two workers. <em>Traefik</em> is disabled because we use Istio. Also, the default <em>k3s</em> load balancer—<em>Klipper</em>—is on.</p>
 <p>Please be mindful of the rather high resource requirement. Adjust as you see fit.</p>
-<p><strong>Caution:</strong> this program will remove and recreate your <em>k3s</em> cluster on each run!</p>
-<h2 id="setting-up-the-client"><a href="#setting-up-the-client" class="anchor-link">§</a>setting up the client</h2>
+<p>The cluster can be deleted with:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">./install.k3s.sh --delete
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>and recreated (removed and created again) with:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">./install.k3s.sh --recreate
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="setting-up-the-client"><a href="#setting-up-the-client" class="anchor-link">§</a>setting up the client</h2>
 <p>To have your <em>kubectl</em> and and other tools use the correct <em>kubeconfig</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -502,15 +574,18 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get nodes -o wide
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get nodes
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Something along the lines of:</p>
-<pre tabindex="0"><code>NAME           STATUS   ROLES                  AGE     VERSION        INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
-k3s-master     Ready    control-plane,master   6m41s   v1.27.6+k3s1   192.168.64.57   &lt;none&gt;        Ubuntu 22.04.3 LTS   5.15.0-87-generic   containerd://1.7.6-k3s1.27
-k3s-worker-2   Ready    &lt;none&gt;                 5m44s   v1.27.6+k3s1   192.168.64.59   &lt;none&gt;        Ubuntu 22.04.3 LTS   5.15.0-87-generic   containerd://1.7.6-k3s1.27
-k3s-worker-1   Ready    &lt;none&gt;                 5m52s   v1.27.6+k3s1   192.168.64.58   &lt;none&gt;        Ubuntu 22.04.3 LTS   5.15.0-87-generic   containerd://1.7.6-k3s1.27
+<pre tabindex="0"><code>NAME           STATUS   ROLES                  AGE     VERSION
+k3s-master     Ready    control-plane,master   10m     v1.27.7+k3s1
+k3s-worker-1   Ready    &lt;none&gt;                 9m26s   v1.27.7+k3s1
+k3s-worker-2   Ready    &lt;none&gt;                 9m18s   v1.27.7+k3s1
 </code></pre><h2 id="install-istioctl"><a href="#install-istioctl" class="anchor-link">§</a>install istioctl</h2>
+<ul>
+<li><code>ISTIO_ARCH</code>: one of <code>&lt; osx-arm64</code>, <code>osx-amd64</code>, <code>linux-armv7</code>, <code>linux-arm64</code>, <code>linux-amd64 &gt;</code></li>
+</ul>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -527,8 +602,6 @@ k3s-worker-1   Ready    &lt;none&gt;                 5m52s   v1.27.6+k3s1   192.
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.istioctl.sh
@@ -537,7 +610,7 @@ k3s-worker-1   Ready    &lt;none&gt;                 5m52s   v1.27.6+k3s1   192.
 </span></span></span><span class="line"><span class="cl"><span class="s">mkdir -p &#34;${local_bin}/tmp/&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">export PATH=&#34;${local_bin}:/usr/local/bin:${PATH}&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_VERSION=${ISTIO_VERSION:-1.19.3}
-</span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_ARCH=${ISTIO_ARCH:-osx-arm64} # linux-amd64
+</span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_ARCH=${ISTIO_ARCH:-osx-arm64}
 </span></span></span><span class="line"><span class="cl"><span class="s">wget &#34;https://github.com/istio/istio/releases/download/${ISTIO_VERSION}/istioctl-${ISTIO_VERSION}-${ISTIO_ARCH}.tar.gz&#34; -O &#34;${local_bin}/tmp/istioctl-${ISTIO_VERSION}-${ISTIO_ARCH}.tar.gz&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">tar xvzf &#34;${local_bin}/tmp/istioctl-${ISTIO_VERSION}-${ISTIO_ARCH}.tar.gz&#34; -C &#34;${local_bin}/tmp&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">mv -v &#34;${local_bin}/tmp/istioctl&#34; &#34;${local_bin}/istioctl-${ISTIO_VERSION}&#34;
@@ -545,8 +618,6 @@ k3s-worker-1   Ready    &lt;none&gt;                 5m52s   v1.27.6+k3s1   192.
 </span></span></span><span class="line"><span class="cl"><span class="s">rm -rf &#34;${local_bin}/tmp/*&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl">chmod +x install.istioctl.sh <span class="o">&amp;&amp;</span> ./install.istioctl.sh <span class="o">&amp;&amp;</span> which istioctl
-</span></span><span class="line"><span class="cl"><span class="c1"># on Linux:</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># chmod +x install.istioctl.sh &amp;&amp; ISTIO_ARCH=osx-arm64 ./install.istioctl.sh &amp;&amp; which istioctl</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Verify:</p>
