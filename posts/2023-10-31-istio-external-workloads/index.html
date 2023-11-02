@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Istio VM workloads | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.fe3b4eabe26125d7716d7271d1dcc928f862e422b39cc80a8c45354f89084434.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
+
+    
+
+    <link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="Radek Gruchalski" /><meta name="description" content="setting up a proof-of-concept connectivity with a VM in an Istio mesh" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2023-10-31-istio-external-workloads/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2023-10-31T22:00:00+02:00",
+        "dateModified": "2023-11-02T16:32:38+01:00",
+        "url": "https://gruchalski.com/posts/2023-10-31-istio-external-workloads/",
+        "headline": "Istio VM workloads",
+        "description": "setting up a proof-of-concept connectivity with a VM in an Istio mesh",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  4282 ,
+        "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+
+    
+
+
+
+<meta property="og:title" content="Istio VM workloads" />
+<meta property="og:description" content="setting up a proof-of-concept connectivity with a VM in an Istio mesh" />
+<meta property="og:url" content="https://gruchalski.com/posts/2023-10-31-istio-external-workloads/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
+        <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2023-10-31T22:00:00&#43;02:00" />
+    <meta property="article:modified_time" content="2023-11-02T16:32:38&#43;01:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+    <script async 
+        src="https://analytics.svcs.sh/script.js"
+        data-website-id="791140b3-1642-400d-82b9-6adcd1095688"
+        data-do-not-track="true"
+        data-domains="gruchalski.com"></script>
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="icon code-branch"><path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/></svg><span class="menu-item-name">categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Istio VM workloads</h1>
+
+            
+
+            
+                <div class="post-description p-summary">setting up a proof-of-concept connectivity with a VM in an Istio mesh</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2023-10-31T22:00:00&#43;02:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;October 31, 2023</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;4282</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;21&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+
+            <div class="post-body e-content">
+              <p>I am going to connect a VM to the Istio mesh running in the Kubernetes cluster.</p>
+<p>I will need:</p>
+<ul>
+<li>A VM.</li>
+<li>A Kubernetes cluster.</li>
+<li>Containers.</li>
+</ul>
+<p>This is not a job for <em>KinD</em> because I need a VM. Since I&rsquo;m on a macOS, it&rsquo;s <em>Multipass</em> for me today.</p>
+<p>I am going to run:</p>
+<ul>
+<li>A <em>k3s</em> cluster on <em>Multipass</em>.</li>
+<li>A VM on <em>Multipass</em>, same network as the <em>k3s</em> cluster.</li>
+</ul>
+<p>After setting up the <em>k3s</em> cluster I follow the steps from Istio documentation: <a href="https://istio.io/latest/docs/setup/install/virtual-machine/" target="_blank" rel="noopener">Virtual Machine Installation</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
+<p>The outcome is a working Istio mesh with a VM in the mesh supporting bidirectional traffic and a short dive into network policies.</p>
+<div>
+    <h2>table of contents</h2>
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#tools">tools</a></li>
+    <li><a href="#working-directory">working directory</a></li>
+    <li><a href="#environment-configuration">environment configuration</a></li>
+    <li><a href="#setting-up-the-_k3s_-cluster">setting up the <em>k3s</em> cluster</a></li>
+    <li><a href="#setting-up-the-client">setting up the client</a></li>
+    <li><a href="#verify-the-cluster">verify the cluster</a></li>
+    <li><a href="#install-istioctl">install istioctl</a></li>
+    <li><a href="#preparing-istio-installation">preparing Istio installation</a></li>
+    <li><a href="#install-_eastwest_-gateway">install <em>eastwest</em> gateway</a>
+      <ol>
+        <li><a href="#why-no-default-ingress-gateway">why no default ingress gateway?</a></li>
+      </ol>
+    </li>
+    <li><a href="#the-workload-group">the workload group</a></li>
+    <li><a href="#the-vm-arm64-caveat">the vm: <code>arm64</code> caveat</a>
+      <ol>
+        <li><a href="#the-_deb_-package">the <em>deb</em> package</a></li>
+        <li><a href="#arm64-binaries"><code>arm64</code> binaries</a></li>
+      </ol>
+    </li>
+    <li><a href="#start-and-configure-the-vm">start and configure the vm</a></li>
+    <li><a href="#validate-the-vm">validate the vm</a>
+      <ol>
+        <li><a href="#validate-dns-resolution">validate DNS resolution</a></li>
+        <li><a href="#validating-communication">validating communication</a>
+          <ol>
+            <li><a href="#create-and-configure-the-namespace">create and configure the namespace</a></li>
+            <li><a href="#on-amd64-host">on <code>amd64</code> host</a></li>
+            <li><a href="#on-arm64-host">on <code>arm64</code> host</a></li>
+            <li><a href="#hello-world-pods-are-running">hello world pods are running</a></li>
+            <li><a href="#checking-vm-to-mesh-connectivity">checking vm to mesh connectivity</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#routing-mesh-traffic-to-the-vm">routing mesh traffic to the vm</a>
+      <ol>
+        <li><a href="#workload-entry-is-unhealthy">workload entry is unhealthy</a></li>
+        <li><a href="#fix-it-by-starting-the-workload">fix it by starting the workload</a></li>
+        <li><a href="#verify-connectivity-with-curl">verify connectivity with <code>curl</code></a></li>
+      </ol>
+    </li>
+    <li><a href="#enable-strict-tls">enable strict tls</a></li>
+    <li><a href="#network-policies">network policies</a>
+      <ol>
+        <li><a href="#caveat-cannot-select-a-workload-entry-in-a-network-policy">caveat: cannot select a workload entry in a network policy</a></li>
+        <li><a href="#guarding-the-vm-from-the-source-of-traffic-namespace">guarding the vm from the source of traffic namespace</a></li>
+        <li><a href="#network-boundary-for-network-policies">network boundary for network policies</a></li>
+      </ol>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ol>
+</nav>
+</div>
+<h2 id="tools"><a href="#tools" class="anchor-link">§</a>tools</h2>
+<p>Besides the standard <code>kubectl</code>:</p>
+<ul>
+<li><code>multipass</code>: macOS <code>brew install multipass</code>, Linux <a href="https://multipass.run/docs/installing-on-linux" target="_blank" rel="noopener">official instructions</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> or follow instructions for your distribution</li>
+<li><code>go</code> for <code>yq</code></li>
+<li><code>yq</code>: <code>YQ_VERSION=v4.35.2 go install &quot;github.com/mikefarah/yq/v4@${YQ_VERSION}&quot;</code> or follow <a href="https://github.com/mikefarah/yq#install" target="_blank" rel="noopener">an official guide</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup></li>
+<li><code>docker</code> or <code>podman</code> if you are on an <em>arm64-based</em> host</li>
+<li><code>istioctl</code>: instructions <a href="#install-istioctl">further in the article</a></li>
+</ul>
+<h2 id="working-directory"><a href="#working-directory" class="anchor-link">§</a>working directory</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p ~/.project <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/.project
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>All commands further in this article assume that you remain in the newly created directory.</p>
+<h2 id="environment-configuration"><a href="#environment-configuration" class="anchor-link">§</a>environment configuration</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; run.env
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">env_base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export DATA_DIR=&#34;${env_base}/.data/&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">mkdir -p &#34;${DATA_DIR}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export TEMP_DIR=&#34;${env_base}/.tmp/&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">mkdir -p &#34;${TEMP_DIR}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export KUBECONFIG=&#34;${DATA_DIR}/.kubeconfig&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export CONTAINER_TOOL=${CONTAINER_TOOL:-docker}
+</span></span></span><span class="line"><span class="cl"><span class="s"># Settings:
+</span></span></span><span class="line"><span class="cl"><span class="s">export RUN_OS=22.04
+</span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_VERSION=${ISTIO_VERSION:-1.19.3}
+</span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_REVISION=$(echo $ISTIO_VERSION | tr &#39;.&#39; &#39;-&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s"># Resources:
+</span></span></span><span class="line"><span class="cl"><span class="s">export CPU_MASTER=2
+</span></span></span><span class="line"><span class="cl"><span class="s">export CPU_WORKER=2
+</span></span></span><span class="line"><span class="cl"><span class="s">export DISK_MASTER=4G
+</span></span></span><span class="line"><span class="cl"><span class="s">export DISK_WORKER=8G
+</span></span></span><span class="line"><span class="cl"><span class="s">export MEM_MASTER=1G
+</span></span></span><span class="line"><span class="cl"><span class="s">export MEM_WORKER=8G
+</span></span></span><span class="line"><span class="cl"><span class="s"># VM-related configuration:
+</span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_CLUSTER=test
+</span></span></span><span class="line"><span class="cl"><span class="s">export VM_APP=&#34;external-app&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export VM_NAMESPACE=&#34;vmns&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export SERVICE_ACCOUNT=&#34;vmsa&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export CLUSTER_NETWORK=&#34;kube-network&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export VM_NETWORK=&#34;vm-network&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># However, if there&#39;s a run.env file in pwd, use that one:
+</span></span></span><span class="line"><span class="cl"><span class="s">[ -f `pwd`&#34;/run.env&#34; ] &amp;&amp; source `pwd`&#34;/run.env&#34; &amp;&amp; &gt;&amp;2 echo &#34;configured from `pwd`/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="setting-up-the-_k3s_-cluster"><a href="#setting-up-the-_k3s_-cluster" class="anchor-link">§</a>setting up the <em>k3s</em> cluster</h2>
+<p>This program starts the Kubernetes cluster on <em>Multipass</em>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.k3s.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass delete k3s-master k3s-worker-1 k3s-worker-2
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass purge
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set +e; multipass launch -c &#34;${CPU_MASTER}&#34; -m &#34;${MEM_MASTER}&#34; -d &#34;${DISK_MASTER}&#34; -n k3s-master &#34;${RUN_OS}&#34;; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec k3s-master -- bash -c &#39;curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC=&#34;server --disable traefik&#34; sh&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">TOKEN=$(multipass exec k3s-master sudo cat /var/lib/rancher/k3s/server/node-token)
+</span></span></span><span class="line"><span class="cl"><span class="s">MASTER_IP=$(multipass info k3s-master | grep IPv4 | awk &#39;{print $2}&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">for f in 1 2; do
+</span></span></span><span class="line"><span class="cl"><span class="s">  set +e; multipass launch -c &#34;${CPU_WORKER}&#34; -m &#34;${MEM_WORKER}&#34; -d &#34;${DISK_WORKER}&#34; -n k3s-worker-$f &#34;${RUN_OS}&#34;; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">done
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">for f in 1 2; do
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec k3s-worker-$f -- \
+</span></span></span><span class="line"><span class="cl"><span class="s">    bash -c &#34;curl -sfL https://get.k3s.io | K3S_URL=\&#34;https://${MASTER_IP}:6443\&#34; K3S_TOKEN=\&#34;${TOKEN}\&#34; sh -&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">done
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec k3s-master sudo cat /etc/rancher/k3s/k3s.yaml &gt; &#34;${KUBECONFIG}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s"># Update the IP address to the one mapped by multipass
+</span></span></span><span class="line"><span class="cl"><span class="s">sed -i &#39;&#39; &#34;s/127.0.0.1/${MASTER_IP}/&#34; &#34;${KUBECONFIG}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">chmod 600 &#34;${KUBECONFIG}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">chmod +x install.k3s.sh <span class="o">&amp;&amp;</span> ./install.k3s.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>The result is a <em>k3s</em> cluster with one control plane and two workers. <em>Traefik</em> is disabled because we use Istio. Also, the default load balancer is on: <em>Klipper</em>.</p>
+<p>Please be mindful of the rather high resource requirement. Adjust as you see fit.</p>
+<p><strong>Caution:</strong> this program will remove and recreate your <em>k3s</em> cluster on each run!</p>
+<h2 id="setting-up-the-client"><a href="#setting-up-the-client" class="anchor-link">§</a>setting up the client</h2>
+<p>To have your <em>kubectl</em> and and other tools use the correct <em>kubeconfig</em>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">source</span> run.env
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="verify-the-cluster"><a href="#verify-the-cluster" class="anchor-link">§</a>verify the cluster</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get nodes -o wide
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Something along the lines of:</p>
+<pre tabindex="0"><code>NAME           STATUS   ROLES                  AGE     VERSION        INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+k3s-master     Ready    control-plane,master   6m41s   v1.27.6+k3s1   192.168.64.57   &lt;none&gt;        Ubuntu 22.04.3 LTS   5.15.0-87-generic   containerd://1.7.6-k3s1.27
+k3s-worker-2   Ready    &lt;none&gt;                 5m44s   v1.27.6+k3s1   192.168.64.59   &lt;none&gt;        Ubuntu 22.04.3 LTS   5.15.0-87-generic   containerd://1.7.6-k3s1.27
+k3s-worker-1   Ready    &lt;none&gt;                 5m52s   v1.27.6+k3s1   192.168.64.58   &lt;none&gt;        Ubuntu 22.04.3 LTS   5.15.0-87-generic   containerd://1.7.6-k3s1.27
+</code></pre><h2 id="install-istioctl"><a href="#install-istioctl" class="anchor-link">§</a>install istioctl</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.istioctl.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">local_bin=&#34;${HOME}/.local/test-istio-vm-multipass/bin&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">mkdir -p &#34;${local_bin}/tmp/&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export PATH=&#34;${local_bin}:/usr/local/bin:${PATH}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_VERSION=${ISTIO_VERSION:-1.19.3}
+</span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_ARCH=${ISTIO_ARCH:-osx-arm64} # linux-amd64
+</span></span></span><span class="line"><span class="cl"><span class="s">wget &#34;https://github.com/istio/istio/releases/download/${ISTIO_VERSION}/istioctl-${ISTIO_VERSION}-${ISTIO_ARCH}.tar.gz&#34; -O &#34;${local_bin}/tmp/istioctl-${ISTIO_VERSION}-${ISTIO_ARCH}.tar.gz&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">tar xvzf &#34;${local_bin}/tmp/istioctl-${ISTIO_VERSION}-${ISTIO_ARCH}.tar.gz&#34; -C &#34;${local_bin}/tmp&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">mv -v &#34;${local_bin}/tmp/istioctl&#34; &#34;${local_bin}/istioctl-${ISTIO_VERSION}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">ln -sfv &#34;${local_bin}/istioctl-${ISTIO_VERSION}&#34; &#34;${local_bin}/istioctl&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">rm -rf &#34;${local_bin}/tmp/*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x install.istioctl.sh <span class="o">&amp;&amp;</span> ./install.istioctl.sh <span class="o">&amp;&amp;</span> which istioctl
+</span></span><span class="line"><span class="cl"><span class="c1"># on Linux:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># chmod +x install.istioctl.sh &amp;&amp; ISTIO_ARCH=osx-arm64 ./install.istioctl.sh &amp;&amp; which istioctl</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Verify:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">istioctl version
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>no ready Istio pods in &#34;istio-system&#34;
+1.19.3
+</code></pre><h2 id="preparing-istio-installation"><a href="#preparing-istio-installation" class="anchor-link">§</a>preparing Istio installation</h2>
+<p>This is where I start to follow the <a href="https://istio.io/latest/docs/setup/install/virtual-machine/" target="_blank" rel="noopener">Istio documentation</a><sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>First, I install Istio with one change:</p>
+<ul>
+<li>I disable the default ingress because it interferes <a href="#why-no-default-ingress-gateway">later on with the <em>eastwest</em> gateway</a>.</li>
+</ul>
+<p>Install Istio:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.istio.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">cat &lt;&lt;EOP &gt; &#34;${TEMP_DIR}/vm-cluster.yaml&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: install.istio.io/v1alpha1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: IstioOperator
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: istio
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  values:
+</span></span></span><span class="line"><span class="cl"><span class="s">    global:
+</span></span></span><span class="line"><span class="cl"><span class="s">      meshID: mesh1
+</span></span></span><span class="line"><span class="cl"><span class="s">      multiCluster:
+</span></span></span><span class="line"><span class="cl"><span class="s">        clusterName: &#34;${ISTIO_CLUSTER}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      network: &#34;${CLUSTER_NETWORK}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  components:
+</span></span></span><span class="line"><span class="cl"><span class="s">    ingressGateways:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - name: istio-ingressgateway
+</span></span></span><span class="line"><span class="cl"><span class="s">      enabled: false
+</span></span></span><span class="line"><span class="cl"><span class="s">EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">istioctl install -y -f &#34;${TEMP_DIR}/vm-cluster.yaml&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">  --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true \
+</span></span></span><span class="line"><span class="cl"><span class="s">  --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x ./install.istio.sh <span class="o">&amp;&amp;</span> ./install.istio.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Verify:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get services -n istio-system
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>NAME     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                 AGE
+istiod   ClusterIP   10.43.255.139   &lt;none&gt;        15010/TCP,15012/TCP,443/TCP,15014/TCP   39s
+</code></pre><h2 id="install-_eastwest_-gateway"><a href="#install-_eastwest_-gateway" class="anchor-link">§</a>install <em>eastwest</em> gateway</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.eastwest.gateway.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">mkdir -p &#34;${base}/bin/&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">wget -O &#34;${base}/bin/gen-eastwest-gateway.sh&#34; https://raw.githubusercontent.com/istio/istio/master/samples/multicluster/gen-eastwest-gateway.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">chmod +x &#34;${base}/bin/gen-eastwest-gateway.sh&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">&#34;${base}/bin/gen-eastwest-gateway.sh&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">  --mesh mesh1 --cluster &#34;${ISTIO_CLUSTER}&#34; --network &#34;${CLUSTER_NETWORK}&#34; | istioctl install -y -f -
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">kubectl apply -n istio-system -f - &lt;&lt;EOP
+</span></span></span><span class="line"><span class="cl"><span class="s"># Source: https://raw.githubusercontent.com/istio/istio/master/samples/multicluster/expose-istiod.yaml
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: networking.istio.io/v1alpha3
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: Gateway
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: istiod-gateway
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  selector:
+</span></span></span><span class="line"><span class="cl"><span class="s">    istio: eastwestgateway
+</span></span></span><span class="line"><span class="cl"><span class="s">  servers:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - port:
+</span></span></span><span class="line"><span class="cl"><span class="s">        name: tls-istiod
+</span></span></span><span class="line"><span class="cl"><span class="s">        number: 15012
+</span></span></span><span class="line"><span class="cl"><span class="s">        protocol: tls
+</span></span></span><span class="line"><span class="cl"><span class="s">      tls:
+</span></span></span><span class="line"><span class="cl"><span class="s">        mode: PASSTHROUGH        
+</span></span></span><span class="line"><span class="cl"><span class="s">      hosts:
+</span></span></span><span class="line"><span class="cl"><span class="s">        - &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">    - port:
+</span></span></span><span class="line"><span class="cl"><span class="s">        name: tls-istiodwebhook
+</span></span></span><span class="line"><span class="cl"><span class="s">        number: 15017
+</span></span></span><span class="line"><span class="cl"><span class="s">        protocol: tls
+</span></span></span><span class="line"><span class="cl"><span class="s">      tls:
+</span></span></span><span class="line"><span class="cl"><span class="s">        mode: PASSTHROUGH          
+</span></span></span><span class="line"><span class="cl"><span class="s">      hosts:
+</span></span></span><span class="line"><span class="cl"><span class="s">        - &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">---
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: networking.istio.io/v1alpha3
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: VirtualService
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: istiod-vs
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  hosts:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  gateways:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - istiod-gateway
+</span></span></span><span class="line"><span class="cl"><span class="s">  tls:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - match:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - port: 15012
+</span></span></span><span class="line"><span class="cl"><span class="s">      sniHosts:
+</span></span></span><span class="line"><span class="cl"><span class="s">      - &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">    route:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - destination:
+</span></span></span><span class="line"><span class="cl"><span class="s">        host: istiod.istio-system.svc.cluster.local
+</span></span></span><span class="line"><span class="cl"><span class="s">        port:
+</span></span></span><span class="line"><span class="cl"><span class="s">          number: 15012
+</span></span></span><span class="line"><span class="cl"><span class="s">  - match:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - port: 15017
+</span></span></span><span class="line"><span class="cl"><span class="s">      sniHosts:
+</span></span></span><span class="line"><span class="cl"><span class="s">      - &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">    route:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - destination:
+</span></span></span><span class="line"><span class="cl"><span class="s">        host: istiod.istio-system.svc.cluster.local
+</span></span></span><span class="line"><span class="cl"><span class="s">        port:
+</span></span></span><span class="line"><span class="cl"><span class="s">          number: 443
+</span></span></span><span class="line"><span class="cl"><span class="s">EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">kubectl apply -n istio-system -f - &lt;&lt;EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: networking.istio.io/v1alpha3
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: Gateway
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: cross-network-gateway
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  selector:
+</span></span></span><span class="line"><span class="cl"><span class="s">    istio: eastwestgateway
+</span></span></span><span class="line"><span class="cl"><span class="s">  servers:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - port:
+</span></span></span><span class="line"><span class="cl"><span class="s">        number: 15443
+</span></span></span><span class="line"><span class="cl"><span class="s">        name: tls
+</span></span></span><span class="line"><span class="cl"><span class="s">        protocol: TLS
+</span></span></span><span class="line"><span class="cl"><span class="s">      tls:
+</span></span></span><span class="line"><span class="cl"><span class="s">        mode: AUTO_PASSTHROUGH
+</span></span></span><span class="line"><span class="cl"><span class="s">      hosts:
+</span></span></span><span class="line"><span class="cl"><span class="s">        - &#34;*.local&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">kubectl label namespace istio-system topology.istio.io/network=&#34;${CLUSTER_NETWORK}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x ./install.eastwest.gateway.sh <span class="o">&amp;&amp;</span> ./install.eastwest.gateway.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h3 id="why-no-default-ingress-gateway"><a href="#why-no-default-ingress-gateway" class="anchor-link">§</a>why no default ingress gateway?</h3>
+<p>Okay, assuming that you&rsquo;d have installed the default Istio ingress gateway, you&rsquo;d be in the following situation:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get services -n istio-system -w
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>kubectl get services -n istio-system -w
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP                                 PORT(S)                                                           AGE
+istiod                  ClusterIP      10.43.255.139   &lt;none&gt;                                      15010/TCP,15012/TCP,443/TCP,15014/TCP                             17m
+istio-ingressgateway    LoadBalancer   10.43.217.75    192.168.64.60,192.168.64.61,192.168.64.62   15021:31941/TCP,80:30729/TCP,443:32187/TCP                        11m
+istio-eastwestgateway   LoadBalancer   10.43.106.169   &lt;pending&gt;                                   15021:31036/TCP,15443:32297/TCP,15012:31263/TCP,15017:32660/TCP   15s
+</code></pre><p>The <em>eastwest</em> gateway would be hanging in the <em>pending</em> state because the default ingress is already bound on required host ports. Hence, if you are in this situation, simply:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl delete service istio-ingressgateway -n istio-system
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>and wait until:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get services -n istio-system -w
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>output similar to:</p>
+<pre tabindex="0"><code>istio-eastwestgateway   LoadBalancer   10.43.106.169   192.168.64.60,192.168.64.61,192.168.64.62   15021:31036/TCP,15443:32297/TCP,15012:31263/TCP,15017:32660/TCP   3m43s
+</code></pre><h2 id="the-workload-group"><a href="#the-workload-group" class="anchor-link">§</a>the workload group</h2>
+<p>It&rsquo;s time to turn the attention to the VM. Start by creating a workload:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.workload.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">WORKLOAD_IP=$(multipass info vm-istio-etxernal-workload --format yaml | yq &#39;.&#34;vm-istio-etxernal-workload&#34;[] | select(.state == &#34;Running&#34;) | .ipv4[0]&#39; -r)
+</span></span></span><span class="line"><span class="cl"><span class="s">echo &#34;Workload IP address is: ${WORKLOAD_IP}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set +e; kubectl create namespace &#34;${VM_NAMESPACE}&#34;; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">kubectl wait --for jsonpath=&#39;{.status.phase}=Active&#39; --timeout=5s &#34;namespace/${VM_NAMESPACE}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">set +e; kubectl create serviceaccount &#34;${SERVICE_ACCOUNT}&#34; -n &#34;${VM_NAMESPACE}&#34;; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">cat &lt;&lt;EOP &gt; &#34;${base}/.tmp/workloadgroup.yaml&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: networking.istio.io/v1alpha3
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: WorkloadGroup
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: &#34;${VM_APP}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  namespace: &#34;${VM_NAMESPACE}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">    labels:
+</span></span></span><span class="line"><span class="cl"><span class="s">      app: &#34;${VM_APP}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  template:
+</span></span></span><span class="line"><span class="cl"><span class="s">    ports:
+</span></span></span><span class="line"><span class="cl"><span class="s">      http: 8000
+</span></span></span><span class="line"><span class="cl"><span class="s">    serviceAccount: &#34;${SERVICE_ACCOUNT}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">    network: &#34;${VM_NETWORK}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  probe:
+</span></span></span><span class="line"><span class="cl"><span class="s">    periodSeconds: 5
+</span></span></span><span class="line"><span class="cl"><span class="s">    initialDelaySeconds: 1
+</span></span></span><span class="line"><span class="cl"><span class="s">    httpGet:
+</span></span></span><span class="line"><span class="cl"><span class="s">      port: 8000
+</span></span></span><span class="line"><span class="cl"><span class="s">      path: /
+</span></span></span><span class="line"><span class="cl"><span class="s">EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">kubectl apply -n &#34;${VM_NAMESPACE}&#34; -f &#34;${TEMP_DIR}/workloadgroup.yaml&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">rm -rf &#34;${DATA_DIR}/workload-files&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">mkdir -p &#34;${DATA_DIR}/workload-files&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">while [ ! -f &#34;${DATA_DIR}/workload-files/root-cert.pem&#34; ]; do
+</span></span></span><span class="line"><span class="cl"><span class="s">  istioctl x workload entry configure -f &#34;${TEMP_DIR}/workloadgroup.yaml&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    -o &#34;${DATA_DIR}/workload-files&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    --clusterID &#34;${ISTIO_CLUSTER}&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    --externalIP &#34;${WORKLOAD_IP}&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    --autoregister
+</span></span></span><span class="line"><span class="cl"><span class="s">  sleep 5
+</span></span></span><span class="line"><span class="cl"><span class="s">done
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x install.workload.sh <span class="o">&amp;&amp;</span> ./install.workload.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Verify:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat .data/workload-files/hosts
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>output similar to:</p>
+<pre tabindex="0"><code>192.168.64.60 istiod.istio-system.svc
+</code></pre><p>If there are no hosts here, your <em>eastwest</em> gateway is most likely not working correctly. Do you have the default Istio ingress running? <a href="#preparing-istio-installation">I discussed this earlier in this article</a>.</p>
+<h2 id="the-vm-arm64-caveat"><a href="#the-vm-arm64-caveat" class="anchor-link">§</a>the vm: <code>arm64</code> caveat</h2>
+<p>For example if you are on an M2 mac, like me&hellip; Istio documentation instructs to install Istio sidecar on the VM using a downloaded <em>deb</em> package. The problem is, <em>Multipass</em> runs an <em>arm64</em> build of Ubuntu and the <em>deb</em> package is available only for the <em>amd64</em> architecture. Eventually, trying to start Istio on the VM, you&rsquo;d end up with:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo dpkg -i istio-sidecar.deb
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>dpkg: error processing archive istio-sidecar.deb (--install):
+ package architecture (amd64) does not match system (arm64)
+Errors were encountered while processing:
+ istio-sidecar.deb
+</code></pre><p>As a workaround, I have to replicate the work done in the <em>deb</em> package but I have to source <em>arm64</em> binaries.</p>
+<h3 id="the-_deb_-package"><a href="#the-_deb_-package" class="anchor-link">§</a>the <em>deb</em> package</h3>
+<p>I decompressed it:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">source</span> run.env
+</span></span><span class="line"><span class="cl">wget <span class="s2">&#34;https://storage.googleapis.com/istio-release/releases/</span><span class="si">${</span><span class="nv">ISTIO_VERSION</span><span class="si">}</span><span class="s2">/deb/istio-sidecar.deb&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -O <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="s2">/istio-sidecar/istio-sidecar.deb&#34;</span>
+</span></span><span class="line"><span class="cl">tar xf <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="s2">/istio-sidecar/istio-sidecar.deb&#34;</span> -C <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="s2">/istio-sidecar/&#34;</span>
+</span></span><span class="line"><span class="cl">tar xf <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="s2">/istio-sidecar/data.tar.gz&#34;</span> -C <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="s2">/istio-sidecar/&#34;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>and kept the following:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git ls-tree -r HEAD <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span>/istio-sidecar
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>100644 blob c18ec3ce73f52fafe05585de91cd4cda2cdf3951	.data/istio-sidecar/lib/systemd/system/istio.service
+100755 blob e022fbb08d4375a66276263b70380230e4702dbe	.data/istio-sidecar/usr/local/bin/istio-start.sh
+100644 blob ab4bbffd39a7462db68312b7049828c7b4c1d673	.data/istio-sidecar/var/lib/istio/envoy/envoy_bootstrap_tmpl.json
+100644 blob fc42e5483094378ca0f0b00cd52f81d1827531cb	.data/istio-sidecar/var/lib/istio/envoy/sidecar.env
+</code></pre><h3 id="arm64-binaries"><a href="#arm64-binaries" class="anchor-link">§</a><code>arm64</code> binaries</h3>
+<p><strong>Skip if not on an <em>arm64</em> host</strong>.</p>
+<p>Two binaries have to be replaced with their <em>arm64</em> versions:</p>
+<ul>
+<li><code>/usr/local/bin/envoy</code></li>
+<li><code>/usr/local/bin/pilot-agent</code></li>
+</ul>
+<p>For me, the easiest way I could come up with was to:</p>
+<ul>
+<li>Download the <em>linux/arm64</em> Istio <em>proxyv2</em> Docker image.</li>
+<li>Create a container, don&rsquo;t start it.</li>
+<li>Copy the files out of the file system.</li>
+<li>Remove the container.</li>
+<li>Reference exported filesystem for required <em>arm64</em> binaries.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.arm64.binary.patches.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">arm64_patch_dir=&#34;${TEMP_DIR}/istio-proxy-${ISTIO_VERSION}-arm64&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">rm -rf &#34;${arm64_patch_dir}&#34; &amp;&amp; mkdir -p &#34;${arm64_patch_dir}&#34; &amp;&amp; cd &#34;${arm64_patch_dir}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">${CONTAINER_TOOL} create --name=&#34;istio-export-${ISTIO_REVISION}&#34; &#34;docker.io/istio/proxyv2:${ISTIO_VERSION}&#34; --platform linux/arm64
+</span></span></span><span class="line"><span class="cl"><span class="s">${CONTAINER_TOOL} export istio-export-1-19-3 | tar x
+</span></span></span><span class="line"><span class="cl"><span class="s">${CONTAINER_TOOL} rm &#34;istio-export-${ISTIO_REVISION}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x install.arm64.binary.patches.sh <span class="o">&amp;&amp;</span> ./install.arm64.binary.patches.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>The default <em>CONTAINER_TOOL</em> depends on your <em>run.env</em> and equals to <em>docker</em> when not set. To use <em>podman</em>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">chmod +x install.arm64.binary.patches.sh <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="o">&amp;&amp;</span> <span class="nv">CONTAINER_TOOL</span><span class="o">=</span>podman ./install.arm64.binary.patches.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="start-and-configure-the-vm"><a href="#start-and-configure-the-vm" class="anchor-link">§</a>start and configure the vm</h2>
+<p>By far the largest program:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.vm.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set +e; multipass launch -c 2 -m 1G -d 4G -n vm-istio-etxernal-workload &#34;${RUN_OS}&#34;; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">WORKLOAD_IP=$(multipass info vm-istio-etxernal-workload --format yaml | yq &#39;.&#34;vm-istio-etxernal-workload&#34;[] | select(.state == &#34;Running&#34;) | .ipv4[0]&#39; -r)
+</span></span></span><span class="line"><span class="cl"><span class="s">echo &#34;Workload IP address is: ${WORKLOAD_IP}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># From the istio/proxyv2 image, copy arm64 binaries as istio-sidecar.deb is amd54 only:
+</span></span></span><span class="line"><span class="cl"><span class="s">arm64_patch_dir=&#34;${base}/.tmp/istio-proxy-${ISTIO_VERSION}-arm64&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">if [ -f &#34;${arm64_patch_dir}/usr/local/bin/envoy&#34; ]; then
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass transfer --parents &#34;${arm64_patch_dir}/usr/local/bin/envoy&#34; vm-istio-etxernal-workload:./usr/local/bin/envoy
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass transfer --parents &#34;${arm64_patch_dir}/usr/local/bin/pilot-agent&#34; vm-istio-etxernal-workload:./usr/local/bin/pilot-agent
+</span></span></span><span class="line"><span class="cl"><span class="s">fi
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># istio-sidecar.deb:
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/usr/local/bin/istio-start.sh&#34; vm-istio-etxernal-workload:./usr/local/bin/istio-start.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/lib/systemd/system/istio.service&#34; vm-istio-etxernal-workload:./lib/systemd/system/istio.service 
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/var/lib/istio/envoy/envoy_bootstrap_tmpl.json&#34; vm-istio-etxernal-workload:./var/lib/istio/envoy/envoy_bootstrap_tmpl.json
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/var/lib/istio/envoy/sidecar.env&#34; vm-istio-etxernal-workload:./var/lib/istio/envoy/sidecar.env
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># Configure the istio-sidecar.deb-like environment:
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /etc/certs
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /etc/istio/config
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/lib/istio/config
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/lib/istio/envoy
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/lib/istio/proxy
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/log/istio
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo touch /var/lib/istio/config/mesh
+</span></span></span><span class="line"><span class="cl"><span class="s">if [ -f &#34;${arm64_patch_dir}/usr/local/bin/envoy&#34; ]; then
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v usr/local/bin/* /usr/local/bin/&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v lib/systemd/system/istio.service /lib/systemd/system/istio.service&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v var/lib/istio/envoy/* /var/lib/istio/envoy/&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">  # From postinst:
+</span></span></span><span class="line"><span class="cl"><span class="s">  set +e; multipass exec vm-istio-etxernal-workload -- sudo groupadd --system istio-proxy; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">  set +e; multipass exec vm-istio-etxernal-workload -- sudo useradd --system --gid istio-proxy --home-dir /var/lib/istio istio-proxy; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">else
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;curl -LO https://storage.googleapis.com/istio-release/releases/&#39;${ISTIO_VERSION}&#39;/deb/istio-sidecar.deb &amp;&amp; sudo dpkg -i istio-sidecar.deb&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">fi
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># Deploy workload files:
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/root-cert.pem&#34; vm-istio-etxernal-workload:./workload/root-cert.pem
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/cluster.env&#34; vm-istio-etxernal-workload:./workload/cluster.env
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/istio-token&#34; vm-istio-etxernal-workload:./workload/istio-token
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/mesh.yaml&#34; vm-istio-etxernal-workload:./workload/mesh
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># Good tip from the Istio in Action book (page 364).
+</span></span></span><span class="line"><span class="cl"><span class="s"># --------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="s"># Concatenate the contents of the hosts file contents to the systems hosts file:
+</span></span></span><span class="line"><span class="cl"><span class="s"># --------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="s">cat &gt; ${base}/.data/workload-files/all-hosts &lt;&lt;EOP
+</span></span></span><span class="line"><span class="cl"><span class="s"># Your system has configured &#39;manage_etc_hosts&#39; as True.
+</span></span></span><span class="line"><span class="cl"><span class="s"># As a result, if you wish for changes to this file to persist
+</span></span></span><span class="line"><span class="cl"><span class="s"># then you will need to either
+</span></span></span><span class="line"><span class="cl"><span class="s"># a.) make changes to the master file in /etc/cloud/templates/hosts.debian.tmpl
+</span></span></span><span class="line"><span class="cl"><span class="s"># b.) change or remove the value of &#39;manage_etc_hosts&#39; in
+</span></span></span><span class="line"><span class="cl"><span class="s">#     /etc/cloud/cloud.cfg or cloud-config from user-data
+</span></span></span><span class="line"><span class="cl"><span class="s">#
+</span></span></span><span class="line"><span class="cl"><span class="s">127.0.1.1 vm-istio-etxernal-workload vm-istio-etxernal-workload
+</span></span></span><span class="line"><span class="cl"><span class="s">127.0.0.1 localhost
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># The following lines are desirable for IPv6 capable hosts
+</span></span></span><span class="line"><span class="cl"><span class="s">::1 localhost ip6-localhost ip6-loopback
+</span></span></span><span class="line"><span class="cl"><span class="s">ff02::1 ip6-allnodes
+</span></span></span><span class="line"><span class="cl"><span class="s">ff02::2 ip6-allrouters
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">$(cat ${base}/.data/workload-files/hosts)
+</span></span></span><span class="line"><span class="cl"><span class="s">EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/all-hosts&#34; vm-istio-etxernal-workload:./workload/hosts
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/hosts /etc/hosts&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># Another good tip from the Istio in Action book (page 364).
+</span></span></span><span class="line"><span class="cl"><span class="s"># ----------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="s"># Hardcode the hostname of the machine to the hosts file so that the istio-agent doesn’t interfere with its hostname resolution:
+</span></span></span><span class="line"><span class="cl"><span class="s"># ----------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;echo &#34;&#39;${WORKLOAD_IP}&#39; $(hostname)&#34; &gt;&gt; /etc/hosts&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/root-cert.pem /etc/certs/root-cert.pem&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/cluster.env /var/lib/istio/envoy/cluster.env&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/run/secrets/tokens
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/istio-token /var/run/secrets/tokens/istio-token&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/mesh /etc/istio/config/mesh&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo chmod o+rx /usr/local/bin/{envoy,pilot-agent}
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo chmod 2755 /usr/local/bin/{envoy,pilot-agent}
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo chown -R istio-proxy.istio-proxy \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /etc/certs \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /etc/istio \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /var/run/secrets \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /var/lib/istio/envoy \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /var/lib/istio/config \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /var/log/istio \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /var/lib/istio/config/mesh \
+</span></span></span><span class="line"><span class="cl"><span class="s">  /var/lib/istio/proxy
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x install.vm.sh <span class="o">&amp;&amp;</span> ./install.vm.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Let&rsquo;s break it down:</p>
+<ul>
+<li>Start the <em>vm-istio-etxernal-workload</em> VM.</li>
+<li>Fetch its IP address, the workload IP.</li>
+<li>Honor any possible <em>arm64</em> binary patches.</li>
+<li>Transfer files extracted from the <em>deb</em> package to their respective locations on in the VM.</li>
+<li>Transfer workload files to the VM into their respective destinations.</li>
+<li>Execute relevant <em>deb</em> <em>postinst</em> script steps, if necessary.</li>
+</ul>
+<h2 id="validate-the-vm"><a href="#validate-the-vm" class="anchor-link">§</a>validate the vm</h2>
+<p>Get the shell on the VM:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">multipass <span class="nb">exec</span> vm-istio-external-workload -- bash
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>On the VM <code>ubuntu@vm-istio-etxernal-workload:~$</code>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> /
+</span></span><span class="line"><span class="cl">sudo istio-start.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>2023-11-01T01:27:02.836001Z	info	Running command: iptables -t nat -D PREROUTING -p tcp -j ISTIO_INBOUND
+2023-11-01T01:27:02.837879Z	info	Running command: iptables -t mangle -D PREROUTING -p tcp -j ISTIO_INBOUND
+2023-11-01T01:27:02.839355Z	info	Running command: iptables -t nat -D OUTPUT -p tcp -j ISTIO_OUTPUT
+...
+2023-11-01T01:27:04.000569Z	error	citadelclient	Failed to load key pair open etc/certs/cert-chain.pem: no such file or directory
+2023-11-01T01:27:04.004712Z	info	cache	generated new workload certificate	latency=118.57166ms ttl=23h59m58.995289161s
+2023-11-01T01:27:04.004744Z	info	cache	Root cert has changed, start rotating root cert
+2023-11-01T01:27:04.004759Z	info	ads	XDS: Incremental Pushing ConnectedEndpoints:2 Version:
+2023-11-01T01:27:04.004885Z	info	cache	returned workload certificate from cache	ttl=23h59m58.995116686s
+2023-11-01T01:27:04.004954Z	info	cache	returned workload trust anchor from cache	ttl=23h59m58.995045987s
+2023-11-01T01:27:04.005150Z	info	cache	returned workload trust anchor from cache	ttl=23h59m58.994850182s
+2023-11-01T01:27:04.006124Z	info	ads	SDS: PUSH request for node:vm-istio-etxernal-workload.vmns resources:1 size:4.0kB resource:default
+2023-11-01T01:27:04.006176Z	info	ads	SDS: PUSH request for node:vm-istio-etxernal-workload.vmns resources:1 size:1.1kB resource:ROOTCA
+2023-11-01T01:27:04.006204Z	info	cache	returned workload trust anchor from cache	ttl=23h59m58.99379629s
+</code></pre><h3 id="validate-dns-resolution"><a href="#validate-dns-resolution" class="anchor-link">§</a>validate DNS resolution</h3>
+<p>Open another terminal:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">multipass <span class="nb">exec</span> vm-istio-external-workload -- bash
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>On the VM <code>ubuntu@vm-istio-etxernal-workload:~$</code>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dig istiod.istio-system.svc
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>; &lt;&lt;&gt;&gt; DiG 9.18.12-0ubuntu0.22.04.3-Ubuntu &lt;&lt;&gt;&gt; istiod.istio-system.svc
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 27953
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; WARNING: recursion requested but not available
+
+;; QUESTION SECTION:
+;istiod.istio-system.svc.	IN	A
+
+;; ANSWER SECTION:
+istiod.istio-system.svc. 30	IN	A	10.43.26.124
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Wed Nov 01 02:31:59 CET 2023
+;; MSG SIZE  rcvd: 80
+</code></pre><p>The IP address should in the <em>answer section</em> be equal to the cluster IP of the service:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get service istiod -n istio-system
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>NAME     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                                 AGE
+istiod   ClusterIP   10.43.26.124   &lt;none&gt;        15010/TCP,15012/TCP,443/TCP,15014/TCP   19m
+</code></pre><p>It&rsquo;s <em>10.43.26.124</em> in both cases, the DNS resolution is working.</p>
+<h3 id="validating-communication"><a href="#validating-communication" class="anchor-link">§</a>validating communication</h3>
+<p>Deploy a sample application allowing us to validate the connection from the VM to the mesh.</p>
+<h4 id="create-and-configure-the-namespace"><a href="#create-and-configure-the-namespace" class="anchor-link">§</a>create and configure the namespace</h4>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl create namespace sample
+</span></span><span class="line"><span class="cl">kubectl label namespace sample istio-injection<span class="o">=</span>enabled
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h4 id="on-amd64-host"><a href="#on-amd64-host" class="anchor-link">§</a>on <code>amd64</code> host</h4>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl apply -n sample -f https://raw.githubusercontent.com/istio/istio/release-1.19/samples/helloworld/helloworld.yaml
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h4 id="on-arm64-host"><a href="#on-arm64-host" class="anchor-link">§</a>on <code>arm64</code> host</h4>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent https://raw.githubusercontent.com/istio/istio/release-1.19/samples/helloworld/helloworld.yaml <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="p">|</span> sed -E <span class="s1">&#39;s!istio/examples!radekg/examples!g&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="p">|</span> kubectl apply -n sample -f -
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Again, both example images published by Istio do not exist for the <em>linux/arm64</em> architecture, I build them from my own <em>Dockerfile</em> for <em>linux/arm64</em>. <a href="https://github.com/radekg/istio-vms/tree/version-1/istio-examples" target="_blank" rel="noopener">The source code is here</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</p>
+<h4 id="hello-world-pods-are-running"><a href="#hello-world-pods-are-running" class="anchor-link">§</a>hello world pods are running</h4>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get pods -n sample -w
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>NAME                            READY   STATUS            RESTARTS   AGE
+helloworld-v1-cff64bf8c-z5nq5   0/2     PodInitializing   0          8s
+helloworld-v2-9fdc9f56f-tbmk8   0/2     PodInitializing   0          8s
+helloworld-v1-cff64bf8c-z5nq5   1/2     Running           0          20s
+helloworld-v2-9fdc9f56f-tbmk8   1/2     Running           0          21s
+helloworld-v1-cff64bf8c-z5nq5   2/2     Running           0          21s
+helloworld-v2-9fdc9f56f-tbmk8   2/2     Running           0          22s
+</code></pre><h4 id="checking-vm-to-mesh-connectivity"><a href="#checking-vm-to-mesh-connectivity" class="anchor-link">§</a>checking vm to mesh connectivity</h4>
+<p>In a shell on a VM <code>ubuntu@vm-istio-etxernal-workload:-$</code>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -v helloworld.sample.svc:5000/hello
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>*   Trying 10.43.109.101:5000...
+* Connected to helloworld.sample.svc (10.43.109.101) port 5000 (#0)
+&gt; GET /hello HTTP/1.1
+&gt; Host: helloworld.sample.svc:5000
+&gt; User-Agent: curl/7.81.0
+&gt; Accept: */*
+&gt;
+* Mark bundle as not supporting multiuse
+&lt; HTTP/1.1 200 OK
+&lt; server: envoy
+&lt; date: Wed, 01 Nov 2023 01:59:55 GMT
+&lt; content-type: text/html; charset=utf-8
+&lt; content-length: 59
+&lt; x-envoy-upstream-service-time: 88
+&lt;
+Hello version: v2, instance: helloworld-v2-9fdc9f56f-tbmk8
+* Connection #0 to host helloworld.sample.svc left intact
+</code></pre><p>The service responded, tthe VM can reach services in the mesh.</p>
+<h2 id="routing-mesh-traffic-to-the-vm"><a href="#routing-mesh-traffic-to-the-vm" class="anchor-link">§</a>routing mesh traffic to the vm</h2>
+<p>Create a service pointing at the workload group:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.route.to-vm.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">kubectl apply -n vmns -f - &lt;&lt;EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: Service
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  labels:
+</span></span></span><span class="line"><span class="cl"><span class="s">    app: external-app
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: external-app
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  ports:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - name: http
+</span></span></span><span class="line"><span class="cl"><span class="s">    port: 8000
+</span></span></span><span class="line"><span class="cl"><span class="s">    protocol: TCP
+</span></span></span><span class="line"><span class="cl"><span class="s">    targetPort: 8000
+</span></span></span><span class="line"><span class="cl"><span class="s">  selector:
+</span></span></span><span class="line"><span class="cl"><span class="s">    app: external-app
+</span></span></span><span class="line"><span class="cl"><span class="s">EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x install.route.to-vm.sh <span class="o">&amp;&amp;</span> ./install.route.to-vm.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Find the workload entry, this exists only when Istio sidecar is running in the VM.</p>
+<h3 id="workload-entry-is-unhealthy"><a href="#workload-entry-is-unhealthy" class="anchor-link">§</a>workload entry is unhealthy</h3>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get workloadentry -n vmns
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>NAME                                    AGE     ADDRESS
+external-app-192.168.64.64-vm-network   2m33s   192.168.64.64
+</code></pre><p>Check its status, it will be unhealthy:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get workloadentry external-app-192.168.64.64-vm-network -n vmns -o yaml <span class="p">|</span> yq <span class="s1">&#39;.status&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">conditions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">lastProbeTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2023-11-01T21:04:50.343243250Z&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2023-11-01T21:04:50.343245959Z&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Get &#34;http://localhost:8000/&#34;: dial tcp 127.0.0.6:0-&gt;127.0.0.1:8000:
+</span></span></span><span class="line"><span class="cl"><span class="s1">      connect: connection refused&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;False&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">Healthy</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
+</div>
+</div><h3 id="fix-it-by-starting-the-workload"><a href="#fix-it-by-starting-the-workload" class="anchor-link">§</a>fix it by starting the workload</h3>
+<p>The reason why it is unhealthy is because the service on the VM isn&rsquo;t running. Start a simple HTTP server to fix this, on the VM <code>ubuntu@vm-istio-etxernal-workload:-$</code>:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">python3 -m http.server
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+127.0.0.6 - - [01/Nov/2023 22:44:25] &#34;GET / HTTP/1.1&#34; 200 -
+127.0.0.6 - - [01/Nov/2023 22:44:30] &#34;GET / HTTP/1.1&#34; 200 -
+127.0.0.6 - - [01/Nov/2023 22:44:35] &#34;GET / HTTP/1.1&#34; 200 -
+...
+</code></pre><p>Almost immediately we see requests arriving. This is the health check. Istio sidecar on the VM logged:</p>
+<pre tabindex="0"><code>2023-11-01T21:04:50.337302Z	info	healthcheck	failure threshold hit, marking as unhealthy: Get &#34;http://localhost:8000/&#34;: dial tcp 127.0.0.6:0-&gt;127.0.0.1:8000: connect: connection refused
+2023-11-01T21:32:12.943221Z	info	xdsproxy	connected to upstream XDS server: istiod.istio-system.svc:15012
+2023-11-01T21:44:25.343463Z	info	healthcheck	success threshold hit, marking as healthy
+</code></pre><p>The status of the workload entry has changed:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl get workloadentry external-app-192.168.64.64-vm-network -n vmns -o yaml <span class="p">|</span> yq <span class="s1">&#39;.status&#39;</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">conditions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">lastProbeTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2023-11-01T21:44:25.339260737Z&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2023-11-01T21:44:25.339264070Z&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">Healthy</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
+</div>
+</div><h3 id="verify-connectivity-with-curl"><a href="#verify-connectivity-with-curl" class="anchor-link">§</a>verify connectivity with <code>curl</code></h3>
+<p>Finally, run an actual command to verify:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl run vm-response-test -n sample --image<span class="o">=</span>curlimages/curl:8.4.0 --rm -i --tty -- sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>If you don&#39;t see a command prompt, try pressing enter.
+~ $
+</code></pre><p><strong>Pay attention</strong> to the <strong>namespace</strong> used in the last command above. The <em>curl</em> pod must be launched in an <em>Istio-enabled</em> namespace, and <em>sample</em> already existed.</p>
+<p>Execute the following command in that terminal:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -v http://external-app.vmns.svc:8000/
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>*   Trying 10.43.122.27:8000...
+* Connected to external-app.vmns.svc (10.43.122.27) port 8000
+&gt; GET / HTTP/1.1
+&gt; Host: external-app.vmns.svc:8000
+&gt; User-Agent: curl/8.4.0
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 200 OK
+&lt; server: envoy
+&lt; date: Wed, 01 Nov 2023 22:10:20 GMT
+&lt; content-type: text/html; charset=utf-8
+&lt; content-length: 768
+&lt; x-envoy-upstream-service-time: 7
+&lt;
+&lt;!DOCTYPE HTML PUBLIC &#34;-//W3C//DTD HTML 4.01//EN&#34; &#34;http://www.w3.org/TR/html4/strict.dtd&#34;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&#34;Content-Type&#34; content=&#34;text/html; charset=utf-8&#34;&gt;
+&lt;title&gt;Directory listing for /&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Directory listing for /&lt;/h1&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;.bash_history&#34;&gt;.bash_history&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.bash_logout&#34;&gt;.bash_logout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.bashrc&#34;&gt;.bashrc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.cache/&#34;&gt;.cache/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.profile&#34;&gt;.profile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.ssh/&#34;&gt;.ssh/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.sudo_as_admin_successful&#34;&gt;.sudo_as_admin_successful&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;lib/&#34;&gt;lib/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;usr/&#34;&gt;usr/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;var/&#34;&gt;var/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;workload/&#34;&gt;workload/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+* Connection #0 to host external-app.vmns.svc left intact
+</code></pre><h2 id="enable-strict-tls"><a href="#enable-strict-tls" class="anchor-link">§</a>enable strict tls</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.strict.tls.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set -eu
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">kubectl apply -f - &lt;&lt;EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: security.istio.io/v1beta1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: PeerAuthentication
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: default
+</span></span></span><span class="line"><span class="cl"><span class="s">  namespace: istio-system
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  mtls:
+</span></span></span><span class="line"><span class="cl"><span class="s">    mode: STRICT
+</span></span></span><span class="line"><span class="cl"><span class="s">EOP
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">chmod +x install.strict.tls.sh <span class="o">&amp;&amp;</span> ./install.strict.tls.sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>There are no observable changes.</p>
+<h2 id="network-policies"><a href="#network-policies" class="anchor-link">§</a>network policies</h2>
+<h3 id="caveat-cannot-select-a-workload-entry-in-a-network-policy"><a href="#caveat-cannot-select-a-workload-entry-in-a-network-policy" class="anchor-link">§</a>caveat: cannot select a workload entry in a network policy</h3>
+<p>Because a network policy selects pods using <code>.spec.podSelector</code>, and we have no pods—we have a workload entry instead—we are not able to attach network policies to the VM. The following has no effect:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl apply -n vmns -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">---
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: NetworkPolicy
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: networking.k8s.io/v1
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: deny-all
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  podSelector:
+</span></span></span><span class="line"><span class="cl"><span class="s">    matchLabels:
+</span></span></span><span class="line"><span class="cl"><span class="s">      app: external-app
+</span></span></span><span class="line"><span class="cl"><span class="s">  ingress: []
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl run vm-response-test -n sample --image<span class="o">=</span>curlimages/curl:8.4.0 --rm -i --tty -- sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>in that shell:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -v http://external-app.vmns.svc:8000/
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>*   Trying 10.43.122.27:8000...
+* Connected to external-app.vmns.svc (10.43.122.27) port 8000
+&gt; GET / HTTP/1.1
+&gt; Host: external-app.vmns.svc:8000
+&gt; User-Agent: curl/8.4.0
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 200 OK
+&lt; server: envoy
+...
+</code></pre><p><strong>Cosider future work</strong>: is this working when using Istio CNI?</p>
+<h3 id="guarding-the-vm-from-the-source-of-traffic-namespace"><a href="#guarding-the-vm-from-the-source-of-traffic-namespace" class="anchor-link">§</a>guarding the vm from the source of traffic namespace</h3>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl apply -n sample -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">---
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: NetworkPolicy
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: networking.k8s.io/v1
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: deny-egress-tovmns
+</span></span></span><span class="line"><span class="cl"><span class="s">spec:
+</span></span></span><span class="line"><span class="cl"><span class="s">  podSelector: {}
+</span></span></span><span class="line"><span class="cl"><span class="s">  policyTypes:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - Egress
+</span></span></span><span class="line"><span class="cl"><span class="s">  egress:
+</span></span></span><span class="line"><span class="cl"><span class="s">  - to:
+</span></span></span><span class="line"><span class="cl"><span class="s">    - namespaceSelector:
+</span></span></span><span class="line"><span class="cl"><span class="s">        matchExpressions:
+</span></span></span><span class="line"><span class="cl"><span class="s">        - key: namespace
+</span></span></span><span class="line"><span class="cl"><span class="s">          operator: NotIn
+</span></span></span><span class="line"><span class="cl"><span class="s">          values: [&#34;vmns&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl run vm-response-test -n sample --image<span class="o">=</span>curlimages/curl:8.4.0 --rm -i --tty -- sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>in that shell:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl http://external-app.vmns.svc:8000/
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>upstream connect error or disconnect/reset before headers. retried and the latest reset reason: remote connection failure, transport failure reason: delayed connect error: 111~ $ ^C
+~ $ exit
+Session ended, resume using &#39;kubectl attach vm-response-test -c vm-response-test -i -t&#39; command when the pod is running
+pod &#34;vm-response-test&#34; deleted
+</code></pre><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl delete networkpolicy deny-egress-tovmns -n sample
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl run vm-response-test -n sample --image<span class="o">=</span>curlimages/curl:8.4.0 --rm -i --tty -- sh
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>in that shell:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl http://external-app.vmns.svc:8000/
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><pre tabindex="0"><code>&lt;!DOCTYPE HTML PUBLIC &#34;-//W3C//DTD HTML 4.01//EN&#34; &#34;http://www.w3.org/TR/html4/strict.dtd&#34;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&#34;Content-Type&#34; content=&#34;text/html; charset=utf-8&#34;&gt;
+&lt;title&gt;Directory listing for /&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Directory listing for /&lt;/h1&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;.bash_history&#34;&gt;.bash_history&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.bash_logout&#34;&gt;.bash_logout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.bashrc&#34;&gt;.bashrc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.cache/&#34;&gt;.cache/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.profile&#34;&gt;.profile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.ssh/&#34;&gt;.ssh/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;.sudo_as_admin_successful&#34;&gt;.sudo_as_admin_successful&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;lib/&#34;&gt;lib/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;usr/&#34;&gt;usr/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;var/&#34;&gt;var/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;workload/&#34;&gt;workload/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="network-boundary-for-network-policies"><a href="#network-boundary-for-network-policies" class="anchor-link">§</a>network boundary for network policies</h3>
+<p>Current situation:</p>
+<ul>
+<li>Egress from source to the VM can be blocked only on a namespace level.</li>
+<li>On the VM side, network policies aren&rsquo;t capable selecting workload entries. These only select pods using <code>.spec.podSelector</code>.</li>
+</ul>
+<p>The natural network boundary is the namespace and explicit deny of egress to the namespace with the VM.</p>
+<h2 id="summary"><a href="#summary" class="anchor-link">§</a>Summary</h2>
+<p>Success, a pod in the mesh can communicate to the VM via the service, VM is in the mesh and can communicate back to the mesh. Istio VM workloads are easy way to automate VM-mesh onboarding.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://istio.io/latest/docs/setup/install/virtual-machine/" target="_blank" rel="noopener">Virtual Machine Installation</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://multipass.run/docs/installing-on-linux" target="_blank" rel="noopener">Installing Multipass on Linux</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://github.com/mikefarah/yq#install" target="_blank" rel="noopener">yq installation instructions</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://github.com/radekg/istio-vms/tree/version-1/istio-examples" target="_blank" rel="noopener">Istio hello world examples for linux/arm64</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
+</div>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2023-10-31-istio-external-workloads/" target="_blank" rel="noopener">https://gruchalski.com/posts/2023-10-31-istio-external-workloads/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2023-10-31-istio-external-workloads/&amp;text=Istio%20VM%20workloads&amp;hashtags=istio,kubernetes,k8s,multipass,tls,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2023-10-31-istio-external-workloads/&amp;title=Istio%20VM%20workloads&amp;summary=setting%20up%20a%20proof-of-concept%20connectivity%20with%20a%20VM%20in%20an%20Istio%20mesh&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2023-10-31-istio-external-workloads\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/2023-07-09-istio-cert-manager-lets-encrypt-and-https-redirect/" class="related-link">Istio, cert-manager, Let&rsquo;s Encrypt and HTTPS redirect</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2023-07-10-yq-the-yaml-power-tool/" class="related-link">yq - the yaml power tool</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-06-19-istio-canary-upgrades/" class="related-link">Istio canary upgrades</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-04-06-apache-mesos-reaches-end-of-life/" class="related-link">Apache Mesos reaches end of life</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" class="related-link">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/istio/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>istio</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/kubernetes/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>kubernetes</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/k8s/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>k8s</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/multipass/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>multipass</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/tls/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>tls</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/" rel="next">YugabyteDB build infrastructure upgrade &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2023&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
