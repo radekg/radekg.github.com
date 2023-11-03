@@ -55,13 +55,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2023-11-02T00:00:00+02:00",
-        "dateModified": "2023-11-03T00:56:46+01:00",
+        "dateModified": "2023-11-03T10:49:40+01:00",
         "url": "https://gruchalski.com/posts/2023-11-02-istio-external-workloads/",
         "headline": "Istio VM workloads",
         "description": "setting up a proof-of-concept connectivity with a VM in an Istio mesh",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  4387 ,
+        "wordCount":  4420 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -103,7 +103,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2023-11-02T00:00:00&#43;02:00" />
-    <meta property="article:modified_time" content="2023-11-03T00:56:46&#43;01:00" />
+    <meta property="article:modified_time" content="2023-11-03T10:49:40&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -231,7 +231,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;4387</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;4420</span>
     
     
         
@@ -389,6 +389,10 @@
 </span><span class="lnt">29
 </span><span class="lnt">30
 </span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; run.env
@@ -412,6 +416,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">export MEM_MASTER=1G
 </span></span></span><span class="line"><span class="cl"><span class="s">export MEM_WORKER=8G
 </span></span></span><span class="line"><span class="cl"><span class="s"># VM-related configuration:
+</span></span></span><span class="line"><span class="cl"><span class="s">export WORKLOAD_VM_NAME=vm-istio-external-workload
 </span></span></span><span class="line"><span class="cl"><span class="s">export ISTIO_CLUSTER=test
 </span></span></span><span class="line"><span class="cl"><span class="s">export VM_APP=&#34;external-app&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">export VM_NAMESPACE=&#34;vmns&#34;
@@ -420,7 +425,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">export VM_NETWORK=&#34;vm-network&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># However, if there&#39;s a run.env file in pwd, use that one:
-</span></span></span><span class="line"><span class="cl"><span class="s">[ -f `pwd`&#34;/run.env&#34; ] &amp;&amp; source `pwd`&#34;/run.env&#34; &amp;&amp; &gt;&amp;2 echo &#34;configured from `pwd`/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">pwd=`pwd`
+</span></span></span><span class="line"><span class="cl"><span class="s">if [ &#34;${pwd}&#34; != &#34;${env_base}&#34; ]; then
+</span></span></span><span class="line"><span class="cl"><span class="s">  [ -f &#34;${pwd}/run.env&#34; ] &amp;&amp; source &#34;${pwd}/run.env&#34; &amp;&amp; &gt;&amp;2 echo &#34;configured from ${pwd}/run.env&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">fi
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
@@ -1012,7 +1020,7 @@ istio-eastwestgateway   LoadBalancer   10.43.106.169   &lt;pending&gt;          
 </span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">WORKLOAD_IP=$(multipass info vm-istio-etxernal-workload --format yaml | yq &#39;.&#34;vm-istio-etxernal-workload&#34;[] | select(.state == &#34;Running&#34;) | .ipv4[0]&#39; -r)
+</span></span></span><span class="line"><span class="cl"><span class="s">WORKLOAD_IP=$(multipass info &#34;${WORKLOAD_VM_NAME}&#34; --format yaml | yq &#39;.&#39;${WORKLOAD_VM_NAME}&#39;[] | select(.state == &#34;Running&#34;) | .ipv4[0]&#39; -r)
 </span></span></span><span class="line"><span class="cl"><span class="s">echo &#34;Workload IP address is: ${WORKLOAD_IP}&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s">set +e; kubectl create namespace &#34;${VM_NAMESPACE}&#34;; set -e
@@ -1284,6 +1292,22 @@ Errors were encountered while processing:
 </span><span class="lnt"> 99
 </span><span class="lnt">100
 </span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.vm.sh
@@ -1294,52 +1318,75 @@ Errors were encountered while processing:
 </span></span></span><span class="line"><span class="cl"><span class="s">base=&#34;$( cd &#34;$( dirname &#34;${BASH_SOURCE[0]}&#34; )&#34; &amp;&amp; pwd )&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">source &#34;${base}/run.env&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">set +e; multipass launch -c 2 -m 1G -d 4G -n vm-istio-etxernal-workload &#34;${RUN_OS}&#34;; set -e
-</span></span></span><span class="line"><span class="cl"><span class="s">WORKLOAD_IP=$(multipass info vm-istio-etxernal-workload --format yaml | yq &#39;.&#34;vm-istio-etxernal-workload&#34;[] | select(.state == &#34;Running&#34;) | .ipv4[0]&#39; -r)
+</span></span></span><span class="line"><span class="cl"><span class="s">delete=&#34;false&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">recreate=&#34;false&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">for var in &#34;$@&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">do
+</span></span></span><span class="line"><span class="cl"><span class="s">  [ &#34;${var}&#34; == &#34;--delete&#34; ] &amp;&amp; delete=&#34;true&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  [ &#34;${var}&#34; == &#34;--recreate&#34; ] &amp;&amp; recreate=&#34;true&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">done
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">if [ &#34;${delete}&#34; == &#34;true&#34; ]; then
+</span></span></span><span class="line"><span class="cl"><span class="s">  echo &gt;&amp;2 &#34;Deleting the workload machine...&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  rm -rfv &#34;${DATA_DIR}/workload-files&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass delete &#34;${WORKLOAD_VM_NAME}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass purge
+</span></span></span><span class="line"><span class="cl"><span class="s">  exit 0
+</span></span></span><span class="line"><span class="cl"><span class="s">fi
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">if [ &#34;${recreate}&#34; == &#34;true&#34; ]; then
+</span></span></span><span class="line"><span class="cl"><span class="s">  echo &gt;&amp;2 &#34;Recreating the workload machine...&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  rm -rfv &#34;${DATA_DIR}/workload-files&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass delete &#34;${WORKLOAD_VM_NAME}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass purge
+</span></span></span><span class="line"><span class="cl"><span class="s">fi
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">set +e; multipass launch -c 2 -m 1G -d 4G -n &#34;${WORKLOAD_VM_NAME}&#34; &#34;${RUN_OS}&#34;; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">WORKLOAD_IP=$(multipass info &#34;${WORKLOAD_VM_NAME}&#34; --format yaml | yq &#39;.&#39;${WORKLOAD_VM_NAME}&#39;[] | select(.state == &#34;Running&#34;) | .ipv4[0]&#39; -r)
 </span></span></span><span class="line"><span class="cl"><span class="s">echo &#34;Workload IP address is: ${WORKLOAD_IP}&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># From the istio/proxyv2 image, copy arm64 binaries as istio-sidecar.deb is amd54 only:
 </span></span></span><span class="line"><span class="cl"><span class="s">arm64_patch_dir=&#34;${base}/.tmp/istio-proxy-${ISTIO_VERSION}-arm64&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">if [ -f &#34;${arm64_patch_dir}/usr/local/bin/envoy&#34; ]; then
-</span></span></span><span class="line"><span class="cl"><span class="s">  multipass transfer --parents &#34;${arm64_patch_dir}/usr/local/bin/envoy&#34; vm-istio-etxernal-workload:./usr/local/bin/envoy
-</span></span></span><span class="line"><span class="cl"><span class="s">  multipass transfer --parents &#34;${arm64_patch_dir}/usr/local/bin/pilot-agent&#34; vm-istio-etxernal-workload:./usr/local/bin/pilot-agent
+</span></span></span><span class="line"><span class="cl"><span class="s">  echo &gt;&amp;2 &#34;Deploying with arm64 binaries...&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass transfer --parents &#34;${arm64_patch_dir}/usr/local/bin/envoy&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./usr/local/bin/envoy
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass transfer --parents &#34;${arm64_patch_dir}/usr/local/bin/pilot-agent&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./usr/local/bin/pilot-agent
+</span></span></span><span class="line"><span class="cl"><span class="s">else
+</span></span></span><span class="line"><span class="cl"><span class="s">  echo &gt;&amp;2 &#34;Deploying without arm64 binaries.&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">fi
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># istio-sidecar.deb:
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/usr/local/bin/istio-start.sh&#34; vm-istio-etxernal-workload:./usr/local/bin/istio-start.sh
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/lib/systemd/system/istio.service&#34; vm-istio-etxernal-workload:./lib/systemd/system/istio.service 
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/var/lib/istio/envoy/envoy_bootstrap_tmpl.json&#34; vm-istio-etxernal-workload:./var/lib/istio/envoy/envoy_bootstrap_tmpl.json
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/var/lib/istio/envoy/sidecar.env&#34; vm-istio-etxernal-workload:./var/lib/istio/envoy/sidecar.env
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/usr/local/bin/istio-start.sh&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./usr/local/bin/istio-start.sh
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/lib/systemd/system/istio.service&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./lib/systemd/system/istio.service 
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/var/lib/istio/envoy/envoy_bootstrap_tmpl.json&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./var/lib/istio/envoy/envoy_bootstrap_tmpl.json
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${DATA_DIR}/istio-sidecar/var/lib/istio/envoy/sidecar.env&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./var/lib/istio/envoy/sidecar.env
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># Configure the istio-sidecar.deb-like environment:
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /etc/certs
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /etc/istio/config
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/lib/istio/config
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/lib/istio/envoy
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/lib/istio/proxy
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/log/istio
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo touch /var/lib/istio/config/mesh
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo mkdir -p /etc/certs
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo mkdir -p /etc/istio/config
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo mkdir -p /var/lib/istio/config
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo mkdir -p /var/lib/istio/envoy
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo mkdir -p /var/lib/istio/proxy
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo mkdir -p /var/log/istio
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo touch /var/lib/istio/config/mesh
 </span></span></span><span class="line"><span class="cl"><span class="s">if [ -f &#34;${arm64_patch_dir}/usr/local/bin/envoy&#34; ]; then
-</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v usr/local/bin/* /usr/local/bin/&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v lib/systemd/system/istio.service /lib/systemd/system/istio.service&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v var/lib/istio/envoy/* /var/lib/istio/envoy/&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v usr/local/bin/* /usr/local/bin/&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v lib/systemd/system/istio.service /lib/systemd/system/istio.service&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v var/lib/istio/envoy/* /var/lib/istio/envoy/&#39;
 </span></span></span><span class="line"><span class="cl"><span class="s">  # From postinst:
-</span></span></span><span class="line"><span class="cl"><span class="s">  set +e; multipass exec vm-istio-etxernal-workload -- sudo groupadd --system istio-proxy; set -e
-</span></span></span><span class="line"><span class="cl"><span class="s">  set +e; multipass exec vm-istio-etxernal-workload -- sudo useradd --system --gid istio-proxy --home-dir /var/lib/istio istio-proxy; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">  set +e; multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo groupadd --system istio-proxy; set -e
+</span></span></span><span class="line"><span class="cl"><span class="s">  set +e; multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo useradd --system --gid istio-proxy --home-dir /var/lib/istio istio-proxy; set -e
 </span></span></span><span class="line"><span class="cl"><span class="s">else
-</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;curl -LO https://storage.googleapis.com/istio-release/releases/&#39;${ISTIO_VERSION}&#39;/deb/istio-sidecar.deb &amp;&amp; sudo dpkg -i istio-sidecar.deb&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">  multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;curl -LO https://storage.googleapis.com/istio-release/releases/&#39;${ISTIO_VERSION}&#39;/deb/istio-sidecar.deb &amp;&amp; sudo dpkg -i istio-sidecar.deb&#39;
 </span></span></span><span class="line"><span class="cl"><span class="s">fi
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># Deploy workload files:
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/root-cert.pem&#34; vm-istio-etxernal-workload:./workload/root-cert.pem
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/cluster.env&#34; vm-istio-etxernal-workload:./workload/cluster.env
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/istio-token&#34; vm-istio-etxernal-workload:./workload/istio-token
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/mesh.yaml&#34; vm-istio-etxernal-workload:./workload/mesh
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/root-cert.pem&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./workload/root-cert.pem
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/cluster.env&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./workload/cluster.env
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/istio-token&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./workload/istio-token
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/mesh.yaml&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./workload/mesh
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s"># Good tip from the Istio in Action book (page 364).
-</span></span></span><span class="line"><span class="cl"><span class="s"># --------------------------------------------------
-</span></span></span><span class="line"><span class="cl"><span class="s"># Concatenate the contents of the hosts file contents to the systems hosts file:
-</span></span></span><span class="line"><span class="cl"><span class="s"># --------------------------------------------------
 </span></span></span><span class="line"><span class="cl"><span class="s">cat &gt; ${base}/.data/workload-files/all-hosts &lt;&lt;EOP
 </span></span></span><span class="line"><span class="cl"><span class="s"># Your system has configured &#39;manage_etc_hosts&#39; as True.
 </span></span></span><span class="line"><span class="cl"><span class="s"># As a result, if you wish for changes to this file to persist
@@ -1348,7 +1395,7 @@ Errors were encountered while processing:
 </span></span></span><span class="line"><span class="cl"><span class="s"># b.) change or remove the value of &#39;manage_etc_hosts&#39; in
 </span></span></span><span class="line"><span class="cl"><span class="s">#     /etc/cloud/cloud.cfg or cloud-config from user-data
 </span></span></span><span class="line"><span class="cl"><span class="s">#
-</span></span></span><span class="line"><span class="cl"><span class="s">127.0.1.1 vm-istio-etxernal-workload vm-istio-etxernal-workload
+</span></span></span><span class="line"><span class="cl"><span class="s">127.0.1.1 ${WORKLOAD_VM_NAME} ${WORKLOAD_VM_NAME}
 </span></span></span><span class="line"><span class="cl"><span class="s">127.0.0.1 localhost
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># The following lines are desirable for IPv6 capable hosts
@@ -1359,24 +1406,17 @@ Errors were encountered while processing:
 </span></span></span><span class="line"><span class="cl"><span class="s">$(cat ${base}/.data/workload-files/hosts)
 </span></span></span><span class="line"><span class="cl"><span class="s">EOP
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/all-hosts&#34; vm-istio-etxernal-workload:./workload/hosts
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/hosts /etc/hosts&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass transfer --parents &#34;${base}/.data/workload-files/all-hosts&#34; &#34;${WORKLOAD_VM_NAME}&#34;:./workload/hosts
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v workload/hosts /etc/hosts&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v workload/root-cert.pem /etc/certs/root-cert.pem&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v workload/cluster.env /var/lib/istio/envoy/cluster.env&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo mkdir -p /var/run/secrets/tokens
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v workload/istio-token /var/run/secrets/tokens/istio-token&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo bash -c &#39;mv -v workload/mesh /etc/istio/config/mesh&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo chmod o+rx /usr/local/bin/{envoy,pilot-agent}
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo chmod 2755 /usr/local/bin/{envoy,pilot-agent}
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s"># Another good tip from the Istio in Action book (page 364).
-</span></span></span><span class="line"><span class="cl"><span class="s"># ----------------------------------------------------------
-</span></span></span><span class="line"><span class="cl"><span class="s"># Hardcode the hostname of the machine to the hosts file so that the istio-agent doesn’t interfere with its hostname resolution:
-</span></span></span><span class="line"><span class="cl"><span class="s"># ----------------------------------------------------------
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;echo &#34;&#39;${WORKLOAD_IP}&#39; $(hostname)&#34; &gt;&gt; /etc/hosts&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/root-cert.pem /etc/certs/root-cert.pem&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/cluster.env /var/lib/istio/envoy/cluster.env&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo mkdir -p /var/run/secrets/tokens
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/istio-token /var/run/secrets/tokens/istio-token&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo bash -c &#39;mv -v workload/mesh /etc/istio/config/mesh&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo chmod o+rx /usr/local/bin/{envoy,pilot-agent}
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo chmod 2755 /usr/local/bin/{envoy,pilot-agent}
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec vm-istio-etxernal-workload -- sudo chown -R istio-proxy.istio-proxy \
+</span></span></span><span class="line"><span class="cl"><span class="s">multipass exec &#34;${WORKLOAD_VM_NAME}&#34; -- sudo chown -R istio-proxy.istio-proxy \
 </span></span></span><span class="line"><span class="cl"><span class="s">  /etc/certs \
 </span></span></span><span class="line"><span class="cl"><span class="s">  /etc/istio \
 </span></span></span><span class="line"><span class="cl"><span class="s">  /var/run/secrets \
@@ -1593,7 +1633,7 @@ Hello version: v2, instance: helloworld-v2-9fdc9f56f-tbmk8
 </span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.route.to-vm.sh
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;&#39;EOF&#39; &gt; install.route.to.vm.sh
 </span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s">set -eu
@@ -1618,7 +1658,7 @@ Hello version: v2, instance: helloworld-v2-9fdc9f56f-tbmk8
 </span></span></span><span class="line"><span class="cl"><span class="s">    app: external-app
 </span></span></span><span class="line"><span class="cl"><span class="s">EOP
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span><span class="line"><span class="cl">chmod +x install.route.to-vm.sh <span class="o">&amp;&amp;</span> ./install.route.to-vm.sh
+</span></span><span class="line"><span class="cl">chmod +x install.route.to.vm.sh <span class="o">&amp;&amp;</span> ./install.route.to.vm.sh
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Find the workload entry, this exists only when Istio sidecar is running in the VM.</p>
@@ -1650,14 +1690,12 @@ external-app-192.168.64.64-vm-network   2m33s   192.168.64.64
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">conditions</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">lastProbeTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2023-11-01T21:04:50.343243250Z&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2023-11-01T21:04:50.343245959Z&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Get &#34;http://localhost:8000/&#34;: dial tcp 127.0.0.6:0-&gt;127.0.0.1:8000:
-</span></span></span><span class="line"><span class="cl"><span class="s1">      connect: connection refused&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Get &#34;http://localhost:8000/&#34;: dial tcp 127.0.0.6:0-&gt;127.0.0.1:8000: connect: connection refused&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;False&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">Healthy</span><span class="w">
 </span></span></span></code></pre></td></tr></table></div>
