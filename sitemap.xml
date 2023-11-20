@@ -3,10 +3,19 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://gruchalski.com/</loc>
-    <lastmod>2023-11-13T19:05:29+01:00</lastmod>
+    <lastmod>2023-11-20T08:24:00+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/istio/</loc>
-    <lastmod>2023-11-13T19:05:29+01:00</lastmod>
+    <lastmod>2023-11-20T08:24:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/</loc>
+    <lastmod>2023-11-20T08:24:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/tags/</loc>
+    <lastmod>2023-11-20T08:24:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gruchalski.com/posts/2023-11-20-warning-istio-is-being-downgraded/</loc>
+    <lastmod>2023-11-20T08:24:00+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/posts/2023-11-02-istio-external-workloads/</loc>
     <lastmod>2023-11-13T19:05:29+01:00</lastmod>
@@ -18,12 +27,6 @@
     <lastmod>2023-11-13T19:05:29+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/multipass/</loc>
-    <lastmod>2023-11-13T19:05:29+01:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/posts/</loc>
-    <lastmod>2023-11-13T19:05:29+01:00</lastmod>
-  </url><url>
-    <loc>https://gruchalski.com/tags/</loc>
     <lastmod>2023-11-13T19:05:29+01:00</lastmod>
   </url><url>
     <loc>https://gruchalski.com/tags/tls/</loc>

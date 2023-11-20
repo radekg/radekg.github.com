@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2023-11-13T19:06:04&#43;01:00</updated>
+    <updated>2023-11-20T08:24:32&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -16,6 +16,51 @@
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
     <generator uri="https://gohugo.io/" version="0.115.1">Hugo</generator>
+        <entry>
+            <title type="text">Warning: Istio is being downgraded</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2023-11-20-warning-istio-is-being-downgraded/" />
+            <id>https://gruchalski.com/posts/2023-11-20-warning-istio-is-being-downgraded/</id>
+            <updated>2023-11-20T08:24:00&#43;01:00</updated>
+            <published>2023-11-20T00:00:00&#43;02:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">when one upgrades Istio and sees such a message</summary>
+            
+                <content type="html">&lt;p&gt;You are upgrading Istio and a message like this pops up:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;WARNING: Istio is being downgraded from 1.20.0 to 1.19.3.
+         Before upgrading, you may wish to use &amp;#39;istioctl x precheck&amp;#39; to check for upgrade warnings.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Not very obvious what happens the first time one comes across this.&lt;/p&gt;
+&lt;p&gt;The reason is simple:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The control plane is at version &lt;em&gt;1.20.0&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;istioctl&lt;/em&gt; binary is at version &lt;em&gt;1.19.3&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The fix: update &lt;em&gt;istioctl&lt;/em&gt; to the matching &lt;em&gt;1.20.0&lt;/em&gt; version to remove this warning.&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/istio/" term="istio" label="istio" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Istio VM workloads</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2023-11-02-istio-external-workloads/" />

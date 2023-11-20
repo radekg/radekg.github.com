@@ -23,10 +23,52 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Mon, 13 Nov 2023 19:06:04 &#43;0100</lastBuildDate>
+        <lastBuildDate>Mon, 20 Nov 2023 08:24:32 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
+        
+            <item>
+                <title>Warning: Istio is being downgraded</title>
+                <link>https://gruchalski.com/posts/2023-11-20-warning-istio-is-being-downgraded/</link>
+                <guid isPermaLink="true">https://gruchalski.com/posts/2023-11-20-warning-istio-is-being-downgraded/</guid>
+                <pubDate>Mon, 20 Nov 2023 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
+                <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
+                
+                    <description>&lt;p&gt;You are upgrading Istio and a message like this pops up:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;WARNING: Istio is being downgraded from 1.20.0 to 1.19.3.
+         Before upgrading, you may wish to use &amp;#39;istioctl x precheck&amp;#39; to check for upgrade warnings.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Not very obvious what happens the first time one comes across this.&lt;/p&gt;
+&lt;p&gt;The reason is simple:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The control plane is at version &lt;em&gt;1.20.0&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;istioctl&lt;/em&gt; binary is at version &lt;em&gt;1.19.3&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The fix: update &lt;em&gt;istioctl&lt;/em&gt; to the matching &lt;em&gt;1.20.0&lt;/em&gt; version to remove this warning.&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://gruchalski.com/tags/istio/">istio</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Istio VM workloads</title>
