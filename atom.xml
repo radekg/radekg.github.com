@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2023-11-20T08:24:32&#43;01:00</updated>
+    <updated>2024-03-03T13:00:47&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -16,6 +16,327 @@
             </author>
     <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights>
     <generator uri="https://gohugo.io/" version="0.115.1">Hugo</generator>
+        <entry>
+            <title type="text">Maintaining a fork of a repository</title>
+            <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/" />
+            <id>https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/</id>
+            <updated>2024-03-03T13:00:41&#43;01:00</updated>
+            <published>2024-03-03T00:00:00&#43;02:00</published>
+            <author>
+                    <name>radek gruchalski</name>
+                    <uri>https://io-oi.me/</uri>
+                    <email>radek@gruchalski.com</email>
+                    </author>
+            <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">no hassle fork management</summary>
+            
+                <content type="html">&lt;p&gt;Sometimes I find myself having to maintain a fork of an upstream open source project. This can be for various reasons. For example, it could be because a bug fix is needed and it will take some time util that fix makes upstream, or I require some completely custom changes that do not fit in the scope of the upstream project.&lt;/p&gt;
+&lt;p&gt;Over the years, I have seen others having this exact same need. People have various approaches for this, some better, some worse.&lt;/p&gt;
+&lt;div&gt;
+    &lt;h2&gt;table of contents&lt;/h2&gt;
+    &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#the-awful-method&#34;&gt;the awful method&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#a-better-approach&#34;&gt;a better approach&lt;/a&gt;
+      &lt;ol&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#clone-the-fork&#34;&gt;clone the fork&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#add-the-upstream-origin&#34;&gt;add the upstream origin&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#synchronizing-our-main-with-upstream-main&#34;&gt;synchronizing our main with upstream main&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#bringing-new-upstream-tags&#34;&gt;bringing new upstream tags&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#creating-and-maintaining-a-patch-for-a-tag&#34;&gt;creating and maintaining a patch for a tag&lt;/a&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/#closing-words&#34;&gt;closing words&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;the-awful-method&#34;&gt;the awful method&lt;/h2&gt;
+&lt;p&gt;I have seen some truly awful ones, the real contender is something like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git log -- subproject/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-git&#34; data-lang=&#34;git&#34;&gt;commit 21f206fa5c4a4e9573a93d5baadebf9b212f6be2 (HEAD)
+Author: A Committer &amp;lt;a.committer@example.com&amp;gt;
+Date: Wed Jan 24 13:24:56 2024 +0100
+
+    JIRA-1234: some fix
+
+...
+
+commit 29a88911377ca6c2e09bcafd6ccecfc524c2027c
+Author: Committer Two &amp;lt;committer.two@example.com&amp;gt;
+Date: Tue Jun 6 12:04:47 2023 +0200
+
+    Upgrade subproject to 0.3.2 (#17)
+
+    * bring v0.3.2 from upstream
+    * update build commands
+
+commit ae0db845f7a661635d8ca1ac27ba49478e22ec5a
+Author: Committer Two &amp;lt;committer.two@example.com&amp;gt;
+Date: Fri Mar 31 10:19:22 2023 +0100
+
+    Upgrade subproject to 0.2.3 (#13)
+
+    * bring v0.2.3 from upstream
+    * update readme
+
+commit af425f71b92dcfc7819997ddbb92ec25767fd25c
+Author: Committer One &amp;lt;committer.one@example.com&amp;gt;
+Date: Wed Jan 11 13:11:01 2023 +0100
+
+    update build process
+
+commit 7d9e500ab81cf129fe97cd35bd236bf85e263e04
+Author: Committer One &amp;lt;committer.one@example.com&amp;gt;
+Date: Fri Jan 6 11:15:29 2023 +0100
+
+    fix to a previous fix
+
+commit c6cade349b2f74be50ce41ee383b0affa96cd892
+Author: Fork Creator &amp;lt;fork.creator@example.com&amp;gt;
+Date: Mon Dec 5 15:15:30 2023 +0100
+
+    fix subproject patch to include some business requirement
+
+commit 2a49ea1cdd4cecb041f80d0382b48bfb3e0c574c
+Author: Fork Creator &amp;lt;fork.creator@example.com&amp;gt;
+Date: Fri Dec 3 11:22:33 2022 +0100
+
+    add fork of subproject at version 0.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Please, don&amp;rsquo;t do this. There are many wrongs with this approach:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&amp;rsquo;s not a fork, the &lt;em&gt;subproject&lt;/em&gt; resides in a subdirectory of a larger repository. There is no easy way to find the diff between your changes and the upstream project.&lt;/li&gt;
+&lt;li&gt;All changes end up on the &lt;em&gt;main&lt;/em&gt; branch. Again, this makes bringing future upstream changes impossible to reason about.&lt;/li&gt;
+&lt;li&gt;There are multiple committers repeating these mistakes over and over again.&lt;/li&gt;
+&lt;li&gt;Pull requests bringing new versions contain additional commits, and PRs are squashed. It&amp;rsquo;s not possible to clearly distinguish in the merge commit between upstream version upgrade and additional changes from the same PR.&lt;/li&gt;
+&lt;li&gt;No commit in this subdirectory matches upstream commits, what do you do if you ever have to patch an earlier version from the one you currently have on the main branch?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;a-better-approach&#34;&gt;a better approach&lt;/h2&gt;
+&lt;p&gt;As mentioned in the lead, the two most often reasons for having to fork an upstream project are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;A fix needs to be introduced to a released version of the upstream project.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For some upstream version &lt;em&gt;v1.2.3&lt;/em&gt;, we will have a custom &lt;em&gt;v1.2.3-patched&lt;/em&gt; version.&lt;/li&gt;
+&lt;li&gt;When the upstream project releases version &lt;em&gt;v1.2.4&lt;/em&gt;, we want to have the ability to create a clean &lt;em&gt;v1.2.4-patched&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;If our changes are applicable to the upstream project, we will also apply our fixes to the &lt;em&gt;main&lt;/em&gt; branch and contribute those to the upstream &lt;em&gt;main&lt;/em&gt; branch.&lt;/li&gt;
+&lt;li&gt;Our changes will eventually get merged into the upstream project and released in, say, &lt;em&gt;1.3.0&lt;/em&gt;. At this stage we do not need &lt;em&gt;v1.3.0-patched&lt;/em&gt; version because we can continue using the upstream code since our fixes have been incorporated.&lt;/li&gt;
+&lt;li&gt;Normally, a version released by the upstream project will be an idempotent &lt;em&gt;tag&lt;/em&gt;. It means: once a &lt;em&gt;tag&lt;/em&gt; is released, the &lt;em&gt;tag&lt;/em&gt; is set in stone. Any problem in a released version mandates releasing another version containing the fix. A &lt;em&gt;tag&lt;/em&gt;. once created, is never deleted and/or recreated.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;We require changes that do not fit in the upstream project.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For every new version of the upstream project, we want to have the &lt;em&gt;[upstream-version]-patched&lt;/em&gt; version available, potentially forever.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In both cases we want that our &lt;em&gt;main&lt;/em&gt; branch tracks the upstream &lt;em&gt;main&lt;/em&gt; branch, and that for each new version we can extract a clean patch. A patch may evolve.&lt;/p&gt;
+&lt;h3 id=&#34;clone-the-fork&#34;&gt;clone the fork&lt;/h3&gt;
+&lt;p&gt;How do we do this? Let&amp;rsquo;s assume a &lt;em&gt;&lt;a href=&#34;https://github.com/someproject/project.git&#34;&gt;https://github.com/someproject/project.git&lt;/a&gt;&lt;/em&gt; repository. We create a fork under &lt;em&gt;&lt;a href=&#34;https://github.com/ours/project.git&#34;&gt;https://github.com/ours/project.git&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone git@github.com:ours/project.git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;add-the-upstream-origin&#34;&gt;add the upstream origin&lt;/h3&gt;
+&lt;p&gt;After cloning, we have only one &lt;em&gt;remote&lt;/em&gt;, the &lt;em&gt;origin&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git remote -v
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;gt; origin  git@github.com:ours/project.git (fetch)
+&amp;gt; origin  git@github.com:ours/project.git (push)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Add the &lt;em&gt;upstream&lt;/em&gt; &lt;em&gt;remote&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git remote add upstream https://github.com/someproject/project.git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;And verify:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git remote -v
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;gt; origin    git@github.com:ours/project.git (fetch)
+&amp;gt; origin    git@github.com:ours/project.git (push)
+&amp;gt; upstream  https://github.com/someproject/project.git (fetch)
+&amp;gt; upstream  https://github.com/someproject/project.git (push)
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;synchronizing-our-main-with-upstream-main&#34;&gt;synchronizing our main with upstream main&lt;/h3&gt;
+&lt;p&gt;To bring changes from the upstream &lt;em&gt;main&lt;/em&gt; branch to our main branch:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git checkout main
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git merge upstream/main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;bringing-new-upstream-tags&#34;&gt;bringing new upstream tags&lt;/h3&gt;
+&lt;p&gt;To bring any new upstream versions and push them to our fork:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git fetch upstream
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git push origin --tags
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;creating-and-maintaining-a-patch-for-a-tag&#34;&gt;creating and maintaining a patch for a tag&lt;/h3&gt;
+&lt;p&gt;Finally, the core of this article. Let&amp;rsquo;s assume that &lt;em&gt;v1.2.3&lt;/em&gt; tag is the most recent released version of the upstream project which we need to patch. The course of action is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Check out the release tag:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git checkout v1.2.3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a branch from the tag:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git checkout -b v1.2.3-patched
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Make any changes and leave the branch as is. Do not merge, do not create any PRs. If your patches require additional commits, just add them to this branch. To see the differences between upstream &lt;em&gt;v1.2.3&lt;/em&gt; and &lt;em&gt;v1.2.3-patched&lt;/em&gt;, execute:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git diff v1.2.3..v1.2.3-patched
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A new version is available and requires patching. How do we go about it?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# get the patch from the previous version:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git diff v1.2.3..v1.2.3-patched &amp;gt; ~/v1.2.3-patched.diff
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# check out the clean tag and create a branch to patch:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git checkout v1.2.4
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git checkout -b v1.2.4-patched
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# apply the patch from the previous version:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git apply ~/v1.2.3-patched.diff
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;There are two possible outcomes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The patch will apply cleanly meaning we&amp;rsquo;re done, push the branch to the &lt;em&gt;origin&lt;/em&gt;, do not create any PRs, do not merge.&lt;/li&gt;
+&lt;li&gt;The patch does not apply. In this case fix the patch so that it applies and use it as the most recent patch to use for any future versions.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;What&amp;rsquo;s the result?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git branch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  main
+  v1.2.3-patched
+* v1.2.4-patched
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git tag -l
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;...
+v1.2.0
+v1.2.1  
+v1.2.4
+v1.2.3
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;closing-words&#34;&gt;closing words&lt;/h2&gt;
+&lt;p&gt;By following this method you will always have:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A clean &lt;em&gt;main&lt;/em&gt; branch tracking the upstream &lt;em&gt;main&lt;/em&gt; branch.&lt;/li&gt;
+&lt;li&gt;A patch per version on a respective &lt;em&gt;*-patched&lt;/em&gt; branch, with the most recent version branch being the one where the patch can be extended if needed.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/git/" term="git" label="git" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/productivity/" term="productivity" label="productivity" />
+                            
+                        
+                            
+                            
+                            
+                                <category scheme="https://gruchalski.com/tags/software/" term="software" label="software" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Warning: Istio is being downgraded</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2023-11-20-warning-istio-is-being-downgraded/" />
