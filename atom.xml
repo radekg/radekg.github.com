@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2024-03-05T22:24:09&#43;01:00</updated>
+    <updated>2024-03-05T23:05:21&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Maintaining a fork of a repository</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/" />
             <id>https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/</id>
-            <updated>2024-03-05T22:23:42&#43;01:00</updated>
+            <updated>2024-03-05T23:04:37&#43;01:00</updated>
             <published>2024-03-03T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -50,6 +50,9 @@
 &lt;/nav&gt;
 &lt;/div&gt;
 &lt;h2 id=&#34;the-awful-method&#34;&gt;the awful method&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: This narrative is based on true events and factual occurrences. However, to protect the privacy and identities of the individuals involved, specific details, names, locations, and timelines have been altered or generalized. Any resemblance to actual persons, living or dead, or actual events is purely coincidental. The changes made are intended to preserve anonymity while still conveying the essence and implications of the events that took place. This account should be read as a representation of the underlying truths, not as a literal historical document.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;I have seen some truly awful ones, the real contender is something like this:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
