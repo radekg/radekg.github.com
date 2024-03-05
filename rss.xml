@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Tue, 05 Mar 2024 18:46:42 &#43;0100</lastBuildDate>
+        <lastBuildDate>Tue, 05 Mar 2024 22:24:09 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -38,7 +38,7 @@
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
-                    <description>&lt;p&gt;Sometimes I find myself having to maintain a fork of an upstream open source project. This can be for various reasons. For example, it could be because a bug fix is needed and it will take some time util that fix makes upstream, or I require some completely custom changes that do not fit in the scope of the upstream project.&lt;/p&gt;
+                    <description>&lt;p&gt;Sometimes I find myself having to maintain a fork of an upstream open source project. This can be for various reasons. For example, it could be because a bug fix is needed and it will take some time until that fix makes upstream, or I require some completely custom changes that do not fit in the scope of the upstream project.&lt;/p&gt;
 &lt;p&gt;Over the years, I have seen others having this exact same need. People have various approaches for this, some better, some worse.&lt;/p&gt;
 &lt;div&gt;
     &lt;h2&gt;table of contents&lt;/h2&gt;

@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2024-03-05T18:46:42&#43;01:00</updated>
+    <updated>2024-03-05T22:24:09&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Maintaining a fork of a repository</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/" />
             <id>https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/</id>
-            <updated>2024-03-04T17:02:11&#43;01:00</updated>
+            <updated>2024-03-05T22:23:42&#43;01:00</updated>
             <published>2024-03-03T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -29,7 +29,7 @@
                     </author>
             <rights>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</rights><summary type="html">happy fork, happy life</summary>
             
-                <content type="html">&lt;p&gt;Sometimes I find myself having to maintain a fork of an upstream open source project. This can be for various reasons. For example, it could be because a bug fix is needed and it will take some time util that fix makes upstream, or I require some completely custom changes that do not fit in the scope of the upstream project.&lt;/p&gt;
+                <content type="html">&lt;p&gt;Sometimes I find myself having to maintain a fork of an upstream open source project. This can be for various reasons. For example, it could be because a bug fix is needed and it will take some time until that fix makes upstream, or I require some completely custom changes that do not fit in the scope of the upstream project.&lt;/p&gt;
 &lt;p&gt;Over the years, I have seen others having this exact same need. People have various approaches for this, some better, some worse.&lt;/p&gt;
 &lt;div&gt;
     &lt;h2&gt;table of contents&lt;/h2&gt;
