@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -65,10 +65,8 @@
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
-            "email": "radek@gruchalski.com",
-            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
-            "url": "https://io-oi.me/",
-            "name": "radek gruchalski"
+            "url": "https://gruchalski.com/",
+            
         },
         "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
         "publisher": {
@@ -255,8 +253,7 @@
 <p>My personal perception is that the raise of Golang, with its unprecedented ease of crypto library use, broke this trend and brought TLS to the masses. There are many complete code examples in Golang tests. Even today, not taking away from the authors of BouncyCastle (which is really, really, really awesome when one knows the library), trying to do more complex things with TLS in Java can be mind boggling. Maybe the impulse came in 2013, with Ivan Ristić publishing the <em>Bulletproof SSL and TLS</em> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> book, which is a immense resource for anybody trying to master SSL and TLS, I don&rsquo;t know. Sorry, slight deviation, personal perception&hellip;</p>
 <p>A software developer who is looking to implement TLS at some point is going to search for</p>
 <blockquote>
-<p>how to generate an ssl certificate</p>
-</blockquote>
+<p>how to generate an ssl certificate</p></blockquote>
 <p>Answers will turn up. Majority of these will show how to get a self-signed certificate. A self-signed certificate is generally okay, for example, in integration testing there is no real need for a CA. In tests, it does not matter who issued a certificate, what matters is that TLS works.</p>
 <p>However, the problem with a self-signed certificate is that it is not signed by a Certificate Authority. So, yes, it does provide security in the sense that the traffic is TLS encrypted, but it does not tell anything about who generated and deployed the certificate. Anybody can issue a self-signed certificate for anything and it&rsquo;s going to take some effort to figure out where it came from. A Certificate Authority with the correct set of intermediates is going to to provide a verification chain required to properly ensure the authenticity of a certificate.</p>
 <p>It&rsquo;s fair to say that a production system should not see a self-signed certificate in operation.</p>
@@ -310,19 +307,6 @@
             
     
     
-        <ul class="post-copyright">
-            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
-            
-                
-                
-                
-                
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2020-09-07-certificate-authority-is-not-voodoo/" target="_blank" rel="noopener">https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</a></li>
-            
-            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
-            
-        </ul>
-    
 
 
 
@@ -345,7 +329,7 @@
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/&amp;text=Certificate%20Authority%20is%20not%20Voodoo&amp;hashtags=pki,ca,tls,ssl,infrastructure,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/&amp;text=Certificate%20Authority%20is%20not%20Voodoo&amp;hashtags=Pki,Ca,Tls,Ssl,Infrastructure,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -409,15 +393,15 @@
                     </li>
                 
                     <li class="related-item">
+                        <a href="/posts/2025-11-04-the-leading-thought/" class="related-link">The leading thought</a>
+                    </li>
+                
+                    <li class="related-item">
                         <a href="/posts/2023-11-02-istio-external-workloads/" class="related-link">Istio VM workloads</a>
                     </li>
                 
                     <li class="related-item">
                         <a href="/posts/2023-07-09-istio-cert-manager-lets-encrypt-and-https-redirect/" class="related-link">Istio, cert-manager, Let&rsquo;s Encrypt and HTTPS redirect</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" class="related-link">Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy</a>
                     </li>
                 
             </ul>
@@ -435,7 +419,7 @@
                 
                 
                     
-                    <a href="/tags/pki/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>pki</a>
+                    <a href="/tags/pki/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Pki</a>
                 
             
                 
@@ -443,7 +427,7 @@
                 
                 
                     
-                    <a href="/tags/ca/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>ca</a>
+                    <a href="/tags/ca/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Ca</a>
                 
             
                 
@@ -451,7 +435,7 @@
                 
                 
                     
-                    <a href="/tags/tls/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>tls</a>
+                    <a href="/tags/tls/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Tls</a>
                 
             
                 
@@ -459,7 +443,7 @@
                 
                 
                     
-                    <a href="/tags/ssl/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>ssl</a>
+                    <a href="/tags/ssl/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Ssl</a>
                 
             
                 
@@ -467,7 +451,7 @@
                 
                 
                     
-                    <a href="/tags/infrastructure/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>infrastructure</a>
+                    <a href="/tags/infrastructure/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Infrastructure</a>
                 
             
         </div>
@@ -521,7 +505,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2024&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

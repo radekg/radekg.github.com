@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
-    <meta name="author" content="radek gruchalski" /><meta name="description" content="engineering software for 20&#43; years" />
+    <meta name="author" content="" /><meta name="description" content="engineering software for 20&#43; years" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -56,17 +56,15 @@
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "datePublished": "2015-01-01T20:17:43+00:00",
-        "dateModified": "2024-03-05T23:04:37+01:00",
+        "datePublished": "2025-11-04T00:00:00+02:00",
+        "dateModified": "2025-11-04T23:12:48+01:00",
         "url": "https://gruchalski.com/",
         "description": "engineering software for 20+ years",
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
-            "email": "radek@gruchalski.com",
-            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
-            "url": "https://io-oi.me/",
-            "name": "radek gruchalski"
+            "url": "https://gruchalski.com/",
+            
         },
         "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
         "name": "gruchalski.com"
@@ -191,6 +189,83 @@
         
             <article class="content post home h-entry">
                 <h2 class="post-title p-name">
+                    <a href="/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/" class="summary-title-link u-url">Authenticate to private JFrog npm registry</a>
+                </h2>
+                
+                    
+
+<div class="post-meta">
+    
+        
+        <time datetime="2020-09-09T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;September 9, 2020</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;93</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;1&nbsp;min</span>
+    
+    
+    
+</div>
+
+                
+                <summary class="summary p-summary">
+                    <p>This always gets me, <code>npm publish</code> fails to authenticate:</p>
+<pre tabindex="0"><code>npm ERR! code E401
+npm ERR! Unable to authenticate, need: Basic realm=&#34;Artifactory Realm&#34;
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /Users/rad/.npm/_logs/...Z-debug.log
+</code></pre><p>The solution is:</p>
+<ol>
+<li>Sign-in to JFrog.</li>
+<li>Find <code>Edit profile</code> under the <code>Welcome, ...</code> menu.</li>
+<li>Put JFrog password in and unlock.</li>
+<li>Copy the encrypted password.</li>
+<li>Issue a <code>curl</code> request like this:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -u <span class="si">${</span><span class="nv">JFROG_USER</span><span class="si">}</span>:<span class="si">${</span><span class="nv">JFROG_ENCRYPTED_PASSWORD</span><span class="si">}</span> https://<span class="si">${</span><span class="nv">JFROG_ORG</span><span class="si">}</span>.jfrog.io/<span class="si">${</span><span class="nv">JFROG_ORG</span><span class="si">}</span>/api/npm/auth
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>Copy the output and put it in <code>~/.npmrc</code>. The file should be like:</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">_auth</span><span class="o">=</span><span class="s">&#34;cm...M=&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="na">always-auth</span><span class="o">=</span><span class="s">true</span>
+</span></span><span class="line"><span class="cl"><span class="na">email</span><span class="o">=</span><span class="s">email@address</span>
+</span></span><span class="line"><span class="cl"><span class="na">registry</span><span class="o">=</span><span class="s">https://${JFROG_ORG}.jfrog.io/${JFROG_ORG}/api/npm/${JFROG_REPO}/</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+                </summary>
+                
+            </article>
+        
+            <article class="content post home h-entry">
+                <h2 class="post-title p-name">
                     <a href="/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/" class="summary-title-link u-url">Multi-tenant Vault PKI with custom root PEM bundles</a>
                 </h2>
                 
@@ -222,8 +297,8 @@
 
                 
                 <summary class="summary p-summary">
-                    In the previous article1, I have investigated modern PKI software alternatives. One of the options on the list was HashiCorp Vault. The natural next step is to set up a Vault PKI.
-This article documents setting up an imaginary multi-tenant Vault PKI with custom PEM bundles generated with OpenSSL.
+                    <p>In the previous article<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, I have investigated modern PKI software alternatives. One of the options on the list was HashiCorp Vault. The natural next step is to set up a Vault PKI.</p>
+<p>This article documents setting up an imaginary multi-tenant Vault PKI with custom PEM bundles generated with OpenSSL. The steps the following:</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -265,7 +340,7 @@ This article documents setting up an imaginary multi-tenant Vault PKI with custo
 
                 
                 <summary class="summary p-summary">
-                    Modern applications tend to get fairly complex pretty quick. A usual stack will consist of many moving parts. Starting from a cloud environment, maybe abstracted behind Kubernetes or Mesos, through multitude of web servers, GRPC services, to monitoring systems like Grafana, Jaeger, Prometheus, all fronted with load balancers or proxies like Traefik.
+                    <p>Modern applications tend to get fairly complex pretty quick. A usual stack will consist of many moving parts. Starting from a cloud environment, maybe abstracted behind Kubernetes or Mesos, through multitude of web servers, GRPC services, to monitoring systems like Grafana, Jaeger, Prometheus, all fronted with load balancers or proxies like Traefik. Many of these components have fairly complex dependencies, ETCD or Zookeeper come to mind. All these power a highly dynamic environment where containers and virtual machines iterate and get replaced often. Some businesses operate multiple copies of stacks for development, staging and production environments.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -307,8 +382,8 @@ This article documents setting up an imaginary multi-tenant Vault PKI with custo
 
                 
                 <summary class="summary p-summary">
-                    In Introduction to Keycloak Authorization Services 1, I have described how to use the Authorization Services to find out if the user has access to certain resources.
-I have done so by asking Keycloak to issue an access token with a special grant_type with the value of urn:ietf:params:oauth:grant-type:uma-ticket which returned a list of permissions the has access to.
+                    <p>In <a href="https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/">Introduction to Keycloak Authorization Services</a> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, I have described how to use the Authorization Services to find out if the user has access to certain resources.</p>
+<p>I have done so by asking Keycloak to issue an access token with a special <code>grant_type</code> with the value of <code>urn:ietf:params:oauth:grant-type:uma-ticket</code> which returned a list of permissions the has access to.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -350,7 +425,7 @@ I have done so by asking Keycloak to issue an access token with a special grant_
 
                 
                 <summary class="summary p-summary">
-                    As the number of applications and websites in the organization grows, the developer will inevitably receive a request to implement Single Sign-On. Single Sign-On (SSO for short) is an authentication scheme allowing the user to log in with a single set of credentials and share the session across multiple, independent, potentially unrelated systems.
+                    <p>As the number of applications and websites in the organization grows, the developer will inevitably receive a request to implement Single Sign-On. Single Sign-On (SSO for short) is an authentication scheme allowing the user to log in with a single set of credentials and share the session across multiple, independent, potentially unrelated systems.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -392,9 +467,9 @@ I have done so by asking Keycloak to issue an access token with a special grant_
 
                 
                 <summary class="summary p-summary">
-                    Updated on 15th of May 2021 for Keycloak 13.0.0 with Postgres 13.2.
-6th of June 2021: Follow up: setting up Keycloak with TLS for local development.
-Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat.
+                    <p><strong>Updated on 15th of May 2021</strong> for Keycloak 13.0.0 with Postgres 13.2.</p>
+<p><strong>6th of June 2021</strong>: Follow up: <a href="/posts/2021-06-06-keycloak-with-tls-behind-envoy/">setting up Keycloak with TLS for local development</a>.</p>
+<p>Keycloak is an open source Identity and Access Management System developed as a JBoss community project under the stewardship of Red Hat. Keycloak makes it is easy to secure apps and services written in many technologies using a large number client libraries.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -436,7 +511,7 @@ Keycloak is an open source Identity and Access Management System developed as a 
 
                 
                 <summary class="summary p-summary">
-                    First, create an account on the Sonatype JIRA, unless you have one. For the new group ID, create a ticket using the form under this URI. Once requested, wait for the ticket to go into Resolved state. When this happens, you can publish your project to Sonatype.
+                    <p>First, create an account on the <a href="https://issues.sonatype.org/secure/Signup!default.jspa">Sonatype JIRA</a>, unless you have one. For the new group ID, create a ticket using the form under <a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134">this URI</a>. Once requested, wait for the ticket to go into <code>Resolved</code> state. When this happens, you can publish your project to Sonatype.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -478,7 +553,7 @@ Keycloak is an open source Identity and Access Management System developed as a 
 
                 
                 <summary class="summary p-summary">
-                    It is entirely possible that what I am going to describe here is an edge case not many people hit with their Kafka deployments. However, in my experience, when Kafka is used to ingest large volumes of data, it makes perfect sense. Considering that every now and then people ask for a cold storage feature on the Kafka mailing list, I am not the only one who would find this useful.
+                    <p>It is entirely possible that what I am going to describe here is an edge case not many people hit with their Kafka deployments. However, in my experience, when Kafka is used to ingest large volumes of data, it makes perfect sense. Considering that every now and then people ask for a cold storage feature on the Kafka mailing list, I am not the only one who would find this useful.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -520,8 +595,9 @@ Keycloak is an open source Identity and Access Management System developed as a 
 
                 
                 <summary class="summary p-summary">
-                    About two weeks ago, Virdata released a set of patches for Apache Spark enabling Spark to work on Mesos with Docker bridge networking. We are using these in production for our multi tenant Spark environment.
-SPARK-11638: Spark patches All patches for all components described below are available in Spark JIRA.
+                    <p>About two weeks ago, <a href="http://www.virdata.com">Virdata</a> released a set of patches for Apache Spark enabling Spark to work on Mesos with Docker bridge networking. We are using these in production for our multi tenant Spark environment.</p>
+<h2 id="spark-11638-spark-patches">SPARK-11638: Spark patches</h2>
+<p>All patches for all components described below are <a href="https://issues.apache.org/jira/browse/SPARK-11638">available in Spark JIRA</a>. We&rsquo;ve released patches for all versions of Spark available at the time of creating them - from <code>1.4.0</code> to <code>1.5.2</code>. We have also released patches for Akka 2.3.4 and Akka 2.3.11; these are required to make this solution usable.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -563,53 +639,11 @@ SPARK-11638: Spark patches All patches for all components described below are av
 
                 
                 <summary class="summary p-summary">
-                    Wow. It’s difficult to believe it’s been almost a week since I gave a talk about gossip protocols at Erlang User Conference in Stockholm. It was a fantastic event, great agenda, great topics, fantastic networking. EUC is one of those events you should attend, you will not regret it.
+                    <p>Wow. It’s difficult to believe it’s been almost a week since I gave a talk about gossip protocols at <a href="http://www.erlang-factory.com/euc2015">Erlang User Conference in Stockholm</a>. It was a fantastic event, great agenda, great topics, fantastic networking. EUC is one of those events you should attend, you will not regret it. No matter if you are interested in Erlang/Elixir or not. Big “Thank You” to all who made it happen.</p>
                 </summary>
                 
                     <div class="read-more-container">
                         <a href="/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/" class="read-more-link">Read More »</a>
-                    </div>
-                
-            </article>
-        
-            <article class="content post home h-entry">
-                <h2 class="post-title p-name">
-                    <a href="/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/" class="summary-title-link u-url">Control Keynote presentation with your mobile browser</a>
-                </h2>
-                
-                    
-
-<div class="post-meta">
-    
-        
-        <time datetime="2015-05-11T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;May 11, 2015</time>
-    
-    
-    
-    
-        
-        
-        
-    
-    
-        
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;434</span>
-    
-    
-        
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;3&nbsp;mins</span>
-    
-    
-    
-</div>
-
-                
-                <summary class="summary p-summary">
-                    A little moan to start with&hellip; I owned a mid 2009 MacBook Pro, I never used it for presenting stuff to others but I actually bought a remote control for it. The computer cost me a lot of money, it was top end stuff when it was bought.
-                </summary>
-                
-                    <div class="read-more-container">
-                        <a href="/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/" class="read-more-link">Read More »</a>
                     </div>
                 
             </article>
@@ -644,7 +678,7 @@ SPARK-11638: Spark patches All patches for all components described below are av
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2024&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

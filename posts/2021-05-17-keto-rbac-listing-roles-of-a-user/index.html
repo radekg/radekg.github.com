@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -65,10 +65,8 @@
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
-            "email": "radek@gruchalski.com",
-            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
-            "url": "https://io-oi.me/",
-            "name": "radek gruchalski"
+            "url": "https://gruchalski.com/",
+            
         },
         "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
         "publisher": {
@@ -249,8 +247,7 @@
               <p>There was an interesting question coming up related to the previous article on <a href="/posts/2021-05-15-rbac-with-ory-keto/">RBAC with Ory Keto</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>.</p>
 <p>The question was:</p>
 <blockquote>
-<p>how do I list the roles of a user</p>
-</blockquote>
+<p>how do I list the roles of a user</p></blockquote>
 <p>At the end of the previous article, the solution allowed finding out if the user is allowed to access the resources. But, indeed, what I have not discussed was how to get the roles the user is assigned to.</p>
 <p>The final tuples for Fry and Bender, after Fry was demoted, looked like this:</p>
 <pre tabindex="0"><code>dev-director#member@Fry
@@ -445,8 +442,7 @@ user#is-member@role
 </code></pre><h2 id="but-theres-more"><a href="#but-theres-more" class="anchor-link">§</a>but there&rsquo;s more</h2>
 <p>We could go one step further. In the previous article, the following was established:</p>
 <blockquote>
-<p>at the time of permission evaluation, both the object for which the permission is being validated, and the subject, are known</p>
-</blockquote>
+<p>at the time of permission evaluation, both the object for which the permission is being validated, and the subject, are known</p></blockquote>
 <p>When Fry has got his opportunity, we ended up with the following configuration (plus the new reverse binding):</p>
 <pre tabindex="0"><code>production-viewer#member@default-namespace:dev-director#member
 production-creator#member@default-namespace:fast-dev-director#member
@@ -510,8 +506,7 @@ Fry#is-member@fast-dev-director
 </div>
 </div><p>and all tuples together mean:</p>
 <blockquote>
-<p>Anybody who is <em>dev-director</em> or <em>fast-dev-director</em>, a <em>member</em> of <em>dev-director</em> or a <em>member</em> of <em>fast-dev-director</em>, can act as <em>production-viewer</em>. Fry <em>is</em> a <em>member</em> of both using the bi-directional mapping and also a member of <em>production-creator</em> and <em>production-creator</em> via <em>fast-dev-director</em>.</p>
-</blockquote>
+<p>Anybody who is <em>dev-director</em> or <em>fast-dev-director</em>, a <em>member</em> of <em>dev-director</em> or a <em>member</em> of <em>fast-dev-director</em>, can act as <em>production-viewer</em>. Fry <em>is</em> a <em>member</em> of both using the bi-directional mapping and also a member of <em>production-creator</em> and <em>production-creator</em> via <em>fast-dev-director</em>.</p></blockquote>
 <p>We have all the benefits of the original solution with <strong>an extra superpower</strong>.</p>
 <p>When we ask <em>if create can be performed by Fry</em>, what we really mean is <em>is create allowed for any role Fry holds</em>.</p>
 <p>Thus, after asking for Fry&rsquo;s membership, we would iterate over every role and ask Keto directly for the role permission:</p>
@@ -571,19 +566,6 @@ fast-dev-director: {&#34;allowed&#34;:true}
             
     
     
-        <ul class="post-copyright">
-            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
-            
-                
-                
-                
-                
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/" target="_blank" rel="noopener">https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/</a></li>
-            
-            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
-            
-        </ul>
-    
 
 
 
@@ -606,7 +588,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/&amp;text=Keto%20RBAC%20-%20listing%20roles%20of%20a%20user&amp;hashtags=ory,keto,iam,rbac,zanzibar,keycloak,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/&amp;text=Keto%20RBAC%20-%20listing%20roles%20of%20a%20user&amp;hashtags=Ory,Keto,Iam,Rbac,Zanzibar,Keycloak,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -696,7 +678,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
                 
                 
                     
-                    <a href="/tags/ory/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>ory</a>
+                    <a href="/tags/ory/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Ory</a>
                 
             
                 
@@ -704,7 +686,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
                 
                 
                     
-                    <a href="/tags/keto/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keto</a>
+                    <a href="/tags/keto/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Keto</a>
                 
             
                 
@@ -712,7 +694,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
                 
                 
                     
-                    <a href="/tags/iam/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>iam</a>
+                    <a href="/tags/iam/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Iam</a>
                 
             
                 
@@ -720,7 +702,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
                 
                 
                     
-                    <a href="/tags/rbac/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>rbac</a>
+                    <a href="/tags/rbac/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Rbac</a>
                 
             
                 
@@ -728,7 +710,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
                 
                 
                     
-                    <a href="/tags/zanzibar/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>zanzibar</a>
+                    <a href="/tags/zanzibar/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Zanzibar</a>
                 
             
                 
@@ -736,7 +718,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
                 
                 
                     
-                    <a href="/tags/keycloak/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keycloak</a>
+                    <a href="/tags/keycloak/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Keycloak</a>
                 
             
         </div>
@@ -790,7 +772,7 @@ fast-dev-director: {&#34;allowed&#34;:true}
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2024&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
-    <meta name="author" content="radek gruchalski" /><meta name="description" content="engineering software for 20&#43; years" />
+    <meta name="author" content="" /><meta name="description" content="engineering software for 20&#43; years" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -56,17 +56,15 @@
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "datePublished": "2015-01-01T20:17:43+00:00",
-        "dateModified": "2024-03-05T23:04:37+01:00",
+        "datePublished": "2025-11-04T00:00:00+02:00",
+        "dateModified": "2025-11-04T23:12:48+01:00",
         "url": "https://gruchalski.com/",
         "description": "engineering software for 20+ years",
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
-            "email": "radek@gruchalski.com",
-            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
-            "url": "https://io-oi.me/",
-            "name": "radek gruchalski"
+            "url": "https://gruchalski.com/",
+            
         },
         "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
         "name": "gruchalski.com"
@@ -191,6 +189,48 @@
         
             <article class="content post home h-entry">
                 <h2 class="post-title p-name">
+                    <a href="/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/" class="summary-title-link u-url">YugabyteDB CDC SDK beta, a high level overview</a>
+                </h2>
+                
+                    
+
+<div class="post-meta">
+    
+        
+        <time datetime="2022-03-19T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;March 19, 2022</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3634</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;18&nbsp;mins</span>
+    
+    
+    
+</div>
+
+                
+                <summary class="summary p-summary">
+                    <p>Shortly after I have published <a href="/posts/2022-02-23-yugabytedb-change-data-capture/">the previous article on YugabyteDB CDC</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, the amazing Yugabyte team released the 2.13 version of the database with a beta implementation of the new change data capture SDK. Before diving into the new SDK, let&rsquo;s quickly recap the first implementation.</p>
+                </summary>
+                
+                    <div class="read-more-container">
+                        <a href="/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/" class="read-more-link">Read More »</a>
+                    </div>
+                
+            </article>
+        
+            <article class="content post home h-entry">
+                <h2 class="post-title p-name">
                     <a href="/posts/2022-02-23-yugabytedb-change-data-capture/" class="summary-title-link u-url">YugabyteDB change data capture</a>
                 </h2>
                 
@@ -222,9 +262,11 @@
 
                 
                 <summary class="summary p-summary">
-                    19th of March, 2022:
-Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CDC SDK: YugabyteDB CDC SDK beta, a high level overview.
-Today I&rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change data capture is a data integration method based on the identification, capture, and delivery of data changes.
+                    <div class="infobox">
+<p><strong>19th of March, 2022:</strong><br>
+Interested in YugabyteDB CDC? YugabyteDB 2.13 comes with an all-new beta of a CDC SDK: <a href="/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/">YugabyteDB CDC SDK beta, a high level overview</a>.</p>
+</div>
+<p>Today I&rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change data capture is a data integration method based on the identification, capture, and delivery of data changes. Enterprises can choose this method to identify what data changes in the database and to act on those changes in real-time. What are the use cases for CDC? For example:</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -266,7 +308,7 @@ Today I&rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change
 
                 
                 <summary class="summary p-summary">
-                    With every version, the number of PostgreSQL features supported by YugabyteDB inevitably increases. This is good! However, it is pretty difficult to come by a comprehensive list of unsupported features. There&rsquo;s a roadmap on GitHub1, but the roadmap lists top-level features and misses the exact list of statements and keywords.
+                    <p>With every version, the number of PostgreSQL features supported by YugabyteDB inevitably increases. This is good! However, it is pretty difficult to come by a comprehensive list of unsupported features. There&rsquo;s a <a href="https://github.com/yugabyte/yugabyte-db#current-roadmap">roadmap on GitHub</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, but the roadmap lists top-level features and misses the exact list of statements and keywords. There are also GitHub issues, but there&rsquo;s over 11k of them so it could be pretty difficult to filter out what&rsquo;s really unsupported.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -308,8 +350,8 @@ Today I&rsquo;m going to look at change data capture (CDC) in YugabyteDB. Change
 
                 
                 <summary class="summary p-summary">
-                    I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.
-Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It&rsquo;s been released a few days ago1 and so it was the right time to look at it.
+                    <p>I wanted to look into <a href="https://www.keycloak.org/2021/10/keycloak-x-update">Keycloak.X</a> for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.</p>
+<p>Keycloak.X is now officially known as <strong>Keycloak 17.0.0</strong>, the first official Quarkus-based version. <a href="https://www.keycloak.org/2022/02/keycloak-1700-released.html">It&rsquo;s been released a few days ago</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> and so it was the right time to look at it.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -351,7 +393,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 
                 
                 <summary class="summary p-summary">
-                    The YugabyteDB RPC API isn&rsquo;t an official API, and that&rsquo;s what makes it interesting. The whole distributed aspect of YugabyteDB is based on that API. Digging through it is a perfect way to understand the internals of the database. The RPC API can also be used to automate various aspects of the database.
+                    <p>The YugabyteDB RPC API isn&rsquo;t an official API, and that&rsquo;s what makes it interesting. The whole distributed aspect of YugabyteDB is based on that API. Digging through it is a perfect way to understand the internals of the database. The RPC API can also be used to automate various aspects of the database. I&rsquo;ll come back to this subject in near future.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -393,8 +435,8 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 
                 
                 <summary class="summary p-summary">
-                    YugabyteDB is a horizontally scalable 100% open source distributed SQL database providing Cassandra (YCQL) and PostgreSQL (YSQL) compatible APIs. For PostgreSQL API, YugabyteDB uses the actual PostgreSQL 11.2 engine and builds on top of it with a RAFT consensus layer.
-There are two components in the YugabyteDB architecture: master servers and tablet servers.
+                    <p>YugabyteDB is a horizontally scalable 100% open source distributed SQL database providing Cassandra (YCQL) and PostgreSQL (YSQL) compatible APIs. For PostgreSQL API, YugabyteDB uses the actual PostgreSQL 11.2 engine and builds on top of it with a RAFT consensus layer.</p>
+<p>There are two components in the YugabyteDB architecture: master servers and tablet servers. Master servers know everything about the state of the cluster, they are like an address book of all objects and data stored in the database. Tablet servers store the data. Each tablet server runs an instance of PostgreSQL.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -436,7 +478,7 @@ There are two components in the YugabyteDB architecture: master servers and tabl
 
                 
                 <summary class="summary p-summary">
-                    I’ve been deep in YugabyteDB trenches for the last 6 months. At Klarrio, we are building a Database as a Service solution for the Data Services Hub. This is a self-managed, multi-tenant solution designed to run on top of Apache Mesos. We have a small team doing all kinds of integration work.
+                    <p>I’ve been deep in YugabyteDB trenches for the last 6 months. At Klarrio, we are building a Database as a Service solution for the Data Services Hub. This is a self-managed, multi-tenant solution designed to run on top of Apache Mesos. We have a small team doing all kinds of integration work. I am focusing on the core database rollout.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -478,9 +520,9 @@ There are two components in the YugabyteDB architecture: master servers and tabl
 
                 
                 <summary class="summary p-summary">
-                    Mmmm, nearly missed it.
-YugabyteDB 2.9.1.0 was released on the 29th of October.
-So here’s the thing. Back in August 2021, I contributed foreign data wrapper support to YugabyteDB, and 2.9.1.0 is the first beta release with this feature included. What I&rsquo;m trying to say: postgres_fdw extension can be used in YugabyteDB starting with version 2.
+                    <p>Mmmm, nearly missed it.</p>
+<p><a href="https://github.com/yugabyte/yugabyte-db/tree/v2.9.1">YugabyteDB 2.9.1.0</a> was released on the 29th of October.</p>
+<p>So here’s the thing. Back in August 2021, I contributed foreign data wrapper support to YugabyteDB, and <em>2.9.1.0</em> is the first beta release with this feature included. What I&rsquo;m trying to say: <em>postgres_fdw</em> extension can be used in YugabyteDB starting with version <em>2.9.1.0</em>.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -522,7 +564,7 @@ So here’s the thing. Back in August 2021, I contributed foreign data wrapper s
 
                 
                 <summary class="summary p-summary">
-                    Yes, it&rsquo;s perfectly fine to run databases in containers. The only challenge is to make sure that the data stored by the database does not reside within the file system of the container. Otherwise, after removing the container, the data will be gone, too.
+                    <p>Yes, it&rsquo;s perfectly fine to run databases in containers. The only challenge is to make sure that the data stored by the database does not reside within the file system of the container. Otherwise, after removing the container, the data will be gone, too.</p>
                 </summary>
                 
                     <div class="read-more-container">
@@ -564,56 +606,13 @@ So here’s the thing. Back in August 2021, I contributed foreign data wrapper s
 
                 
                 <summary class="summary p-summary">
-                    The default YugabyteDB Docker image from Docker Hub runs the database as a root user.
-I need to run it as a non-root user and there is no release Docker image Dockerfile available in YugabyteDB repositories.
-So I&rsquo;ve created my own and here it is.
+                    <p>The default YugabyteDB Docker image from Docker Hub runs the database as a <em>root</em> user.</p>
+<p>I need to run it as a non-root user and <strong>there is no release Docker image <em>Dockerfile</em> available in YugabyteDB repositories</strong>.</p>
+<p>So I&rsquo;ve created my own and here it is.</p>
                 </summary>
                 
                     <div class="read-more-container">
                         <a href="/posts/2021-06-15-yugabytedb-docker-image/" class="read-more-link">Read More »</a>
-                    </div>
-                
-            </article>
-        
-            <article class="content post home h-entry">
-                <h2 class="post-title p-name">
-                    <a href="/posts/2021-06-06-extending-keycloak-required-action-providers/" class="summary-title-link u-url">Extending Keycloak—required actions: user must be approved</a>
-                </h2>
-                
-                    
-
-<div class="post-meta">
-    
-        
-        <time datetime="2021-06-06T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;June 6, 2021</time>
-    
-    
-    
-    
-        
-        
-        
-    
-    
-        
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1064</span>
-    
-    
-        
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;5&nbsp;mins</span>
-    
-    
-    
-</div>
-
-                
-                <summary class="summary p-summary">
-                    After some insightful weeks of diving into the Ory platform, I am reverting back to Keycloak to investigate some other of its interesting features. The last few weeks spent in the Ory-land were enlightening.
-One of my previous post, Introduction to Keycloak Authorization Services1, gets about 20 daily reads but authorization services isn&rsquo;t the only awesome thing about Keycloak.
-                </summary>
-                
-                    <div class="read-more-container">
-                        <a href="/posts/2021-06-06-extending-keycloak-required-action-providers/" class="read-more-link">Read More »</a>
                     </div>
                 
             </article>
@@ -648,7 +647,7 @@ One of my previous post, Introduction to Keycloak Authorization Services1, gets 
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2024&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

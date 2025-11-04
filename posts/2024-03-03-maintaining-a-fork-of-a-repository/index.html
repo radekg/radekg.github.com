@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -65,10 +65,8 @@
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
-            "email": "radek@gruchalski.com",
-            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
-            "url": "https://io-oi.me/",
-            "name": "radek gruchalski"
+            "url": "https://gruchalski.com/",
+            
         },
         "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
         "publisher": {
@@ -256,8 +254,8 @@
     <li><a href="#a-better-approach">a better approach</a>
       <ol>
         <li><a href="#clone-the-fork">clone the fork</a></li>
-        <li><a href="#add-the-_upstream_-remote">add the <em>upstream</em> remote</a></li>
-        <li><a href="#synchronizing-_ours-main_-with-_upstream-main_">synchronizing <em>ours main</em> with <em>upstream main</em></a></li>
+        <li><a href="#add-the-upstream-remote">add the <em>upstream</em> remote</a></li>
+        <li><a href="#synchronizing-ours-main-with-upstream-main">synchronizing <em>ours main</em> with <em>upstream main</em></a></li>
         <li><a href="#bringing-new-upstream-tags">bringing new upstream tags</a></li>
         <li><a href="#creating-and-maintaining-a-patch-for-a-tag">creating and maintaining a patch for a tag</a></li>
       </ol>
@@ -268,8 +266,7 @@
 </div>
 <h2 id="the-awful-method"><a href="#the-awful-method" class="anchor-link">§</a>the awful method</h2>
 <blockquote>
-<p><strong>Disclaimer</strong>: This narrative is based on true events and factual occurrences. However, to protect the privacy and identities of the individuals involved, specific details, names, locations, and timelines have been altered or generalized. Any resemblance to actual persons, living or dead, or actual events is purely coincidental. The changes made are intended to preserve anonymity while still conveying the essence and implications of the events that took place. This account should be read as a representation of the underlying truths, not as a literal historical document.</p>
-</blockquote>
+<p><strong>Disclaimer</strong>: This narrative is based on true events and factual occurrences. However, to protect the privacy and identities of the individuals involved, specific details, names, locations, and timelines have been altered or generalized. Any resemblance to actual persons, living or dead, or actual events is purely coincidental. The changes made are intended to preserve anonymity while still conveying the essence and implications of the events that took place. This account should be read as a representation of the underlying truths, not as a literal historical document.</p></blockquote>
 <p>I have seen some truly awful ones, the real contender is something like this:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -367,7 +364,7 @@ Date: Fri Dec 3 11:22:33 2022 +0100
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clone git@github.com:ours/project.git
 </span></span></code></pre></td></tr></table></div>
 </div>
-</div><h3 id="add-the-_upstream_-remote"><a href="#add-the-_upstream_-remote" class="anchor-link">§</a>add the <em>upstream</em> remote</h3>
+</div><h3 id="add-the-upstream-remote"><a href="#add-the-upstream-remote" class="anchor-link">§</a>add the <em>upstream</em> remote</h3>
 <p>After cloning, we have only one <em>remote</em>, the <em>origin</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -401,7 +398,7 @@ Date: Fri Dec 3 11:22:33 2022 +0100
 &gt; origin    git@github.com:ours/project.git (push)
 &gt; upstream  https://github.com/someproject/project.git (fetch)
 &gt; upstream  https://github.com/someproject/project.git (push)
-</code></pre><h3 id="synchronizing-_ours-main_-with-_upstream-main_"><a href="#synchronizing-_ours-main_-with-_upstream-main_" class="anchor-link">§</a>synchronizing <em>ours main</em> with <em>upstream main</em></h3>
+</code></pre><h3 id="synchronizing-ours-main-with-upstream-main"><a href="#synchronizing-ours-main-with-upstream-main" class="anchor-link">§</a>synchronizing <em>ours main</em> with <em>upstream main</em></h3>
 <p>To bring changes from the <em>upstream main</em> branch to <em>ours main</em> branch:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -541,19 +538,6 @@ v1.2.3
             
     
     
-        <ul class="post-copyright">
-            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
-            
-                
-                
-                
-                
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2024-03-03-maintaining-a-fork-of-a-repository/" target="_blank" rel="noopener">https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/</a></li>
-            
-            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
-            
-        </ul>
-    
 
 
 
@@ -576,7 +560,7 @@ v1.2.3
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/&amp;text=Maintaining%20a%20fork%20of%20a%20repository&amp;hashtags=git,productivity,software,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/&amp;text=Maintaining%20a%20fork%20of%20a%20repository&amp;hashtags=Git,Productivity,Software,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -666,7 +650,7 @@ v1.2.3
                 
                 
                     
-                    <a href="/tags/git/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>git</a>
+                    <a href="/tags/git/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Git</a>
                 
             
                 
@@ -674,7 +658,7 @@ v1.2.3
                 
                 
                     
-                    <a href="/tags/productivity/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>productivity</a>
+                    <a href="/tags/productivity/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Productivity</a>
                 
             
                 
@@ -682,7 +666,7 @@ v1.2.3
                 
                 
                     
-                    <a href="/tags/software/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>software</a>
+                    <a href="/tags/software/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Software</a>
                 
             
         </div>
@@ -705,6 +689,10 @@ v1.2.3
     
     
         <ul class="post-nav">
+            
+                <li class="post-nav-prev">
+                    <a href="/posts/2025-11-04-the-leading-thought/" rel="prev">&lt; The leading thought</a>
+                </li>
             
             
                 <li class="post-nav-next">
@@ -732,7 +720,7 @@ v1.2.3
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2024&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

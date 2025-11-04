@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -26,7 +26,8 @@
         <noscript><link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
 
     <meta name="author" content="Radek Gruchalski" /><meta name="description" content="I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.
-Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it." />
+Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it.
+" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -59,17 +60,15 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
         "dateModified": "2023-07-04T23:40:31+02:00",
         "url": "https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/",
         "headline": "Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy",
-        "description": "I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.\nKeycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it.",
+        "description": "I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.\nKeycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it.\n",
         "inLanguage" : "en",
         "articleSection": "posts",
         "wordCount":  1313 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
-            "email": "radek@gruchalski.com",
-            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
-            "url": "https://io-oi.me/",
-            "name": "radek gruchalski"
+            "url": "https://gruchalski.com/",
+            
         },
         "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
         "publisher": {
@@ -99,7 +98,8 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 
 <meta property="og:title" content="Keycloak 17.0.0 with TLS in Docker compose behind Envoy proxy" />
 <meta property="og:description" content="I wanted to look into Keycloak.X for quite a while. Keycloak.X is a lighter, faster, easier, more scalable, more cloud-native solution than the—now legacy—WildFly based Keycloak.
-Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it." />
+Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarkus-based version. It’s been released a few days ago1 and so it was the right time to look at it.
+" />
 <meta property="og:url" content="https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" />
 <meta property="og:site_name" content="gruchalski.com" />
 <meta property="og:locale" content="en" /><meta property="og:image" content="/assets/posts/2020-09-03-keycloak-with-docker-compose/keycloak.jpg" />
@@ -267,8 +267,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 </code></pre><h2 id="keycloak-dockerfile"><a href="#keycloak-dockerfile" class="anchor-link">§</a>Keycloak Dockerfile</h2>
 <p>Quarkus-based <em>Keycloak 17.0.0</em> cannot be started without executing the <em>build</em> step. <a href="https://www.keycloak.org/server/configuration" target="_blank" rel="noopener">From Keycloak documentation</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>:</p>
 <blockquote>
-<p>The <code>build</code> command is responsible for producing an immutable and optimized server image, which is similar to building a container image. In addition to persisting any build option you have set, this command also performs a series of optimizations to deliver the best runtime when starting and running the server. As a result, a lot of processing that would usually happen when starting and running the server is no longer necessary and the server can start and run faster.</p>
-</blockquote>
+<p>The <code>build</code> command is responsible for producing an immutable and optimized server image, which is similar to building a container image. In addition to persisting any build option you have set, this command also performs a series of optimizations to deliver the best runtime when starting and running the server. As a result, a lot of processing that would usually happen when starting and running the server is no longer necessary and the server can start and run faster.</p></blockquote>
 <p>There is no way to get away from executing <em>build</em>. We can use the <em>start &ndash;auto-build</em> flag (also documented in <sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>), but one way or another, we have to <em>build</em> it. The <em>&ndash;auto-build</em> option takes some time to execute on every start and building a custom image helps us shave some time off on subsequent starts.</p>
 <p>I guessed that I wanted an optimized image so I opted in for building my own Docker image.</p>
 <p><a href="https://www.keycloak.org/server/containers" target="_blank" rel="noopener">Building a custom Docker image is documented here</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</p>
@@ -666,19 +665,6 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             
     
     
-        <ul class="post-copyright">
-            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
-            
-                
-                
-                
-                
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/" target="_blank" rel="noopener">https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</a></li>
-            
-            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
-            
-        </ul>
-    
 
 
 
@@ -701,7 +687,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&amp;text=Keycloak%2017.0.0%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;hashtags=keycloak,keycloak17,tls,envoy,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&amp;text=Keycloak%2017.0.0%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;hashtags=Keycloak,Keycloak17,Tls,Envoy,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -710,7 +696,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             
                 <div class="share-item linkedin">
                     
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&amp;title=Keycloak%2017.0.0%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;summary=I%20wanted%20to%20look%20into%20Keycloak.X%20for%20quite%20a%20while.%20Keycloak.X%20is%20a%20lighter,%20faster,%20easier,%20more%20scalable,%20more%20cloud-native%20solution%20than%20the%e2%80%94now%20legacy%e2%80%94WildFly%20based%20Keycloak.%0aKeycloak.X%20is%20now%20officially%20known%20as%20Keycloak%2017.0.0,%20the%20first%20official%20Quarkus-based%20version.%20It%e2%80%99s%20been%20released%20a%20few%20days%20ago1%20and%20so%20it%20was%20the%20right%20time%20to%20look%20at%20it.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/&amp;title=Keycloak%2017.0.0%20with%20TLS%20in%20Docker%20compose%20behind%20Envoy%20proxy&amp;summary=I%20wanted%20to%20look%20into%20Keycloak.X%20for%20quite%20a%20while.%20Keycloak.X%20is%20a%20lighter,%20faster,%20easier,%20more%20scalable,%20more%20cloud-native%20solution%20than%20the%e2%80%94now%20legacy%e2%80%94WildFly%20based%20Keycloak.%0aKeycloak.X%20is%20now%20officially%20known%20as%20Keycloak%2017.0.0,%20the%20first%20official%20Quarkus-based%20version.%20It%e2%80%99s%20been%20released%20a%20few%20days%20ago1%20and%20so%20it%20was%20the%20right%20time%20to%20look%20at%20it.%0a&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
                 </div>
             
 
@@ -791,7 +777,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
                 
                 
                     
-                    <a href="/tags/keycloak/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keycloak</a>
+                    <a href="/tags/keycloak/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Keycloak</a>
                 
             
                 
@@ -799,7 +785,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
                 
                 
                     
-                    <a href="/tags/keycloak17/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>keycloak17</a>
+                    <a href="/tags/keycloak17/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Keycloak17</a>
                 
             
                 
@@ -807,7 +793,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
                 
                 
                     
-                    <a href="/tags/tls/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>tls</a>
+                    <a href="/tags/tls/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Tls</a>
                 
             
                 
@@ -815,7 +801,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
                 
                 
                     
-                    <a href="/tags/envoy/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>envoy</a>
+                    <a href="/tags/envoy/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Envoy</a>
                 
             
         </div>
@@ -869,7 +855,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2024&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

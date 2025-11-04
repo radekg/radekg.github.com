@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.115.1"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -65,10 +65,8 @@
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
-            "email": "radek@gruchalski.com",
-            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
-            "url": "https://io-oi.me/",
-            "name": "radek gruchalski"
+            "url": "https://gruchalski.com/",
+            
         },
         "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
         "publisher": {
@@ -257,7 +255,7 @@
     <li><a href="#what-is-yq">what is yq</a></li>
     <li><a href="#how-do-i-install-yq">how do I install yq</a></li>
     <li><a href="#how-do-i-use-it">how do I use it</a></li>
-    <li><a href="#_yq_-teasers"><em>yq</em> teasers</a>
+    <li><a href="#yq-teasers"><em>yq</em> teasers</a>
       <ol>
         <li><a href="#extracting-all-helm-chart-dependencies-with-versions">extracting all helm chart dependencies with versions</a></li>
         <li><a href="#extracting-only-non-local-helm-chart-dependencies-with-versions">extracting only non-local helm chart dependencies with versions</a></li>
@@ -276,8 +274,7 @@
 <h2 id="what-is-yq"><a href="#what-is-yq" class="anchor-link">§</a>what is yq</h2>
 <p>After GitHub repository:</p>
 <blockquote>
-<p>yq: a lightweight and portable command-line YAML, JSON and XML processor. yq uses jq like syntax but works with yaml files as well as json, xml, properties, csv and tsv. It doesn&rsquo;t yet support everything jq does - but it does support the most common operations and functions, and more is being added continuously.</p>
-</blockquote>
+<p>yq: a lightweight and portable command-line YAML, JSON and XML processor. yq uses jq like syntax but works with yaml files as well as json, xml, properties, csv and tsv. It doesn&rsquo;t yet support everything jq does - but it does support the most common operations and functions, and more is being added continuously.</p></blockquote>
 <h2 id="how-do-i-install-yq"><a href="#how-do-i-install-yq" class="anchor-link">§</a>how do I install yq</h2>
 <p><em>yq</em> is written in <em>go</em>. If you have <em>go</em> installed, the easiest method is:</p>
 <div class="highlight"><div class="chroma">
@@ -293,7 +290,7 @@
 <p><a href="https://mikefarah.gitbook.io/yq/" target="_blank" rel="noopener">The documentation is thorough</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>. The best way to start is to check examples and simply play with it.</p>
 <p>There are many easy to find <em>yq</em> tutorials so I&rsquo;ll spare that here.</p>
 <p>However, I&rsquo;ll share some pretty cool teasers.</p>
-<h2 id="_yq_-teasers"><a href="#_yq_-teasers" class="anchor-link">§</a><em>yq</em> teasers</h2>
+<h2 id="yq-teasers"><a href="#yq-teasers" class="anchor-link">§</a><em>yq</em> teasers</h2>
 <h3 id="extracting-all-helm-chart-dependencies-with-versions"><a href="#extracting-all-helm-chart-dependencies-with-versions" class="anchor-link">§</a>extracting all helm chart dependencies with versions</h3>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -523,19 +520,6 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
             
     
     
-        <ul class="post-copyright">
-            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
-            
-                
-                
-                
-                
-                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2023-07-10-yq-the-yaml-power-tool/" target="_blank" rel="noopener">https://gruchalski.com/posts/2023-07-10-yq-the-yaml-power-tool/</a></li>
-            
-            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
-            
-        </ul>
-    
 
 
 
@@ -558,7 +542,7 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
             
                 <div class="share-item twitter">
                     
-                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2023-07-10-yq-the-yaml-power-tool/&amp;text=yq%20-%20the%20yaml%20power%20tool&amp;hashtags=productivity,software,k8s,kubernetes,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2023-07-10-yq-the-yaml-power-tool/&amp;text=yq%20-%20the%20yaml%20power%20tool&amp;hashtags=Productivity,Software,K8s,Kubernetes,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
                 </div>
             
 
@@ -622,15 +606,15 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
                     </li>
                 
                     <li class="related-item">
+                        <a href="/posts/2025-11-04-the-leading-thought/" class="related-link">The leading thought</a>
+                    </li>
+                
+                    <li class="related-item">
                         <a href="/posts/2024-03-03-maintaining-a-fork-of-a-repository/" class="related-link">Maintaining a fork of a repository</a>
                     </li>
                 
                     <li class="related-item">
                         <a href="/posts/2021-04-06-apache-mesos-reaches-end-of-life/" class="related-link">Apache Mesos reaches end of life</a>
-                    </li>
-                
-                    <li class="related-item">
-                        <a href="/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/" class="related-link">Windows Terminal text selection productivity tips</a>
                     </li>
                 
             </ul>
@@ -648,7 +632,7 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
                 
                 
                     
-                    <a href="/tags/productivity/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>productivity</a>
+                    <a href="/tags/productivity/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Productivity</a>
                 
             
                 
@@ -656,7 +640,7 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
                 
                 
                     
-                    <a href="/tags/software/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>software</a>
+                    <a href="/tags/software/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Software</a>
                 
             
                 
@@ -664,7 +648,7 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
                 
                 
                     
-                    <a href="/tags/k8s/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>k8s</a>
+                    <a href="/tags/k8s/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>K8s</a>
                 
             
                 
@@ -672,7 +656,7 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
                 
                 
                     
-                    <a href="/tags/kubernetes/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>kubernetes</a>
+                    <a href="/tags/kubernetes/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Kubernetes</a>
                 
             
         </div>
@@ -726,7 +710,7 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2024&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     
