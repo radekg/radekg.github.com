@@ -15,11 +15,15 @@
             <language>en</language>
         
         
+            <managingEditor>radek@gruchalski.com (radek gruchalski)</managingEditor>
+        
+        
+            <webMaster>radek@gruchalski.com (radek gruchalski)</webMaster>
         
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Tue, 04 Nov 2025 23:20:15 &#43;0100</lastBuildDate>
+        <lastBuildDate>Tue, 04 Nov 2025 23:44:25 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -29,6 +33,8 @@
                 <link>https://gruchalski.com/posts/2025-11-04-the-leading-thought/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2025-11-04-the-leading-thought/</guid>
                 <pubDate>Tue, 04 Nov 2025 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -487,18 +493,20 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;d&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;discardLogger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;Write&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;Now, I do not know much about IMAP to be the jury on the quality case. To this day I haven&amp;rsquo;t used that code, nor I tried understanding it. But somehow this example speaks to me. I would accept it as my starting point, I take over from here. However, I would still enjoy something helping me write the next few lines. Something like GitHub Copilot is incredibly useful. It is easier to control the change, easier to make a mental note, like in old-school manual programming. Why? The that Copilot-like solution materializes out already formed thoughts. It writes the code already seen, noted, conceptualized, and finally accepted. All in a shot time span, but the process of physically typing every letter has been eliminated. It&amp;rsquo;s more than predictive typing because it understands the code and context. I observe significant number of companies embracing Copilot.&lt;/p&gt;
-&lt;p&gt;Something Copilot-like but hosted locally would be nice to have. I think that Tiny-LLM would be a good fit.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;Now, I do not know much about IMAP to be the jury on the quality case. To this day I haven&amp;rsquo;t used that code, nor I tried understanding it. But somehow this example speaks to me. I would accept it as my starting point, I take over from here. However, I would still enjoy something helping me write the next few lines. Something like GitHub Copilot is incredibly useful. It is easier to control the change, easier to make a mental note, like in old-school manual programming. Why? The that Copilot-like solution materializes the thoughts we already formed. The code it writes we have already seen, noted, conceptualized, and finally accepted. All in a shot time span, but the process of physically typing every letter has been eliminated. It&amp;rsquo;s more than predictive typing because it understands the code and context.&lt;/p&gt;
+&lt;p&gt;I observe significant number of companies embracing Copilot. Something Copilot-like but hosted locally would be nice to have. I think that Tiny-LLM would be a good fit.&lt;/p&gt;
 &lt;p&gt;As that was happening, earlier this year Klarrio organized two very good thought-provoking internal LLM-oriented hackatons. Those cemented my view that the two-step approach is the right one to embrace.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Take an acceptable first foundation from an LLM.&lt;/li&gt;
 &lt;li&gt;Build on it with something more contextual, Copilot-like.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;I have done many more interesting experiments. Some front end JavaScript web components were pretty impressive. Something I would never expect a junior engineer to come up within seconds. I had it build color pickers attachable to an arbitrary DOM node, draggable and resizable areas embedded into PDF.js with position, size, offset calculation, all sorts of crazy stuff that just worked straight copy-paste. It would write container files, make files, bash scripts, Golang, Python.&lt;/p&gt;
-&lt;p&gt;I had experiments with other models. Results are promising.&lt;/p&gt;
-&lt;p&gt;Running a software company means that sometimes one needs to write internal software. There never-was enough time, there is always other stuff going on.&lt;/p&gt;
+&lt;p&gt;My experience with other models yields promising results.&lt;/p&gt;
+&lt;p&gt;Running a software company means that sometimes one needs to write internal software. There was never enough time, there is always other stuff going on.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The leading thought: have an additional pair of hands to automate the process of writing and let me focus on conceptualizing.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;the leading thought&lt;/strong&gt;&lt;/em&gt;&lt;br&gt;
+&lt;em&gt;have an additional pair of hands to automate the process of writing&lt;/em&gt;&lt;br&gt;
+&lt;em&gt;and let me focus on conceptualizing&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;That thought led to other thoughts that led to the decision to get proper equipment for real-world use cases and make it available to everyone at the company. For various reasons I have decided to go for a Mac Studio with 32-core M3 Ultra CPU, M3 Ultra 80-core GPU with Metal 3 support and 512 GB LPDDR5 RAM.&lt;/p&gt;
 &lt;p&gt;The machine was lying unused for some time. I finally had an opportunity, and some motivation for good measure, to work on it.&lt;/p&gt;
 &lt;p&gt;So far there&amp;rsquo;s ollama with Open WebUI, speech-to-text, text-to-speech, Jupyter Notebook code runner, and Stable Diffusion. Everything inside self-hosted Headscale VPN running in Kubernetes on Hetzner, with valid Let&amp;rsquo;s Encrypt certificates provided by cert-manager and its Route53 DNS-01 solver for the internal network. All DNS names for HTTP-based services inside the VPN can be served TLS-encrypted.&lt;/p&gt;
@@ -555,6 +563,8 @@
                 <link>https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2024-03-03-maintaining-a-fork-of-a-repository/</guid>
                 <pubDate>Sun, 03 Mar 2024 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -886,6 +896,8 @@ v1.2.3
                 <guid isPermaLink="true">https://gruchalski.com/posts/2023-11-20-warning-istio-is-being-downgraded/</guid>
                 <pubDate>Mon, 20 Nov 2023 00:00:00 &#43;0200</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;You are upgrading Istio and a message like this pops up:&lt;/p&gt;
@@ -925,6 +937,8 @@ v1.2.3
                 <link>https://gruchalski.com/posts/2023-11-02-istio-external-workloads/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2023-11-02-istio-external-workloads/</guid>
                 <pubDate>Thu, 02 Nov 2023 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -2113,6 +2127,8 @@ pod &amp;#34;vm-response-test&amp;#34; deleted
                 <guid isPermaLink="true">https://gruchalski.com/posts/2023-07-21-yugabytedb-build-infrastructure-upgrade/</guid>
                 <pubDate>Fri, 21 Jul 2023 22:00:00 &#43;0200</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;A couple of weeks ago I had a pleasure talking to &lt;em&gt;Denis Magda&lt;/em&gt; and &lt;em&gt;Franck Pachot&lt;/em&gt; from &lt;em&gt;Yugabyte&lt;/em&gt; about my past &lt;em&gt;Postgres&lt;/em&gt; foreign data wrapper contributions to the awesome &lt;em&gt;YugabyteDB RDBMS&lt;/em&gt;. We discussed the whys and the hows, and reflected on my experiences as a contributor. Thanks for having me!&lt;/p&gt;
@@ -2187,6 +2203,8 @@ pod &amp;#34;vm-response-test&amp;#34; deleted
                 <link>https://gruchalski.com/posts/2023-07-10-yq-the-yaml-power-tool/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2023-07-10-yq-the-yaml-power-tool/</guid>
                 <pubDate>Mon, 10 Jul 2023 22:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -2506,6 +2524,8 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
                 <guid isPermaLink="true">https://gruchalski.com/posts/2023-07-10-windows-terminal-text-selection-productivity-tips/</guid>
                 <pubDate>Mon, 10 Jul 2023 00:00:00 &#43;0200</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;I am a heavy macOS user but my current work requires the use of Windows and its Terminal for WSL2. Working with Windows Terminal was very frustrating until I changed a couple of settings:&lt;/p&gt;
@@ -2616,6 +2636,8 @@ MongoDB image is: docker.io/bitnami/mongodb:5.0.10-debian-11-r3
                 <link>https://gruchalski.com/posts/2023-07-09-istio-cert-manager-lets-encrypt-and-https-redirect/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2023-07-09-istio-cert-manager-lets-encrypt-and-https-redirect/</guid>
                 <pubDate>Sun, 09 Jul 2023 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -4362,6 +4384,8 @@ server: istio-envoy
                 <guid isPermaLink="true">https://gruchalski.com/posts/2023-07-06-privacy-settings-updates/</guid>
                 <pubDate>Thu, 06 Jul 2023 00:00:00 &#43;0200</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;On 5th of July I have made a number of changes to the privacy settings on this website. Without going too much into detail about reasons:&lt;/p&gt;
@@ -4418,6 +4442,8 @@ server: istio-envoy
                 <link>https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-10-30-what-does-not-scale-in-software/</guid>
                 <pubDate>Tue, 01 Nov 2022 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -4499,6 +4525,8 @@ server: istio-envoy
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-10-22-zanzibar-with-prolog-summary/</guid>
                 <pubDate>Sat, 22 Oct 2022 00:00:00 &#43;0200</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Up until about a month ago, my understanding of how Zanzibar was supposed to work was wrong. Some quick notes:&lt;/p&gt;
@@ -4573,6 +4601,8 @@ server: istio-envoy
                 <link>https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-09-10-zanzibar-with-prolog-week-2/</guid>
                 <pubDate>Sat, 10 Sep 2022 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -4903,6 +4933,8 @@ server: istio-envoy
                 <link>https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-09-03-zanzibar-style-acls-with-prolog/</guid>
                 <pubDate>Sat, 03 Sep 2022 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -5797,6 +5829,8 @@ end if
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-08-28-i-enjoyed-modern-fortran/</guid>
                 <pubDate>Sun, 28 Aug 2022 00:00:00 &#43;0200</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;An exercise on its own rather than a conscious future career choice. This is a short sentence describing my recent venture into Fortran. The language has been on my &lt;em&gt;to learn&lt;/em&gt; list for many, many years, but Fortran requires a particular type of problem. The first version of Fortran, the first high-level programming language, appeared in 1957. Fortran is still in active development, it has seen several iterations over the decades. Fortran is the oldest, actively maintained programming language in use today.&lt;/p&gt;
@@ -5913,6 +5947,8 @@ end if
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-08-20-learning-rust/</guid>
                 <pubDate>Sat, 20 Aug 2022 00:00:00 &#43;0200</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Six years ago, during my short stint at The Weather Company, I was on the lookout for a programming language that would let me build software with no dependency on the runtime. There were two obvious candidates: Go and Rust. For many reasons, Rust had me a little bit anxious. The borrow checker, which I just could not fully understand back in the day, was the main sticking point. There were others like the concurrency story, which wasn’t very clear, with multiple implementations competing for the crown.&lt;/p&gt;
@@ -6014,6 +6050,8 @@ end if
                 <link>https://gruchalski.com/posts/2022-06-19-istio-canary-upgrades/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-06-19-istio-canary-upgrades/</guid>
                 <pubDate>Sun, 19 Jun 2022 00:00:00 &#43;0200</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -6397,6 +6435,8 @@ istio-sidecar-injector-1-14-1   2          5m5s
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-06-18-streaming-keycloak-events/</guid>
                 <pubDate>Sat, 18 Jun 2022 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Streaming data is a commodity. Thanks to all sorts of streaming data sources we can build reactive systems whereby an event occuring in one corner of the system triggers events somewhere else. Streaming data speeds up processes because businesses can react to events instead of proactively having to ask for &lt;em&gt;&amp;ldquo;what&amp;rsquo;s new&amp;rdquo;&lt;/em&gt;. IAM is no exception. Actually, an IAM system should be a source of critical information shared with other systems because IAM events are core to everything else happening within a modern, data-driven organization.&lt;/p&gt;
@@ -6552,6 +6592,8 @@ istio-sidecar-injector-1-14-1   2          5m5s
                 <link>https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-05-07-zanzibar-style-acls-with-opa-rego/</guid>
                 <pubDate>Sat, 07 May 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -7265,6 +7307,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-04-28-private-go-modules-with-multiple-git-identities/</guid>
                 <pubDate>Thu, 28 Apr 2022 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;If you&amp;rsquo;re working with go on a regular basis, chances are you have come across the problem of working with private modules. Let&amp;rsquo;s quickly recap:&lt;/p&gt;
@@ -7408,6 +7452,8 @@ require (
                 <link>https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/</guid>
                 <pubDate>Wed, 27 Apr 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -7767,6 +7813,8 @@ require (
                 <link>https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/</guid>
                 <pubDate>Sat, 19 Mar 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -8904,6 +8952,8 @@ yb-tserver-shared-3    | libc++abi: terminating with uncaught exception of type 
                 <link>https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-02-23-yugabytedb-change-data-capture/</guid>
                 <pubDate>Wed, 23 Feb 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -10072,6 +10122,8 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/</guid>
                 <pubDate>Mon, 21 Feb 2022 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;With every version, the number of PostgreSQL features supported by YugabyteDB inevitably increases. This is good! However, it is pretty difficult to come by a comprehensive list of unsupported features. There&amp;rsquo;s a &lt;a href=&#34;https://github.com/yugabyte/yugabyte-db#current-roadmap&#34;&gt;roadmap on GitHub&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2022-02-21-identifying-postgres-features-unsupported-in-yugabytedb/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, but the roadmap lists top-level features and misses the exact list of statements and keywords. There are also GitHub issues, but there&amp;rsquo;s over 11k of them so it could be pretty difficult to filter out what&amp;rsquo;s really unsupported.&lt;/p&gt;
@@ -10349,6 +10401,8 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
                 <link>https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-02-20-keycloak-1700-with-tls-behind-envoy/</guid>
                 <pubDate>Sun, 20 Feb 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -10816,6 +10870,8 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-02-16-yugabytedb-go-rpc-client/</guid>
                 <pubDate>Wed, 16 Feb 2022 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;The YugabyteDB RPC API isn&amp;rsquo;t an official API, and that&amp;rsquo;s what makes it interesting. The whole distributed aspect of YugabyteDB is based on that API. Digging through it is a perfect way to understand the internals of the database. The RPC API can also be used to automate various aspects of the database. I&amp;rsquo;ll come back to this subject in near future.&lt;/p&gt;
@@ -11036,6 +11092,8 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
                 <link>https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2022-02-12-a-brief-look-at-yugabytedb-rpc-api/</guid>
                 <pubDate>Sat, 12 Feb 2022 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -11478,6 +11536,8 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-11-11-yugabytedb-the-book/</guid>
                 <pubDate>Thu, 11 Nov 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;I’ve been deep in YugabyteDB trenches for the last 6 months. At Klarrio, we are building a Database as a Service solution for the Data Services Hub. This is a self-managed, multi-tenant solution designed to run on top of Apache Mesos. We have a small team doing all kinds of integration work. I am focusing on the core database rollout.&lt;/p&gt;
@@ -11591,6 +11651,8 @@ e313e4dd6cd1410189fa73562a47fba4 yb-tserver-shared-3:9100 0.43s           ALIVE 
                 <link>https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-11-08-yugabytedb-postgres-foreign-data-wrapper/</guid>
                 <pubDate>Mon, 08 Nov 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -11948,6 +12010,8 @@ tenant2db=&amp;gt;
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-07-12-postgres-in-docker-with-persistent-storage/</guid>
                 <pubDate>Mon, 12 Jul 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Yes, it&amp;rsquo;s perfectly fine to run databases in containers. The only challenge is to make sure that the data stored by the database does not reside within the file system of the container. Otherwise, after removing the container, the data will be gone, too.&lt;/p&gt;
@@ -12075,6 +12139,8 @@ tenant2db=&amp;gt;
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-06-15-yugabytedb-docker-image/</guid>
                 <pubDate>Tue, 15 Jun 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;The default YugabyteDB Docker image from Docker Hub runs the database as a &lt;em&gt;root&lt;/em&gt; user.&lt;/p&gt;
@@ -12194,6 +12260,8 @@ tenant2db=&amp;gt;
                 <link>https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-06-06-extending-keycloak-required-action-providers/</guid>
                 <pubDate>Sun, 06 Jun 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -12444,6 +12512,8 @@ tenant2db=&amp;gt;
                 <link>https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-06-06-keycloak-with-tls-behind-envoy/</guid>
                 <pubDate>Sun, 06 Jun 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -12894,6 +12964,8 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-06-04-letsencrypt-certificates-for-local-development/</guid>
                 <pubDate>Fri, 04 Jun 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;While building a couple of browser based prototypes, I&amp;rsquo;ve hit an interesting problem. Basically, I am trying to replicate a full remote setup with a reverse proxy and TLS SNI while running everything on &lt;em&gt;localhost&lt;/em&gt;. Getting the DNS functioning is pretty easy—I just add the required hosts to the &lt;em&gt;/etc/hosts&lt;/em&gt; file and I&amp;rsquo;m done with it.&lt;/p&gt;
@@ -13045,6 +13117,8 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-30-on-yugabytedb/</guid>
                 <pubDate>Sun, 30 May 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Oh boy, 20 years of software engineering definitely makes you tune your BS radar when reading claims about how awesome and mature a relatively new technology is. Every new project claims to solve all the problems for the current itch on hand. Do you know that feeling? You spend a week reading the documentation, prepare the test deployment, find out that documentation doesn&amp;rsquo;t match reality, look at GitHub and find dozens open issues. Finally, you throw it out in anger and curse at yourself because you just wasted a week of time.&lt;/p&gt;
@@ -13140,6 +13214,8 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
                 <link>https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-23-do-you-really-need-a-database-for-that-ory-stack/</guid>
                 <pubDate>Sun, 23 May 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -13306,6 +13382,8 @@ I have published a version of this article adapted for Keycloak 17: &lt;a href=&
                 <link>https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-20-figuring-out-oathkeeper/</guid>
                 <pubDate>Thu, 20 May 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -13753,6 +13831,8 @@ Accept: application/json
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/</guid>
                 <pubDate>Mon, 17 May 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;There was an interesting question coming up related to the previous article on &lt;a href=&#34;https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/&#34;&gt;RBAC with Ory Keto&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-05-17-keto-rbac-listing-roles-of-a-user/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
@@ -14136,6 +14216,8 @@ fast-dev-director: {&amp;#34;allowed&amp;#34;:true}
                 <link>https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-05-15-rbac-with-ory-keto/</guid>
                 <pubDate>Sat, 15 May 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -14792,6 +14874,8 @@ dev-director#member@Bender
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-04-24-on-software-testing-with-dockertest/</guid>
                 <pubDate>Sat, 24 Apr 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Software almost never runs in isolation. Today&amp;rsquo;s systems integrate with a vast number of external services. Ensuring reliability is difficult because the external dependencies, be it a database or an authentication system, adds an element of unpredictability which is difficult to emulate in isolation. A reliable system should account for the behavior of its dependencies. What does it help that an API is up and running when the underlying service it talks to hasn&amp;rsquo;t been accounted for a specific edge case and is causing an unexpected latency to my clients under certain conditions?&lt;/p&gt;
@@ -14998,6 +15082,8 @@ dev-director#member@Bender
                 <link>https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-04-14-launching-consul-cluster-with-firebuild/</guid>
                 <pubDate>Wed, 14 Apr 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -15245,6 +15331,8 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
                 <link>https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-04-11-looking-at-zanzibar-through-ory-keto/</guid>
                 <pubDate>Sun, 11 Apr 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -15861,6 +15949,8 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-04-10-ory-reference-docker-compose-and-thoughts-on-the-platform/</guid>
                 <pubDate>Sat, 10 Apr 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;h2 id=&#34;obligatory-keycloak-mention&#34;&gt;obligatory Keycloak mention&lt;/h2&gt;
@@ -16007,6 +16097,8 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-04-06-apache-mesos-reaches-end-of-life/</guid>
                 <pubDate>Tue, 06 Apr 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;&lt;strong&gt;Updated on 10th of April 2021: The decision to move Apache Mesos to Attic, has been reversed.&lt;/strong&gt;&lt;/p&gt;
@@ -16063,6 +16155,8 @@ consul1.node.dc1.consul. 0	IN	TXT	&amp;#34;consul-network-segment=&amp;#34;
                 <link>https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-04-06-on-golang-osexpand-and-osexpandenv/</guid>
                 <pubDate>Tue, 06 Apr 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -16482,6 +16576,8 @@ esac
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-04-02-kafka-infinite-retention/</guid>
                 <pubDate>Fri, 02 Apr 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Well, sort of. But bear with me.&lt;/p&gt;
@@ -16611,6 +16707,8 @@ esac
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/</guid>
                 <pubDate>Wed, 31 Mar 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Long time coming but the &lt;a href=&#34;https://cwiki.apache.org/confluence/display/KAFKA/KIP-500%3A+Replace+ZooKeeper+with+a+Self-Managed+Metadata+Quorum&#34;&gt;KIP-500&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; has finally landed. It&amp;rsquo;s official, Apache Kafka does not require ZooKeeper anymore. The KRaft, the Kafka Raft implementation, is not recommended for production yet. Full &lt;a href=&#34;https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/&#34;&gt;announcement from Confluent is here&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-03-31-kafka-2.8-does-not-need-zookeeper-anymore/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
@@ -16735,6 +16833,8 @@ esac
                 <link>https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/</guid>
                 <pubDate>Sun, 28 Mar 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -16965,6 +17065,8 @@ esac
                 <link>https://gruchalski.com/posts/2021-03-23-introducing-firebuild/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-03-23-introducing-firebuild/</guid>
                 <pubDate>Tue, 23 Mar 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -17439,6 +17541,8 @@ esac
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-03-22-firebuild-prerequisites/</guid>
                 <pubDate>Mon, 22 Mar 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;This article describes the prerequisites to the &lt;a href=&#34;https://gruchalski.com/posts/2021-03-23-introducing-firebuild/&#34;&gt;Introducing firebuild&lt;/a&gt;.&lt;/p&gt;
@@ -17671,6 +17775,8 @@ esac
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-03-03-thoughts-on-creating-vmms-from-docker-images/</guid>
                 <pubDate>Tue, 02 Mar 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;h2 id=&#34;dockerfiles-are-awesome&#34;&gt;Dockerfiles are awesome&lt;/h2&gt;
@@ -17795,6 +17901,8 @@ esac
                 <link>https://gruchalski.com/posts/2021-02-19-the-jailer/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-19-the-jailer/</guid>
                 <pubDate>Fri, 19 Feb 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -17967,6 +18075,8 @@ esac
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-18-its-all-about-the-iface-name/</guid>
                 <pubDate>Thu, 18 Feb 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/&#34;&gt;Last night&amp;rsquo;s problem with the second VMM conflicting on the network layer with the first one&lt;/a&gt; was indeed the &lt;code&gt;veth0&lt;/code&gt; name hard coded in &lt;code&gt;firectl&lt;/code&gt;. &lt;a href=&#34;https://github.com/radekg/firectl/commit/b43ad852ce267c016558d101957d7b2ec1805f3d&#34;&gt;I&amp;rsquo;ve added the &lt;code&gt;--veth-iface-name&lt;/code&gt; argument&lt;/a&gt; to &lt;code&gt;firectl&lt;/code&gt; and I am now able to start multiple VMMs on a single bridge.&lt;/p&gt;
@@ -18053,6 +18163,8 @@ esac
                 <link>https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-17-bridging-the-firecracker-network-gap/</guid>
                 <pubDate>Wed, 17 Feb 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -18300,6 +18412,8 @@ exit status 2: iptables v1.6.1: Couldn&amp;#39;t load target
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/</guid>
                 <pubDate>Tue, 16 Feb 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Towards the end of the &lt;a href=&#34;https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/&#34;&gt;Firecracker VMM with additional disks&lt;/a&gt; article&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2021-02-16-live-resize-firecracker-vmm-drive/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; I concluded that I didn&amp;rsquo;t know how to live resize an attached drive. It turns out it is possible  and it&amp;rsquo;s very easy to do using the Firecracker VMM API.&lt;/p&gt;
@@ -18490,6 +18604,8 @@ Connection: keep-alive
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-14-firecracker-vmm-with-additional-disks/</guid>
                 <pubDate>Sun, 14 Feb 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Before looking at the networking options, I have looked at adding extra drives to my Firecracker VMMs. Storing data on the root file system will not scale well long term. Additional disks will be a good solution to persist application specific data across reboots and upgrades.&lt;/p&gt;
@@ -18662,6 +18778,8 @@ drwx------    2 root     root         12288 Feb 14 15:07 lost+found
                 <link>https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-13-launching-alpine-linux-on-firecracker-like-a-boss/</guid>
                 <pubDate>Sat, 13 Feb 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -19365,6 +19483,8 @@ Connection to 172.17.0.42 closed.
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-10-my-golang-modules-live-in-athens/</guid>
                 <pubDate>Wed, 10 Feb 2021 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;So I&amp;rsquo;ve been on the fence with the &lt;code&gt;vendor&lt;/code&gt; directory.&lt;/p&gt;
@@ -19425,6 +19545,8 @@ Connection to 172.17.0.42 closed.
                 <link>https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-07-vault-on-firecracker-with-cni-plugins-and-nomad/</guid>
                 <pubDate>Sun, 07 Feb 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -19970,6 +20092,8 @@ Connection to 172.17.0.42 closed.
                 <link>https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/</guid>
                 <pubDate>Sat, 06 Feb 2021 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -20693,6 +20817,8 @@ Connection to 172.17.0.42 closed.
                 <guid isPermaLink="true">https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/</guid>
                 <pubDate>Wed, 16 Sep 2020 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;This is a clarification to the previous write up about Keycloak Authorization Services&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. The documentation of the &lt;code&gt;response_mode&lt;/code&gt; documents the two values which can be used: &lt;code&gt;decision&lt;/code&gt; and &lt;code&gt;permissions&lt;/code&gt;. In the first Keycloak article&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2020-09-16-keycloak-authorization-services-rpt-permissions-or-a-decision-only/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;, I have wrongly assumed that no &lt;code&gt;response_mode&lt;/code&gt; in the &lt;code&gt;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&lt;/code&gt; call implies the value of &lt;code&gt;permissions&lt;/code&gt;.&lt;/p&gt;
@@ -21038,6 +21164,8 @@ Connection to 172.17.0.42 closed.
                 <guid isPermaLink="true">https://gruchalski.com/posts/2020-09-09-authenticate-to-private-jfrog-npm-registry/</guid>
                 <pubDate>Wed, 09 Sep 2020 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;This always gets me, &lt;code&gt;npm publish&lt;/code&gt; fails to authenticate:&lt;/p&gt;
@@ -21112,6 +21240,8 @@ npm ERR!     /Users/rad/.npm/_logs/...Z-debug.log
                 <link>https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2020-09-09-multi-tenant-vault-pki-with-custom-root-pem-bundle/</guid>
                 <pubDate>Wed, 09 Sep 2020 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -22535,6 +22665,8 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
                 <guid isPermaLink="true">https://gruchalski.com/posts/2020-09-07-certificate-authority-is-not-voodoo/</guid>
                 <pubDate>Mon, 07 Sep 2020 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Modern applications tend to get fairly complex pretty quick. A usual stack will consist of many moving parts. Starting from a cloud environment, maybe abstracted behind Kubernetes or Mesos, through multitude of web servers, GRPC services, to monitoring systems like Grafana, Jaeger, Prometheus, all fronted with load balancers or proxies like Traefik. Many of these components have fairly complex dependencies, ETCD or Zookeeper come to mind. All these power a highly dynamic environment where containers and virtual machines iterate and get replaced often. Some businesses operate multiple copies of stacks for development, staging and production environments.&lt;/p&gt;
@@ -22645,6 +22777,8 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
                 <link>https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2020-09-06-keycloak-authorization-services-decision-only/</guid>
                 <pubDate>Sun, 06 Sep 2020 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -22815,6 +22949,8 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
                 <link>https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2020-09-05-introduction-to-keycloak-authorization-services/</guid>
                 <pubDate>Sat, 05 Sep 2020 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -23903,6 +24039,8 @@ It enables a resource owner to control the authorization of data sharing and oth
                 <guid isPermaLink="true">https://gruchalski.com/posts/2020-09-03-keycloak-with-docker-compose/</guid>
                 <pubDate>Thu, 03 Sep 2020 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;&lt;strong&gt;Updated on 15th of May 2021&lt;/strong&gt; for Keycloak 13.0.0 with Postgres 13.2.&lt;/p&gt;
@@ -24089,6 +24227,8 @@ POSTGRESQL_DB=keycloak
                 <link>https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2017-01-31-publish-to-maven-central-via-sonatype-with-sbt/</guid>
                 <pubDate>Tue, 31 Jan 2017 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -24389,6 +24529,8 @@ $ sbt ++$SCALA_VERSION -Dscala.version=$SCALA_VERSION publishSigned
                 <guid isPermaLink="true">https://gruchalski.com/posts/2016-05-08-the-case-for-kafka-cold-storage/</guid>
                 <pubDate>Sun, 08 May 2016 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;It is entirely possible that what I am going to describe here is an edge case not many people hit with their Kafka deployments. However, in my experience, when Kafka is used to ingest large volumes of data, it makes perfect sense. Considering that every now and then people ask for a cold storage feature on the Kafka mailing list, I am not the only one who would find this useful.&lt;/p&gt;
@@ -24459,6 +24601,8 @@ $ sbt ++$SCALA_VERSION -Dscala.version=$SCALA_VERSION publishSigned
                 <link>https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2015-11-23-apache-spark-on-mesos-with-docker-bridge-networking/</guid>
                 <pubDate>Mon, 23 Nov 2015 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -24626,6 +24770,8 @@ git apply path/to/${SPARK_VERSION}.patch
                 <guid isPermaLink="true">https://gruchalski.com/posts/2015-06-17-gossiperl-at-euc-2015-and-next-steps/</guid>
                 <pubDate>Wed, 17 Jun 2015 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Wow. It’s difficult to believe it’s been almost a week since I gave a talk about gossip protocols at &lt;a href=&#34;http://www.erlang-factory.com/euc2015&#34;&gt;Erlang User Conference in Stockholm&lt;/a&gt;. It was a fantastic event, great agenda, great topics, fantastic networking. EUC is one of those events you should attend, you will not regret it. No matter if you are interested in Erlang/Elixir or not. Big “Thank You” to all who made it happen.&lt;/p&gt;
@@ -24692,6 +24838,8 @@ git apply path/to/${SPARK_VERSION}.patch
                 <guid isPermaLink="true">https://gruchalski.com/posts/2015-05-11-control-keynote-presnetation-with-your-mobile-browser/</guid>
                 <pubDate>Mon, 11 May 2015 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;h2 id=&#34;a-little-moan-to-start-with&#34;&gt;A little moan to start with&amp;hellip;&lt;/h2&gt;
@@ -24753,6 +24901,8 @@ git apply path/to/${SPARK_VERSION}.patch
                 <guid isPermaLink="true">https://gruchalski.com/posts/2015-04-21-crowd-sourced-unit-testing-ci/</guid>
                 <pubDate>Tue, 21 Apr 2015 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;p&gt;Unit testing has evolved a long way over the years, continuous integration services even more so. Few years back, when mentioning CI, Jenkins was the only reasonable choice someone would take. It was kind of easy to set up, depending on what one was planning to do with it. Looking at this space today there are plenty of services offering painless CI for the masses. The most known one - &lt;a href=&#34;https://travis-ci.org&#34;&gt;Travis CI&lt;/a&gt;. Compared to Jenkins it’s night and day. Simply sign in with &lt;a href=&#34;https://github.com&#34;&gt;Github&lt;/a&gt;, go to settings, enable repository to be tested and you are off. The build can be customised by modifying &lt;code&gt;.travis.yml&lt;/code&gt; file placed in the root of the repository to be tested. Every push to Github, every pull request and every merge is automatically tested. Results are available on Github together with full history of the project. Easy.&lt;/p&gt;
@@ -24781,6 +24931,8 @@ git apply path/to/${SPARK_VERSION}.patch
                 <link>https://gruchalski.com/posts/2015-01-05-state-of-gossiperl-and-some-javascript-thrift-goodies/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2015-01-05-state-of-gossiperl-and-some-javascript-thrift-goodies/</guid>
                 <pubDate>Mon, 05 Jan 2015 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -24840,6 +24992,8 @@ git apply path/to/${SPARK_VERSION}.patch
                 <link>https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2014-12-09-gossiperl-gossip-middleware-in-erlang/</guid>
                 <pubDate>Tue, 09 Dec 2014 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -24909,6 +25063,8 @@ git apply path/to/${SPARK_VERSION}.patch
                 <link>https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2014-10-12-apache-thrift-via-udp-in-erlang/</guid>
                 <pubDate>Sun, 12 Oct 2014 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -25800,6 +25956,8 @@ Received digestAck to digest &amp;lt;&amp;lt;&amp;#34;#Ref&amp;lt;0.0.0.105&amp;
                 <guid isPermaLink="true">https://gruchalski.com/posts/2014-05-20-openstack-devstack-up-and-running-with-vagrant-in-125-minutes/</guid>
                 <pubDate>Tue, 20 May 2014 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;h3 id=&#34;id-like-to-develop-for-openstack&#34;&gt;I&amp;rsquo;d like to develop for OpenStack&lt;/h3&gt;
@@ -25960,6 +26118,8 @@ RECLONE=yes
                 <link>https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2014-10-21-erflux-influxdb-client-for-erlang/</guid>
                 <pubDate>Mon, 21 Oct 2013 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -26208,6 +26368,8 @@ erflux_http:get_databases().
                 <guid isPermaLink="true">https://gruchalski.com/posts/2013-06-24-apache-zookeeper-authentication/</guid>
                 <pubDate>Mon, 24 Jun 2013 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;h4 id=&#34;the-problem&#34;&gt;The problem&lt;/h4&gt;
@@ -26359,6 +26521,8 @@ z.create(:path =&amp;gt; &amp;quot;/nodes/#{@@ipv4}&amp;quot;, :acl =&amp;gt; zk
                 <guid isPermaLink="true">https://gruchalski.com/posts/2013-03-22-git-chopping-out-part-of-the-repo-into-a-separate-repo/</guid>
                 <pubDate>Fri, 22 Mar 2013 00:00:00 &#43;0000</pubDate>
                 
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
+                
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
                     <description>&lt;blockquote&gt;
@@ -26437,6 +26601,8 @@ git push --mirror git@github.com:.../NEWREPO.git
                 <link>https://gruchalski.com/posts/2013-03-07-setting-up-knife-ec2/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2013-03-07-setting-up-knife-ec2/</guid>
                 <pubDate>Thu, 07 Mar 2013 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
@@ -26545,6 +26711,8 @@ git push --mirror git@github.com:.../NEWREPO.git
                 <link>https://gruchalski.com/posts/2013-03-05-devops-box/</link>
                 <guid isPermaLink="true">https://gruchalski.com/posts/2013-03-05-devops-box/</guid>
                 <pubDate>Tue, 05 Mar 2013 00:00:00 &#43;0000</pubDate>
+                
+                    <author>radek@gruchalski.com (radek gruchalski)</author>
                 
                 <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
                 
