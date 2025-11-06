@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2025-11-05T10:47:06&#43;01:00</updated>
+    <updated>2025-11-06T17:23:58&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">The leading thought</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2025-11-04-the-leading-thought/" />
             <id>https://gruchalski.com/posts/2025-11-04-the-leading-thought/</id>
-            <updated>2025-11-05T10:46:41&#43;01:00</updated>
+            <updated>2025-11-06T17:22:41&#43;01:00</updated>
             <published>2025-11-04T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -486,7 +486,7 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Now, I do not know much about IMAP to be the jury on the quality case. To this day I haven&amp;rsquo;t used that code, nor I tried understanding it. But somehow this example speaks to me. I would accept it as my starting point, I take over from here. However, I would still enjoy something helping me write the next few lines. Something like GitHub Copilot is incredibly useful. It is easier to control the change, easier to make a mental note, like in old-school manual programming. Why? The Copilot-like solution materializes the thoughts we already formed. The code it writes we have already seen, noted, conceptualized, and finally accepted. All in a shot time span, but the process of physically typing every letter has been eliminated. It&amp;rsquo;s more than predictive typing because it understands the code and context.&lt;/p&gt;
 &lt;p&gt;I observe significant number of companies embracing Copilot. Something Copilot-like but hosted locally would be nice to have. I think that Tiny-LLM would be a good fit.&lt;/p&gt;
-&lt;p&gt;As that was happening, earlier this year Klarrio organized two very good thought-provoking internal LLM-oriented hackatons. Those cemented my view that the two-step approach is the right one to embrace.&lt;/p&gt;
+&lt;p&gt;A couple of other event cemented my view that the two-step approach is the right one to embrace.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Take an acceptable first foundation from an LLM.&lt;/li&gt;
 &lt;li&gt;Build on it with something more contextual, Copilot-like.&lt;/li&gt;
