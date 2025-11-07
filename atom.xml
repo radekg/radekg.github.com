@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2025-11-06T17:23:58&#43;01:00</updated>
+    <updated>2025-11-07T09:23:53&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">The leading thought</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2025-11-04-the-leading-thought/" />
             <id>https://gruchalski.com/posts/2025-11-04-the-leading-thought/</id>
-            <updated>2025-11-06T17:22:41&#43;01:00</updated>
+            <updated>2025-11-07T09:22:22&#43;01:00</updated>
             <published>2025-11-04T00:00:00&#43;02:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -498,8 +498,7 @@
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;the leading thought&lt;/strong&gt;&lt;/em&gt;&lt;br&gt;
 &lt;em&gt;have an additional pair of hands to automate the process of writing&lt;/em&gt;&lt;br&gt;
 &lt;em&gt;and let me focus on conceptualizing&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
-&lt;p&gt;That thought led to other thoughts that led to the decision to get proper equipment for real-world use cases and make it available to everyone at Klarrio GmbH. For various reasons I have decided to go for a Mac Studio with 32-core M3 Ultra CPU, M3 Ultra 80-core GPU with Metal 3 support and 512 GB LPDDR5 RAM.&lt;/p&gt;
-&lt;p&gt;The machine was lying unused for some time. I finally had an opportunity, and some motivation for good measure, to work on it.&lt;/p&gt;
+&lt;p&gt;That thought led to other thoughts that led to the decision to get proper equipment. I finally had an opportunity, and some motivation for good measure, to work on it.&lt;/p&gt;
 &lt;p&gt;So far there&amp;rsquo;s ollama with Open WebUI, speech-to-text, text-to-speech, Jupyter Notebook code runner, and Stable Diffusion. Everything inside self-hosted Headscale VPN running in Kubernetes on Hetzner, with valid Let&amp;rsquo;s Encrypt certificates provided by cert-manager and its Route53 DNS-01 solver for the internal network. All DNS names for HTTP-based services inside the VPN can be served TLS-encrypted.&lt;/p&gt;
 &lt;p&gt;It took a week from a concept to a working solution. And surprisingly it wasn&amp;rsquo;t that much plumbing.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll write some more soon.&lt;/p&gt;
@@ -536,12 +535,6 @@
                             
                             
                                 <category scheme="https://gruchalski.com/tags/infrastructure/" term="Infrastructure" label="Infrastructure" />
-                            
-                        
-                            
-                            
-                            
-                                <category scheme="https://gruchalski.com/tags/klarrio-gmbh/" term="Klarrio-Gmbh" label="Klarrio-Gmbh" />
                             
                         
                     

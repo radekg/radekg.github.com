@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Thu, 06 Nov 2025 17:23:58 &#43;0100</lastBuildDate>
+        <lastBuildDate>Fri, 07 Nov 2025 09:23:53 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -507,8 +507,7 @@
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;the leading thought&lt;/strong&gt;&lt;/em&gt;&lt;br&gt;
 &lt;em&gt;have an additional pair of hands to automate the process of writing&lt;/em&gt;&lt;br&gt;
 &lt;em&gt;and let me focus on conceptualizing&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
-&lt;p&gt;That thought led to other thoughts that led to the decision to get proper equipment for real-world use cases and make it available to everyone at Klarrio GmbH. For various reasons I have decided to go for a Mac Studio with 32-core M3 Ultra CPU, M3 Ultra 80-core GPU with Metal 3 support and 512 GB LPDDR5 RAM.&lt;/p&gt;
-&lt;p&gt;The machine was lying unused for some time. I finally had an opportunity, and some motivation for good measure, to work on it.&lt;/p&gt;
+&lt;p&gt;That thought led to other thoughts that led to the decision to get proper equipment. I finally had an opportunity, and some motivation for good measure, to work on it.&lt;/p&gt;
 &lt;p&gt;So far there&amp;rsquo;s ollama with Open WebUI, speech-to-text, text-to-speech, Jupyter Notebook code runner, and Stable Diffusion. Everything inside self-hosted Headscale VPN running in Kubernetes on Hetzner, with valid Let&amp;rsquo;s Encrypt certificates provided by cert-manager and its Route53 DNS-01 solver for the internal network. All DNS names for HTTP-based services inside the VPN can be served TLS-encrypted.&lt;/p&gt;
 &lt;p&gt;It took a week from a concept to a working solution. And surprisingly it wasn&amp;rsquo;t that much plumbing.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll write some more soon.&lt;/p&gt;
@@ -545,12 +544,6 @@
                                 
                                 
                                     <category domain="https://gruchalski.com/tags/infrastructure/">Infrastructure</category>
-                                
-                            
-                                
-                                
-                                
-                                    <category domain="https://gruchalski.com/tags/klarrio-gmbh/">Klarrio-Gmbh</category>
                                 
                             
                         
