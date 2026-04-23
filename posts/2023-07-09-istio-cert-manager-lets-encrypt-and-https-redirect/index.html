@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -248,7 +248,8 @@
             <div class="post-body e-content">
               <p>I&rsquo;m running Istio 1.16.1 with cert-manager 1.11.0 <em>ClusterIssuer</em> pointed at Let&rsquo;s Encrypt using <em>HTTP-01</em> challenge. I have a gateway with a virtual service and I would like to automatically redirect all HTTP traffic to HTTPS. Except of the Let&rsquo;s Encrypt challenge. Because, <a href="https://letsencrypt.org/docs/challenge-types/#http-01-challenge" target="_blank" rel="noopener">after Let&rsquo;s Encrypt documentation</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>:</p>
 <blockquote>
-<p>The HTTP-01 challenge can only be done on port 80. Allowing clients to specify arbitrary ports would make the challenge less secure, and so it is not allowed by the ACME standard.</p></blockquote>
+<p>The HTTP-01 challenge can only be done on port 80. Allowing clients to specify arbitrary ports would make the challenge less secure, and so it is not allowed by the ACME standard.</p>
+</blockquote>
 <p><a href="https://istio.io/latest/docs/reference/config/networking/gateway/#ServerTLSSettings" target="_blank" rel="noopener">Istio documentation suggests using the <em>ServerTLSSettings</em></a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> <em>httpRedirect: true</em> but this has a very nasty side effect. All traffic, even challenge solving is redirected to HTTPS. No certificate will be issued or renewed until <em>httpsRedirect</em> is set to <em>false</em>. This can be observed in cert-manager logs (broken into multiple lines for readability):</p>
 <pre tabindex="0"><code>E0708 15:04:16.187682       1 sync.go:190] cert-manager/challenges
     &#34;msg&#34;=&#34;propagation check failed&#34;
@@ -402,12 +403,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">cert-manager.io/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterIssuer</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">cert-manager.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterIssuer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">letsencrypt-prod-cluster</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">istio-system</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">acme</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">email</span><span class="p">:</span><span class="w"> </span><span class="l">email@address</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l">https://acme-v02.api.letsencrypt.org/directory</span><span class="w">
@@ -417,13 +418,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">http01</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ingress</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">class</span><span class="p">:</span><span class="w"> </span><span class="l">istio</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">cert-manager.io/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Certificate</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">cert-manager.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Certificate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-certificate</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">istio-system</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l">test-certificate-secret</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">duration</span><span class="p">:</span><span class="w"> </span><span class="l">2160h</span><span class="w"> </span><span class="c"># 90d</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">renewBefore</span><span class="p">:</span><span class="w"> </span><span class="l">360h</span><span class="w"> </span><span class="c"># 15d</span><span class="w">
@@ -441,13 +442,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">letsencrypt-prod-cluster</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterIssuer</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">cert-manager.io</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Gateway</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Gateway</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-svcs-sh-gtw</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">istio</span><span class="p">:</span><span class="w"> </span><span class="l">ingressgateway</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">servers</span><span class="p">:</span><span class="w">
@@ -468,13 +469,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">credentialName</span><span class="p">:</span><span class="w"> </span><span class="l">test-certificate-secret</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">hosts</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;test.svcs.sh&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">VirtualService</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">VirtualService</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-svcs-sh-vs</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="s2">&#34;test.svcs.sh&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">gateways</span><span class="p">:</span><span class="w">
@@ -557,12 +558,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Gateway</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Gateway</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-svcs-sh-gtw</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">istio</span><span class="p">:</span><span class="w"> </span><span class="l">ingressgateway</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">servers</span><span class="p">:</span><span class="w">
@@ -583,13 +584,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">credentialName</span><span class="p">:</span><span class="w"> </span><span class="l">test-certificate-secret</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">hosts</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;test.svcs.sh&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">VirtualService</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.istio.io/v1alpha3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">VirtualService</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-svcs-sh-vs</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="s2">&#34;test.svcs.sh&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">gateways</span><span class="p">:</span><span class="w">
@@ -659,8 +660,8 @@ istio-ingressgateway-77cf7f984b-smhhn   1/1     Running   0          2d2h
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">istioctl proxy-config listeners <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    istio-ingressgateway-77cf7f984b-smhhn.istio-system <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="p">|</span> grep <span class="nb">test</span>
+</span></span></span><span class="line"><span class="cl">    istio-ingressgateway-77cf7f984b-smhhn.istio-system <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="p">|</span> grep <span class="nb">test</span>
 </span></span><span class="line"><span class="cl">0.0.0.0 <span class="m">8443</span>  SNI: test.svcs.sh     Route: https.443.https.test-svcs-sh-gtw.test
 </span></span></code></pre></td></tr></table></div>
 </div>
@@ -713,9 +714,9 @@ istio-ingressgateway-77cf7f984b-smhhn   1/1     Running   0          2d2h
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">istioctl proxy-config <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    routes istio-ingressgateway-77cf7f984b-smhhn.istio-system <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -o yaml <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="p">|</span> yq <span class="s1">&#39;. | filter(.name == &#34;http.8080&#34;) | .[0].virtualHosts | filter(.name == &#34;test.svcs.sh:80&#34;)&#39;</span>
+</span></span></span><span class="line"><span class="cl">    routes istio-ingressgateway-77cf7f984b-smhhn.istio-system <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -o yaml <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="p">|</span> yq <span class="s1">&#39;. | filter(.name == &#34;http.8080&#34;) | .[0].virtualHosts | filter(.name == &#34;test.svcs.sh:80&#34;)&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><!-- | yq '. | filter(.name | match("^http\.")) | .[0].virtualHosts | filter(.name == "test.svcs.sh:80")' -->
@@ -917,7 +918,8 @@ istio-ingressgateway-77cf7f984b-smhhn   1/1     Running   0          2d2h
 </div>
 </div><p>Exactly the same except that the <em>requireTls: ALL</em> is gone. <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-enum-config-route-v3-virtualhost-tlsrequirementtype" target="_blank" rel="noopener">Envoy&rsquo;s <em>requireTls: ALL</em> setting</a><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">[6]</a></sup> has exactly the same meaning as <em>httpsRedirect: true</em> in Istio <em>Gateway</em>,:</p>
 <blockquote>
-<p>⁣All requests must use TLS. If a request is not using TLS, a 301 redirect will be sent telling the client to use HTTPS.</p></blockquote>
+<p>⁣All requests must use TLS. If a request is not using TLS, a 301 redirect will be sent telling the client to use HTTPS.</p>
+</blockquote>
 <p>This can be observed, with <em>httpsRedirect: true</em>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -1030,8 +1032,8 @@ cm-acme-http-solver-7djvq   &lt;none&gt;   investigation.svcs.sh             80 
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.k8s.io/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Ingress</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Ingress</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">kubernetes.io/ingress.class</span><span class="p">:</span><span class="w"> </span><span class="l">istio</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nginx.ingress.kubernetes.io/whitelist-source-range</span><span class="p">:</span><span class="w"> </span><span class="m">0.0.0.0</span><span class="l">/0,::/0</span><span class="w">
@@ -1053,7 +1055,7 @@ cm-acme-http-solver-7djvq   &lt;none&gt;   investigation.svcs.sh             80 
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l">94e8a8ca-3ce1-44a5-b08e-b0dccef48e70</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resourceVersion</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;57527723&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l">a0a4d83b-aa5b-4fad-93c1-29a79fc00a77</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">rules</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l">investigation.svcs.sh</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">http</span><span class="p">:</span><span class="w">
@@ -1065,7 +1067,7 @@ cm-acme-http-solver-7djvq   &lt;none&gt;   investigation.svcs.sh             80 
 </span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="m">8089</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/.well-known/acme-challenge/bgLcgdeOvQ4nbDaD4wENG-qR76dxR8GkZKe2Wp1msX0</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l">ImplementationSpecific</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">status</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">status</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">loadBalancer</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
@@ -1129,8 +1131,8 @@ cm-acme-http-solver-7djvq   &lt;none&gt;   investigation.svcs.sh             80 
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">auth.istio.io/8089</span><span class="p">:</span><span class="w"> </span><span class="l">NONE</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2023-07-08T07:17:27Z&#34;</span><span class="w">
@@ -1150,7 +1152,7 @@ cm-acme-http-solver-7djvq   &lt;none&gt;   investigation.svcs.sh             80 
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l">94e8a8ca-3ce1-44a5-b08e-b0dccef48e70</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resourceVersion</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;57527721&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l">19863c57-d8c1-4a5d-b608-4689825f39cf</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">clusterIP</span><span class="p">:</span><span class="w"> </span><span class="m">10.43.44.72</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">clusterIPs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="m">10.43.44.72</span><span class="w">
@@ -1171,7 +1173,7 @@ cm-acme-http-solver-7djvq   &lt;none&gt;   investigation.svcs.sh             80 
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">acme.cert-manager.io/http01-solver</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">sessionAffinity</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">NodePort</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">status</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">status</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">loadBalancer</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
@@ -1197,8 +1199,8 @@ cm-acme-http-solver-djwm7   1/1     Running   0          31m
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">istioctl proxy-config <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    routes istio-ingressgateway-77cf7f984b-smhhn.istio-system -o yaml <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="p">|</span> yq <span class="s1">&#39;. | filter(.name == &#34;http.8080&#34;) | .[0].virtualHosts | filter(.name == &#34;investigation.svcs.sh:80&#34;)&#39;</span>
+</span></span></span><span class="line"><span class="cl">    routes istio-ingressgateway-77cf7f984b-smhhn.istio-system -o yaml <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="p">|</span> yq <span class="s1">&#39;. | filter(.name == &#34;http.8080&#34;) | .[0].virtualHosts | filter(.name == &#34;investigation.svcs.sh:80&#34;)&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Produces:</p>
@@ -1470,14 +1472,14 @@ cm-acme-http-solver-djwm7   1/1     Running   0          31m
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">cert-manager.io/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Certificate</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">cert-manager.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Certificate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-certificate</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">istio-system</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cert-manager.io/issue-temporary-certificate</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l">test-certificate-secret</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">duration</span><span class="p">:</span><span class="w"> </span><span class="l">2160h</span><span class="w"> </span><span class="c"># 90d</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">renewBefore</span><span class="p">:</span><span class="w"> </span><span class="l">360h</span><span class="w"> </span><span class="c"># 15d</span><span class="w">
@@ -1515,7 +1517,7 @@ cm-acme-http-solver-djwm7   1/1     Running   0          31m
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --insecure -I -L -v <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    http://investigation.svcs.sh/.well-known/acme-challenge/bgLcgdeOvQ4nbDaD4wENG-qR76dxR8GkZKe2Wp1msX0
+</span></span></span><span class="line"><span class="cl">    http://investigation.svcs.sh/.well-known/acme-challenge/bgLcgdeOvQ4nbDaD4wENG-qR76dxR8GkZKe2Wp1msX0
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><pre tabindex="0"><code>*   Trying 167.235.105.89:80...
@@ -1612,16 +1614,16 @@ server: istio-envoy
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">		<span class="nx">TLSClientConfig</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">tls</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">			<span class="c1">// If we&#39;re following a redirect, it&#39;s permissible for it to be HTTPS and</span>
-</span></span><span class="line"><span class="cl">			<span class="c1">// its certificate may be invalid (they are trying to get a certificate, after all!)</span>
-</span></span><span class="line"><span class="cl">			<span class="c1">// See: https://letsencrypt.org/docs/challenge-types/#http-01-challenge</span>
-</span></span><span class="line"><span class="cl">			<span class="c1">// &gt; When redirected to an HTTPS URL, it does not validate certificates (since</span>
-</span></span><span class="line"><span class="cl">			<span class="c1">// &gt; this challenge is intended to bootstrap valid certificates, it may encounter</span>
-</span></span><span class="line"><span class="cl">			<span class="c1">// &gt; self-signed or expired certificates along the way).</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">InsecureSkipVerify</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="p">},</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="w">		</span><span class="nx">TLSClientConfig</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">tls</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="c1">// If we&#39;re following a redirect, it&#39;s permissible for it to be HTTPS and</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="c1">// its certificate may be invalid (they are trying to get a certificate, after all!)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="c1">// See: https://letsencrypt.org/docs/challenge-types/#http-01-challenge</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="c1">// &gt; When redirected to an HTTPS URL, it does not validate certificates (since</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="c1">// &gt; this challenge is intended to bootstrap valid certificates, it may encounter</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="c1">// &gt; self-signed or expired certificates along the way).</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">InsecureSkipVerify</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="p">},</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Aha, cert-manager will accept any certificate as long as there is one.</p>
 <ul>
@@ -2156,7 +2158,7 @@ server: istio-envoy
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

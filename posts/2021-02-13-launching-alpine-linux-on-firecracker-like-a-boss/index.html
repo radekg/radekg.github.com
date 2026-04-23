@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -280,29 +280,29 @@
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> alpine:3.13</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apk update <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
+<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">alpine:3.13</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> apk update <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> ssh-keygen -A <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> mkdir -p /home/alpine/.ssh <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s1">&#39;%alpine ALL=(ALL) NOPASSWD: ALL&#39;</span> &gt; /etc/sudoers.d/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> ./key.pub /home/alpine/.ssh/authorized_keys<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Plenty but rather straightforward, let&rsquo;s break it down:</p>
@@ -320,7 +320,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">apk update <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> apk add openrc openssh sudo util-linux <span class="se">\
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="2">
@@ -355,7 +355,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> addgroup -S alpine <span class="o">&amp;&amp;</span> adduser -S alpine -G alpine -h /home/alpine -s /bin/sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;alpine:</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">&#39;a-zA-Z0-9&#39;</span> <span class="p">|</span> fold -w <span class="m">32</span> <span class="p">|</span> head -n1<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> chpasswd <span class="se">\
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="6">
@@ -384,12 +384,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> ln -s agetty /etc/init.d/agetty.ttyS0 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> <span class="nb">echo</span> ttyS0 &gt; /etc/securetty <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add agetty.ttyS0 default <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add devfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add procfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add sysfs boot <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add <span class="nb">local</span> default
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="8">
@@ -422,12 +422,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">RUN</span> chown -R alpine:alpine /home/alpine <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> chmod <span class="m">0740</span> /home/alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> chmod <span class="m">0700</span> /home/alpine/.ssh <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> chmod <span class="m">0400</span> /home/alpine/.ssh/authorized_keys <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> mkdir -p /run/openrc <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> touch /run/openrc/softlevel <span class="se">\
+</span></span></span><span class="line"><span class="cl">	<span class="o">&amp;&amp;</span> rc-update add sshd<span class="err">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>I have a <code>/firecracker</code> directory structure which I described in <a href="https://gruchalski.com/posts/2021-02-06-taking-firecracker-for-a-spin/" target="_blank" rel="noopener">Taking Firecracker for a spin</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>. The <code>Dockerfile</code> is saved in <code>/firecracker/docker/alpine-3.13/Dockerfile</code>.</p>
@@ -451,7 +451,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -eu
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -eu
 </span></span><span class="line"><span class="cl"><span class="nv">build_dir</span><span class="o">=</span><span class="s2">&#34;/tmp/alpine-build&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nv">dockerfile</span><span class="o">=</span><span class="s2">&#34;/firecracker/docker/alpine-3.13/Dockerfile&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nv">filesystem_target</span><span class="o">=</span><span class="s2">&#34;/firecracker/filesystems/alpine-base-root.ext4&#34;</span>
@@ -621,7 +621,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -eu
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -eu
 </span></span><span class="line"><span class="cl">sudo apt-get install bridge-utils -y
 </span></span><span class="line"><span class="cl"><span class="c1"># create and configure a tap device</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># to launch firecracker VMM on the docker0 bridge</span>
@@ -1111,7 +1111,7 @@ Connection to 172.17.0.42 closed.
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

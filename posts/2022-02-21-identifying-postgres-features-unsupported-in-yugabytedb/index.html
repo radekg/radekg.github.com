@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -384,11 +384,11 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gu">13d12
-</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gd">&lt; 			| CreateMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
-</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gu">23d21
-</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gd">&lt; 			| RefreshMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
-</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gu">44d41
-</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gd">&lt; 					parser_ybc_not_support(@1, &#34;DROP MATERIALIZED VIEW&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 			| CreateMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+</span></span></span><span class="line"><span class="cl"><span class="gu">23d21
+</span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 			| RefreshMatViewStmt { parser_ybc_not_support(@1, &#34;This statement&#34;); }
+</span></span></span><span class="line"><span class="cl"><span class="gu">44d41
+</span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 					parser_ybc_not_support(@1, &#34;DROP MATERIALIZED VIEW&#34;);
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This indicates that the <em>2.11.2</em> version of YugabyteDB added support for <code>CREATE/REFRESH/DROP MATERIALIZED VIEW</code> statements.</p>
@@ -420,13 +420,13 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gu">9d8
-</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER INDEX&#34;, 1130);
-</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gu">60,62d58
-</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;CREATE MATERIALIZED VIEW&#34;, 1131);
+</span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER INDEX&#34;, 1130);
+</span></span></span><span class="line"><span class="cl"><span class="gu">60,62d58
+</span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;CREATE MATERIALIZED VIEW&#34;, 1131);
 </span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;CREATE MATERIALIZED VIEW&#34;, 1131);
 </span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;REFRESH MATERIALIZED VIEW&#34;, 1131);
-</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gu">97d92
-</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893);
+</span></span></span><span class="line"><span class="cl"><span class="gu">97d92
+</span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893);
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>There it is. Next to already established materialized views features, we can find new <code>ALTER INDEX</code> and <code>ALTER TYPE</code>. Let&rsquo;s gain a little bit more context into, say, <code>ALTER TYPE</code> change.</p>
@@ -441,9 +441,9 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">grep <span class="s1">&#39;parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893)&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
+</span></span></span><span class="line"><span class="cl">  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span>
 </span></span><span class="line"><span class="cl">grep <span class="s1">&#39;parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893)&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
+</span></span></span><span class="line"><span class="cl">  -B <span class="m">5</span> gram-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>.y &gt; out-alter-type-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
 </span></span><span class="line"><span class="cl">diff out-alter-type-<span class="si">${</span><span class="nv">YBDBV_OLD</span><span class="si">}</span> out-alter-type-<span class="si">${</span><span class="nv">YBDBV_NEW</span><span class="si">}</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
@@ -461,7 +461,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gu">11,17d10
-</span></span></span><span class="line"><span class="cl"><span class="gu"></span><span class="gd">&lt; 			| ALTER TYPE_P any_name RENAME TO name
+</span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 			| ALTER TYPE_P any_name RENAME TO name
 </span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 				{
 </span></span></span><span class="line"><span class="cl"><span class="gd">&lt; 					parser_ybc_signal_unsupported(@1, &#34;ALTER TYPE&#34;, 1893);
 </span></span></span><span class="line"><span class="cl"><span class="gd">&lt; --
@@ -671,7 +671,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

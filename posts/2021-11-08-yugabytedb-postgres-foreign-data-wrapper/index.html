@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -295,10 +295,10 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker-compose --env-file <span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/.env&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -f compose-masters.yml <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -f compose-tservers-shared.yml <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -f compose-tservers-tenant1.yml <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -f compose-tservers-tenant2.yml up
+</span></span></span><span class="line"><span class="cl">    -f compose-masters.yml <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -f compose-tservers-shared.yml <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -f compose-tservers-tenant1.yml <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -f compose-tservers-tenant2.yml up
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This will most likely take some time to settle. On my lab server, this takes about 15 seconds.</p>
@@ -331,10 +331,10 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --net<span class="o">=</span>yb-dbnet <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v <span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/sql-init-tenant1.sql:/init.sql&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti postgres:11.2 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=yugabyte&#34; -f /init.sql&#39;</span>
+</span></span></span><span class="line"><span class="cl">  --net<span class="o">=</span>yb-dbnet <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -v <span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/sql-init-tenant1.sql:/init.sql&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -ti postgres:11.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=yugabyte&#34; -f /init.sql&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><pre tabindex="0"><code>Password for user yugabyte:
@@ -358,10 +358,10 @@ psql:/init.sql:12: ERROR:  could not open extension control file ...
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --net<span class="o">=</span>yb-dbnet <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v <span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/sql-init-tenant2.sql:/init.sql&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti postgres:11.2 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=yugabyte&#34; -f /init.sql&#39;</span>
+</span></span></span><span class="line"><span class="cl">  --net<span class="o">=</span>yb-dbnet <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -v <span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/sql-init-tenant2.sql:/init.sql&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -ti postgres:11.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=yugabyte&#34; -f /init.sql&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><pre tabindex="0"><code>Password for user yugabyte:
@@ -386,9 +386,9 @@ psql:/init.sql:12: ERROR:  could not open extension control file ...
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --net<span class="o">=</span>yb-dbnet <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti postgres:11.2 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-tenant2 port=35432 user=tenant2 dbname=tenant2db&#34;&#39;</span>
+</span></span></span><span class="line"><span class="cl">  --net<span class="o">=</span>yb-dbnet <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -ti postgres:11.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-tenant2 port=35432 user=tenant2 dbname=tenant2db&#34;&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><pre tabindex="0"><code>Password for user tenant2:
@@ -427,9 +427,9 @@ tenant2db=&gt;
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --net<span class="o">=</span>yb-dbnet <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti postgres:11.2 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=tenant1db&#34;&#39;</span>
+</span></span></span><span class="line"><span class="cl">  --net<span class="o">=</span>yb-dbnet <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -ti postgres:11.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-shared port=35432 user=yugabyte dbname=tenant1db&#34;&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><pre tabindex="0"><code>Password for user yugabyte:
@@ -453,15 +453,15 @@ tenant1db=#
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">create</span><span class="w"> </span><span class="n">extension</span><span class="w"> </span><span class="n">postgres_fdw</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">create</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">foreign</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="n">wrapper</span><span class="w"> </span><span class="n">postgres_fdw</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">create</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">foreign</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="n">wrapper</span><span class="w"> </span><span class="n">postgres_fdw</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">host</span><span class="w"> </span><span class="s1">&#39;envoy-yb-tenant2&#39;</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">port</span><span class="w"> </span><span class="s1">&#39;35432&#39;</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">dbname</span><span class="w"> </span><span class="s1">&#39;tenant2db&#39;</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">create</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">mapping</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">tenant1</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">create</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">mapping</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">tenant1</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">user</span><span class="w"> </span><span class="s1">&#39;tenant2&#39;</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">password</span><span class="w"> </span><span class="s1">&#39;tenant2&#39;</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">grant</span><span class="w"> </span><span class="k">usage</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="k">foreign</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">tenant1</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">\</span><span class="n">q</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">grant</span><span class="w"> </span><span class="k">usage</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="k">foreign</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">tenant1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="err">\</span><span class="n">q</span><span class="w">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><em>postgres_fdw</em> extension needs to be created within the tenant database so we have connected directly to the target database. Alternatively, I could have connected to the <em>yugabyte</em> database and used the <code>\connect tenant1db</code> command.</p>
@@ -476,9 +476,9 @@ tenant1db=#
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --net<span class="o">=</span>yb-dbnet <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti postgres:11.2 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-tenant1 port=35432 user=tenant1 dbname=tenant1db&#34;&#39;</span>
+</span></span></span><span class="line"><span class="cl">  --net<span class="o">=</span>yb-dbnet <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -ti postgres:11.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-tenant1 port=35432 user=tenant1 dbname=tenant1db&#34;&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><pre tabindex="0"><code>Password for user tenant1:
@@ -498,10 +498,10 @@ tenant1db=&gt;
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="err">\</span><span class="n">des</span><span class="o">+</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">create</span><span class="w"> </span><span class="k">foreign</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">sharedtableexample_foreign</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">create</span><span class="w"> </span><span class="k">foreign</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">sharedtableexample_foreign</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">rowid</span><span class="w"> </span><span class="nb">integer</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="k">column_name</span><span class="w"> </span><span class="s1">&#39;rowid&#39;</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">rowval</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="k">column_name</span><span class="w"> </span><span class="s1">&#39;rowval&#39;</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">fdw_tenant2shares</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">schema_name</span><span class="w"> </span><span class="s1">&#39;public&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="s1">&#39;sharedtableexample&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
@@ -516,9 +516,9 @@ tenant1db=&gt;
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">sharedtableexample_foreign</span><span class="w"> </span><span class="p">(</span><span class="n">rowid</span><span class="p">,</span><span class="w"> </span><span class="n">rowval</span><span class="p">)</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;hello, world!&#39;</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">sharedtableexample_foreign</span><span class="w"> </span><span class="p">(</span><span class="n">rowid</span><span class="p">,</span><span class="w"> </span><span class="n">rowval</span><span class="p">)</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;hello, world!&#39;</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">sharedtableexample_foreign</span><span class="w"> </span><span class="p">(</span><span class="n">rowid</span><span class="p">,</span><span class="w"> </span><span class="n">rowval</span><span class="p">)</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;hello, world!&#39;</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">\</span><span class="n">q</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">sharedtableexample_foreign</span><span class="w"> </span><span class="p">(</span><span class="n">rowid</span><span class="p">,</span><span class="w"> </span><span class="n">rowval</span><span class="p">)</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;hello, world!&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">sharedtableexample_foreign</span><span class="w"> </span><span class="p">(</span><span class="n">rowid</span><span class="p">,</span><span class="w"> </span><span class="n">rowval</span><span class="p">)</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;hello, world!&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="err">\</span><span class="n">q</span><span class="w">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="verify"><a href="#verify" class="anchor-link">§</a>verify</h3>
@@ -532,9 +532,9 @@ tenant1db=&gt;
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --net<span class="o">=</span>yb-dbnet <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti postgres:11.2 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-tenant2 port=35432 user=tenant2 dbname=tenant2db&#34;&#39;</span>
+</span></span></span><span class="line"><span class="cl">  --net<span class="o">=</span>yb-dbnet <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -ti postgres:11.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  bash -c <span class="s1">&#39;psql &#34;host=envoy-yb-tenant2 port=35432 user=tenant2 dbname=tenant2db&#34;&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><pre tabindex="0"><code>Password for user tenant2:
@@ -753,7 +753,7 @@ tenant2db=&gt;
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

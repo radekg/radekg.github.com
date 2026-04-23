@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -251,7 +251,8 @@
 <p><code>run</code> uses the <code>vminit</code> component from <code>firebuild-mmds</code>. When the guest starts, the <code>vminit guest service</code> connects to the MMDS endpoint, downloads the metadata and configures the VM. This is pretty similar to cloud-init but I don&rsquo;t want cloud-init at this stage. Writing a cloud-init provider in Python is a bit of a head scratcher, can be done but maybe some other time.</p>
 <p><code>rootfs</code> bootstrap is pretty similar to <code>run</code> in the sense that it also starts a guest VM. There is no reason why it should not work the same way. Bye SSH, welcome MMDS, easy peasy. Not so&hellip; The big difference between <code>run</code> and <code>rootfs</code> is:</p>
 <blockquote>
-<p><code>rootfs</code> requires access to <code>RUN</code> commands and <code>ADD</code> / <code>COPY</code> resources present in the Docker artifact</p></blockquote>
+<p><code>rootfs</code> requires access to <code>RUN</code> commands and <code>ADD</code> / <code>COPY</code> resources present in the Docker artifact</p>
+</blockquote>
 <p>Multiple approaches are possible. Firecracker supports <code>vsock</code> devices. The guest can connect to the host and vice-versa, even without a network interface. Very nice but <code>vsock</code> is pretty low level and since the guest requires at least egress—Dockerfiles are full of package installation and pulling random stuff from the Internet—there was really no point going that way.</p>
 <p>An alternative is a host service which the guest can connect to and fetch whatever is needed. I originally wanted a HTTP service but since there is a need of bi-directional communication without much protocol overhead, gRPC seems to be a better fit.</p>
 <h2 id="kiss-keep-it-simply-secure"><a href="#kiss-keep-it-simply-secure" class="anchor-link">§</a>kiss, keep it simply secure</h2>
@@ -342,66 +343,66 @@
 </span><span class="lnt">59
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/combust-labs/firebuild-embedded-ca/ca&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/hashicorp/go-hclog&#34;</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;google.golang.org/grpc&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;google.golang.org/grpc/credentials&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">logger</span> <span class="o">:=</span> <span class="nx">hclog</span><span class="p">.</span><span class="nf">Default</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">grpcServiceName</span> <span class="o">:=</span> <span class="s">&#34;grpc-service-name&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">grpcServerOptions</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">ServerOption</span><span class="p">{}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">embeddedCA</span><span class="p">,</span> <span class="nx">embeddedCAErr</span> <span class="o">:=</span> <span class="nx">ca</span><span class="p">.</span><span class="nf">NewDefaultEmbeddedCAWithLogger</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ca</span><span class="p">.</span><span class="nx">EmbeddedCAConfig</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">Addresses</span><span class="p">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">grpcServiceName</span><span class="p">},</span>
-</span></span><span class="line"><span class="cl">        <span class="nx">KeySize</span><span class="p">:</span>   <span class="mi">4096</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span> <span class="nx">logger</span><span class="p">.</span><span class="nf">Named</span><span class="p">(</span><span class="s">&#34;embdedded-ca&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">embeddedCAErr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">embeddedCAErr</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">serverTLSConfig</span><span class="p">,</span> <span class="nx">tlsConfigErr</span> <span class="o">:=</span> <span class="nx">embeddedCA</span><span class="p">.</span><span class="nf">NewServerCertTLSConfig</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">tlsConfigErr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">tlsConfigErr</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">clientTLSConfig</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">embeddedCA</span><span class="p">.</span><span class="nf">NewClientCertTLSConfig</span><span class="p">(</span><span class="nx">grpcServiceName</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">embeddedCAErr</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">grpcServerOptions</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">grpcServerOptions</span><span class="p">,</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">Creds</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nf">NewTLS</span><span class="p">(</span><span class="nx">serverTLSConfig</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">listener</span><span class="p">,</span> <span class="nx">listenerErr</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="s">&#34;127.0.0.1:0&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">listenerErr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">listenerErr</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">grpcServer</span> <span class="p">=</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">NewServer</span><span class="p">(</span><span class="nx">grpcServerOptions</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">///proto.Register...(grpcServer, ...)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">chanErr</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{})</span>
-</span></span><span class="line"><span class="cl">    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">srv</span><span class="p">.</span><span class="nf">Serve</span><span class="p">(</span><span class="nx">listener</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="nx">logger</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="s">&#34;failed grpc serve&#34;</span><span class="p">,</span> <span class="s">&#34;reason&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="nb">close</span><span class="p">(</span><span class="nx">chanErr</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">grpcConn</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="nx">listener</span><span class="p">.</span><span class="nf">Addr</span><span class="p">().</span><span class="nf">String</span><span class="p">(),</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">grpc</span><span class="p">.</span><span class="nf">WithTransportCredentials</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nf">NewTLS</span><span class="p">(</span><span class="nx">clientTLSConfig</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="c1">// ...</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/combust-labs/firebuild-embedded-ca/ca&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/hashicorp/go-hclog&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="s">&#34;google.golang.org/grpc&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;google.golang.org/grpc/credentials&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">logger</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">hclog</span><span class="p">.</span><span class="nf">Default</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">grpcServiceName</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#34;grpc-service-name&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">grpcServerOptions</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">ServerOption</span><span class="p">{}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">embeddedCA</span><span class="p">,</span><span class="w"> </span><span class="nx">embeddedCAErr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ca</span><span class="p">.</span><span class="nf">NewDefaultEmbeddedCAWithLogger</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ca</span><span class="p">.</span><span class="nx">EmbeddedCAConfig</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">Addresses</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">grpcServiceName</span><span class="p">},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">KeySize</span><span class="p">:</span><span class="w">   </span><span class="mi">4096</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="nx">logger</span><span class="p">.</span><span class="nf">Named</span><span class="p">(</span><span class="s">&#34;embdedded-ca&#34;</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">embeddedCAErr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">embeddedCAErr</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">serverTLSConfig</span><span class="p">,</span><span class="w"> </span><span class="nx">tlsConfigErr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">embeddedCA</span><span class="p">.</span><span class="nf">NewServerCertTLSConfig</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">tlsConfigErr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">tlsConfigErr</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">clientTLSConfig</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">embeddedCA</span><span class="p">.</span><span class="nf">NewClientCertTLSConfig</span><span class="p">(</span><span class="nx">grpcServiceName</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">embeddedCAErr</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">grpcServerOptions</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">grpcServerOptions</span><span class="p">,</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nf">Creds</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nf">NewTLS</span><span class="p">(</span><span class="nx">serverTLSConfig</span><span class="p">)))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">listener</span><span class="p">,</span><span class="w"> </span><span class="nx">listenerErr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;127.0.0.1:0&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">listenerErr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">listenerErr</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">grpcServer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nf">NewServer</span><span class="p">(</span><span class="nx">grpcServerOptions</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="cp">///proto.Register...(grpcServer, ...)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">chanErr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kd">struct</span><span class="p">{})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">srv</span><span class="p">.</span><span class="nf">Serve</span><span class="p">(</span><span class="nx">listener</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nx">logger</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="s">&#34;failed grpc serve&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;reason&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nb">close</span><span class="p">(</span><span class="nx">chanErr</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">grpcConn</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="nx">listener</span><span class="p">.</span><span class="nf">Addr</span><span class="p">().</span><span class="nf">String</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nx">grpc</span><span class="p">.</span><span class="nf">WithTransportCredentials</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nf">NewTLS</span><span class="p">(</span><span class="nx">clientTLSConfig</span><span class="p">)))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// ...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>With key sizes of <code>2048</code> bits, it takes a reasonable time to start, the overhead isn&rsquo;t significant. Considering that <code>rootfs</code> build is not very time sensitive, this seems pretty okay. Of course, there will be an option to use an already deployed CA instead of this one.</p>
 <p>The <a href="https://github.com/combust-labs/firebuild-embedded-ca/" target="_blank" rel="noopener">embedded CA is available on GitHub</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> under an Apache 2 license.</p>
@@ -641,7 +642,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

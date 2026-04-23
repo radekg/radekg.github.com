@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -490,7 +490,8 @@
 </div>
 </div><h2 id="play-time"><a href="#play-time" class="anchor-link">§</a>play time!</h2>
 <blockquote>
-<p>If you receive an <code>Invalid bearer token</code> error at any step further, you need to obtain a new access token. It simply means the token has expired.</p></blockquote>
+<p>If you receive an <code>Invalid bearer token</code> error at any step further, you need to obtain a new access token. It simply means the token has expired.</p>
+</blockquote>
 <p>Whoa, that was a lot of stuff to set up! The good news, all that can be easily automated. But it was important to execute this once manually to see what goes where. As we have done it, we are ready for some real action!</p>
 <p>In the same terminal window where we exported the secret and user password, let&rsquo;s export the token URL so the examples below are a little bit more concise.</p>
 <div class="highlight"><div class="chroma">
@@ -503,7 +504,8 @@
 </div>
 </div><blockquote>
 <p>You can introspect your realm by going to<br>
-<a href="http://127.0.0.1:28080/auth/realms/multi-customer/.well-known/openid-configuration/" target="_blank" rel="noopener">http://localhost:28080/auth/realms/multi-customer/.well-known/openid-configuration/</a>.</p></blockquote>
+<a href="http://127.0.0.1:28080/auth/realms/multi-customer/.well-known/openid-configuration/" target="_blank" rel="noopener">http://localhost:28080/auth/realms/multi-customer/.well-known/openid-configuration/</a>.</p>
+</blockquote>
 <p><strong>Keep in mind</strong>, we haven&rsquo;t assigned any roles to <code>member@service-team</code> user yet, other than what&rsquo;s the default for Keycloak: <code>offline_access</code> and <code>uma_authorization</code>.</p>
 <p>Let&rsquo;s see if we can obtain an access token:</p>
 <div class="highlight"><div class="chroma">
@@ -515,9 +517,9 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -u customers:<span class="si">${</span><span class="nv">KEYCLOAK_CLIENT_SECRET</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span> -r
+</span></span></span><span class="line"><span class="cl">    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span> -r
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The outcome should be similar to this:</p>
@@ -558,16 +560,17 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">access_token</span><span class="o">=</span><span class="sb">`</span>curl --silent -u customers:<span class="si">${</span><span class="nv">KEYCLOAK_CLIENT_SECRET</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
+</span></span></span><span class="line"><span class="cl">    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="uma-tickets"><a href="#uma-tickets" class="anchor-link">§</a>UMA tickets</h3>
 <blockquote>
 <p><strong>From Wikipedia:</strong><br>
 UMA stands for <em>User Managed Access</em> and is an OAuth based access management protocol standard.<br>
-It enables a resource owner to control the authorization of data sharing and other protected-resource access made between online services on the owner’s behalf or with the owner’s authorization by an autonomous requesting party. <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup></p></blockquote>
+It enables a resource owner to control the authorization of data sharing and other protected-resource access made between online services on the owner’s behalf or with the owner’s authorization by an autonomous requesting party. <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup></p>
+</blockquote>
 <p>We can now ask Keycloak to tell us which resources the user has access to.</p>
 <p>In order to do so, we have to ask for an UMA token by sending a post request to the realm token endpoint with our existing access token and a special grant type: <code>urn:ietf:params:oauth:grant-type:uma-ticket</code>.</p>
 <p>The <code>audience</code> parameter is required.</p>
@@ -581,10 +584,10 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>We receive the response:</p>
@@ -609,9 +612,9 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">access_token</span><span class="o">=</span><span class="sb">`</span>curl --silent -u customers:<span class="si">${</span><span class="nv">KEYCLOAK_CLIENT_SECRET</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
+</span></span></span><span class="line"><span class="cl">    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and rerun the previous command:</p>
@@ -625,10 +628,10 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The response is different! Better! We can look at what we are interested in:</p>
@@ -713,11 +716,11 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The response is:</p>
@@ -747,11 +750,11 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerB&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerB&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The response is:</p>
@@ -781,11 +784,11 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerA&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerA&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>We receive:</p>
@@ -825,11 +828,11 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerA#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerA#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -858,11 +861,11 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerA#customer-a&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerA#customer-a&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Once again, we get:</p>
@@ -901,9 +904,9 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">access_token</span><span class="o">=</span><span class="sb">`</span>curl --silent -u customers:<span class="si">${</span><span class="nv">KEYCLOAK_CLIENT_SECRET</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -k -d <span class="s2">&#34;grant_type=password&amp;username=member@service-team&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
+</span></span></span><span class="line"><span class="cl">    -k -d <span class="s2">&#34;grant_type=password&amp;username=member@service-team&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Do we now have the permission to access <code>CustomerB</code>? Well, let&rsquo;s find out:</p>
@@ -918,11 +921,11 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerB&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerB&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Gives us:</p>
@@ -962,11 +965,11 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -1026,7 +1029,8 @@ It enables a resource owner to control the authorization of data sharing and oth
 </div>
 </div><blockquote>
 <p>As with well known OpenID configuration, you can introspect well known UMA configuration by going to<br>
-<a href="http://127.0.0.1:28080/auth/realms/multi-customer/.well-known/uma2-configuration/" target="_blank" rel="noopener">http://localhost:28080/auth/realms/multi-customer/.well-known/uma2-configuration/</a></p></blockquote>
+<a href="http://127.0.0.1:28080/auth/realms/multi-customer/.well-known/uma2-configuration/" target="_blank" rel="noopener">http://localhost:28080/auth/realms/multi-customer/.well-known/uma2-configuration/</a></p>
+</blockquote>
 <p>We need an access token for the supervisor user:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -1037,9 +1041,9 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">supervisor_access_token</span><span class="o">=</span><span class="sb">`</span>curl --silent -u customers:<span class="si">${</span><span class="nv">KEYCLOAK_CLIENT_SECRET</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">ADMIN_USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">ADMIN_USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
+</span></span></span><span class="line"><span class="cl">    -k -d <span class="s2">&#34;grant_type=password&amp;username=</span><span class="si">${</span><span class="nv">ADMIN_USER_NAME</span><span class="si">}</span><span class="s2">&amp;password=</span><span class="si">${</span><span class="nv">ADMIN_USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The token received above is technically a <strong>protection API token</strong> (PAT). PAT is a special OAuth2 access token with a scope defined as <code>uma_protection</code>. <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup></p>
@@ -1052,8 +1056,8 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>?type<span class="o">=</span>urn:customers:resources:customer <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>?type<span class="o">=</span>urn:customers:resources:customer <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -1072,7 +1076,8 @@ It enables a resource owner to control the authorization of data sharing and oth
 </div>
 </div><p>The above request queried the resource set with the type filter set to <code>urn:customers:resources:customer</code>.</p>
 <blockquote>
-<p>More about querying the resource set in Keycloak Authorization Services Guide, <a href="https://www.keycloak.org/docs/latest/authorization_services/#_service_protection_resources_api" target="_blank" rel="noopener">Managing Resources</a>.</p></blockquote>
+<p>More about querying the resource set in Keycloak Authorization Services Guide, <a href="https://www.keycloak.org/docs/latest/authorization_services/#_service_protection_resources_api" target="_blank" rel="noopener">Managing Resources</a>.</p>
+</blockquote>
 <p>Let&rsquo;s check if our filter is working:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -1082,8 +1087,8 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>?type<span class="o">=</span>urn:customers:resources:kitten <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>?type<span class="o">=</span>urn:customers:resources:kitten <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -1118,8 +1123,8 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>/715f6cc5-8ca7-44e4-a8ce-924493db76b1 <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>/715f6cc5-8ca7-44e4-a8ce-924493db76b1 <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Gives us:</p>
@@ -1186,8 +1191,8 @@ It enables a resource owner to control the authorization of data sharing and oth
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>/00f34b81-c45b-4e28-b267-45fad4e48b4d <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">supervisor_access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_RESOURCE_SET_URL</span><span class="si">}</span>/00f34b81-c45b-4e28-b267-45fad4e48b4d <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>results in:</p>
@@ -1489,7 +1494,7 @@ It enables a resource owner to control the authorization of data sharing and oth
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

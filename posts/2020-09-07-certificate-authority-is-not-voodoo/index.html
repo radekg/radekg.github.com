@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -255,7 +255,8 @@
 <p>My personal perception is that the raise of Golang, with its unprecedented ease of crypto library use, broke this trend and brought TLS to the masses. There are many complete code examples in Golang tests. Even today, not taking away from the authors of BouncyCastle (which is really, really, really awesome when one knows the library), trying to do more complex things with TLS in Java can be mind boggling. Maybe the impulse came in 2013, with Ivan Ristić publishing the <em>Bulletproof SSL and TLS</em> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> book, which is a immense resource for anybody trying to master SSL and TLS, I don&rsquo;t know. Sorry, slight deviation, personal perception&hellip;</p>
 <p>A software developer who is looking to implement TLS at some point is going to search for</p>
 <blockquote>
-<p>how to generate an ssl certificate</p></blockquote>
+<p>how to generate an ssl certificate</p>
+</blockquote>
 <p>Answers will turn up. Majority of these will show how to get a self-signed certificate. A self-signed certificate is generally okay, for example, in integration testing there is no real need for a CA. In tests, it does not matter who issued a certificate, what matters is that TLS works.</p>
 <p>However, the problem with a self-signed certificate is that it is not signed by a Certificate Authority. So, yes, it does provide security in the sense that the traffic is TLS encrypted, but it does not tell anything about who generated and deployed the certificate. Anybody can issue a self-signed certificate for anything and it&rsquo;s going to take some effort to figure out where it came from. A Certificate Authority with the correct set of intermediates is going to to provide a verification chain required to properly ensure the authenticity of a certificate.</p>
 <p>It&rsquo;s fair to say that a production system should not see a self-signed certificate in operation.</p>
@@ -520,7 +521,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

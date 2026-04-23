@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -276,7 +276,7 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo apt-key add -
 </span></span><span class="line"><span class="cl">sudo add-apt-repository <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>   <span class="s2">&#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+</span></span></span><span class="line"><span class="cl">   <span class="s2">&#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
 </span></span></span><span class="line"><span class="cl"><span class="s2">   </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> \
 </span></span></span><span class="line"><span class="cl"><span class="s2">   stable&#34;</span>
 </span></span></code></pre></td></tr></table></div>
@@ -297,13 +297,13 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt-get update
 </span></span><span class="line"><span class="cl">sudo apt-get install <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    bison <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    build-essential <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    flex <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    git <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    libelf-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    libncurses5-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    libssl-dev -y
+</span></span></span><span class="line"><span class="cl">    bison <span class="se">\
+</span></span></span><span class="line"><span class="cl">    build-essential <span class="se">\
+</span></span></span><span class="line"><span class="cl">    flex <span class="se">\
+</span></span></span><span class="line"><span class="cl">    git <span class="se">\
+</span></span></span><span class="line"><span class="cl">    libelf-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl">    libncurses5-dev <span class="se">\
+</span></span></span><span class="line"><span class="cl">    libssl-dev -y
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>followed by Docker dependencies:</p>
@@ -318,11 +318,11 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt-get install <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    apt-transport-https <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ca-certificates <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    curl <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gnupg-agent <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    software-properties-common -y
+</span></span></span><span class="line"><span class="cl">    apt-transport-https <span class="se">\
+</span></span></span><span class="line"><span class="cl">    ca-certificates <span class="se">\
+</span></span></span><span class="line"><span class="cl">    curl <span class="se">\
+</span></span></span><span class="line"><span class="cl">    gnupg-agent <span class="se">\
+</span></span></span><span class="line"><span class="cl">    software-properties-common -y
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and finally, Docker itself:</p>
@@ -337,9 +337,9 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt-get install <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    docker-ce <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    docker-ce-cli <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    containerd.io -y
+</span></span></span><span class="line"><span class="cl">    docker-ce <span class="se">\
+</span></span></span><span class="line"><span class="cl">    docker-ce-cli <span class="se">\
+</span></span></span><span class="line"><span class="cl">    containerd.io -y
 </span></span><span class="line"><span class="cl">sudo groupadd docker <span class="c1"># this may report that the group already exists</span>
 </span></span><span class="line"><span class="cl">sudo usermod -aG docker <span class="nv">$USER</span>
 </span></span></code></pre></td></tr></table></div>
@@ -420,9 +420,9 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">go run ./compare-configs.go <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --good-config<span class="o">=</span>./4.14.174.config <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --new-config<span class="o">=</span>./5.8.config <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --bring-old-non-existing
+</span></span></span><span class="line"><span class="cl">  --good-config<span class="o">=</span>./4.14.174.config <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --new-config<span class="o">=</span>./5.8.config <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --bring-old-non-existing
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Next, I&rsquo;ve replaced the <code>/firecracker/linux.git/.config</code> file contents with the result of my <code>compare configs</code> program and re-run kernel build. This time, it did not insist on recreating anything and used my config, definitely. Happy times!</p>
@@ -513,7 +513,7 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p /firecracker/filesystems/mnt-<span class="si">${</span><span class="nv">FS</span><span class="si">}</span>
 </span></span><span class="line"><span class="cl">sudo mount /firecracker/filesystems/<span class="si">${</span><span class="nv">FS</span><span class="si">}</span>-root.ext4 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  /firecracker/filesystems/mnt-<span class="si">${</span><span class="nv">FS</span><span class="si">}</span>
+</span></span></span><span class="line"><span class="cl">  /firecracker/filesystems/mnt-<span class="si">${</span><span class="nv">FS</span><span class="si">}</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Now, run the Vault container and fetch the container ID, attach file system mount directory to the container:</p>
@@ -1128,7 +1128,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

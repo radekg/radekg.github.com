@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -373,35 +373,35 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">RemoteMethodPB</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Service name for the RPC layer.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// The client created a proxy with this service name.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Example: yb.rpc_test.CalculatorService
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">required</span> <span class="kt">string</span> <span class="n">service_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Service name for the RPC layer.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// The client created a proxy with this service name.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Example: yb.rpc_test.CalculatorService
+</span></span></span><span class="line"><span class="cl">  <span class="k">required</span> <span class="kt">string</span> <span class="n">service_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Name of the RPC method.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">required</span> <span class="kt">string</span> <span class="n">method_name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">};</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Name of the RPC method.
+</span></span></span><span class="line"><span class="cl">  <span class="k">required</span> <span class="kt">string</span> <span class="n">method_name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="p">};</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c1">// The header for the RPC request frame.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">message</span> <span class="nc">RequestHeader</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// A sequence number that is sent back in the Response. Hadoop specifies a uint32 and
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// casts it to a signed int. That is counterintuitive, so we use an int32 instead.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Allowed values (inherited from Hadoop):
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   0 through INT32_MAX: Regular RPC call IDs.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   -2: Invalid call ID.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   -3: Connection context call ID.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//   -33: SASL negotiation call ID.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="c1">// The header for the RPC request frame.
+</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">RequestHeader</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// A sequence number that is sent back in the Response. Hadoop specifies a uint32 and
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// casts it to a signed int. That is counterintuitive, so we use an int32 instead.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Allowed values (inherited from Hadoop):
+</span></span></span><span class="line"><span class="cl">  <span class="c1">//   0 through INT32_MAX: Regular RPC call IDs.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">//   -2: Invalid call ID.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">//   -3: Connection context call ID.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">//   -33: SASL negotiation call ID.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// RPC method being invoked.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// Not used for &#34;connection setup&#34; calls.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">RemoteMethodPB</span> <span class="n">remote_method</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// RPC method being invoked.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Not used for &#34;connection setup&#34; calls.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">RemoteMethodPB</span> <span class="n">remote_method</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Propagate the timeout as specified by the user. Note that, since there is some
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// transit time between the client and server, if you wait exactly this amount of
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// time and then respond, you are likely to cause a timeout on the client.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">timeout_millis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Propagate the timeout as specified by the user. Note that, since there is some
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// transit time between the client and server, if you wait exactly this amount of
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// time and then respond, you are likely to cause a timeout on the client.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">timeout_millis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>To send the request, the client serializes the <code>protobuf</code> header and exactly one <code>protobuf</code> request messages. The client calculates the byte length of the header and a payload, and aggregates the total length. The following is sent over the socket:</p>
@@ -444,19 +444,19 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">ResponseHeader</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="k">required</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="k">required</span> <span class="kt">int32</span> <span class="n">call_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// If this is set, then this is an error response and the
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// response message will be of type ErrorStatusPB instead of
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// the expected response type.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="kt">bool</span> <span class="n">is_error</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">];</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// If this is set, then this is an error response and the
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// response message will be of type ErrorStatusPB instead of
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// the expected response type.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bool</span> <span class="n">is_error</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">];</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Byte offsets for side cars in the main body of the response message.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// These offsets are counted AFTER the message header, i.e., offset 0
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// is the first byte after the bytes for this protobuf.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">repeated</span> <span class="kt">uint32</span> <span class="n">sidecar_offsets</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Byte offsets for side cars in the main body of the response message.
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// These offsets are counted AFTER the message header, i.e., offset 0
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// is the first byte after the bytes for this protobuf.
+</span></span></span><span class="line"><span class="cl">  <span class="k">repeated</span> <span class="kt">uint32</span> <span class="n">sidecar_offsets</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>If the <code>is_error</code> flag is <code>true</code>, the response is an error response and the client must parse it as the <code>ErrorStatusPB</code>, defined also in <code>rcp_header.proto</code>.</p>
@@ -486,8 +486,8 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">service</span> <span class="n">MasterCluster</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.custom_service_name</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#34;yb.master.MasterService&#34;</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="o">...</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.custom_service_name</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#34;yb.master.MasterService&#34;</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="o">...</span><span class="err">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="locating-the-leader-master"><a href="#locating-the-leader-master" class="anchor-link">§</a>locating the leader master</h2>
@@ -514,19 +514,19 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">GetMasterRegistrationResponsePB</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Node instance information is always set.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">required</span> <span class="n">NodeInstancePB</span> <span class="n">instance_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Node instance information is always set.
+</span></span></span><span class="line"><span class="cl">  <span class="k">required</span> <span class="n">NodeInstancePB</span> <span class="n">instance_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// These fields are optional, as they won&#39;t be set if there&#39;s an
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// error retrieving the host/port information.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">ServerRegistrationPB</span> <span class="n">registration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// These fields are optional, as they won&#39;t be set if there&#39;s an
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// error retrieving the host/port information.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">ServerRegistrationPB</span> <span class="n">registration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// This server&#39;s role in the consensus configuration.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">consensus.RaftPeerPB.Role</span> <span class="n">role</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// This server&#39;s role in the consensus configuration.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">consensus.RaftPeerPB.Role</span> <span class="n">role</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Set if there an error retrieving the registration information.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">optional</span> <span class="n">MasterErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="c1">// Set if there an error retrieving the registration information.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">MasterErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The <code>consensus.RaftPeerPB.Role</code> field contains the role of the master. It is defined in the <code>consensus/metadata.proto</code>, under the <code>RaftPeerPB</code> message:</p>
@@ -562,32 +562,32 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl">  <span class="c1">// The possible roles for peers.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kd">enum</span> <span class="n">Role</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// Indicates this node is a follower in the configuration, i.e. that it participates
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// in majorities and accepts Consensus::Update() calls.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">FOLLOWER</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="kd">enum</span> <span class="n">Role</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Indicates this node is a follower in the configuration, i.e. that it participates
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// in majorities and accepts Consensus::Update() calls.
+</span></span></span><span class="line"><span class="cl">    <span class="n">FOLLOWER</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// Indicates this node is the current leader of the configuration, i.e. that it
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// participates in majorities and accepts Consensus::Append() calls.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LEADER</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Indicates this node is the current leader of the configuration, i.e. that it
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// participates in majorities and accepts Consensus::Append() calls.
+</span></span></span><span class="line"><span class="cl">    <span class="n">LEADER</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// New peers joining a quorum will be in this role for both PRE_VOTER and PRE_OBSERVER
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// while the tablet data is being remote bootstrapped. The peer does not participate
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// in starting elections or majorities.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LEARNER</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// New peers joining a quorum will be in this role for both PRE_VOTER and PRE_OBSERVER
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// while the tablet data is being remote bootstrapped. The peer does not participate
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// in starting elections or majorities.
+</span></span></span><span class="line"><span class="cl">    <span class="n">LEARNER</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// Indicates that this node is not a participant of the configuration, i.e. does
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// not accept Consensus::Update() or Consensus::Update() and cannot
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// participate in elections or majorities. This is usually the role of a node
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// that leaves the configuration.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">NON_PARTICIPANT</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// Indicates that this node is not a participant of the configuration, i.e. does
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// not accept Consensus::Update() or Consensus::Update() and cannot
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// participate in elections or majorities. This is usually the role of a node
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// that leaves the configuration.
+</span></span></span><span class="line"><span class="cl">    <span class="n">NON_PARTICIPANT</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// This peer is a read (async) replica and gets informed of the quorum write
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// activity and provides time-line consistent reads.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">READ_REPLICA</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// This peer is a read (async) replica and gets informed of the quorum write
+</span></span></span><span class="line"><span class="cl">    <span class="c1">// activity and provides time-line consistent reads.
+</span></span></span><span class="line"><span class="cl">    <span class="n">READ_REPLICA</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="n">UNKNOWN_ROLE</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="p">};</span><span class="err">
+</span></span></span><span class="line"><span class="cl">    <span class="n">UNKNOWN_ROLE</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl">  <span class="p">};</span><span class="err">
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>After locating the leader master, the client can close connections to any non-leader master and continue communicating with a leader master only.</p>
@@ -838,7 +838,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

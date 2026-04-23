@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -255,10 +255,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;VARIABLE&#34;</span><span class="p">,</span> <span class="s">&#34;hello&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="s">&#34;${VARIABLE}, world!&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="c1">// prints &#34;hello, world!&#34;</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;VARIABLE&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="s">&#34;${VARIABLE}, world!&#34;</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">// prints &#34;hello, world!&#34;</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>It uses <code>os.Lookup(s string)</code> as the <code>mapping</code> argument to <code>os.Expand</code>.</p>
 <p>Pretty often, that may be what is needed and <code>os.ExpandEnv</code> is one of little gems of the golang standard library.</p>
@@ -277,7 +277,7 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`cd /tmp/build &amp;&amp; \
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">`cd /tmp/build &amp;&amp; \
 </span></span></span><span class="line"><span class="cl"><span class="s">apkArch=&#34;$(apk --print-arch)&#34; &amp;&amp; \
 </span></span></span><span class="line"><span class="cl"><span class="s">case &#34;${apkArch}&#34; in \
 </span></span></span><span class="line"><span class="cl"><span class="s">    aarch64) consulArch=&#39;arm64&#39; ;; \
@@ -285,8 +285,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">    x86) consulArch=&#39;386&#39; ;; \
 </span></span></span><span class="line"><span class="cl"><span class="s">    x86_64) consulArch=&#39;amd64&#39; ;; \
 </span></span></span><span class="line"><span class="cl"><span class="s">    *) echo &gt;&amp;2 &#34;error: unsupported architecture: ${apkArch} (see ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/)&#34; &amp;&amp; exit 1 ;; \
-</span></span></span><span class="line"><span class="cl"><span class="s">esac`</span>
-</span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl"><span class="s">esac`</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Assuming that the values of <code>HASHICORP_RELEASES</code> and <code>CONSUL_VERSION</code> are passed as environment variables:</p>
 <div class="highlight"><div class="chroma">
@@ -296,10 +296,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;HASHICORP_RELEASES&#34;</span><span class="p">,</span> <span class="s">&#34;https://releases.hashicorp.com&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;CONSUL_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.9.4&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="nx">command</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;HASHICORP_RELEASES&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;https://releases.hashicorp.com&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;CONSUL_VERSION&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;1.9.4&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">ExpandEnv</span><span class="p">(</span><span class="nx">command</span><span class="p">))</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>would give the following output:</p>
 <pre tabindex="0"><code>cd /tmp/build &amp;&amp; \
@@ -325,15 +325,15 @@ esac
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">lookupFunc</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">placeholderName</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Lookup</span><span class="p">(</span><span class="nx">placeholderName</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">value</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// fallback:</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">placeholderName</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">lookupFunc</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">lookupFunc</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">placeholderName</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nf">Lookup</span><span class="p">(</span><span class="nx">placeholderName</span><span class="p">);</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">value</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// fallback:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">placeholderName</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span><span class="w"> </span><span class="nx">lookupFunc</span><span class="p">))</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Aha, now it looks better:</p>
 <pre tabindex="0"><code>cd /tmp/build &amp;&amp; \
@@ -373,7 +373,7 @@ esac
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">command</span> <span class="p">=</span> <span class="s">`RUN set -eux; \
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">`RUN set -eux; \
 </span></span></span><span class="line"><span class="cl"><span class="s">    export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)}; \
 </span></span></span><span class="line"><span class="cl"><span class="s">	savedAptMark=&#34;$(apt-mark showmanual)&#34;; \
 </span></span></span><span class="line"><span class="cl"><span class="s">	apt-get update; \
@@ -392,8 +392,8 @@ esac
 </span></span></span><span class="line"><span class="cl"><span class="s">	chmod +x /usr/local/bin/gosu; \
 </span></span></span><span class="line"><span class="cl"><span class="s">	gosu --version; \
 </span></span></span><span class="line"><span class="cl"><span class="s">	gosu nobody true
-</span></span></span><span class="line"><span class="cl"><span class="s">`</span>
-</span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl"><span class="s">`</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>There are two conflicting cases in this input: <code>export GNUPGHOME=${GNUPGHOME:=$(mktemp -d)};</code> and <code>| awk -F- '{ print $NF }'</code>.</p>
 <p>In case of the <code>export</code> command, the surrounding <code>{}</code> must be preserved. The <code>lookupFunc</code> could return the fallback of <code>fmt.Sprintf(&quot;${%s}&quot;, placeholderName)</code>.</p>
@@ -433,41 +433,42 @@ esac
 </span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
-</span></span><span class="line"><span class="cl">	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;$&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span><span class="o">+</span><span class="mi">1</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
-</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="o">&amp;&amp;</span> <span class="nx">w</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// Encountered invalid syntax; eat the</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// characters.</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// Valid syntax, but $ was not followed by a</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// name. Leave the dollar character untouched.</span>
-</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">j</span> <span class="o">+=</span> <span class="nx">w</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">i</span> <span class="p">=</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">s</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="o">+</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">mapping</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="kd">var</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="c1">// ${} is all ASCII, so bytes are fine for this operation.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">for</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="w"> </span><span class="nx">j</span><span class="o">++</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">if</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;$&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">getShellName</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// Encountered invalid syntax; eat the</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// characters.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// Valid syntax, but $ was not followed by a</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// name. Leave the dollar character untouched.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">w</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="nx">s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The case we are interested in is the final <code>else</code>. It says:</p>
 <blockquote>
-<p>if it was a valid shell variable name, replace the value with the value from the mapper</p></blockquote>
+<p>if it was a valid shell variable name, replace the value with the value from the mapper</p>
+</blockquote>
 <p>If we replaced this code with:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -514,48 +515,48 @@ esac
 </span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mapping</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">bool</span><span class="p">))</span> <span class="kt">string</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span>
-</span></span><span class="line"><span class="cl">	<span class="c1">// ${} is all ASCII, so bytes are fine for this operation.</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;$&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">j</span><span class="o">+</span><span class="mi">1</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">shellNameInput</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="o">&amp;&amp;</span> <span class="nx">w</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// Encountered invalid syntax; eat the</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// characters.</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">name</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// Valid syntax, but $ was not followed by a</span>
-</span></span><span class="line"><span class="cl">				<span class="c1">// name. Leave the dollar character untouched.</span>
-</span></span><span class="line"><span class="cl">				<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">					<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">replacement</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">					<span class="c1">// preserve enclosing {}</span>
-</span></span><span class="line"><span class="cl">					<span class="k">if</span> <span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;{&#39;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">					<span class="p">}</span>
-</span></span><span class="line"><span class="cl">				<span class="p">}</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">j</span> <span class="o">+=</span> <span class="nx">w</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">i</span> <span class="p">=</span> <span class="nx">j</span> <span class="o">+</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">buf</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">s</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="o">+</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="nf">Expand</span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">mapping</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="p">))</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="kd">var</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="c1">// ${} is all ASCII, so bytes are fine for this operation.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">for</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="w"> </span><span class="nx">j</span><span class="o">++</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">if</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;$&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">shellNameInput</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="k">if</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// Encountered invalid syntax; eat the</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// characters.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// Valid syntax, but $ was not followed by a</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="c1">// name. Leave the dollar character untouched.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="nx">replacement</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="k">if</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">replacement</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="c1">// preserve enclosing {}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="k">if</span><span class="w"> </span><span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;{&#39;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">						</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">						</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">w</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="nx">s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>We would get the fully correct behavior. We have added:</p>
 <div class="highlight"><div class="chroma">
@@ -565,10 +566,10 @@ esac
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">			<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">shellNameInput</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="c1">// &lt;----- this line</span>
-</span></span><span class="line"><span class="cl">			<span class="nx">name</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="w">			</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">j</span><span class="p">]</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">shellNameInput</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span><span class="w"> </span><span class="c1">// &lt;----- this line</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">getShellName</span><span class="p">(</span><span class="nx">shellNameInput</span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and changed the final else statement to:</p>
 <div class="highlight"><div class="chroma">
@@ -586,22 +587,23 @@ esac
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">				<span class="nx">replacement</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">					<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">replacement</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">					<span class="c1">// preserve enclosing {}</span>
-</span></span><span class="line"><span class="cl">					<span class="k">if</span> <span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;{&#39;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">						<span class="nx">buf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">					<span class="p">}</span>
-</span></span><span class="line"><span class="cl">				<span class="p">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="w">				</span><span class="nx">replacement</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nf">mapping</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="k">if</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">replacement</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="c1">// preserve enclosing {}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="k">if</span><span class="w"> </span><span class="nx">shellNameInput</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;{&#39;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">						</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;${%s}&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">						</span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;$%s&#34;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This bit reads as follows:</p>
 <blockquote>
-<p>if the mapper found the value, use it; otherwise fall back to the original value but preserve surrounding braces</p></blockquote>
+<p>if the mapper found the value, use it; otherwise fall back to the original value but preserve surrounding braces</p>
+</blockquote>
 <p>The result of the custom <code>Expand</code>:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
@@ -609,9 +611,9 @@ esac
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;GOSU_VERSION&#34;</span><span class="p">,</span> <span class="s">&#34;1.12&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Lookup</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">os</span><span class="p">.</span><span class="nf">Setenv</span><span class="p">(</span><span class="s">&#34;GOSU_VERSION&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;1.12&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nf">Expand</span><span class="p">(</span><span class="nx">command</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Lookup</span><span class="p">))</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>is correct:</p>
 <pre tabindex="0"><code>RUN set -eux; \
@@ -811,7 +813,7 @@ esac
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

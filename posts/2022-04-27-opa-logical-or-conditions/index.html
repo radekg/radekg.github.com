@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -251,15 +251,18 @@
             <div class="post-body e-content">
               <p>This one is like riding a bicycle. Once you know it, you know it. I&rsquo;ve been going down some Kubernetes rabbit holes and I&rsquo;ve landed on OPA - Open Policy Agent.</p>
 <blockquote>
-<p>The Open Policy Agent (OPA, pronounced “oh-pa”) is an open source, general-purpose policy engine that unifies policy enforcement across the stack. OPA provides a high-level declarative language that lets you specify policy as code and simple APIs to offload policy decision-making from your software. You can use OPA to enforce policies in microservices, Kubernetes, CI/CD pipelines, API gateways, and more.</p></blockquote>
+<p>The Open Policy Agent (OPA, pronounced “oh-pa”) is an open source, general-purpose policy engine that unifies policy enforcement across the stack. OPA provides a high-level declarative language that lets you specify policy as code and simple APIs to offload policy decision-making from your software. You can use OPA to enforce policies in microservices, Kubernetes, CI/CD pipelines, API gateways, and more.</p>
+</blockquote>
 <p>Basically, it&rsquo;s a declarative decision engine which evaluates Rego policies for a given input.</p>
 <blockquote>
 <p>Rego was inspired by Datalog, which is a well understood, decades old query language. Rego extends Datalog to support structured document models such as JSON.</p>
-<p>Rego queries are assertions on data stored in OPA. These queries can be used to define policies that enumerate instances of data that violate the expected state of the system.</p></blockquote>
+<p>Rego queries are assertions on data stored in OPA. These queries can be used to define policies that enumerate instances of data that violate the expected state of the system.</p>
+</blockquote>
 <p>Rego comes packed with some very neat features.</p>
 <p>The OPA project comes with an extensive, easy to follow and brief (<em>good!!</em>) documentation. However, there was one question to which I could not find an answer: how do I express:</p>
 <blockquote>
-<p><em>(if this OR this) AND that</em></p></blockquote>
+<p><em>(if this OR this) AND that</em></p>
+</blockquote>
 <p>Here&rsquo;s my semi-realistic problem:</p>
 <ul>
 <li>given a go structure with a bunch of string properties</li>
@@ -293,16 +296,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Person</span> <span class="kd">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">first_name</span>    <span class="kt">string</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">last_name</span>     <span class="kt">string</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">email_address</span> <span class="kt">string</span> <span class="c1">// restricted</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">address1</span>      <span class="kt">string</span> <span class="c1">// restricted</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">address2</span>      <span class="kt">string</span> <span class="c1">// restricted</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">postal_code</span>   <span class="kt">string</span> <span class="c1">// restricted</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">city</span>          <span class="kt">string</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">Person</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">first_name</span><span class="w">    </span><span class="kt">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">last_name</span><span class="w">     </span><span class="kt">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">email_address</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// restricted</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">address1</span><span class="w">      </span><span class="kt">string</span><span class="w"> </span><span class="c1">// restricted</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">address2</span><span class="w">      </span><span class="kt">string</span><span class="w"> </span><span class="c1">// restricted</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">postal_code</span><span class="w">   </span><span class="kt">string</span><span class="w"> </span><span class="c1">// restricted</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">city</span><span class="w">          </span><span class="kt">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>anyone who&rsquo;s not a member of the HR team should see <code>********</code> instead of actual values.</p>
 <p>There are two known facts while evaluating this policy:</p>
@@ -382,25 +385,25 @@
 <pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">package</span> <span class="nx">play</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1"># By default the decision is false:
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="na">default</span> <span class="nx">can_read_restricted_field</span> <span class="o">=</span> <span class="kc">false</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="na">default</span> <span class="nx">can_read_restricted_field</span> <span class="o">=</span> <span class="kc">false</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1"># The list of restricted fields is known:
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
+</span></span></span><span class="line"><span class="cl"><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">is_restricted_field</span> <span class="p">{</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">    # A field is restricted if it is found in the `restricted_fields` set.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
+</span></span></span><span class="line"><span class="cl">	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">can_read_restricted_field_when_enabled</span> <span class="p">{</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">    # Not complete yet...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">enabled</span>
+</span></span></span><span class="line"><span class="cl">	<span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">enabled</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">is_hr</span> <span class="p">{</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">    # An employee is a member of the HR team if one
 </span></span></span><span class="line"><span class="cl"><span class="c1">    # of their groups is `hr`.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
@@ -479,11 +482,11 @@
 <pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">package</span> <span class="nx">play</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1"># By default the decision is false:
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="na">default</span> <span class="nx">can_read_restricted_field</span> <span class="o">=</span> <span class="kc">false</span><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">default</span> <span class="nx">can_read_restricted_field</span> <span class="o">=</span> <span class="kc">false</span><span class="na">
 </span></span></span><span class="line"><span class="cl"><span class="na">default</span> <span class="nx">can_read_restricted_field_when_enabled</span> <span class="o">=</span> <span class="kc">false</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1"># The list of restricted fields is known:
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
+</span></span></span><span class="line"><span class="cl"><span class="nx">restricted_fields</span> <span class="o">:=</span> <span class="p">{</span><span class="s2">&#34;email_address&#34;</span><span class="p">,</span> <span class="s2">&#34;address1&#34;</span><span class="p">,</span> <span class="s2">&#34;address2&#34;</span><span class="p">,</span> <span class="s2">&#34;postal_code&#34;</span><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">can_read_restricted_field</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">is_hr</span>
@@ -501,13 +504,13 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">is_restricted_field</span> <span class="p">{</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">    # A field is restricted if it is found in the `restricted_fields` set.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
+</span></span></span><span class="line"><span class="cl">	<span class="nx">restricted_fields</span><span class="p">[</span><span class="nx">input</span><span class="p">.</span><span class="nx">field</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nx">is_hr</span> <span class="p">{</span><span class="c1">
 </span></span></span><span class="line"><span class="cl"><span class="c1">    # An employee is a member of the HR team if one
 </span></span></span><span class="line"><span class="cl"><span class="c1">    # of their groups is `hr`.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="nx">input</span><span class="p">.</span><span class="nx">subject</span><span class="p">.</span><span class="nx">groups</span><span class="p">[</span><span class="err">_</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hr&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
@@ -771,7 +774,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

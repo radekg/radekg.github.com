@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -257,7 +257,8 @@
 Accept: application/json
 </code></pre><p>with the following description:</p>
 <blockquote>
-<p>This endpoint mirrors the proxy capability of ORY Oathkeeper&rsquo;s proxy functionality but instead of forwarding the request to the upstream server, returns 200 (request should be allowed), 401 (unauthorized), or 403 (forbidden) status codes.</p></blockquote>
+<p>This endpoint mirrors the proxy capability of ORY Oathkeeper&rsquo;s proxy functionality but instead of forwarding the request to the upstream server, returns 200 (request should be allowed), 401 (unauthorized), or 403 (forbidden) status codes.</p>
+</blockquote>
 <p>It&rsquo;s in the clear, in the REST API documentation! <strong>Yes, that&rsquo;s it</strong>.</p>
 <h2 id="what-is-oathkeeper"><a href="#what-is-oathkeeper" class="anchor-link">§</a>what is Oathkeeper</h2>
 <p>Oathkeeper authorizes HTTP requests by matching a request to a rule from a set of defined rules, applying some guarding logic and allowing or denying a request. Oathkeeper has two modes of work:</p>
@@ -442,20 +443,20 @@ Accept: application/json
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">AuthenticationSession</span> <span class="kd">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Subject</span>      <span class="kt">string</span>                 <span class="s">`json:&#34;subject&#34;`</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Extra</span>        <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}</span> <span class="s">`json:&#34;extra&#34;`</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Header</span>       <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span>            <span class="s">`json:&#34;header&#34;`</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">MatchContext</span> <span class="nx">MatchContext</span>           <span class="s">`json:&#34;match_context&#34;`</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">MatchContext</span> <span class="kd">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">RegexpCaptureGroups</span> <span class="p">[]</span><span class="kt">string</span>    <span class="s">`json:&#34;regexp_capture_groups&#34;`</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">URL</span>                 <span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span>    <span class="s">`json:&#34;url&#34;`</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Method</span>              <span class="kt">string</span>      <span class="s">`json:&#34;method&#34;`</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Header</span>              <span class="nx">http</span><span class="p">.</span><span class="nx">Header</span> <span class="s">`json:&#34;header&#34;`</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">AuthenticationSession</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Subject</span><span class="w">      </span><span class="kt">string</span><span class="w">                 </span><span class="s">`json:&#34;subject&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Extra</span><span class="w">        </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}</span><span class="w"> </span><span class="s">`json:&#34;extra&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Header</span><span class="w">       </span><span class="nx">http</span><span class="p">.</span><span class="nx">Header</span><span class="w">            </span><span class="s">`json:&#34;header&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">MatchContext</span><span class="w"> </span><span class="nx">MatchContext</span><span class="w">           </span><span class="s">`json:&#34;match_context&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">MatchContext</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">RegexpCaptureGroups</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="w">    </span><span class="s">`json:&#34;regexp_capture_groups&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">URL</span><span class="w">                 </span><span class="o">*</span><span class="nx">url</span><span class="p">.</span><span class="nx">URL</span><span class="w">    </span><span class="s">`json:&#34;url&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Method</span><span class="w">              </span><span class="kt">string</span><span class="w">      </span><span class="s">`json:&#34;method&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Header</span><span class="w">              </span><span class="nx">http</span><span class="p">.</span><span class="nx">Header</span><span class="w"> </span><span class="s">`json:&#34;header&#34;`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Frankly, <strong>this bit lacks proper documentation</strong> because it is totally not clear <strong>where is this constructed, based on what data, how exactly is the subject extracted and when the rest of the data is available</strong>.</p>
 <p>At least in the context of a JWT bearer token, the subject appears to be the JWT token subject.</p>
@@ -849,7 +850,7 @@ Accept: application/json
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Building a macOS Power‑Usage Prometheus Exporter with Supervised MiniMax 2.5 | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.fe3b4eabe26125d7716d7271d1dcc928f862e422b39cc80a8c45354f89084434.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
+
+    
+
+    <link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="radek gruchalski" /><meta name="description" content="The reason why this article exists is to provide a tangible proof that LLMs can support the human in writing valuable software. Because everyone says they are doing it but nobody shows what they are doing. The article is fallout from an exercise in performing chat session semantic analysis to find out when the LLM was corrected by the human operator." />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2026-04-23-macos-power-consumption-exporter/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2026-03-23T00:00:00+01:00",
+        "dateModified": "2026-04-23T02:24:15+02:00",
+        "url": "https://gruchalski.com/posts/2026-04-23-macos-power-consumption-exporter/",
+        "headline": "Building a macOS Power‑Usage Prometheus Exporter with Supervised MiniMax 2.5",
+        "description": "The reason why this article exists is to provide a tangible proof that LLMs can support the human in writing valuable software. Because everyone says they are doing it but nobody shows what they are doing. The article is fallout from an exercise in performing chat session semantic analysis to find out when the LLM was corrected by the human operator.",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  3583 ,
+        "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+
+    
+
+
+
+<meta property="og:title" content="Building a macOS Power‑Usage Prometheus Exporter with Supervised MiniMax 2.5" />
+<meta property="og:description" content="The reason why this article exists is to provide a tangible proof that LLMs can support the human in writing valuable software. Because everyone says they are doing it but nobody shows what they are doing. The article is fallout from an exercise in performing chat session semantic analysis to find out when the LLM was corrected by the human operator." />
+<meta property="og:url" content="https://gruchalski.com/posts/2026-04-23-macos-power-consumption-exporter/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
+        <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-03-23T00:00:00&#43;01:00" />
+    <meta property="article:modified_time" content="2026-04-23T02:24:15&#43;02:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+    <script async 
+        src="https://analytics.svcs.sh/script.js"
+        data-website-id="791140b3-1642-400d-82b9-6adcd1095688"
+        data-do-not-track="true"
+        data-domains="gruchalski.com"></script>
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="icon code-branch"><path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/></svg><span class="menu-item-name">categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">Building a macOS Power‑Usage Prometheus Exporter with Supervised MiniMax 2.5</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2026-03-23T00:00:00&#43;01:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;March 23, 2026</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3583</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;17&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+
+            <div class="post-body e-content">
+              <hr>
+<p><strong>Note from the editor</strong>: This article has been generated by <code>mlx-community/gpt-oss-120b-MXFP4-Q8</code>. Check out the <a href="https://github.com/combust-labs/macos-power-consumption-exporter/pull/3" target="_blank" rel="noopener">pull request</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> introducing the blog post, generated by the LLM based on the code and sentiment analysis from exported pi sessions. The code itself was written by <code>mlx-community/MiniMax-M2.5-8bit</code>. You can browse <a href="https://github.com/combust-labs/macos-power-consumption-exporter/tree/main/.exported-relevant-pi-sessions" target="_blank" rel="noopener">most relevant pi sessions</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> to get a rough idea how this program was generated.</p>
+<p>The reason why this article exists is to provide a tangible proof that LLMs can support the human in writing valuable software. Because everyone says they are doing it but nobody shows what they are doing. The article is fallout from an exercise in performing chat session semantic analysis to find out when the LLM was corrected by the human operator.</p>
+<ul>
+<li>
+<p>The complete program took less than 9 hours to write, this is backed by the sessions from <sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+</li>
+<li>
+<p>The end result contains features I would have never written if I was writing the program by hand. The DMG installer is an example. If I was writing this by hand, I would have left the repository at a stage where it would have to be cloned and compiled locally. However, the agent suggested creating one, I said <em>then go and do it</em>, and then implemented it in a single pass.</p>
+</li>
+<li>
+<p>Chat sessions with code history and a semantic analysis of human corrections provide tremendous value in figuring out how and why the program has changed.</p>
+</li>
+<li>
+<p>The agent was able to perform sentiment analysis on every <em>user</em> message inside of exported session files. You can find the analysis result in <a href="#human-corrections-and-guidance">Human Corrections and Guidance</a>. This is achieved mostly via the combination of a prompt using a method proposed earlier by the LLM:</p>
+<ul>
+<li><a href="https://github.com/combust-labs/macos-power-consumption-exporter/blob/main/.pi/prompts/list-human-sentiment-corrections.md" target="_blank" rel="noopener">The prompt used for semantic analysis</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</li>
+<li><a href="https://github.com/combust-labs/macos-power-consumption-exporter/blob/main/.proposals/user-prompt-extraction-proposal.md" target="_blank" rel="noopener">The proposal of semantic analysis</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</li>
+<li>An example session performing semantic analysis can be found in <code>pi-session-2026-03-16T07-05-34-627Z_cf6f2b9e-d620-4910-8fd7-2949043a668c.html?leafId=ebf66164&amp;targetId=d4c32b3d</code>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div>
+    <h2>table of contents</h2>
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#problem-statement">Problem Statement</a></li>
+    <li><a href="#design-goals--constraints">Design Goals &amp; Constraints</a></li>
+    <li><a href="#the-supervised-minimax25-workflow">The “Supervised MiniMax 2.5” Workflow</a></li>
+    <li><a href="#stepbystep-development-journey">Step‑by‑Step Development Journey</a>
+      <ol>
+        <li><a href="#51-setting-up-the-repository--toolchain">5.1. Setting Up the Repository &amp; Toolchain</a></li>
+        <li><a href="#52-scaffolding-the-cli-cmdmaingo">5.2. Scaffolding the CLI (<code>cmd/main.go</code>)</a></li>
+        <li><a href="#53-implementing-the-http-exporter-internalpower_usage_exporter">5.3. Implementing the HTTP Exporter (<code>internal/power_usage_exporter</code>)</a></li>
+        <li><a href="#54-designing-the-powermetrics-reader-internalpower_usage_reader">5.4. Designing the Power‑Metrics Reader (<code>internal/power_usage_reader</code>)</a></li>
+        <li><a href="#55-parsing-powermetrics-output--regex--validation">5.5. Parsing <code>powermetrics</code> Output – Regex &amp; Validation</a></li>
+        <li><a href="#56-handling-duplicate-gpu-lines--state-management">5.6. Handling Duplicate GPU Lines &amp; State Management</a></li>
+        <li><a href="#57-prometheus-metric-definitions-pkgmetrics">5.7. Prometheus Metric Definitions (<code>pkg/metrics</code>)</a></li>
+        <li><a href="#58-graceful-restart-logic--backoff-strategy">5.8. Graceful Restart Logic &amp; Back‑off Strategy</a></li>
+        <li><a href="#59-logging--observability-zerolog">5.9. Logging &amp; Observability (zerolog)</a></li>
+        <li><a href="#510-packaging--makefile-app-bundle-dmg-launcher-script">5.10. Packaging – Makefile, App Bundle, DMG, Launcher Script</a></li>
+        <li><a href="#511-xbar-integration--bash-plugins">5.11. xBar Integration – Bash Plugins</a></li>
+        <li><a href="#512-testing--unit--integration-tests">5.12. Testing – Unit &amp; Integration Tests</a></li>
+      </ol>
+    </li>
+    <li><a href="#key-challenges--how-minimax25-overcame-them">Key Challenges &amp; How MiniMax 2.5 Overcame Them</a></li>
+    <li><a href="#resulting-architecture-textual-diagram">Resulting Architecture (textual diagram)</a></li>
+    <li><a href="#running-the-exporter--quickstart-guide">Running the Exporter – Quick‑Start Guide</a></li>
+    <li><a href="#future-work--lessons-learned">Future Work &amp; Lessons Learned</a></li>
+    <li><a href="#humanhelped-commits-examples-of-where-the-human-assisted">Human‑Helped Commits (Examples of Where the Human Assisted)</a></li>
+    <li><a href="#effort--required-skills">Effort &amp; Required Skills</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#human-corrections-and-guidance">Human Corrections and Guidance</a>
+      <ol>
+        <li><a href="#pi-session-2026-03-15t22-51-42-220z_22f50581-3755-4f79-a834-7adf84d98f4chtml">pi-session-2026-03-15T22-51-42-220Z_22f50581-3755-4f79-a834-7adf84d98f4c.html</a></li>
+        <li><a href="#pi-session-2026-03-15t23-39-15-936z_fb35d97a-28da-4da6-b34a-adf06f0cac8fhtml">pi-session-2026-03-15T23-39-15-936Z_fb35d97a-28da-4da6-b34a-adf06f0cac8f.html</a></li>
+        <li><a href="#pi-session-2026-03-16t00-06-52-291z_ad66e00a-866e-4609-aeef-3ddc9d62243ahtml">pi-session-2026-03-16T00-06-52-291Z_ad66e00a-866e-4609-aeef-3ddc9d62243a.html</a></li>
+        <li><a href="#pi-session-2026-03-16t00-24-00-488z_7f141dd9-dfc2-4a86-a2f0-3bd5b7d25193html">pi-session-2026-03-16T00-24-00-488Z_7f141dd9-dfc2-4a86-a2f0-3bd5b7d25193.html</a></li>
+        <li><a href="#pi-session-2026-03-16t02-54-43-989z_30eae3e3-0373-4c1b-b94e-27c9c8cabb0fhtml">pi-session-2026-03-16T02-54-43-989Z_30eae3e3-0373-4c1b-b94e-27c9c8cabb0f.html</a></li>
+        <li><a href="#pi-session-2026-03-16t07-05-34-627z_cf6f2b9e-d620-4910-8fd7-2949043a668chtml">pi-session-2026-03-16T07-05-34-627Z_cf6f2b9e-d620-4910-8fd7-2949043a668c.html</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</div>
+<h2 id="introduction"><a href="#introduction" class="anchor-link">§</a>Introduction</h2>
+<p>Observability on macOS has traditionally lagged behind the rich ecosystem available on Linux. While Linux servers expose a comprehensive set of power‑related counters through tools like <code>node_exporter</code> and <code>cAdvisor</code>, macOS users are left with a graphical battery‑health view or the occasional manual dump of <code>powermetrics</code>. The built‑in <code>powermetrics</code> utility does contain the raw numbers for CPU, GPU, ANE and combined power consumption, but its output is noisy, requires <code>sudo</code>, and is not exposed in a form that can be scraped by modern monitoring systems. As a result, teams running macOS build agents, CI runners, or edge devices miss out on valuable data for capacity planning, cost optimisation, and reliability engineering.</p>
+<p>The <strong>macOS Power‑Usage Prometheus Exporter</strong> fills this gap by wrapping <code>powermetrics</code> in a lightweight Go binary that periodically parses the relevant power metrics and presents them on a standard <code>/metrics</code> endpoint. In addition to the Prometheus‑format metrics, the exporter offers a simple <code>/health</code> endpoint for liveness checks and handles graceful shutdowns to keep the system stable. The project is designed for flexible deployment: it can be run as a stand‑alone binary, installed as a launch‑agent via a small helper script, packaged into a macOS app bundle, or even exposed as an xBar menu‑bar plugin for quick on‑screen monitoring. This combination of observability, reliability, and easy packaging makes the exporter a practical addition to any macOS‑centric monitoring stack.</p>
+<hr>
+<h2 id="problem-statement"><a href="#problem-statement" class="anchor-link">§</a>Problem Statement</h2>
+<p>Mac OS machines have long lacked a native Prometheus exporter for power consumption. While Linux servers can be scraped for CPU, GPU, and other hardware metrics, macOS build agents and edge devices remain invisible to the same observability pipelines. This gap forces teams to either ignore power‑related data—missing opportunities for capacity planning and cost optimisation—or to resort to ad‑hoc scripts that are difficult to version, share, and integrate into existing monitoring stacks.</p>
+<p>Compounding the issue, the only source of power data on macOS is the <code>powermetrics</code> command, which requires <code>sudo</code> privileges and produces noisy, multi‑line output. The command emits duplicate GPU lines and a mixture of unrelated diagnostics, making it error‑prone to parse and easy to corrupt a time‑series if the data is not carefully filtered. Moreover, without built‑in health or liveness endpoints, orchestrators such as CI/CD pipelines, Kubernetes, or launch agents cannot reliably detect when the exporter has crashed or become unresponsive, leading to flaky builds and manual intervention. Finally, the installation experience is cumbersome: users must run custom scripts or manually configure launch agents, which clashes with the expectation of a simple double‑click installer or a Homebrew‑style formula.</p>
+<p>The objective, therefore, is to provide a tiny, self‑contained Prometheus exporter that abstracts away the privileged <code>powermetrics</code> call, sanitises its output, offers standard health checks, and can be installed with a single, user‑friendly step—all while keeping the privileged surface to a minimum and enabling seamless integration into CI pipelines and developer workflows.</p>
+<p>The goal was to deliver a <strong>tiny, self‑contained exporter</strong> that solves all of the above while keeping the privileged surface as small as possible.</p>
+<hr>
+<h2 id="design-goals--constraints"><a href="#design-goals--constraints" class="anchor-link">§</a>Design Goals &amp; Constraints</h2>
+<p>The exporter was conceived as a <strong>tiny, self‑contained binary</strong> that could run on any macOS machine with minimal fuss while keeping the privileged surface as small as possible. To achieve this we limited ourselves to the Go standard library plus the two essential third‑party packages – <code>prometheus/client_golang</code> for metric exposition and <code>zerolog</code> for structured logging. By avoiding any additional binaries or native dependencies the final app bundle stays lightweight, easy to distribute, and free from complex installation steps. Only the <code>powermetrics</code> command runs with <code>sudo</code>; the rest of the process drops to the regular user, dramatically reducing the attack surface.</p>
+<p>User experience on macOS guided several concrete decisions. The tool is installed and managed via a small <em>launcher</em> script that creates a <code>launchd</code> plist, allowing the exporter to start automatically at login as a launch‑agent. All metrics are exposed in Prometheus format with hostname labels, and a simple <code>/health</code> endpoint provides liveness information for orchestrators. The command‑line interface is intentionally self‑documenting, offering <code>-addr</code> and <code>-log-level</code> flags and leaving room for a future <code>--version</code> flag. Finally, the build system supports multiple packaging models – a Makefile for direct binary builds, an unsigned DMG for development, and an xBar plugin for menu‑bar visibility – giving operators flexibility in how they deploy the exporter.</p>
+<hr>
+<h2 id="the-supervised-minimax25-workflow"><a href="#the-supervised-minimax25-workflow" class="anchor-link">§</a>The “Supervised MiniMax 2.5” Workflow</h2>
+<p>The collaboration began with the maintainer defining clear goals and acting as the product owner, while MiniMax 2.5 took on the role of rapid code generator. Each iteration followed a tight <strong>prompt → code → test → refine</strong> cycle: the maintainer issued a concise prompt (e.g., “write a parser for powermetrics”), the model produced Go source that matched the repository’s conventions, and the changes were immediately validated by running <code>go test ./...</code>. Failures or missing edge‑cases—such as duplicate GPU lines or missing error handling—were fed back to the model, which then emitted a focused edit to address the issue.</p>
+<p>Because the project already shipped a comprehensive test suite, the loop stayed green: every new file was automatically covered by unit tests, and the CI‑style test run acted as a continuous quality gate. This disciplined back‑and‑forth kept the implementation small, well‑tested, and aligned with the original vision, allowing the exporter to be built in just a few days while maintaining high standards of correctness and maintainability.</p>
+<hr>
+<h2 id="stepbystep-development-journey"><a href="#stepbystep-development-journey" class="anchor-link">§</a>Step‑by‑Step Development Journey</h2>
+<p>Below is the concrete chronology of how the exporter came together. Each bullet points to a commit (omitted here for brevity) and a short rationale.</p>
+<h3 id="51-setting-up-the-repository--toolchain"><a href="#51-setting-up-the-repository--toolchain" class="anchor-link">§</a>5.1. Setting Up the Repository &amp; Toolchain</h3>
+<ul>
+<li>Initialized a Go module: <code>go mod init github.com/combust-labs/macos-power-consumption-exporter</code>.</li>
+<li>Added dependencies: <code>github.com/rs/zerolog</code> for structured logging and <code>github.com/prometheus/client_golang</code> for metrics.</li>
+<li>Created a basic <code>Makefile</code> with targets <code>build</code>, <code>install</code>, <code>run</code>, <code>test</code>, and <code>dmg-unsigned</code>.</li>
+</ul>
+<h3 id="52-scaffolding-the-cli-cmdmaingo"><a href="#52-scaffolding-the-cli-cmdmaingo" class="anchor-link">§</a>5.2. Scaffolding the CLI (<code>cmd/main.go</code>)</h3>
+<ul>
+<li>Parsed <code>-addr</code> (default <code>:8080</code>) and <code>-log-level</code> (default <code>info</code>).</li>
+<li>Configured <code>zerolog</code> to output colored, human‑readable logs on stderr.</li>
+<li>Instantiated the HTTP exporter and the power‑usage reader.</li>
+<li>Hooked <code>SIGINT</code>/<code>SIGTERM</code> to a cancelable <code>context.Context</code> for graceful shutdown.</li>
+</ul>
+<h3 id="53-implementing-the-http-exporter-internalpower_usage_exporter"><a href="#53-implementing-the-http-exporter-internalpower_usage_exporter" class="anchor-link">§</a>5.3. Implementing the HTTP Exporter (<code>internal/power_usage_exporter</code>)</h3>
+<ul>
+<li>Simple <code>http.Server</code> exposing:
+<ul>
+<li><code>/metrics</code> – Prometheus handler.</li>
+<li><code>/health</code> – returns <code>200 OK</code> with body <code>OK</code>.</li>
+</ul>
+</li>
+<li>Server runs in a goroutine; <code>Stop()</code> performs a graceful <code>Shutdown</code> with a 10 s timeout.</li>
+</ul>
+<h3 id="54-designing-the-powermetrics-reader-internalpower_usage_reader"><a href="#54-designing-the-powermetrics-reader-internalpower_usage_reader" class="anchor-link">§</a>5.4. Designing the Power‑Metrics Reader (<code>internal/power_usage_reader</code>)</h3>
+<ul>
+<li>Wrapper around <code>exec.Command(&quot;sudo&quot;, &quot;powermetrics&quot;)</code>.</li>
+<li>Uses <code>StdoutPipe</code> and <code>bufio.Scanner</code> to read line‑by‑line, allowing us to react to a stop signal mid‑run.</li>
+<li>A <code>sync.RWMutex</code> protects the latest metric snapshot (<code>PowerMetrics</code>).</li>
+</ul>
+<h3 id="55-parsing-powermetrics-output--regex--validation"><a href="#55-parsing-powermetrics-output--regex--validation" class="anchor-link">§</a>5.5. Parsing <code>powermetrics</code> Output – Regex &amp; Validation</h3>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">cpuPowerRE</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="nx">regexp</span><span class="p">.</span><span class="nf">MustCompile</span><span class="p">(</span><span class="s">`CPU Power:\s+(\d+)\s+mW`</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">GPU</span><span class="w"> </span><span class="nx">Power</span><span class="w"> </span><span class="nx">RE</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="nx">regexp</span><span class="p">.</span><span class="nf">MustCompile</span><span class="p">(</span><span class="s">`GPU Power:\s+(\d+)\s+mW`</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">ANE</span><span class="w"> </span><span class="nx">Power</span><span class="w"> </span><span class="nx">RE</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="nx">regexp</span><span class="p">.</span><span class="nf">MustCompile</span><span class="p">(</span><span class="s">`ANE Power:\s+(\d+)\s+mW`</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nx">combinedRE</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="nx">regexp</span><span class="p">.</span><span class="nf">MustCompile</span><span class="p">(</span><span class="s">`Combined Power \(CPU \+ GPU \+ ANE\):\s+(\d+)\s+mW`</span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
+</div>
+</div><ul>
+<li>Each regex returns the numeric part, which is parsed with <code>fmt.Sscanf</code> into a <code>float64</code>.</li>
+<li>Helper <code>parseFloat</code> centralises the conversion.</li>
+</ul>
+<h3 id="56-handling-duplicate-gpu-lines--state-management"><a href="#56-handling-duplicate-gpu-lines--state-management" class="anchor-link">§</a>5.6. Handling Duplicate GPU Lines &amp; State Management</h3>
+<ul>
+<li><code>powermetrics</code> prints <strong>GPU Power</strong> twice per cycle.</li>
+<li>A boolean field <code>gpuSeen</code> is reset at the start of each <code>readMetrics()</code> run. The first match updates the gauge; subsequent matches are ignored.</li>
+<li>This lightweight approach avoids pulling in a full state machine while guaranteeing a clean time‑series.</li>
+</ul>
+<h3 id="57-prometheus-metric-definitions-pkgmetrics"><a href="#57-prometheus-metric-definitions-pkgmetrics" class="anchor-link">§</a>5.7. Prometheus Metric Definitions (<code>pkg/metrics</code>)</h3>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">CPUPower</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">prometheus</span><span class="p">.</span><span class="nf">NewGaugeVec</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">GPUPower</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">prometheus</span><span class="p">.</span><span class="nf">NewGaugeVec</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">ANEPower</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">prometheus</span><span class="p">.</span><span class="nf">NewGaugeVec</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">CombinedPower</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">prometheus</span><span class="p">.</span><span class="nf">NewGaugeVec</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">ReaderRestartCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">prometheus</span><span class="p">.</span><span class="nf">NewCounterVec</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="nf">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">prometheus</span><span class="p">.</span><span class="nf">MustRegister</span><span class="p">(</span><span class="o">...</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>All gauges are labelled with <code>hostname</code> – set once when the reader is created.</p>
+<h3 id="58-graceful-restart-logic--backoff-strategy"><a href="#58-graceful-restart-logic--backoff-strategy" class="anchor-link">§</a>5.8. Graceful Restart Logic &amp; Back‑off Strategy</h3>
+<ul>
+<li><code>runReaderWithRestart</code> runs the reader inside a loop.</li>
+<li>On any start‑up error, it increments <code>ReaderRestartCount</code> and sleeps with exponential back‑off (capped at 30 s).</li>
+<li>When the context is cancelled, the reader is stopped and the loop exits.</li>
+</ul>
+<h3 id="59-logging--observability-zerolog"><a href="#59-logging--observability-zerolog" class="anchor-link">§</a>5.9. Logging &amp; Observability (zerolog)</h3>
+<ul>
+<li>Structured logs include the hostname, metric values, and restart events.</li>
+<li>Example log line:</li>
+</ul>
+<pre tabindex="0"><code>INFO  Power metrics updated hostname=macbook-pro metrics=&#34;CPU: 1200 mW, GPU: 350 mW, ANE: 0 mW, Combined: 1550 mW&#34;
+</code></pre><h3 id="510-packaging--makefile-app-bundle-dmg-launcher-script"><a href="#510-packaging--makefile-app-bundle-dmg-launcher-script" class="anchor-link">§</a>5.10. Packaging – Makefile, App Bundle, DMG, Launcher Script</h3>
+<ul>
+<li><code>make build</code> compiles the binary and creates the macOS app bundle (<code>MacOS Power Consumption Exporter.app</code>).</li>
+<li><code>installer/app/launcher.sh</code> installs a <code>launchd</code> plist under <code>~/Library/LaunchAgents</code>, starts the binary, and provides <code>install/start/stop/status/open/uninstall</code> commands.</li>
+<li><code>make dmg-unsigned</code> builds an unsigned DMG for development; a signed DMG is produced for releases.</li>
+</ul>
+<h3 id="511-xbar-integration--bash-plugins"><a href="#511-xbar-integration--bash-plugins" class="anchor-link">§</a>5.11. xBar Integration – Bash Plugins</h3>
+<ul>
+<li>Two scripts live in <code>installer/xbar/</code>:
+<ul>
+<li><code>power-metrics.sh</code> – full‑featured, colour‑coded output.</li>
+<li><code>power-metrics-simple.sh</code> – minimal version that works without <code>bc</code>.</li>
+</ul>
+</li>
+<li>Users simply copy the script to <code>~/Library/Application Support/xbar/plugins/</code> and refresh xBar.</li>
+</ul>
+<h3 id="512-testing--unit--integration-tests"><a href="#512-testing--unit--integration-tests" class="anchor-link">§</a>5.12. Testing – Unit &amp; Integration Tests</h3>
+<ul>
+<li><strong>Parser tests</strong> – verify each regex extracts the correct value from sample lines.</li>
+<li><strong>Reader tests</strong> – use a temporary file to mock <code>powermetrics</code> output and assert the gauges are updated correctly, including the duplicate‑GPU logic.</li>
+<li><strong>Exporter tests</strong> – spin up the HTTP server on a random port, request <code>/metrics</code>, and confirm the Prometheus format is returned.</li>
+<li>All tests run with <code>go test ./...</code> and are part of the CI pipeline.</li>
+</ul>
+<hr>
+<h2 id="key-challenges--how-minimax25-overcame-them"><a href="#key-challenges--how-minimax25-overcame-them" class="anchor-link">§</a>Key Challenges &amp; How MiniMax 2.5 Overcame Them</h2>
+<p>MiniMax 2.5 faced several practical hurdles while turning the noisy <code>powermetrics</code> output into reliable Prometheus metrics. First, the command emits many unrelated diagnostic lines, so the implementation isolates only the four power‑related values using precise regular expressions and discards everything else. A second issue was the duplicate GPU power line that appears in each cycle; a simple <code>gpuSeen</code> flag resets for each read cycle, ensuring only the first GPU value is recorded and preventing double‑counting.</p>
+<p>Keeping the binary tiny was also a priority; the solution was to rely solely on the Go standard library together with <code>zerolog</code> and the official Prometheus client, avoiding any additional heavyweight dependencies. To make the exporter robust, MiniMax 2.5 added exponential back‑off and a <code>ReaderRestartCount</code> metric so the process can recover automatically if <code>powermetrics</code> crashes. Finally, the privileged <code>sudo</code> call is confined to the short‑lived child process, while the main exporter quickly drops back to normal user privileges, preserving system safety.</p>
+<hr>
+<h2 id="resulting-architecture-textual-diagram"><a href="#resulting-architecture-textual-diagram" class="anchor-link">§</a>Resulting Architecture (textual diagram)</h2>
+<pre tabindex="0"><code>+-------------------+      +-------------------+      +-------------------+
+|   CLI (cmd)      | ---&gt; | PowerUsageReader | ---&gt; | Prometheus Metrics |
+| (flags, logger)  |      | (exec sudo)       |      | (pkg/metrics)     |
++-------------------+      +-------------------+      +-------------------+
+        |                           |
+        |                           v
+        |                   +-------------------+
+        |                   | HTTP Exporter     |
+        |                   | (/metrics, /health)|
+        |                   +-------------------+
+        |                           |
+        v                           v
+   Launch Agent               Prometheus Server
+</code></pre><p>The CLI glues everything together, the reader pushes gauge values, and the exporter serves them.</p>
+<hr>
+<h2 id="running-the-exporter--quickstart-guide"><a href="#running-the-exporter--quickstart-guide" class="anchor-link">§</a>Running the Exporter – Quick‑Start Guide</h2>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1️⃣ Build the binary (requires Go 1.26+)</span>
+</span></span><span class="line"><span class="cl">make build
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2️⃣ Install the launch agent (needs sudo for powermetrics)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="s2">&#34;MacOS Power Consumption Exporter.app/Contents/MacOS&#34;</span>
+</span></span><span class="line"><span class="cl">sudo ./launcher install
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3️⃣ Verify the service is running</span>
+</span></span><span class="line"><span class="cl">./launcher status   <span class="c1"># → should report &#34;running&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 4️⃣ Pull the metrics into Prometheus</span>
+</span></span><span class="line"><span class="cl">curl http://localhost:8080/metrics <span class="p">|</span> head -n <span class="m">20</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 5️⃣ (Optional) Add the xBar menu‑bar plugin</span>
+</span></span><span class="line"><span class="cl">mkdir -p <span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/Library/Application Support/xbar/plugins&#34;</span>
+</span></span><span class="line"><span class="cl">cp installer/xbar/power-metrics-simple.sh <span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/Library/Application Support/xbar/plugins/power-metrics.10s.sh&#34;</span>
+</span></span><span class="line"><span class="cl">chmod +x <span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/Library/Application Support/xbar/plugins/power-metrics.10s.sh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Refresh xBar → you’ll see ⚡ 2.5W in the menu bar.</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>All steps are documented in the README; the above is a condensed cheat‑sheet.</p>
+<hr>
+<h2 id="future-work--lessons-learned"><a href="#future-work--lessons-learned" class="anchor-link">§</a>Future Work &amp; Lessons Learned</h2>
+<ul>
+<li><strong>Cross‑platform guardrails</strong> – add a <code>//go:build darwin</code> build tag to the reader package so the code cannot be compiled on Linux/Windows.</li>
+<li><strong>Additional metrics</strong> – expose battery charge, temperature, or per‑core power if <code>powermetrics</code> ever provides them.</li>
+<li><strong>Error counter</strong> – a <code>reader_errors_total</code> Prometheus counter would make failure‑rate monitoring easier.</li>
+<li><strong>Version flag</strong> – expose <code>--version</code> that prints the <code>Version</code> and <code>Commit</code> set via <code>-ldflags</code>.</li>
+<li><strong>CI pipeline</strong> – integrate <code>golangci-lint</code> and <code>staticcheck</code> into the GitHub Actions workflow.</li>
+</ul>
+<p><strong>Lesson:</strong> The iterative prompt‑code‑test loop with MiniMax 2.5 dramatically reduced development friction. The LLM supplied boilerplate quickly, while the human reviewer caught the subtle edge‑cases (duplicate GPU line, graceful shutdown, macOS‑specific build tags). The result is a production‑ready exporter built in roughly 4–6 hours.</p>
+<hr>
+<h2 id="humanhelped-commits-examples-of-where-the-human-assisted"><a href="#humanhelped-commits-examples-of-where-the-human-assisted" class="anchor-link">§</a>Human‑Helped Commits (Examples of Where the Human Assisted)</h2>
+<p>The following commits were authored by the maintainer and contain <strong>no co‑author attribution</strong>, illustrating moments where human insight and direction were essential:</p>
+<ul>
+<li><strong>Commit <code>31822da5…</code> – <em>Chat history</em></strong>
+<ul>
+<li>Added an HTML export of the session chat history, preserving the conversation that guided the project.</li>
+</ul>
+</li>
+<li><strong>Commit <code>0c6a7e91…</code> – <em>LLM committed</em></strong>
+<ul>
+<li>Implemented the core macOS Power Usage Prometheus Exporter, establishing the main Go codebase, metrics, and supporting files.</li>
+</ul>
+</li>
+<li><strong>Commit <code>3af691ed…</code> – <em>Human‑generated README.md</em></strong>
+<ul>
+<li>Created the initial <code>README.md</code> documenting the purpose, requirements, and high‑level architecture of the exporter.</li>
+</ul>
+</li>
+</ul>
+<p>These commits demonstrate the indispensable role of the maintainer in defining scope, writing documentation, and integrating AI‑generated code into a coherent, production‑ready project.</p>
+<hr>
+<ul>
+<li><strong>Cross‑platform guardrails</strong> – add a <code>//go:build darwin</code> build tag to the reader package so the code cannot be compiled on Linux/Windows.</li>
+<li><strong>Additional metrics</strong> – expose battery charge, temperature, or per‑core power if <code>powermetrics</code> ever provides them.</li>
+<li><strong>Error counter</strong> – a <code>reader_errors_total</code> Prometheus counter would make failure‑rate monitoring easier.</li>
+<li><strong>Version flag</strong> – expose <code>--version</code> that prints the <code>Version</code> and <code>Commit</code> set via <code>-ldflags</code>.</li>
+<li><strong>CI pipeline</strong> – integrate <code>golangci-lint</code> and <code>staticcheck</code> into the GitHub Actions workflow.</li>
+</ul>
+<p><strong>Lesson:</strong> The iterative prompt‑code‑test loop with MiniMax 2.5 dramatically reduced development friction. The LLM supplied boilerplate quickly, while the human reviewer caught the subtle edge‑cases (duplicate GPU line, graceful shutdown, macOS‑specific build tags). The result is a production‑ready exporter built in roughly 4–6 hours.</p>
+<hr>
+<h2 id="effort--required-skills"><a href="#effort--required-skills" class="anchor-link">§</a>Effort &amp; Required Skills</h2>
+<p>The entire exporter was prototyped, implemented, and polished in <strong>roughly 4–6 hours</strong> of focused work. The rapid pace was possible thanks to the tight AI‑human loop, but a human developer could achieve the same result with a comparable effort if they possessed the right skill set.</p>
+<p><strong>Skill set needed:</strong></p>
+<ul>
+<li><strong>Go programming</strong> – comfortable with the language, modules, concurrency (<code>context</code>, <code>sync</code>), and testing.</li>
+<li><strong>macOS system knowledge</strong> – familiarity with the <code>powermetrics</code> command, its permission model (<code>sudo</code>), and interpreting its output.</li>
+<li><strong>Prometheus client library</strong> – experience exposing custom metrics, handling gauges, counters, and health endpoints.</li>
+<li><strong>Launch agents / service management</strong> – ability to create and manage a <code>launchd</code> plist for automatic start‑up on macOS.</li>
+<li><strong>CI/CD &amp; testing</strong> – writing unit and integration tests, using <code>go test</code>, and setting up a simple CI pipeline.</li>
+<li><strong>Basic scripting</strong> – Bash for packaging (Makefile, DMG creation) and optional xBar plugin development.</li>
+</ul>
+<p>With these competencies, a developer could independently build, test, and package the exporter in a short sprint, mirroring the timeline achieved with MiniMax 2.5.</p>
+<hr>
+<h2 id="conclusion"><a href="#conclusion" class="anchor-link">§</a>Conclusion</h2>
+<p>We filled a long‑standing gap in macOS observability by delivering a <strong>lightweight, Prometheus‑native power‑usage exporter</strong>. The project showcases how a disciplined AI‑assisted workflow—where a human defines the problem and reviews each iteration—can produce clean, well‑tested production code.</p>
+<p>If you run macOS workloads and want to monitor power consumption, give the exporter a try, drop the xBar plugin into your menu bar, and let Prometheus do the rest.</p>
+<p><em>Happy monitoring!</em></p>
+<hr>
+<h2 id="human-corrections-and-guidance"><a href="#human-corrections-and-guidance" class="anchor-link">§</a>Human Corrections and Guidance</h2>
+<p>The maintainer repeatedly guided or corrected the assistant during the session. Below is a curated list of prompts that explicitly ask the assistant to fix, update, or modify its output. Each entry includes the session file, timestamp, and the correction prompt.</p>
+<h3 id="pi-session-2026-03-15t22-51-42-220z_22f50581-3755-4f79-a834-7adf84d98f4chtml"><a href="#pi-session-2026-03-15t22-51-42-220z_22f50581-3755-4f79-a834-7adf84d98f4chtml" class="anchor-link">§</a>pi-session-2026-03-15T22-51-42-220Z_22f50581-3755-4f79-a834-7adf84d98f4c.html</h3>
+<ul>
+<li><strong>Timestamp:</strong> 2026‑03‑16 03:37:40</li>
+<li><strong>Prompt:</strong> &ldquo;Analyze current the project&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;implement the project&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;Do only once: git add all changes, commit with a descriptive commit, credit yourself as a coauthor, ask what your nickname is to coauthor as.&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;mlx-community/MiniMax-M2.5-8bit&rdquo;</li>
+</ul>
+<h3 id="pi-session-2026-03-15t23-39-15-936z_fb35d97a-28da-4da6-b34a-adf06f0cac8fhtml"><a href="#pi-session-2026-03-15t23-39-15-936z_fb35d97a-28da-4da6-b34a-adf06f0cac8fhtml" class="anchor-link">§</a>pi-session-2026-03-15T23-39-15-936Z_fb35d97a-28da-4da6-b34a-adf06f0cac8f.html</h3>
+<ul>
+<li><strong>Timestamp:</strong> 2026‑03‑16 03:37:40</li>
+<li><strong>Prompts:</strong>
+<ul>
+<li>&ldquo;looks better, <strong>please fix</strong> the following error…&rdquo;</li>
+<li>&ldquo;<strong>no</strong>, you changed the author, <strong>revert</strong> the author…&rdquo;</li>
+<li>&ldquo;<strong>change</strong> the commit message…&rdquo;</li>
+<li>&ldquo;<strong>please</strong> document creating the unsigned DMG…&rdquo;</li>
+<li>&ldquo;<strong>please</strong> document the launcher solution&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h3 id="pi-session-2026-03-16t00-06-52-291z_ad66e00a-866e-4609-aeef-3ddc9d62243ahtml"><a href="#pi-session-2026-03-16t00-06-52-291z_ad66e00a-866e-4609-aeef-3ddc9d62243ahtml" class="anchor-link">§</a>pi-session-2026-03-16T00-06-52-291Z_ad66e00a-866e-4609-aeef-3ddc9d62243a.html</h3>
+<ul>
+<li><strong>Timestamp:</strong> 2026‑03‑16 03:37:40</li>
+<li><strong>Prompt:</strong> &ldquo;Do only once: git add all changes, commit with a descriptive commit, <strong>credit yourself as a coauthor</strong>…&rdquo;</li>
+</ul>
+<h3 id="pi-session-2026-03-16t00-24-00-488z_7f141dd9-dfc2-4a86-a2f0-3bd5b7d25193html"><a href="#pi-session-2026-03-16t00-24-00-488z_7f141dd9-dfc2-4a86-a2f0-3bd5b7d25193html" class="anchor-link">§</a>pi-session-2026-03-16T00-24-00-488Z_7f141dd9-dfc2-4a86-a2f0-3bd5b7d25193.html</h3>
+<ul>
+<li><strong>Timestamp:</strong> 2026‑03‑16 03:37:40</li>
+<li><strong>Prompts:</strong>
+<ul>
+<li>&ldquo;Analyze current the project&rdquo;</li>
+<li>&ldquo;create a proposal for how to create a dmg installer for this application, write to to a proposal file&rdquo;</li>
+<li>&ldquo;go on then, implement&rdquo;</li>
+<li>&ldquo;Add build/ and dist/ directories to .gitignore&rdquo;</li>
+<li>&ldquo;Do only once: git add all new files and changes, commit with a descriptive commit as the maintainer and the agent (you) as a coauthor.  Don&rsquo;t be smart, just add all changes.&rdquo;</li>
+<li>&ldquo;The maintainer is current git user. The agent never updates any git configuration.&rdquo;</li>
+<li>&ldquo;You credit yourself as a nickname. You always ask for the nickname.&rdquo;</li>
+<li>&ldquo;mlx-community/MiniMax-M2.5-8bit&rdquo;</li>
+<li>&ldquo;please document creating the unsigned DMG for development, and document how to uninstall the application, better - create an uniinstall script&rdquo;</li>
+<li>&ldquo;explain to me how do I start the app after installing the mdg&rdquo;</li>
+<li>&ldquo;explain to me how do I start the app after installing the unsigned dmg&rdquo;</li>
+<li>&ldquo;nothing happens when I double-click&rdquo;</li>
+<li>&ldquo;please document the launcher solution&rdquo;</li>
+<li>&ldquo;is it possible to build an xbar extension which displays an icon, and when clicked, it shows the output of a http call and read out power metrics&rdquo;</li>
+<li>&ldquo;trust me, the application is called xbar, not BitBar, please fix&rdquo;</li>
+<li>&ldquo;power-metrics.sh program contains an incorrect path in get_status() function, health is available at <code>/health</code>, not <code>/metrics/health</code>&rdquo;</li>
+<li>&ldquo;make the program executable and run it, it fails to run&rdquo;</li>
+<li>&ldquo;cpower-metrics.sh, not the simple one, uses undefined variable in get_metrics, fix it&rdquo;</li>
+<li>&ldquo;I get an error: malformed parameters, missing equals when the script runs inside of the app&rdquo;</li>
+<li>&ldquo;I have identified the problem, restore colors, don&rsquo;t use font&rdquo;</li>
+<li>&ldquo;color is not there&rdquo;</li>
+<li>&ldquo;stop being so proactive, you have to use the color name instead of the hex code&rdquo;</li>
+<li>&ldquo;why didn&rsquo;t you just say that the default was white and that&rsquo;s why you removed it?&rdquo;</li>
+<li>&ldquo;fix the power-metrics-simple.sh program re colors and font&rdquo;</li>
+<li>&ldquo;please note missing separator after refresh option&rdquo;</li>
+<li>&ldquo;add <code>make help</code> target&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h3 id="pi-session-2026-03-16t02-54-43-989z_30eae3e3-0373-4c1b-b94e-27c9c8cabb0fhtml"><a href="#pi-session-2026-03-16t02-54-43-989z_30eae3e3-0373-4c1b-b94e-27c9c8cabb0fhtml" class="anchor-link">§</a>pi-session-2026-03-16T02-54-43-989Z_30eae3e3-0373-4c1b-b94e-27c9c8cabb0f.html</h3>
+<ul>
+<li><strong>Timestamp:</strong> 2026‑03‑16 04:36:11</li>
+<li><strong>Prompts:</strong>
+<ul>
+<li>&ldquo;<strong>please</strong> include the following information…&rdquo;</li>
+<li>&ldquo;the time reported in the post is <strong>incorrect</strong>, <strong>update</strong> the post&rdquo;</li>
+<li>&ldquo;also <strong>update</strong> the previous section mentioning a few days to reflect real values&rdquo;</li>
+<li>&ldquo;<strong>please</strong> add the unsigned DMG for development&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h3 id="pi-session-2026-03-16t07-05-34-627z_cf6f2b9e-d620-4910-8fd7-2949043a668chtml"><a href="#pi-session-2026-03-16t07-05-34-627z_cf6f2b9e-d620-4910-8fd7-2949043a668chtml" class="anchor-link">§</a>pi-session-2026-03-16T07-05-34-627Z_cf6f2b9e-d620-4910-8fd7-2949043a668c.html</h3>
+<ul>
+<li><strong>Timestamp:</strong> 2026‑03‑16 ??</li>
+<li><strong>Prompt:</strong> &ldquo;Summarize current the project&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;You will apply the method from the <code>.proposals/user-prompt-extraction-proposal.md</code> file to a pi‑session file. You ask which file to apply the proposal to. You follow instructions from the proposal as closely as possible.&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;pi‑session‑2026‑03‑15T22‑51‑42‑220Z_22f50581‑3755‑4f79‑a834‑7adf84d98f4c.html&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;In the blog post file, you maintain the <code>## Human Corrections and Guidance</code> section, for the pi‑session file you have just processed, you either create a new <code>### pi‑session‑&lt;last‑file&gt;</code> header with the full list, or update the list for that heading by removing duplicates, you always verify that your changes are present in the file using git diff.&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;Do only once: git add all new files and changes, commit with a descriptive commit as the maintainer and the agent (you) as a coauthor. Don’t be smart, just add all changes.&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;The maintainer is current git user. The agent never updates any git configuration.&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;You credit yourself as a nickname. You always ask for the nickname.&rdquo;</li>
+<li><strong>Prompt:</strong> &ldquo;mlx‑community/gpt‑oss‑120b‑MXFP4‑Q8&rdquo;</li>
+</ul>
+<p>These correction prompts highlight the maintainer’s role in steering the project, fixing errors, and ensuring the final documentation and code reflect the intended design.</p>
+<hr>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/combust-labs/macos-power-consumption-exporter/pull/3" target="_blank" rel="noopener">Pull request: Expand blog post with detailed sections and narrative improvements</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://github.com/combust-labs/macos-power-consumption-exporter/tree/main/.exported-relevant-pi-sessions" target="_blank" rel="noopener">Most relevant pi sessions used to generate the discussed program</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://github.com/combust-labs/macos-power-consumption-exporter/blob/main/.pi/prompts/list-human-sentiment-corrections.md" target="_blank" rel="noopener">The prompt used for semantic analysis</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://github.com/combust-labs/macos-power-consumption-exporter/blob/main/.proposals/user-prompt-extraction-proposal.md" target="_blank" rel="noopener">The proposal of semantic analysis</a>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
+</div>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2026-04-23-macos-power-consumption-exporter/" target="_blank" rel="noopener">https://gruchalski.com/posts/2026-04-23-macos-power-consumption-exporter/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2026-04-23-macos-power-consumption-exporter/&amp;text=Building%20a%20macOS%20Power%e2%80%91Usage%20Prometheus%20Exporter%20with%20Supervised%20MiniMax%e2%80%af2.5&amp;hashtags=Go,Prometheus,Macos,Powermetrics,,,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2026-04-23-macos-power-consumption-exporter/&amp;title=Building%20a%20macOS%20Power%e2%80%91Usage%20Prometheus%20Exporter%20with%20Supervised%20MiniMax%e2%80%af2.5&amp;summary=The%20reason%20why%20this%20article%20exists%20is%20to%20provide%20a%20tangible%20proof%20that%20LLMs%20can%20support%20the%20human%20in%20writing%20valuable%20software.%20Because%20everyone%20says%20they%20are%20doing%20it%20but%20nobody%20shows%20what%20they%20are%20doing.%20The%20article%20is%20fallout%20from%20an%20exercise%20in%20performing%20chat%20session%20semantic%20analysis%20to%20find%20out%20when%20the%20LLM%20was%20corrected%20by%20the%20human%20operator.&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2026-04-23-macos-power-consumption-exporter\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/2022-04-28-private-go-modules-with-multiple-git-identities/" class="related-link">Private go modules with multiple git identities</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/2021-03-28-firebuild-rootfs-grpc-with-mtls/" class="related-link">firebuild rootfs - gRPC with mTLS</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/go/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Go</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/prometheus/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Prometheus</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/macos/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Macos</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/powermetrics/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Powermetrics</a>
+                
+            
+                
+                
+                
+                
+            
+                
+                
+                
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2025-11-04-the-leading-thought/" rel="next">The leading thought &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>

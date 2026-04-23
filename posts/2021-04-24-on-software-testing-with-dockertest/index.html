@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -285,22 +285,22 @@
 </span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">postgres</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">pool</span><span class="p">.</span><span class="nf">RunWithOptions</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">dockertest</span><span class="p">.</span><span class="nx">RunOptions</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Repository</span><span class="p">:</span> <span class="s">&#34;postgres&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Tag</span><span class="p">:</span>        <span class="s">&#34;11&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">Env</span><span class="p">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="s">&#34;POSTGRES_USER=test&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="s">&#34;POSTGRES_PASSWORD=test&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="s">&#34;listen_addresses = &#39;*&#39;&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">},</span>
-</span></span><span class="line"><span class="cl"><span class="p">},</span> <span class="kd">func</span><span class="p">(</span><span class="nx">config</span> <span class="o">*</span><span class="nx">docker</span><span class="p">.</span><span class="nx">HostConfig</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="c1">// set AutoRemove to true so that stopped container goes away by itself</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">config</span><span class="p">.</span><span class="nx">AutoRemove</span> <span class="p">=</span> <span class="kc">true</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">config</span><span class="p">.</span><span class="nx">RestartPolicy</span> <span class="p">=</span> <span class="nx">docker</span><span class="p">.</span><span class="nx">RestartPolicy</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">Name</span><span class="p">:</span> <span class="s">&#34;no&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">})</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">postgres</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nf">RunWithOptions</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">dockertest</span><span class="p">.</span><span class="nx">RunOptions</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Repository</span><span class="p">:</span><span class="w"> </span><span class="s">&#34;postgres&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Tag</span><span class="p">:</span><span class="w">        </span><span class="s">&#34;11&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">Env</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="s">&#34;POSTGRES_USER=test&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="s">&#34;POSTGRES_PASSWORD=test&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="s">&#34;listen_addresses = &#39;*&#39;&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">},</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">config</span><span class="w"> </span><span class="o">*</span><span class="nx">docker</span><span class="p">.</span><span class="nx">HostConfig</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="c1">// set AutoRemove to true so that stopped container goes away by itself</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">config</span><span class="p">.</span><span class="nx">AutoRemove</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nx">config</span><span class="p">.</span><span class="nx">RestartPolicy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">docker</span><span class="p">.</span><span class="nx">RestartPolicy</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">&#34;no&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">})</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This gives a running Postgres database server. It&rsquo;s so easy that there is no reason not to do it.</p>
 <h2 id="app-kit-orytest"><a href="#app-kit-orytest" class="anchor-link">§</a>app-kit-orytest</h2>
@@ -358,54 +358,54 @@
 </span><span class="lnt">47
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/radekg/app-kit-orytest/common&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/radekg/app-kit-orytest/hydra&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/radekg/app-kit-orytest/keto&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/radekg/app-kit-orytest/kratos&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/radekg/app-kit-orytest/mailslurper&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/radekg/app-kit-orytest/postgres&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">ketoModels</span> <span class="s">&#34;github.com/ory/keto-client-go/models&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="s">&#34;github.com/stretchr/testify/assert&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Test</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testimng</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// Any component requires Postgres:</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">postgresCtx</span> <span class="o">:=</span> <span class="nx">postgres</span><span class="p">.</span><span class="nf">SetupTestPostgres</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// Start Hydra:</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">hydraCtx</span> <span class="o">:=</span> <span class="nx">hydra</span><span class="p">.</span><span class="nf">SetupTestHydra</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">postgresCtx</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">hydraCtx</span><span class="p">.</span><span class="nf">Cleanup</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// Start Keto:</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">ketoCtx</span> <span class="o">:=</span> <span class="nx">keto</span><span class="p">.</span><span class="nf">SetupTestKeto</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">postgresCtx</span><span class="p">,</span> <span class="s">&#34;default-namespace&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">ketoCtx</span><span class="p">.</span><span class="nf">Cleanup</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// Kratos requires mailslurper SMTP server:</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">mailslurperCtx</span> <span class="o">:=</span> <span class="nx">mailslurper</span><span class="p">.</span><span class="nf">SetupTestMailslurper</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// Start Kratos:</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">kratosSelfService</span> <span class="o">:=</span> <span class="nx">kratos</span><span class="p">.</span><span class="nf">DefaultKratosTestSelfService</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">kratosSelfService</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">kratosCtx</span> <span class="o">:=</span> <span class="nx">kratos</span><span class="p">.</span><span class="nf">SetupTestKratos</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">postgresCtx</span><span class="p">,</span> <span class="nx">mailslurperCtx</span><span class="p">,</span> <span class="nx">kratosSelfService</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">kratosCtx</span><span class="p">.</span><span class="nf">Cleanup</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// The contexts provide the tests with clients, for example:</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ketoCtx</span><span class="p">.</span><span class="nf">WriteClient</span><span class="p">().</span><span class="nx">Write</span><span class="p">.</span><span class="nf">CreateRelationTuple</span><span class="p">(</span><span class="nx">ketoWrite</span><span class="p">.</span>
-</span></span><span class="line"><span class="cl">			<span class="nf">NewCreateRelationTupleParams</span><span class="p">().</span>
-</span></span><span class="line"><span class="cl">			<span class="nf">WithPayload</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">etoModels</span><span class="p">.</span><span class="nx">InternalRelationTuple</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="nx">Namespace</span><span class="p">:</span> <span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;default-namespace&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">                <span class="nx">Object</span><span class="p">:</span>    <span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;company-a&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">                <span class="nx">Relation</span><span class="p">:</span>  <span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;employs&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">                <span class="nx">Subject</span><span class="p">:</span>   <span class="p">(</span><span class="o">*</span><span class="nx">ketoModels</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)(</span><span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;director&#34;</span><span class="p">)),</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nx">assert</span><span class="p">.</span><span class="nf">Nil</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table></div>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/radekg/app-kit-orytest/common&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/radekg/app-kit-orytest/hydra&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/radekg/app-kit-orytest/keto&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/radekg/app-kit-orytest/kratos&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/radekg/app-kit-orytest/mailslurper&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/radekg/app-kit-orytest/postgres&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">ketoModels</span><span class="w"> </span><span class="s">&#34;github.com/ory/keto-client-go/models&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;github.com/stretchr/testify/assert&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="nf">Test</span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">*</span><span class="nx">testimng</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// Any component requires Postgres:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">postgresCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">postgres</span><span class="p">.</span><span class="nf">SetupTestPostgres</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// Start Hydra:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">hydraCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">hydra</span><span class="p">.</span><span class="nf">SetupTestHydra</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">postgresCtx</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">hydraCtx</span><span class="p">.</span><span class="nf">Cleanup</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// Start Keto:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">ketoCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">keto</span><span class="p">.</span><span class="nf">SetupTestKeto</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">postgresCtx</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;default-namespace&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">ketoCtx</span><span class="p">.</span><span class="nf">Cleanup</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// Kratos requires mailslurper SMTP server:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">mailslurperCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mailslurper</span><span class="p">.</span><span class="nf">SetupTestMailslurper</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// Start Kratos:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">kratosSelfService</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">kratos</span><span class="p">.</span><span class="nf">DefaultKratosTestSelfService</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">kratosSelfService</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">kratosCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">kratos</span><span class="p">.</span><span class="nf">SetupTestKratos</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">postgresCtx</span><span class="p">,</span><span class="w"> </span><span class="nx">mailslurperCtx</span><span class="p">,</span><span class="w"> </span><span class="nx">kratosSelfService</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">kratosCtx</span><span class="p">.</span><span class="nf">Cleanup</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// The contexts provide the tests with clients, for example:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ketoCtx</span><span class="p">.</span><span class="nf">WriteClient</span><span class="p">().</span><span class="nx">Write</span><span class="p">.</span><span class="nf">CreateRelationTuple</span><span class="p">(</span><span class="nx">ketoWrite</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nf">NewCreateRelationTupleParams</span><span class="p">().</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nf">WithPayload</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">etoModels</span><span class="p">.</span><span class="nx">InternalRelationTuple</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nx">Namespace</span><span class="p">:</span><span class="w"> </span><span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;default-namespace&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nx">Object</span><span class="p">:</span><span class="w">    </span><span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;company-a&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nx">Relation</span><span class="p">:</span><span class="w">  </span><span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;employs&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="nx">Subject</span><span class="p">:</span><span class="w">   </span><span class="p">(</span><span class="o">*</span><span class="nx">ketoModels</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)(</span><span class="nx">common</span><span class="p">.</span><span class="nf">StringP</span><span class="p">(</span><span class="s">&#34;director&#34;</span><span class="p">)),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">assert</span><span class="p">.</span><span class="nf">Nil</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The code above starts Hydra, Keto and Kratos. It ensures the migrations are executed, the configuration files are written, the volumes are mounted and services listen on random ports making it easy to run multiple tests in parallel, if needed. With this library, I was able to very quickly test different Ory configuration.</p>
 <h2 id="potential-downsides"><a href="#potential-downsides" class="anchor-link">§</a>potential downsides?</h2>
@@ -614,7 +614,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

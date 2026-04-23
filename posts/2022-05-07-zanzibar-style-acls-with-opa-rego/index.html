@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -250,10 +250,12 @@
             <div class="post-body e-content">
               <p>In <a href="https://gruchalski.com/posts/2022-04-27-opa-logical-or-conditions/" target="_blank" rel="noopener">the previous article on OPA</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>, I asked this question:</p>
 <blockquote>
-<p><em>why would Ory Keto drop OPA from its implementation?</em></p></blockquote>
+<p><em>why would Ory Keto drop OPA from its implementation?</em></p>
+</blockquote>
 <p>What&rsquo;s Ory Keto? After <a href="https://www.ory.sh/docs/keto/" target="_blank" rel="noopener">Ory Keto documentation</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>:</p>
 <blockquote>
-<p>Ory Keto is the first and only open source implementation of &ldquo;Zanzibar: Google&rsquo;s Consistent, Global Authorization System&rdquo;.</p></blockquote>
+<p>Ory Keto is the first and only open source implementation of &ldquo;Zanzibar: Google&rsquo;s Consistent, Global Authorization System&rdquo;.</p>
+</blockquote>
 <p>The question bothered me to the point that I sat down and reread the <a href="https://research.google/pubs/pub48190/" target="_blank" rel="noopener">Zanzibar white paper</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> in search for clues on OPA applicability to this problem. It&rsquo;s been about a year since I last looked into Zanzibar so I&rsquo;m coming back to this with a fresh mind.</p>
 <p>Google Zanzibar white paper describes a consistent globally distributed authorization system. The paper discusses three facets:</p>
 <ul>
@@ -266,15 +268,18 @@
 </code></pre><p>Rules should be read from right to left. That rule means: <em>a user</em> is in a relation <em>relation</em> to an <em>object</em>. Namespaces offer a logical grouping of object types.</p>
 <p>The <em>user</em> part of the ACL can be substituted with a <em>userset</em>:</p>
 <blockquote>
-<p>allows ACLs to refer to groups and thus supports representing nested group membership</p></blockquote>
+<p>allows ACLs to refer to groups and thus supports representing nested group membership</p>
+</blockquote>
 <p>Essentially, it could be a result of a different rule evaluation. A <em>userset</em> is always an <em>object#relation</em>.</p>
 <p>The white paper gives two prominent examples. The first one (page 2, table 1):</p>
 <blockquote>
-<p>Members of group:eng are viewers of doc:readme.</p></blockquote>
+<p>Members of group:eng are viewers of doc:readme.</p>
+</blockquote>
 <pre tabindex="0"><code>doc:readme#viewer@group:eng#member
 </code></pre><p>The second one (page 4, figure 1) is written in pseudo code:</p>
 <blockquote>
-<p>Simple namespace configuration with concentric relations on documents. All owners are editors, and all editors are viewers. Further, viewers of the parent folder are also viewers of the document.</p></blockquote>
+<p>Simple namespace configuration with concentric relations on documents. All owners are editors, and all editors are viewers. Further, viewers of the parent folder are also viewers of the document.</p>
+</blockquote>
 <pre tabindex="0"><code>name: &#34;doc&#34;
 
 relation { name: &#34;owner&#34; }
@@ -313,7 +318,8 @@ doc#viewer@doc#editor@doc#owner
 doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </code></pre><p>This isn&rsquo;t complete yet because the latter statement is still missing:</p>
 <blockquote>
-<p>Further, viewers of the parent folder are also viewers of the document.</p></blockquote>
+<p>Further, viewers of the parent folder are also viewers of the document.</p>
+</blockquote>
 <p>There doesn&rsquo;t seem to be a way to encode this information continuously within the first rule. The decision tree is:</p>
 <pre tabindex="0"><code>is a viewer
        ├&lt; if is an editor; is editor -&lt; if is an owner
@@ -341,7 +347,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 <h2 id="how-easy-is-it-to-translate-zanzibar-notation-to-rego"><a href="#how-easy-is-it-to-translate-zanzibar-notation-to-rego" class="anchor-link">§</a>how easy is it to translate zanzibar notation to rego</h2>
 <p>OPA policies are written using Rego:</p>
 <blockquote>
-<p>&hellip; a declarative language &hellip; purpose-built for expressing policies over complex hierarchical data structures.</p></blockquote>
+<p>&hellip; a declarative language &hellip; purpose-built for expressing policies over complex hierarchical data structures.</p>
+</blockquote>
 <p>A handy way to work with policies is to write them in <em>rego</em> files. A policy file starts with a <em>package</em> declaration and includes one or more <em>rules</em>. Policy documents may define variables, import data from <em>data documents</em>, and include other policies so rules can be combined and reused. There&rsquo;s a great <a href="https://www.openpolicyagent.org/docs/latest/policy-language/" target="_blank" rel="noopener">introduction to Rego on the OPA website</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>.</p>
 <p>It should be possible to rewrite a Zanzibar ACL as a Rego policy.</p>
 <h3 id="a-member-of-the-engineering-group-is-a-document-viewer"><a href="#a-member-of-the-engineering-group-is-a-document-viewer" class="anchor-link">§</a>a member of the engineering group is a document viewer</h3>
@@ -486,8 +493,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -ti openpolicyagent/opa:0.40.0 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  run --server --log-format<span class="o">=</span>json-pretty --set<span class="o">=</span>decision_logs.console<span class="o">=</span><span class="nb">true</span>
+</span></span></span><span class="line"><span class="cl">  -ti openpolicyagent/opa:0.40.0 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  run --server --log-format<span class="o">=</span>json-pretty --set<span class="o">=</span>decision_logs.console<span class="o">=</span><span class="nb">true</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>I&rsquo;ve made a couple of significant changes:</p>
@@ -596,16 +603,16 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># load the policy:</span>
 </span></span><span class="line"><span class="cl">curl --silent -X PUT --data-binary @doc-policy.rego <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  localhost:8181/v1/policies/doc-policy
+</span></span></span><span class="line"><span class="cl">  localhost:8181/v1/policies/doc-policy
 </span></span><span class="line"><span class="cl"><span class="c1"># load the data:</span>
 </span></span><span class="line"><span class="cl">curl --silent -X PUT <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --data-binary @data-docs.json <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    localhost:8181/v1/data/docs
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --data-binary @data-docs.json <span class="se">\
+</span></span></span><span class="line"><span class="cl">    localhost:8181/v1/data/docs
 </span></span><span class="line"><span class="cl">curl --silent -X PUT <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --data-binary @data-folders.json <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    localhost:8181/v1/data/folders
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --data-binary @data-folders.json <span class="se">\
+</span></span></span><span class="line"><span class="cl">    localhost:8181/v1/data/folders
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>All default data is loaded into OPA. What&rsquo;s worth paying the attention to:</p>
@@ -626,8 +633,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -661,8 +668,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># the path is a combination of the JSON placement and the path</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># within the JSON data document:</span>
 </span></span><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/docs/readme/permissions/viewers <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;[{
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;add&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;value&#34;: true
@@ -678,8 +685,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -720,8 +727,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># remove the direct permission:</span>
 </span></span><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/docs/readme/permissions/viewers <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;[{
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;remove&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s1">    }]&#39;</span>
@@ -729,8 +736,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">parent_folder_id</span><span class="o">=</span><span class="k">$(</span>curl --silent localhost:8181/v1/data/docs/readme/properties/directory <span class="p">|</span> jq <span class="s1">&#39;.result&#39;</span> -r<span class="k">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># assign the `viewer` permission to the `user-viewer` on the `parent folder`:</span>
 </span></span><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/folders/<span class="si">${</span><span class="nv">parent_folder_id</span><span class="si">}</span>/permissions/viewers <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;[{
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;add&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;value&#34;: true
@@ -746,8 +753,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -779,14 +786,14 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/folders/<span class="si">${</span><span class="nv">parent_folder_id</span><span class="si">}</span>/permissions/viewers <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;[{
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;remove&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-viewer&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s1">    }]&#39;</span>
 </span></span><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-viewer&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -816,8 +823,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X PATCH localhost:8181/v1/data/docs/readme/permissions/owners <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;[{
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json-patch+json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;[{
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;op&#34;: &#34;add&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;path&#34;: &#34;user-owner&#34;,
 </span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;value&#34;: true
@@ -835,8 +842,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/editor <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-owner&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-owner&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -864,8 +871,8 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST localhost:8181/v1/data/doc/viewer <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-owner&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">    -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d <span class="s1">&#39;{&#34;input&#34;: {&#34;docid&#34;: &#34;readme&#34;, &#34;userid&#34;: &#34;user-owner&#34;}}&#39;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><div class="highlight"><div class="chroma">
@@ -1119,7 +1126,7 @@ doc:some-doc#viewer@doc:some-doc#editor@doc:some-doc#owner
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

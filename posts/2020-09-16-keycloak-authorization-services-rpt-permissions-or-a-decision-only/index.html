@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -263,11 +263,11 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>where the <code>${access_token}</code> is the outcome of:</p>
@@ -280,9 +280,9 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">access_token</span><span class="o">=</span><span class="sb">`</span>curl --silent -u customers:<span class="si">${</span><span class="nv">KEYCLOAK_CLIENT_SECRET</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -k -d <span class="s2">&#34;grant_type=password&amp;username=member@service-team&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
+</span></span></span><span class="line"><span class="cl">    -k -d <span class="s2">&#34;grant_type=password&amp;username=member@service-team&amp;password=</span><span class="si">${</span><span class="nv">USER_PASSWORD</span><span class="si">}</span><span class="s2">&amp;scope=email profile&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -H <span class="s2">&#34;Content-Type:application/x-www-form-urlencoded&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="p">|</span> jq <span class="s1">&#39;.access_token&#39;</span> -r<span class="sb">`</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>the response looks like this, the <code>access_token</code> is the <code>RPT</code>:</p>
@@ -328,12 +328,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;response_mode=decision&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;response_mode=decision&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>and returns only a decision. If user has access to the resources, the response is:</p>
@@ -382,12 +382,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;response_mode=permissions&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;response_mode=permissions&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;permission=CustomerB#customer-b&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Keycloak answers:</p>
@@ -427,11 +427,11 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;response_mode=permissions&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;response_mode=permissions&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>which returns all available permissions for the original access token:</p>
@@ -487,12 +487,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --silent -X POST <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;response_mode=permissions&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --data <span class="s2">&#34;response_include_resource_name=false&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</span></span></span><span class="line"><span class="cl">  <span class="si">${</span><span class="nv">KEYCLOAK_TOKEN_URL</span><span class="si">}</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Authorization: Bearer </span><span class="si">${</span><span class="nv">access_token</span><span class="si">}</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;grant_type=urn:ietf:params:oauth:grant-type:uma-ticket&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;audience=customers&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;response_mode=permissions&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data <span class="s2">&#34;response_include_resource_name=false&#34;</span> <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>gives:</p>
@@ -742,7 +742,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

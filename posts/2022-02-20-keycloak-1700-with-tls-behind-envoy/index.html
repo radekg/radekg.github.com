@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -269,7 +269,8 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 </code></pre><h2 id="keycloak-dockerfile"><a href="#keycloak-dockerfile" class="anchor-link">§</a>Keycloak Dockerfile</h2>
 <p>Quarkus-based <em>Keycloak 17.0.0</em> cannot be started without executing the <em>build</em> step. <a href="https://www.keycloak.org/server/configuration" target="_blank" rel="noopener">From Keycloak documentation</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>:</p>
 <blockquote>
-<p>The <code>build</code> command is responsible for producing an immutable and optimized server image, which is similar to building a container image. In addition to persisting any build option you have set, this command also performs a series of optimizations to deliver the best runtime when starting and running the server. As a result, a lot of processing that would usually happen when starting and running the server is no longer necessary and the server can start and run faster.</p></blockquote>
+<p>The <code>build</code> command is responsible for producing an immutable and optimized server image, which is similar to building a container image. In addition to persisting any build option you have set, this command also performs a series of optimizations to deliver the best runtime when starting and running the server. As a result, a lot of processing that would usually happen when starting and running the server is no longer necessary and the server can start and run faster.</p>
+</blockquote>
 <p>There is no way to get away from executing <em>build</em>. We can use the <em>start &ndash;auto-build</em> flag (also documented in <sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>), but one way or another, we have to <em>build</em> it. The <em>&ndash;auto-build</em> option takes some time to execute on every start and building a custom image helps us shave some time off on subsequent starts.</p>
 <p>I guessed that I wanted an optimized image so I opted in for building my own Docker image.</p>
 <p><a href="https://www.keycloak.org/server/containers" target="_blank" rel="noopener">Building a custom Docker image is documented here</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</p>
@@ -298,24 +299,24 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0 as builder</span><span class="err">
+<pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">quay.io/keycloak/keycloak:17.0.0</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s">builder</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_METRICS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_METRICS_ENABLED</span><span class="o">=</span><span class="nb">true</span>
 </span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_FEATURES</span><span class="o">=</span>token-exchange<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB</span><span class="o">=</span>postgres
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_DB</span><span class="o">=</span>postgres
 </span></span><span class="line"><span class="cl"><span class="k">RUN</span> /opt/keycloak/bin/kc.sh build<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> quay.io/keycloak/keycloak:17.0.0</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>builder /opt/keycloak/lib/quarkus/ /opt/keycloak/lib/quarkus/<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /opt/keycloak</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN</span><span class="o">=</span>admin
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">quay.io/keycloak/keycloak:17.0.0</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> --from<span class="o">=</span>builder /opt/keycloak/lib/quarkus/ /opt/keycloak/lib/quarkus/<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/opt/keycloak</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN</span><span class="o">=</span>admin
 </span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KEYCLOAK_ADMIN_PASSWORD</span><span class="o">=</span>admin
 </span></span><span class="line"><span class="cl"><span class="c"># change these values to point to a running postgres instance</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_URL</span><span class="o">=</span>jdbc:postgresql://postgres:5432/keycloak?ssl<span class="o">=</span>allow<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_DB_USERNAME</span><span class="o">=</span>keycloak
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_DB_URL</span><span class="o">=</span>jdbc:postgresql://postgres:5432/keycloak?ssl<span class="o">=</span>allow<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_DB_USERNAME</span><span class="o">=</span>keycloak
 </span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_DB_PASSWORD</span><span class="o">=</span>keycloak
 </span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_HOSTNAME</span><span class="o">=</span>idp-dev.gruchalski.com<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">KC_HOSTNAME_STRICT</span><span class="o">=</span><span class="nb">false</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_HOSTNAME_STRICT</span><span class="o">=</span><span class="nb">false</span>
 </span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">KC_HTTP_ENABLED</span><span class="o">=</span><span class="nb">true</span>
 </span></span><span class="line"><span class="cl"><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;/opt/keycloak/bin/kc.sh&#34;</span><span class="p">,</span> <span class="s2">&#34;start&#34;</span><span class="p">]</span><span class="err">
 </span></span></span></code></pre></td></tr></table></div>
@@ -334,10 +335,10 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker <span class="nb">exec</span> dev_keycloak <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    /opt/jboss/keycloak/bin/add-user-keycloak.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -u admin <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p admin <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="o">&amp;&amp;</span> docker restart dev_keycloak
+</span></span></span><span class="line"><span class="cl">    /opt/jboss/keycloak/bin/add-user-keycloak.sh <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -u admin <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -p admin <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="o">&amp;&amp;</span> docker restart dev_keycloak
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p><strong>A note of caution:</strong> in a real deployment, you&rsquo;d not store those credentials directly in the <em>Dockerfile</em>. You&rsquo;d pass them from outside. I kept them here for brevity only.</p>
@@ -502,16 +503,16 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> etc/envoy
 </span></span><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/lego <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.aws/credentials:/root/.aws/credentials <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">AWS_PROFILE</span><span class="o">=</span>lego <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -ti goacme/lego <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --accept-tos <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --domains<span class="o">=</span>idp-dev.gruchalski.com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --server<span class="o">=</span>https://acme-v02.api.letsencrypt.org/directory <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --email<span class="o">=</span>radek@gruchalski.com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --path<span class="o">=</span>/lego <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --dns<span class="o">=</span>route53 run
+</span></span></span><span class="line"><span class="cl">    -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/lego <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.aws/credentials:/root/.aws/credentials <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -e <span class="nv">AWS_PROFILE</span><span class="o">=</span>lego <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -ti goacme/lego <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --accept-tos <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --domains<span class="o">=</span>idp-dev.gruchalski.com <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --server<span class="o">=</span>https://acme-v02.api.letsencrypt.org/directory <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --email<span class="o">=</span>radek@gruchalski.com <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --path<span class="o">=</span>/lego <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --dns<span class="o">=</span>route53 run
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>When the command finishes, the directory structure looks like this:</p>
@@ -581,13 +582,13 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3.9&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">networks</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">keycloak-internal</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-internal</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">keycloak-public</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keycloak-public</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">envoy</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">envoyproxy/envoy:v1.21.0</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
@@ -870,7 +871,7 @@ Keycloak.X is now officially known as Keycloak 17.0.0, the first official Quarku
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

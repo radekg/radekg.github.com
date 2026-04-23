@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -281,14 +281,14 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo <span class="nv">$GOPATH</span>/bin/firebuild profile-create <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--profile<span class="o">=</span>standard <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--binary-firecracker<span class="o">=</span><span class="k">$(</span>readlink /usr/bin/firecracker<span class="k">)</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--binary-jailer<span class="o">=</span><span class="k">$(</span>readlink /usr/bin/jailer<span class="k">)</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--chroot-base<span class="o">=</span>/fc/jail <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--run-cache<span class="o">=</span>/fc/cache <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--storage-provider<span class="o">=</span>directory <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--storage-provider-property-string<span class="o">=</span><span class="s2">&#34;rootfs-storage-root=/fc/rootfs&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--storage-provider-property-string<span class="o">=</span><span class="s2">&#34;kernel-storage-root=/fc/vmlinux&#34;</span>
+</span></span></span><span class="line"><span class="cl">	--profile<span class="o">=</span>standard <span class="se">\
+</span></span></span><span class="line"><span class="cl">	--binary-firecracker<span class="o">=</span><span class="k">$(</span>readlink /usr/bin/firecracker<span class="k">)</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">	--binary-jailer<span class="o">=</span><span class="k">$(</span>readlink /usr/bin/jailer<span class="k">)</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">	--chroot-base<span class="o">=</span>/fc/jail <span class="se">\
+</span></span></span><span class="line"><span class="cl">	--run-cache<span class="o">=</span>/fc/cache <span class="se">\
+</span></span></span><span class="line"><span class="cl">	--storage-provider<span class="o">=</span>directory <span class="se">\
+</span></span></span><span class="line"><span class="cl">	--storage-provider-property-string<span class="o">=</span><span class="s2">&#34;rootfs-storage-root=/fc/rootfs&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">	--storage-provider-property-string<span class="o">=</span><span class="s2">&#34;kernel-storage-root=/fc/vmlinux&#34;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="create-a-base-operating-system-root-file-system-baseos"><a href="#create-a-base-operating-system-root-file-system-baseos" class="anchor-link">§</a>create a base operating system root file system (baseos)</h3>
@@ -302,8 +302,8 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo <span class="nv">$GOPATH</span>/bin/firebuild baseos <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --dockerfile <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/baseos/_/alpine/3.12/Dockerfile
+</span></span></span><span class="line"><span class="cl">    --profile<span class="o">=</span>standard <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --dockerfile <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/baseos/_/alpine/3.12/Dockerfile
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="create-a-root-file-system-of-the-application-rootfs"><a href="#create-a-root-file-system-of-the-application-rootfs" class="anchor-link">§</a>create a root file system of the application (rootfs)</h3>
@@ -320,12 +320,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo <span class="nv">$GOPATH</span>/bin/firebuild rootfs <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --dockerfile<span class="o">=</span>git+https://github.com/hashicorp/docker-consul.git:/0.X/Dockerfile <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cni-network-name<span class="o">=</span>machine-builds <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --ssh-user<span class="o">=</span>alpine <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --vmlinux-id<span class="o">=</span>vmlinux-v5.8 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --tag<span class="o">=</span>combust-labs/consul:1.9.4
+</span></span></span><span class="line"><span class="cl">    --profile<span class="o">=</span>standard <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --dockerfile<span class="o">=</span>git+https://github.com/hashicorp/docker-consul.git:/0.X/Dockerfile <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --cni-network-name<span class="o">=</span>machine-builds <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --ssh-user<span class="o">=</span>alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --vmlinux-id<span class="o">=</span>vmlinux-v5.8 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --tag<span class="o">=</span>combust-labs/consul:1.9.4
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="start-the-application"><a href="#start-the-application" class="anchor-link">§</a>start the application</h3>
@@ -339,10 +339,10 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo <span class="nv">$GOPATH</span>/bin/firebuild run <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --from<span class="o">=</span>combust-labs/consul:1.9.4 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cni-network-name<span class="o">=</span>machines <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --vmlinux-id<span class="o">=</span>vmlinux-v5.8
+</span></span></span><span class="line"><span class="cl">    --profile<span class="o">=</span>standard <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --from<span class="o">=</span>combust-labs/consul:1.9.4 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --cni-network-name<span class="o">=</span>machines <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --vmlinux-id<span class="o">=</span>vmlinux-v5.8
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="query-consul"><a href="#query-consul" class="anchor-link">§</a>query Consul</h3>
@@ -355,8 +355,8 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo <span class="nv">$GOPATH</span>/bin/firebuild ls <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --log-as-json 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> jq <span class="s1">&#39;.id&#39;</span> -r
+</span></span></span><span class="line"><span class="cl">    --profile<span class="o">=</span>standard <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --log-as-json 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> jq <span class="s1">&#39;.id&#39;</span> -r
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>In my case, the value is <code>wcabty1922gloailwrce</code>. I used it to get the IP address of the VM:</p>
@@ -368,8 +368,8 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo <span class="nv">$GOPATH</span>/bin/firebuild inspect <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --vmm-id<span class="o">=</span>wcabty1922gloailwrce <span class="p">|</span> jq <span class="s1">&#39;.NetworkInterfaces[0].StaticConfiguration.IPConfiguration.IP&#39;</span> -r
+</span></span></span><span class="line"><span class="cl">    --profile<span class="o">=</span>standard <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --vmm-id<span class="o">=</span>wcabty1922gloailwrce <span class="p">|</span> jq <span class="s1">&#39;.NetworkInterfaces[0].StaticConfiguration.IPConfiguration.IP&#39;</span> -r
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The command returned <code>192.168.127.89</code>. I could query Consul via REST API:</p>
@@ -392,7 +392,8 @@
 <p>The directories referenced in the profile must exist before a profile can be created.</p>
 <p>In the next step, I have built a <em>base operating system root file system</em>. The <em>elephant in the room</em> question is:</p>
 <blockquote>
-<p>Why does this tool even require that step?</p></blockquote>
+<p>Why does this tool even require that step?</p>
+</blockquote>
 <p>Typical Linux in Docker has many parts removed. For example, there is no init system. Further, different base Docker images have often completely different sets of tools available. All that is for a good reason: Docker images supposed to be small, must start fast and limit the potential attack surface by removing what&rsquo;s unnecessary.</p>
 <p><code>firebuild</code> <strong>builds Firecracker virtual machines</strong>. <strong>It does so from Dockerfile blueprints</strong>.</p>
 <p>In order to provide a consistent experience, it requires a more or less functional multi-user Linux installation with components otherwise hidden in the Docker or OCI runtime. These base Linux installations are built from <code>firebuild</code> provided Dockerfiles, the <code>--dockerfile $(pwd)/baseos/_/alpine/3.12/Dockerfile</code> is a base Alpine 3.12. All the commands above were executed from <code>$GOPATH/src/github.com/combust-labs/firebuild</code> directory, hence the use of <code>$(pwd)</code> in the <code>baseos</code> build.</p>
@@ -409,7 +410,8 @@
 <p><strong>The primary reason for following this path is</strong> to enable building Firecracker VMs from <strong>upstream Dockerfiles as often as possible</strong>. Other tools out there enable converting a Docker container into a <code>rootfs</code> file but to achieve that full VM experience, a Docker container has to be launched from a hand crafted Dockerfile or extra packages have to be installed on the running container before the export. Dockerfiles are fully auditable but these extra steps are not. The steps often differ between containers. It might be difficult to track how the <code>rootfs</code> was built, some benefits of using a blueprint could be lost.</p>
 <p>The step 2 of the example builds Consul directly from the official HashiCorp Docker images GitHub repository. The application root file system was built using the <code>rootfs</code> command.</p>
 <blockquote>
-<p>Note: I refer to the application root file system as <code>rootfs</code>. Bit confusing at first because the result of the <code>baseos</code> command is technically also a <code>rootfs</code>. However, to mentally distinguish one from the other, I refer to to the base OS using the term <code>baseos</code> and an application is a <code>rootfs</code>. This may change in the future.</p></blockquote>
+<p>Note: I refer to the application root file system as <code>rootfs</code>. Bit confusing at first because the result of the <code>baseos</code> command is technically also a <code>rootfs</code>. However, to mentally distinguish one from the other, I refer to to the base OS using the term <code>baseos</code> and an application is a <code>rootfs</code>. This may change in the future.</p>
+</blockquote>
 <p>The <code>rootfs</code> command does much more work than the <code>baseos</code> command.</p>
 <p>It starts by fetching a Dockerfile from a source given via the <code>--dockerfile</code> argument. The source can be one of:</p>
 <ul>
@@ -434,12 +436,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo <span class="nv">$GOPATH</span>/bin/firebuild rootfs <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile<span class="o">=</span>standard <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --dockerfile<span class="o">=</span>git+https://github.com/grepplabs/kafka-proxy.git:/Dockerfile#v0.2.8 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cni-network-name<span class="o">=</span>machine-builds <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --ssh-user<span class="o">=</span>alpine <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --vmlinux-id<span class="o">=</span>vmlinux-v5.8 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --tag<span class="o">=</span>combust-labs/kafka-proxy:0.2.8
+</span></span></span><span class="line"><span class="cl">    --profile<span class="o">=</span>standard <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --dockerfile<span class="o">=</span>git+https://github.com/grepplabs/kafka-proxy.git:/Dockerfile#v0.2.8 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --cni-network-name<span class="o">=</span>machine-builds <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --ssh-user<span class="o">=</span>alpine <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --vmlinux-id<span class="o">=</span>vmlinux-v5.8 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --tag<span class="o">=</span>combust-labs/kafka-proxy:0.2.8
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The Dockerfile commands statements which are not supported: <code>ONBUILD</code>, <code>HEALTHCHECK</code> and <code>STOPSIGNAL</code> (although the last one will be supported at a later stage).</p>
@@ -883,7 +885,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     

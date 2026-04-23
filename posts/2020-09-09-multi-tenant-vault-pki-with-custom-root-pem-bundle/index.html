@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.148.2"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -490,7 +490,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -eu
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -eu
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nv">CA_NAME</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span>
 </span></span><span class="line"><span class="cl">
@@ -649,9 +649,9 @@
 </span></span><span class="line"><span class="cl">openssl genrsa -aes256 -out <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/private/ca.key.pem <span class="m">4096</span>
 </span></span><span class="line"><span class="cl">chmod <span class="m">400</span> <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/private/ca.key.pem
 </span></span><span class="line"><span class="cl">openssl req -config <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/openssl.cnf <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>      -key <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/private/ca.key.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>      -new -x509 -days <span class="si">${</span><span class="nv">DEFAULT_CA_DAYS</span><span class="si">}</span> -sha256 -extensions v3_ca <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>      -out <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/certs/ca.cert.pem
+</span></span></span><span class="line"><span class="cl">      -key <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/private/ca.key.pem <span class="se">\
+</span></span></span><span class="line"><span class="cl">      -new -x509 -days <span class="si">${</span><span class="nv">DEFAULT_CA_DAYS</span><span class="si">}</span> -sha256 -extensions v3_ca <span class="se">\
+</span></span></span><span class="line"><span class="cl">      -out <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/certs/ca.cert.pem
 </span></span><span class="line"><span class="cl">chmod <span class="m">444</span> <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/certs/ca.cert.pem
 </span></span><span class="line"><span class="cl">openssl x509 -noout -text -in <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/certs/ca.cert.pem
 </span></span></code></pre></td></tr></table></div>
@@ -948,7 +948,7 @@ Certificate:
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -eu
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -eu
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nv">CA_NAME</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span>
 </span></span><span class="line"><span class="cl"><span class="nv">INTERMEDIATE_NAME</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="si">}</span>
@@ -1110,35 +1110,35 @@ Certificate:
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># generate intermediate CA certificate for ${CA_NAME}/${INTERMEDIATE_NAME} in ${INTERMEDIATEDIR}...&#34;</span>
 </span></span><span class="line"><span class="cl">openssl genrsa -aes256 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/private/intermediate.key.pem <span class="m">4096</span>
+</span></span></span><span class="line"><span class="cl">    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/private/intermediate.key.pem <span class="m">4096</span>
 </span></span><span class="line"><span class="cl">chmod <span class="m">400</span> <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/private/intermediate.key.pem
 </span></span><span class="line"><span class="cl">openssl req -config <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/openssl.cnf -new -sha256 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -key <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/private/intermediate.key.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/csr/intermediate.csr.pem
+</span></span></span><span class="line"><span class="cl">    -key <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/private/intermediate.key.pem <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/csr/intermediate.csr.pem
 </span></span><span class="line"><span class="cl">openssl ca -config <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/openssl.cnf -extensions v3_intermediate_ca <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -days <span class="si">${</span><span class="nv">DEFAULT_CA_DAYS</span><span class="si">}</span> -notext -md sha256 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -in <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/csr/intermediate.csr.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem
+</span></span></span><span class="line"><span class="cl">    -days <span class="si">${</span><span class="nv">DEFAULT_CA_DAYS</span><span class="si">}</span> -notext -md sha256 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -in <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/csr/intermediate.csr.pem <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem
 </span></span><span class="line"><span class="cl">chmod <span class="m">444</span> <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem
 </span></span><span class="line"><span class="cl">openssl x509 -noout -text <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -in <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem
+</span></span></span><span class="line"><span class="cl">    -in <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem
 </span></span><span class="line"><span class="cl">openssl verify -CAfile <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/certs/ca.cert.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># generate the chain:</span>
 </span></span><span class="line"><span class="cl">cat <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/intermediate.cert.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>      <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/certs/ca.cert.pem &gt; <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/chain/ca-chain.cert.pem
+</span></span></span><span class="line"><span class="cl">      <span class="si">${</span><span class="nv">CADIR</span><span class="si">}</span>/certs/ca.cert.pem &gt; <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/chain/ca-chain.cert.pem
 </span></span><span class="line"><span class="cl">chmod <span class="m">444</span> <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/certs/ca-chain.cert.pem
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># convert intermediate CA key to PKCS1 format required by Vault bundle</span>
 </span></span><span class="line"><span class="cl">openssl rsa -in <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/private/intermediate.key.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/vault-bundle/intermediate-pkcs1.key.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -outform pem
+</span></span></span><span class="line"><span class="cl">    -out <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/vault-bundle/intermediate-pkcs1.key.pem <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -outform pem
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># generate the actual Vault bundle:</span>
 </span></span><span class="line"><span class="cl">cat <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/chain/ca-chain.cert.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/vault-bundle/intermediate-pkcs1.key.pem &gt; <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/vault-bundle/bundle.pem
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/vault-bundle/intermediate-pkcs1.key.pem &gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/vault-bundle/bundle.pem
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># remove the pkcs1 file:</span>
 </span></span><span class="line"><span class="cl">rm <span class="si">${</span><span class="nv">INTERMEDIATEDIR</span><span class="si">}</span>/vault-bundle/intermediate-pkcs1.key.pem
@@ -1329,12 +1329,12 @@ writing RSA key
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --rm <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p 8200:8200 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -ti <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="s1">&#39;VAULT_DEV_ROOT_TOKEN_ID=dev-token&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="s1">&#39;VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cap-add<span class="o">=</span>IPC_LOCK <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    vault
+</span></span></span><span class="line"><span class="cl">    -p 8200:8200 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -ti <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -e <span class="s1">&#39;VAULT_DEV_ROOT_TOKEN_ID=dev-token&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -e <span class="s1">&#39;VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --cap-add<span class="o">=</span>IPC_LOCK <span class="se">\
+</span></span></span><span class="line"><span class="cl">    vault
 </span></span><span class="line"><span class="cl">...
 </span></span><span class="line"><span class="cl">2020-09-08T21:08:07.855Z <span class="o">[</span>INFO<span class="o">]</span>  expiration: revoked lease: <span class="nv">lease_id</span><span class="o">=</span>auth/token/root/h128b471d9329710fbbd34dc5a4a98b4d0c7fe104799e818447a013762aed1e66
 </span></span><span class="line"><span class="cl">2020-09-08T21:08:07.859Z <span class="o">[</span>INFO<span class="o">]</span>  core: successful mount: <span class="nv">namespace</span><span class="o">=</span> <span class="nv">path</span><span class="o">=</span>secret/ <span class="nv">type</span><span class="o">=</span>kv
@@ -1403,18 +1403,18 @@ writing RSA key
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/roles/system-of-client-a-com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allow_localhost</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;localhost,client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allow_subdomains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">max_ttl</span><span class="o">=</span><span class="s2">&#34;720h&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allow_localhost</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;localhost,client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allow_subdomains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">max_ttl</span><span class="o">=</span><span class="s2">&#34;720h&#34;</span>
 </span></span><span class="line"><span class="cl">Success! Data written to: client-a/roles/system-of-client-a-com
 </span></span><span class="line"><span class="cl"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-b/roles/system-of-client-b-com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allow_localhost</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;localhost,client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allow_subdomains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">max_ttl</span><span class="o">=</span><span class="s2">&#34;720h&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allow_localhost</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;localhost,client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allow_subdomains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">max_ttl</span><span class="o">=</span><span class="s2">&#34;720h&#34;</span>
 </span></span><span class="line"><span class="cl">Success! Data written to: client-b/roles/system-of-client-b-com
 </span></span></code></pre></td></tr></table></div>
 </div>
@@ -1436,9 +1436,9 @@ writing RSA key
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">vault write client-a/issue/system-of-client-a-com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;become.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;240h&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
+</span></span></span><span class="line"><span class="cl">    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;become.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;240h&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">format</span><span class="o">=</span>pem
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>To which the output is &hellip; pretty verbose &hellip;:</p>
@@ -1511,9 +1511,9 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/issue/system-of-client-a-com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;become.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;240h&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
+</span></span></span><span class="line"><span class="cl">    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;become.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;240h&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">format</span><span class="o">=</span>pem
 </span></span><span class="line"><span class="cl">Error writing data to client-a/issue/system-of-client-a-com: Error making API request.
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">URL: PUT http://127.0.0.1:8200/v1/client-a/issue/system-of-client-a-com
@@ -1535,10 +1535,10 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">vault write client-b/issue/system-of-client-b-com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">alt_names</span><span class="o">=</span><span class="s2">&#34;you.client-b.gmbh.klarrio.com,or-you.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;720h&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
+</span></span></span><span class="line"><span class="cl">    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">alt_names</span><span class="o">=</span><span class="s2">&#34;you.client-b.gmbh.klarrio.com,or-you.client-b.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;720h&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">format</span><span class="o">=</span>pem
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><ol start="3">
@@ -1554,9 +1554,9 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>rad<span class="o">]</span> ~ $ vault write client-a/roles/get-in-touch <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">max_ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allow_bare_domains</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">allowed_domains</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">max_ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span>
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>so that it&rsquo;s possible to:</p>
@@ -1569,9 +1569,9 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">vault write client-a/issue/get-in-touch <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
+</span></span></span><span class="line"><span class="cl">    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">format</span><span class="o">=</span>pem
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>but not:</p>
@@ -1584,9 +1584,9 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">vault write client-a/issue/get-in-touch <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;maybe.get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">format</span><span class="o">=</span>pem
+</span></span></span><span class="line"><span class="cl">    <span class="nv">common_name</span><span class="o">=</span><span class="s2">&#34;maybe.get-in-touch.client-a.gmbh.klarrio.com&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">ttl</span><span class="o">=</span><span class="s2">&#34;1h&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">format</span><span class="o">=</span>pem
 </span></span></code></pre></td></tr></table></div>
 </div>
 </div><h2 id="conclusion"><a href="#conclusion" class="anchor-link">§</a>Conclusion</h2>
@@ -1834,7 +1834,7 @@ serial_number       65:66:8c:5e:89:45:36:df:ee:7f:38:14:3a:7b:ee:ef:d6:42:56:31
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2015–2025&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
     
