@@ -55,7 +55,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2026-10-30T00:00:00+00:00",
-        "dateModified": "2026-10-30T20:56:56+01:00",
+        "dateModified": "2026-10-30T21:01:17+01:00",
         "url": "https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/",
         "headline": "GPU in a Linux VM on Apple Silicon",
         "description": "making Vulkan enumerate inside a krunkit VM",
@@ -103,7 +103,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-10-30T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2026-10-30T20:56:56&#43;01:00" />
+    <meta property="article:modified_time" content="2026-10-30T21:01:17&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -348,7 +348,7 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 <li><code>src/virtio/vulkan/vn_ring.c</code> — <code>vn_ring_get_layout</code> aligns the ring shmem size up.</li>
 </ul>
 <p>The author of #114 is explicit that <strong>all four hunks are needed</strong>. The <code>vn_ring.c</code> one alone gets past <code>vkCreateInstance</code>, then device memory allocation fails instead. Drop any one hunk and the failure moves somewhere else.</p>
-<p>For Mesa 22.3.6:</p>
+<p>For Mesa 23.3.6:</p>
 <div class="highlight"><div class="chroma">
 <div class="table-container"><table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1

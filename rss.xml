@@ -23,7 +23,7 @@
         
             <copyright>[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)</copyright>
         
-        <lastBuildDate>Fri, 30 Oct 2026 20:58:05 &#43;0100</lastBuildDate>
+        <lastBuildDate>Fri, 30 Oct 2026 21:01:28 &#43;0100</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://gruchalski.com/rss.xml" />
         
@@ -140,7 +140,7 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;li&gt;&lt;code&gt;src/virtio/vulkan/vn_ring.c&lt;/code&gt; — &lt;code&gt;vn_ring_get_layout&lt;/code&gt; aligns the ring shmem size up.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The author of #114 is explicit that &lt;strong&gt;all four hunks are needed&lt;/strong&gt;. The &lt;code&gt;vn_ring.c&lt;/code&gt; one alone gets past &lt;code&gt;vkCreateInstance&lt;/code&gt;, then device memory allocation fails instead. Drop any one hunk and the failure moves somewhere else.&lt;/p&gt;
-&lt;p&gt;For Mesa 22.3.6:&lt;/p&gt;
+&lt;p&gt;For Mesa 23.3.6:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
