@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2026-10-30T21:01:27&#43;01:00</updated>
+    <updated>2026-10-31T00:57:08&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">GPU in a Linux VM on Apple Silicon</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/" />
             <id>https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/</id>
-            <updated>2026-10-30T21:01:17&#43;01:00</updated>
+            <updated>2026-10-31T00:54:29&#43;01:00</updated>
             <published>2026-10-30T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -32,13 +32,14 @@
                 <content type="html">&lt;p&gt;I have been running the pi coding agent (a CLI that drives an LLM to read code, edit files, run commands) in a Linux VM on Apple Silicon for a while now. For an agent, to write working software operarting in real world, the agent must have the freedom to navigate in said world. More complex tasks, for example browser applications or extensions, require the agent to operate the software, like we do. Writing a Kubernetes operator is the best done when the agent can run what it&amp;rsquo;s building in a real Kubernetes cluster. It needs to trip over the hurdles on its own, like we do.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;From the coauthor: This was written by an LLM under my guidance.&lt;br&gt;
-Regarding emdash: any remaining, remain on purpose. Some some did not survive, and some have been added.&lt;/p&gt;
+Regarding emdash: any remaining, remain on purpose. Some did not survive, and some have been added.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div&gt;
     &lt;h2&gt;table of contents&lt;/h2&gt;
     &lt;nav id=&#34;TableOfContents&#34;&gt;
   &lt;ol&gt;
     &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#give-em-all&#34;&gt;give &amp;rsquo;em all&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#the-research-process&#34;&gt;the research process&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#background&#34;&gt;background&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#the-symptom&#34;&gt;the symptom&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#issue-102&#34;&gt;issue #102&lt;/a&gt;&lt;/li&gt;
@@ -54,11 +55,12 @@ Regarding emdash: any remaining, remain on purpose. Some some did not survive, a
 &lt;/nav&gt;
 &lt;/div&gt;
 &lt;h2 id=&#34;give-em-all&#34;&gt;give &amp;rsquo;em all&lt;/h2&gt;
-&lt;p&gt;Macs come with capable GPUs. But GPUs in Linux VMs on macOS are the tough part. Most people, including me until recently, assume a Linux VM on macOS gets no graphics acceleration. There is no display attached, no X server, no desktop. Not even Docker supports GPU in containers on macOS!&lt;/p&gt;
+&lt;p&gt;Macs come with capable GPUs. But GPUs in Linux VMs on macOS are the tough part. Most people, including me until recently, assume a Linux VM on macOS gets no graphics acceleration. There is no display attached, no XServer, no desktop. Not even Docker supports GPU in containers on macOS!&lt;/p&gt;
 &lt;p&gt;Whether it is a browser application, or local LLM inference, a working GPU supplements any development environment for an autonomous agent. When an agent needs to run a model—llama.cpp (the C/C++ inference engine most local LLM tools are built on), Ollama (a model registry and local API server that wraps llama.cpp), anything that does on-device inference—that runtime uses the GPU. For an agent on the macOS host, this is straightforward: same machine, same GPU.&lt;/p&gt;
-&lt;p&gt;I want to run the agent inside a VM, fully isolated, so the harness cannot reach back into the host. The only way to keep that isolation and still have GPU compute available to the agent is to pass the GPU through the VM. The place where I have seen the mention of a Linux VM on macOS + the GPU was in Colima, the &lt;code&gt;colima model&lt;/code&gt; command. Since I knew it was possible, I wanted to figure out how to do this myself on Apple Silicon. This is the story of how that happened, and the chain of issues that made it possible.&lt;/p&gt;
+&lt;p&gt;I want to run the agent inside a VM, fully isolated, so the harness cannot reach back into the host. The only way to keep that isolation and still have GPU compute available to the agent is to pass the GPU through the VM. The place where I have seen the mention of a Linux VM on macOS + the GPU was in &lt;a href=&#34;https://colima.run/&#34;&gt;Colima&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, the &lt;code&gt;colima model&lt;/code&gt; command. Colima is a lightweight tool for running container runtimes like Docker on macOS and Linux. Finally, Colima builds on top of &lt;a href=&#34;https://github.com/lima-vm/lima&#34;&gt;Lima&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;, and Lima is a tool for running Linux VMs on macOS, originally written for container-style workflows.&lt;/p&gt;
+&lt;p&gt;Since I knew it was possible, I wanted to figure out how to do this myself on Apple Silicon. This is the story of how that happened, and the chain of issues that made it possible.&lt;/p&gt;
 &lt;p&gt;As a bonus, anything Vulkan works inside the guest. That is useful in its own right. Building or testing front-end apps that use GPU paths, for example. But it is not the main reason this exists.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/lima-vm/lima&#34;&gt;Lima&lt;/a&gt; is a tool for running Linux VMs on macOS, originally written for container-style workflows. This is not a job for Lima alone because Lima by default offers no GPU passthrough on macOS. It is also not a job for &lt;a href=&#34;https://www.qemu.org/&#34;&gt;QEMU&lt;/a&gt; VM—the most common open-source machine emulator and virtualizer, because QEMU on macOS does not get access to the GPU either. However, there is one gem out there. The one Colima uses: krunkit, a thin macOS frontend over libkrun. Likrun is the library that talks to Apple&amp;rsquo;s hypervisor.framework, the macOS API for creating and managing virtual machines. Krunkit is the only thing on this platform that exposes a virtio-gpu device (a virtual GPU that the guest sees as a virtio peripheral, with rendering offloaded to the host) backed by something useful on the host side. So:&lt;/p&gt;
+&lt;p&gt;This is not a job for Lima alone because Lima by default offers no GPU passthrough on macOS. It is also not a job for &lt;a href=&#34;https://www.qemu.org/&#34;&gt;QEMU&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; VM—the most common open-source machine emulator and virtualizer, because QEMU on macOS does not get access to the GPU either. However, there is a real gem out there. The one Colima uses: krunkit, a thin macOS frontend over libkrun. Likrun is the library that talks to Apple&amp;rsquo;s hypervisor.framework, the macOS API for creating and managing virtual machines. Krunkit is the only thing on this platform that exposes a virtio-gpu device (a virtual GPU that the guest sees as a virtio peripheral, with rendering offloaded to the host) backed by something useful on the host side.&lt;/p&gt;
 &lt;p&gt;I will need:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;krunkit on the host (Apple Silicon macOS).&lt;/li&gt;
@@ -76,6 +78,55 @@ Regarding emdash: any remaining, remain on purpose. Some some did not survive, a
 &lt;li&gt;the patch that fixed it.&lt;/li&gt;
 &lt;li&gt;the upstream fix that will eventually make the patch unnecessary.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;the-research-process&#34;&gt;the research process&lt;/h2&gt;
+&lt;p&gt;This execercise was executed using on-premise inference with human supervision.&lt;/p&gt;
+&lt;p&gt;The context for subsequent actions—agent, or human—leading to the discovery:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Agent: Identify how Colima does the &lt;code&gt;colima model&lt;/code&gt; command. Source code is available at &lt;a href=&#34;https://github.com/abiosoft/colima&#34;&gt;https://github.com/abiosoft/colima&lt;/a&gt;, clone it to a temp directory and investigate.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Resulted in correct identification of libkrun and krunkit.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Agent: Clone krunkit sources from &lt;a href=&#34;https://github.com/libkrun/krunkit&#34;&gt;https://github.com/libkrun/krunkit&lt;/a&gt; to a temp directory and explain how it enables the GPU on macOS.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Provided new context for the build process. It has learned how krunkit works.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Agent: Provide the simplest Lima VM configuration to try the GPU using previous learnings.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;The outcome was an initial version of the VM YAML configuration, and a set of commands to install all host tolls, and run the VM.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Human: The agent does not run code on the host.&lt;br&gt;
+Corrected configuration problems.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Krunkit-powered VM could be started with all tools required to perform the test Vulkam test. Vulkan error was identified here.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;In the VM:
+&lt;ul&gt;
+&lt;li&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Agent: you own this VM, you&amp;rsquo;re a sudoer, you have access to Chromium browser, you can perform GitHub searches, or navigate internet as you need. Run &lt;code&gt;vulkaninfo --summary&lt;/code&gt;, it produces an error message. Use all means necessary to find a solution. You can install any software you need. There is no time limit.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;The agent eventually came up with a working build.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The model is MiniMax-M3 Q8. Context windows size 256k tokens. Running over a single continuous session compacted a number of times at 95% fill-up rate. It took the agent a little bit over 15 hours to come up with the result.&lt;/p&gt;
 &lt;h2 id=&#34;background&#34;&gt;background&lt;/h2&gt;
 &lt;p&gt;The stack looks like this:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;┌──────────────────────────────────────────────────────────────────┐
@@ -109,13 +160,13 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;p&gt;Either way, no GPU. Stock Debian, Ubuntu, Fedora. All the same. This is a real problem because if you actually want to do anything Vulkan in a krunkit VM, you cannot use a stock image.&lt;/p&gt;
 &lt;p&gt;The investigation that produced the answer is documented in two issues on the krunkit repository, and the chain between them is short enough to read in order.&lt;/p&gt;
 &lt;h2 id=&#34;issue-102&#34;&gt;issue #102&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102&#34;&gt;&lt;code&gt;libkrun/krunkit#102&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; is the symptom report. A user runs &lt;code&gt;ghcr.io/ggml-org/llama.cpp:light-vulkan&lt;/code&gt; inside a krunkit VM. The container ships a recent Mesa. &lt;code&gt;vulkaninfo&lt;/code&gt; fails. No GPU is detected. The error is &lt;code&gt;vkCreateInstance failed with ERROR_OUT_OF_HOST_MEMORY&lt;/code&gt;. That&amp;rsquo;s exactly the error I have become intimate with.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102&#34;&gt;&lt;code&gt;libkrun/krunkit#102&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; is the symptom report. A user runs &lt;code&gt;ghcr.io/ggml-org/llama.cpp:light-vulkan&lt;/code&gt; inside a krunkit VM. The container ships a recent Mesa. &lt;code&gt;vulkaninfo&lt;/code&gt; fails. No GPU is detected. The error is &lt;code&gt;vkCreateInstance failed with ERROR_OUT_OF_HOST_MEMORY&lt;/code&gt;. That&amp;rsquo;s exactly the error I have become intimate with.&lt;/p&gt;
 &lt;p&gt;The user does all the right debugging. They check the capset (the capability set the host advertises over virtio-gpu to say which features it supports), the parameters, the protocol version. Venus negotiates fine. &lt;code&gt;VIRTGPU_PARAM_HOST_VISIBLE&lt;/code&gt; reports 1, i.e. yes, the host supports making blobs visible to both sides for sharing. The issue is closed by switching to a container image whose Mesa carries a downstream patch. The workaround exists. The root cause, at this point, is not pinned down.&lt;/p&gt;
 &lt;p&gt;This is where most investigations end. Someone finds a workaround, the issue is closed, life goes on.&lt;/p&gt;
 &lt;h2 id=&#34;the-comment-that-pointed-the-way&#34;&gt;the comment that pointed the way&lt;/h2&gt;
-&lt;p&gt;It did not end here because &lt;em&gt;@stewartjeacocke&lt;/em&gt; left a &lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380&#34;&gt;one-line comment&lt;/a&gt;&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; on issue #102:&lt;/p&gt;
+&lt;p&gt;It did not end here because &lt;em&gt;@stewartjeacocke&lt;/em&gt; left a &lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380&#34;&gt;one-line comment&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; on issue #102:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;I believe the root cause of this may be &lt;a href=&#34;https://github.com/libkrun/krunkit/issues/114&#34;&gt;&lt;code&gt;libkrun/krunkit#114&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;I believe the root cause of this may be &lt;a href=&#34;https://github.com/libkrun/krunkit/issues/114&#34;&gt;&lt;code&gt;libkrun/krunkit#114&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;This single sentence changes everything.&lt;/p&gt;
 &lt;h2 id=&#34;the-root-cause&#34;&gt;the root cause&lt;/h2&gt;
@@ -124,7 +175,7 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;p&gt;The author of #114 includes a self-contained C reproducer that walks a list of sizes and shows the exact failure pattern. Sizes that are multiples of &lt;code&gt;16384&lt;/code&gt; work. Sizes that are not, do not. It does not matter what the guest&amp;rsquo;s page size is and what the protocol says. The host is imposing an undocumented requirement and reporting it as a generic &lt;code&gt;ErrUnspec&lt;/code&gt; (the libkrun catch-all error variant), which surfaces to userspace as a bare &lt;code&gt;EINVAL&lt;/code&gt; with no indication of the cause.&lt;/p&gt;
 &lt;p&gt;Not much to add to that analysis.&lt;/p&gt;
 &lt;h2 id=&#34;the-fix&#34;&gt;the fix&lt;/h2&gt;
-&lt;p&gt;The fix lives in slp&amp;rsquo;s downstream Mesa fork, in commit &lt;a href=&#34;https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549&#34;&gt;&lt;code&gt;761ef1ec&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;. It does exactly what the issue title suggests: it forces Venus allocations to be multiples of &lt;code&gt;16384&lt;/code&gt;. The change is in four call sites:&lt;/p&gt;
+&lt;p&gt;The fix lives in slp&amp;rsquo;s downstream Mesa fork, in commit &lt;a href=&#34;https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549&#34;&gt;&lt;code&gt;761ef1ec&lt;/code&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;. It does exactly what the issue title suggests: it forces Venus allocations to be multiples of &lt;code&gt;16384&lt;/code&gt;. The change is in four call sites:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;src/virtio/vulkan/vn_device_memory.c&lt;/code&gt; — &lt;code&gt;vn_device_memory_alloc_simple&lt;/code&gt; aligns the allocation size up to 16384.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;src/virtio/vulkan/vn_renderer_virtgpu.c&lt;/code&gt; — &lt;code&gt;virtgpu_bo_create_from_device_memory&lt;/code&gt; and &lt;code&gt;virtgpu_shmem_create&lt;/code&gt; align their sizes up.&lt;/li&gt;
@@ -447,7 +498,7 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;/ul&gt;
 &lt;p&gt;The recipe is a bit fragile, it&amp;rsquo;s probably wise to hold forks of all dependencies. There is the Mesa patch that is not in upstream Mesa. And there is the virglrenderer version that is not in upstream Homebrew.&lt;/p&gt;
 &lt;h2 id=&#34;the-upstream-solution&#34;&gt;the upstream solution&lt;/h2&gt;
-&lt;p&gt;Hardcoding &lt;code&gt;16384&lt;/code&gt; is a workaround for an undocumented host-side requirement. The proper fix landed in upstream Mesa as &lt;a href=&#34;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&#34;&gt;MR #44783 &lt;em&gt;&amp;ldquo;venus: honor the virtio-gpu blob alignment&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;, merged on 2026-09-28 by Matthew Periut.&lt;/p&gt;
+&lt;p&gt;Hardcoding &lt;code&gt;16384&lt;/code&gt; is a workaround for an undocumented host-side requirement. The proper fix landed in upstream Mesa as a merge request &lt;a href=&#34;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&#34;&gt;MR #44783 &lt;em&gt;&amp;ldquo;venus: honor the virtio-gpu blob alignment&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;, merged on 2026-09-28 by Matthew Periut.&lt;/p&gt;
 &lt;p&gt;Instead of hardcoding &lt;code&gt;16384&lt;/code&gt;, MR #44783 queries the kernel for &lt;code&gt;VIRTGPU_PARAM_BLOB_ALIGNMENT&lt;/code&gt;—a new parameter added in Linux 7.2—and rounds blob sizes up to whatever the kernel reports. On hosts without that parameter it falls back to 1, i.e. no rounding. The change is a no-op on every other platform.&lt;/p&gt;
 &lt;p&gt;The implementation is a single hunk in &lt;code&gt;vn_renderer_virtgpu.c&lt;/code&gt;. It is much smaller than the slp downstream patch because it does not hardcode anything. It just listens to the kernel.&lt;/p&gt;
 &lt;p&gt;This is the kind of fix that makes the slp downstream patch obsolete eventually. The downstream patch exists because, at the time, the kernel did not advertise its alignment requirement. Once both Mesa and the kernel are new enough, the patches for those new versions aren&amp;rsquo;t required anymore.&lt;/p&gt;
@@ -465,19 +516,28 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id=&#34;fn:1&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102&#34;&gt;https://github.com/libkrun/krunkit/issues/102&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://colima.run/&#34;&gt;Colima&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:2&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380&#34;&gt;https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/lima-vm/lima&#34;&gt;Lima&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:3&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/114&#34;&gt;https://github.com/libkrun/krunkit/issues/114&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.qemu.org/&#34;&gt;QEMU&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:4&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549&#34;&gt;https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102&#34;&gt;&lt;code&gt;libkrun/krunkit#102&lt;/code&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id=&#34;fn:5&#34;&gt;
-&lt;p&gt;&lt;a href=&#34;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&#34;&gt;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380&#34;&gt;The One-Line Comment&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/krunkit/issues/114&#34;&gt;https://github.com/libkrun/krunkit/issues/114&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549&#34;&gt;https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&#34;&gt;MR #44783 &lt;em&gt;&amp;ldquo;venus: honor the virtio-gpu blob alignment&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;

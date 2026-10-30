@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+<html lang="en" >
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
     <meta name="generator" content="Hugo 0.169.0"><meta name="theme-color" content="#fff" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.4424cdd0b18f6756065b96014474fe67611675b5e5cf63462b9fe0ac9a2c27d3.js"></script>
 
     
 
@@ -55,13 +55,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2026-10-30T00:00:00+00:00",
-        "dateModified": "2026-10-30T21:01:17+01:00",
+        "dateModified": "2026-10-31T00:54:29+01:00",
         "url": "https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/",
         "headline": "GPU in a Linux VM on Apple Silicon",
         "description": "making Vulkan enumerate inside a krunkit VM",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  3172 ,
+        "wordCount":  3475 ,
         "image": "https://gruchalski.com/icons/apple-touch-icon.png",
         "author": {
             "@type": "Person",
@@ -103,7 +103,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-10-30T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2026-10-30T21:01:17&#43;01:00" />
+    <meta property="article:modified_time" content="2026-10-31T00:54:29&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -113,18 +113,20 @@
     
 
     
-    <script async 
-        src="https://analytics.svcs.sh/script.js"
-        data-website-id="791140b3-1642-400d-82b9-6adcd1095688"
-        data-do-not-track="true"
-        data-domains="gruchalski.com"></script>
+    
+    <script async src="https://plausible.io/js/pa-Q7suXlpMcy8Y7G-Gz4MfA.js"></script>
+    <script>
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init()
+    </script>
 
     
 </head>
 
-    <body>
-        <div class="container">
-            
+
+<body>
+    <div class="container">
+        
     <header class="header">
         
             <div class="header-wrapper">
@@ -196,8 +198,8 @@
 
 
 
-            
-            
+        
+        
     <main class="main single" id="main">
     <div class="main-inner">
 
@@ -231,11 +233,11 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3172</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3475</span>
     
     
         
-        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;15&nbsp;mins</span>
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;17&nbsp;mins</span>
     
     
     
@@ -249,13 +251,14 @@
               <p>I have been running the pi coding agent (a CLI that drives an LLM to read code, edit files, run commands) in a Linux VM on Apple Silicon for a while now. For an agent, to write working software operarting in real world, the agent must have the freedom to navigate in said world. More complex tasks, for example browser applications or extensions, require the agent to operate the software, like we do. Writing a Kubernetes operator is the best done when the agent can run what it&rsquo;s building in a real Kubernetes cluster. It needs to trip over the hurdles on its own, like we do.</p>
 <blockquote>
 <p>From the coauthor: This was written by an LLM under my guidance.<br>
-Regarding emdash: any remaining, remain on purpose. Some some did not survive, and some have been added.</p>
+Regarding emdash: any remaining, remain on purpose. Some did not survive, and some have been added.</p>
 </blockquote>
 <div>
     <h2>table of contents</h2>
     <nav id="TableOfContents">
   <ol>
     <li><a href="#give-em-all">give &rsquo;em all</a></li>
+    <li><a href="#the-research-process">the research process</a></li>
     <li><a href="#background">background</a></li>
     <li><a href="#the-symptom">the symptom</a></li>
     <li><a href="#issue-102">issue #102</a></li>
@@ -271,11 +274,12 @@ Regarding emdash: any remaining, remain on purpose. Some some did not survive, a
 </nav>
 </div>
 <h2 id="give-em-all"><a href="#give-em-all" class="anchor-link">§</a>give &rsquo;em all</h2>
-<p>Macs come with capable GPUs. But GPUs in Linux VMs on macOS are the tough part. Most people, including me until recently, assume a Linux VM on macOS gets no graphics acceleration. There is no display attached, no X server, no desktop. Not even Docker supports GPU in containers on macOS!</p>
+<p>Macs come with capable GPUs. But GPUs in Linux VMs on macOS are the tough part. Most people, including me until recently, assume a Linux VM on macOS gets no graphics acceleration. There is no display attached, no XServer, no desktop. Not even Docker supports GPU in containers on macOS!</p>
 <p>Whether it is a browser application, or local LLM inference, a working GPU supplements any development environment for an autonomous agent. When an agent needs to run a model—llama.cpp (the C/C++ inference engine most local LLM tools are built on), Ollama (a model registry and local API server that wraps llama.cpp), anything that does on-device inference—that runtime uses the GPU. For an agent on the macOS host, this is straightforward: same machine, same GPU.</p>
-<p>I want to run the agent inside a VM, fully isolated, so the harness cannot reach back into the host. The only way to keep that isolation and still have GPU compute available to the agent is to pass the GPU through the VM. The place where I have seen the mention of a Linux VM on macOS + the GPU was in Colima, the <code>colima model</code> command. Since I knew it was possible, I wanted to figure out how to do this myself on Apple Silicon. This is the story of how that happened, and the chain of issues that made it possible.</p>
+<p>I want to run the agent inside a VM, fully isolated, so the harness cannot reach back into the host. The only way to keep that isolation and still have GPU compute available to the agent is to pass the GPU through the VM. The place where I have seen the mention of a Linux VM on macOS + the GPU was in <a href="https://colima.run/" target="_blank" rel="noopener">Colima</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>, the <code>colima model</code> command. Colima is a lightweight tool for running container runtimes like Docker on macOS and Linux. Finally, Colima builds on top of <a href="https://github.com/lima-vm/lima" target="_blank" rel="noopener">Lima</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup>, and Lima is a tool for running Linux VMs on macOS, originally written for container-style workflows.</p>
+<p>Since I knew it was possible, I wanted to figure out how to do this myself on Apple Silicon. This is the story of how that happened, and the chain of issues that made it possible.</p>
 <p>As a bonus, anything Vulkan works inside the guest. That is useful in its own right. Building or testing front-end apps that use GPU paths, for example. But it is not the main reason this exists.</p>
-<p><a href="https://github.com/lima-vm/lima" target="_blank" rel="noopener">Lima</a> is a tool for running Linux VMs on macOS, originally written for container-style workflows. This is not a job for Lima alone because Lima by default offers no GPU passthrough on macOS. It is also not a job for <a href="https://www.qemu.org/" target="_blank" rel="noopener">QEMU</a> VM—the most common open-source machine emulator and virtualizer, because QEMU on macOS does not get access to the GPU either. However, there is one gem out there. The one Colima uses: krunkit, a thin macOS frontend over libkrun. Likrun is the library that talks to Apple&rsquo;s hypervisor.framework, the macOS API for creating and managing virtual machines. Krunkit is the only thing on this platform that exposes a virtio-gpu device (a virtual GPU that the guest sees as a virtio peripheral, with rendering offloaded to the host) backed by something useful on the host side. So:</p>
+<p>This is not a job for Lima alone because Lima by default offers no GPU passthrough on macOS. It is also not a job for <a href="https://www.qemu.org/" target="_blank" rel="noopener">QEMU</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup> VM—the most common open-source machine emulator and virtualizer, because QEMU on macOS does not get access to the GPU either. However, there is a real gem out there. The one Colima uses: krunkit, a thin macOS frontend over libkrun. Likrun is the library that talks to Apple&rsquo;s hypervisor.framework, the macOS API for creating and managing virtual machines. Krunkit is the only thing on this platform that exposes a virtio-gpu device (a virtual GPU that the guest sees as a virtio peripheral, with rendering offloaded to the host) backed by something useful on the host side.</p>
 <p>I will need:</p>
 <ul>
 <li>krunkit on the host (Apple Silicon macOS).</li>
@@ -293,6 +297,55 @@ Regarding emdash: any remaining, remain on purpose. Some some did not survive, a
 <li>the patch that fixed it.</li>
 <li>the upstream fix that will eventually make the patch unnecessary.</li>
 </ul>
+<h2 id="the-research-process"><a href="#the-research-process" class="anchor-link">§</a>the research process</h2>
+<p>This execercise was executed using on-premise inference with human supervision.</p>
+<p>The context for subsequent actions—agent, or human—leading to the discovery:</p>
+<ul>
+<li>
+<blockquote>
+<p>Agent: Identify how Colima does the <code>colima model</code> command. Source code is available at <a href="https://github.com/abiosoft/colima" target="_blank" rel="noopener">https://github.com/abiosoft/colima</a>, clone it to a temp directory and investigate.</p>
+</blockquote>
+<ul>
+<li>Resulted in correct identification of libkrun and krunkit.</li>
+</ul>
+</li>
+<li>
+<blockquote>
+<p>Agent: Clone krunkit sources from <a href="https://github.com/libkrun/krunkit" target="_blank" rel="noopener">https://github.com/libkrun/krunkit</a> to a temp directory and explain how it enables the GPU on macOS.</p>
+</blockquote>
+<ul>
+<li>Provided new context for the build process. It has learned how krunkit works.</li>
+</ul>
+</li>
+<li>
+<blockquote>
+<p>Agent: Provide the simplest Lima VM configuration to try the GPU using previous learnings.</p>
+</blockquote>
+<ul>
+<li>The outcome was an initial version of the VM YAML configuration, and a set of commands to install all host tolls, and run the VM.</li>
+</ul>
+</li>
+<li>
+<blockquote>
+<p>Human: The agent does not run code on the host.<br>
+Corrected configuration problems.</p>
+</blockquote>
+<ul>
+<li>Krunkit-powered VM could be started with all tools required to perform the test Vulkam test. Vulkan error was identified here.</li>
+</ul>
+</li>
+<li>In the VM:
+<ul>
+<li>
+<blockquote>
+<p>Agent: you own this VM, you&rsquo;re a sudoer, you have access to Chromium browser, you can perform GitHub searches, or navigate internet as you need. Run <code>vulkaninfo --summary</code>, it produces an error message. Use all means necessary to find a solution. You can install any software you need. There is no time limit.</p>
+</blockquote>
+</li>
+<li>The agent eventually came up with a working build.</li>
+</ul>
+</li>
+</ul>
+<p>The model is MiniMax-M3 Q8. Context windows size 256k tokens. Running over a single continuous session compacted a number of times at 95% fill-up rate. It took the agent a little bit over 15 hours to come up with the result.</p>
 <h2 id="background"><a href="#background" class="anchor-link">§</a>background</h2>
 <p>The stack looks like this:</p>
 <pre tabindex="0"><code>┌──────────────────────────────────────────────────────────────────┐
@@ -326,13 +379,13 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 <p>Either way, no GPU. Stock Debian, Ubuntu, Fedora. All the same. This is a real problem because if you actually want to do anything Vulkan in a krunkit VM, you cannot use a stock image.</p>
 <p>The investigation that produced the answer is documented in two issues on the krunkit repository, and the chain between them is short enough to read in order.</p>
 <h2 id="issue-102"><a href="#issue-102" class="anchor-link">§</a>issue #102</h2>
-<p><a href="https://github.com/libkrun/krunkit/issues/102" target="_blank" rel="noopener"><code>libkrun/krunkit#102</code></a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> is the symptom report. A user runs <code>ghcr.io/ggml-org/llama.cpp:light-vulkan</code> inside a krunkit VM. The container ships a recent Mesa. <code>vulkaninfo</code> fails. No GPU is detected. The error is <code>vkCreateInstance failed with ERROR_OUT_OF_HOST_MEMORY</code>. That&rsquo;s exactly the error I have become intimate with.</p>
+<p><a href="https://github.com/libkrun/krunkit/issues/102" target="_blank" rel="noopener"><code>libkrun/krunkit#102</code></a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup> is the symptom report. A user runs <code>ghcr.io/ggml-org/llama.cpp:light-vulkan</code> inside a krunkit VM. The container ships a recent Mesa. <code>vulkaninfo</code> fails. No GPU is detected. The error is <code>vkCreateInstance failed with ERROR_OUT_OF_HOST_MEMORY</code>. That&rsquo;s exactly the error I have become intimate with.</p>
 <p>The user does all the right debugging. They check the capset (the capability set the host advertises over virtio-gpu to say which features it supports), the parameters, the protocol version. Venus negotiates fine. <code>VIRTGPU_PARAM_HOST_VISIBLE</code> reports 1, i.e. yes, the host supports making blobs visible to both sides for sharing. The issue is closed by switching to a container image whose Mesa carries a downstream patch. The workaround exists. The root cause, at this point, is not pinned down.</p>
 <p>This is where most investigations end. Someone finds a workaround, the issue is closed, life goes on.</p>
 <h2 id="the-comment-that-pointed-the-way"><a href="#the-comment-that-pointed-the-way" class="anchor-link">§</a>the comment that pointed the way</h2>
-<p>It did not end here because <em>@stewartjeacocke</em> left a <a href="https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380" target="_blank" rel="noopener">one-line comment</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> on issue #102:</p>
+<p>It did not end here because <em>@stewartjeacocke</em> left a <a href="https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380" target="_blank" rel="noopener">one-line comment</a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup> on issue #102:</p>
 <blockquote>
-<p>I believe the root cause of this may be <a href="https://github.com/libkrun/krunkit/issues/114" target="_blank" rel="noopener"><code>libkrun/krunkit#114</code></a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</p>
+<p>I believe the root cause of this may be <a href="https://github.com/libkrun/krunkit/issues/114" target="_blank" rel="noopener"><code>libkrun/krunkit#114</code></a><sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">[6]</a></sup>.</p>
 </blockquote>
 <p>This single sentence changes everything.</p>
 <h2 id="the-root-cause"><a href="#the-root-cause" class="anchor-link">§</a>the root cause</h2>
@@ -341,7 +394,7 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 <p>The author of #114 includes a self-contained C reproducer that walks a list of sizes and shows the exact failure pattern. Sizes that are multiples of <code>16384</code> work. Sizes that are not, do not. It does not matter what the guest&rsquo;s page size is and what the protocol says. The host is imposing an undocumented requirement and reporting it as a generic <code>ErrUnspec</code> (the libkrun catch-all error variant), which surfaces to userspace as a bare <code>EINVAL</code> with no indication of the cause.</p>
 <p>Not much to add to that analysis.</p>
 <h2 id="the-fix"><a href="#the-fix" class="anchor-link">§</a>the fix</h2>
-<p>The fix lives in slp&rsquo;s downstream Mesa fork, in commit <a href="https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549" target="_blank" rel="noopener"><code>761ef1ec</code></a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>. It does exactly what the issue title suggests: it forces Venus allocations to be multiples of <code>16384</code>. The change is in four call sites:</p>
+<p>The fix lives in slp&rsquo;s downstream Mesa fork, in commit <a href="https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549" target="_blank" rel="noopener"><code>761ef1ec</code></a><sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">[7]</a></sup>. It does exactly what the issue title suggests: it forces Venus allocations to be multiples of <code>16384</code>. The change is in four call sites:</p>
 <ul>
 <li><code>src/virtio/vulkan/vn_device_memory.c</code> — <code>vn_device_memory_alloc_simple</code> aligns the allocation size up to 16384.</li>
 <li><code>src/virtio/vulkan/vn_renderer_virtgpu.c</code> — <code>virtgpu_bo_create_from_device_memory</code> and <code>virtgpu_shmem_create</code> align their sizes up.</li>
@@ -664,7 +717,7 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 </ul>
 <p>The recipe is a bit fragile, it&rsquo;s probably wise to hold forks of all dependencies. There is the Mesa patch that is not in upstream Mesa. And there is the virglrenderer version that is not in upstream Homebrew.</p>
 <h2 id="the-upstream-solution"><a href="#the-upstream-solution" class="anchor-link">§</a>the upstream solution</h2>
-<p>Hardcoding <code>16384</code> is a workaround for an undocumented host-side requirement. The proper fix landed in upstream Mesa as <a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783" target="_blank" rel="noopener">MR #44783 <em>&ldquo;venus: honor the virtio-gpu blob alignment&rdquo;</em></a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup>, merged on 2026-09-28 by Matthew Periut.</p>
+<p>Hardcoding <code>16384</code> is a workaround for an undocumented host-side requirement. The proper fix landed in upstream Mesa as a merge request <a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783" target="_blank" rel="noopener">MR #44783 <em>&ldquo;venus: honor the virtio-gpu blob alignment&rdquo;</em></a><sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">[8]</a></sup>, merged on 2026-09-28 by Matthew Periut.</p>
 <p>Instead of hardcoding <code>16384</code>, MR #44783 queries the kernel for <code>VIRTGPU_PARAM_BLOB_ALIGNMENT</code>—a new parameter added in Linux 7.2—and rounds blob sizes up to whatever the kernel reports. On hosts without that parameter it falls back to 1, i.e. no rounding. The change is a no-op on every other platform.</p>
 <p>The implementation is a single hunk in <code>vn_renderer_virtgpu.c</code>. It is much smaller than the slp downstream patch because it does not hardcode anything. It just listens to the kernel.</p>
 <p>This is the kind of fix that makes the slp downstream patch obsolete eventually. The downstream patch exists because, at the time, the kernel did not advertise its alignment requirement. Once both Mesa and the kernel are new enough, the patches for those new versions aren&rsquo;t required anymore.</p>
@@ -682,19 +735,28 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 <hr>
 <ol>
 <li id="fn:1">
-<p><a href="https://github.com/libkrun/krunkit/issues/102" target="_blank" rel="noopener">https://github.com/libkrun/krunkit/issues/102</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://colima.run/" target="_blank" rel="noopener">Colima</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:2">
-<p><a href="https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380" target="_blank" rel="noopener">https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/lima-vm/lima" target="_blank" rel="noopener">Lima</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:3">
-<p><a href="https://github.com/libkrun/krunkit/issues/114" target="_blank" rel="noopener">https://github.com/libkrun/krunkit/issues/114</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://www.qemu.org/" target="_blank" rel="noopener">QEMU</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:4">
-<p><a href="https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549" target="_blank" rel="noopener">https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/libkrun/krunkit/issues/102" target="_blank" rel="noopener"><code>libkrun/krunkit#102</code></a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 <li id="fn:5">
-<p><a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783" target="_blank" rel="noopener">https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+<p><a href="https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380" target="_blank" rel="noopener">The One-Line Comment</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:6">
+<p><a href="https://github.com/libkrun/krunkit/issues/114" target="_blank" rel="noopener">https://github.com/libkrun/krunkit/issues/114</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:7">
+<p><a href="https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549" target="_blank" rel="noopener">https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:8">
+<p><a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783" target="_blank" rel="noopener">MR #44783 <em>&ldquo;venus: honor the virtio-gpu blob alignment&rdquo;</em></a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
 </li>
 </ol>
 </div>
@@ -855,7 +917,6 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 
         
 
-
         
     
         
@@ -883,29 +944,28 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 </main>
 
 
-            
+        
     <div id="back-to-top" class="back-to-top">
         <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
     </div>
 
 
-            
+        
     <footer id="footer" class="footer">
         <div class="footer-inner">
             <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
 
             
-    
-        <ul class="socials"><li class="socials-item">
-                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
-                </li><li class="socials-item">
-                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
-                </li><li class="socials-item">
-                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
-                </li><li class="socials-item">
-                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
-                </li></ul>
-    
+
+<ul class="socials"><li class="socials-item">
+        <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+    </li><li class="socials-item">
+        <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+    </li><li class="socials-item">
+        <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    </li><li class="socials-item">
+        <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+    </li></ul>
 
 
 
@@ -914,10 +974,10 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
     </footer>
 
 
-        </div>
-        
+    </div>
+    
 
-        
+    
 
 
 
@@ -945,5 +1005,6 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 
 
 
-    </body>
+</body>
+
 </html>
