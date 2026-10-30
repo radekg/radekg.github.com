@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.157.0"><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.169.0"><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -55,7 +55,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2022-03-19T00:00:00+00:00",
-        "dateModified": "2023-07-04T23:40:31+02:00",
+        "dateModified": "2026-10-30T00:23:25+01:00",
         "url": "https://gruchalski.com/posts/2022-03-19-yugabytedb-cdc-sdk-beta-a-high-level-overview/",
         "headline": "YugabyteDB CDC SDK beta, a high level overview",
         "description": "an overview of the all-new CDC SDK beta",
@@ -103,7 +103,7 @@
 <meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
         <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2022-03-19T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2023-07-04T23:40:31&#43;02:00" />
+    <meta property="article:modified_time" content="2026-10-30T00:23:25&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -265,13 +265,13 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.11.2/src/yb/cdc/cdc_service.proto#L165
-</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CDCRecordPB</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="kd">enum</span> <span class="n">OperationType</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">WRITE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">DELETE</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">APPLY</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="p">}</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CDCRecordPB</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">enum</span> <span class="n">OperationType</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WRITE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DELETE</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">APPLY</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ...
 </span></span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>For majority of the use cases, this might be sufficient but certain operations aren&rsquo;t possible:</p>
@@ -306,22 +306,22 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L47
-</span></span></span><span class="line"><span class="cl"><span class="kd">service</span> <span class="n">CDCService</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">CreateCDCStream</span> <span class="p">(</span><span class="n">CreateCDCStreamRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">CreateCDCStreamResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">DeleteCDCStream</span> <span class="p">(</span><span class="n">DeleteCDCStreamRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">DeleteCDCStreamResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">ListTablets</span> <span class="p">(</span><span class="n">ListTabletsRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">ListTabletsResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">GetChanges</span> <span class="p">(</span><span class="n">GetChangesRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetChangesResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">GetCheckpoint</span> <span class="p">(</span><span class="n">GetCheckpointRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetCheckpointResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">UpdateCdcReplicatedIndex</span> <span class="p">(</span><span class="n">UpdateCdcReplicatedIndexRequestPB</span><span class="p">)</span><span class="err">
-</span></span></span><span class="line"><span class="cl">      <span class="k">returns</span> <span class="p">(</span><span class="n">UpdateCdcReplicatedIndexResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">BootstrapProducer</span> <span class="p">(</span><span class="n">BootstrapProducerRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">BootstrapProducerResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">GetLatestEntryOpId</span> <span class="p">(</span><span class="n">GetLatestEntryOpIdRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetLatestEntryOpIdResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">GetCDCDBStreamInfo</span> <span class="p">(</span><span class="n">GetCDCDBStreamInfoRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetCDCDBStreamInfoResponsePB</span><span class="p">);</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">rpc</span> <span class="n">SetCDCCheckpoint</span> <span class="p">(</span><span class="n">SetCDCCheckpointRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">SetCDCCheckpointResponsePB</span><span class="p">)</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.trivial</span><span class="p">)</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="p">};</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl"><span class="kd">service</span> <span class="n">CDCService</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">CreateCDCStream</span> <span class="p">(</span><span class="n">CreateCDCStreamRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">CreateCDCStreamResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">DeleteCDCStream</span> <span class="p">(</span><span class="n">DeleteCDCStreamRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">DeleteCDCStreamResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">ListTablets</span> <span class="p">(</span><span class="n">ListTabletsRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">ListTabletsResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">GetChanges</span> <span class="p">(</span><span class="n">GetChangesRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetChangesResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">GetCheckpoint</span> <span class="p">(</span><span class="n">GetCheckpointRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetCheckpointResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">UpdateCdcReplicatedIndex</span> <span class="p">(</span><span class="n">UpdateCdcReplicatedIndexRequestPB</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="k">returns</span> <span class="p">(</span><span class="n">UpdateCdcReplicatedIndexResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">BootstrapProducer</span> <span class="p">(</span><span class="n">BootstrapProducerRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">BootstrapProducerResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">GetLatestEntryOpId</span> <span class="p">(</span><span class="n">GetLatestEntryOpIdRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetLatestEntryOpIdResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">GetCDCDBStreamInfo</span> <span class="p">(</span><span class="n">GetCDCDBStreamInfoRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">GetCDCDBStreamInfoResponsePB</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">rpc</span> <span class="n">SetCDCCheckpoint</span> <span class="p">(</span><span class="n">SetCDCCheckpointRequestPB</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">SetCDCCheckpointResponsePB</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">option</span> <span class="p">(</span><span class="n">yb.rpc.trivial</span><span class="p">)</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>This doesn&rsquo;t look much different from the previous version. There are a couple of new operations and some request and response types contain new SDK-specific fields.</p>
 <p>An example, there is a single <code>CreateCDCStream</code> method taking the <code>CreateCDCStreamRequestPB</code> argument known from the previous incarnation. However, the request argument contains some new capabilities.</p>
@@ -373,12 +373,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L124
-</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CreateCDCStreamResponsePB</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">stream_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">db_stream_id</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CreateCDCStreamResponsePB</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCErrorPB</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">stream_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">db_stream_id</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><h3 id="consuming-the-stream"><a href="#consuming-the-stream" class="anchor-link">§</a>consuming the stream</h3>
 <p>As with the original CDC, to consume a stream, we have to call the <code>GetChanges</code> operation. The <code>GetChangesRequestPB</code> type looks like this in 2.13:</p>
@@ -409,28 +409,28 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L178
-</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">GetChangesRequestPB</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">stream_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// Tablet to get the changes for.
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">tablet_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// Checkpoint to start reading from (exclusive).
+</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">GetChangesRequestPB</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">stream_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// Tablet to get the changes for.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">tablet_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Checkpoint to start reading from (exclusive).
 </span></span></span><span class="line"><span class="cl">  <span class="c1">// Start reading from the first record after this checkpoint.
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCCheckpointPB</span> <span class="n">from_checkpoint</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// Maximum records to read.
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">max_records</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// Whether the caller knows the tablet address or needs to use us as a proxy.
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bool</span> <span class="n">serve_as_proxy</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="kc">true</span><span class="p">];</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">db_stream_id</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">table_id</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCSDKCheckpointPB</span> <span class="n">from_cdc_sdk_checkpoint</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCCheckpointPB</span> <span class="n">from_checkpoint</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Maximum records to read.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">max_records</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Whether the caller knows the tablet address or needs to use us as a proxy.
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bool</span> <span class="n">serve_as_proxy</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="kc">true</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">db_stream_id</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">table_id</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCSDKCheckpointPB</span> <span class="n">from_cdc_sdk_checkpoint</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>Most interesting fields:</p>
 <ul>
@@ -459,12 +459,12 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/master/master_types.proto#L22
-</span></span></span><span class="line"><span class="cl"><span class="kd">enum</span> <span class="n">RelationType</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="n">SYSTEM_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="n">USER_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="n">INDEX_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl"><span class="kd">enum</span> <span class="n">RelationType</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">SYSTEM_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">USER_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">INDEX_TABLE_RELATION</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>For each discovered table, we list its tablets using the master service <code>GetTableLocations</code> RPC call. As a result, we have a list of all tablet IDs we want to consume from.</p>
 <p>There will be one consumer per tablet.</p>
@@ -489,18 +489,18 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L162
-</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CDCSDKCheckpointPB</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">int64</span> <span class="n">term</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">int64</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// write_id, key which is the reverse_index_iterator are used to resume from partially
+</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CDCSDKCheckpointPB</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">int64</span> <span class="n">term</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">int64</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// write_id, key which is the reverse_index_iterator are used to resume from partially
 </span></span></span><span class="line"><span class="cl">  <span class="c1">// streamed intents when the number of intents to be streamed are more than the intent max batch
 </span></span></span><span class="line"><span class="cl">  <span class="c1">// size
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">key</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">int32</span> <span class="n">write_id</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="mi">0</span><span class="p">];</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// snapshot_time is used in the context of bootstrap process
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint64</span> <span class="n">snapshot_time</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span> <span class="n">key</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">int32</span> <span class="n">write_id</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// snapshot_time is used in the context of bootstrap process
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint64</span> <span class="n">snapshot_time</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The <code>write_id</code> is the order of changes within a <em>multi-statement</em> transaction and does not make sense when <code>key</code> is <code>null</code>.</p>
 <p>I&rsquo;m not sure what&rsquo;s <code>snapshot_time</code> for. Something to investigate further, <a href="https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/ent/src/yb/cdc/cdcsdk_producer.cc#L560-L828" target="_blank" rel="noopener">snapshot handling is here</a><sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">[8]</a></sup>.</p>
@@ -563,13 +563,13 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L355
-</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CDCSDKProtoRecordPB</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">RowMessage</span> <span class="n">row_message</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// Op id information to identify duplicate entries
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCSDKOpIdPB</span> <span class="n">cdc_sdk_op_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">CDCSDKProtoRecordPB</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">RowMessage</span> <span class="n">row_message</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Op id information to identify duplicate entries
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCSDKOpIdPB</span> <span class="n">cdc_sdk_op_id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>where a row message is:</p>
 <div class="highlight"><div class="chroma">
@@ -613,42 +613,42 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-proto" data-lang="proto"><span class="line"><span class="cl"><span class="c1">// https://github.com/yugabyte/yugabyte-db/blob/v2.13.0/src/yb/cdc/cdc_service.proto#L319
-</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">RowMessage</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="kd">enum</span> <span class="n">Op</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">UNKNOWN</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">INSERT</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">UPDATE</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">DELETE</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">BEGIN</span>    <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">COMMIT</span>   <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">DDL</span>      <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">TRUNCATE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">    <span class="n">READ</span>     <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="p">}</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span>  <span class="n">transaction_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint64</span> <span class="n">commit_time</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">string</span> <span class="n">table</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">Op</span> <span class="n">op</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">repeated</span> <span class="n">DatumMessagePB</span> <span class="n">new_tuple</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">repeated</span> <span class="n">DatumMessagePB</span> <span class="n">old_tuple</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">repeated</span> <span class="n">TypeInfo</span> <span class="n">new_typeinfo</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// Schema information used in case of DDL
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCSDKSchemaPB</span> <span class="n">schema</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// Schema version
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">schema_version</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// New table name, used in the case of rename table
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">string</span> <span class="n">new_table_name</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">string</span> <span class="n">pgschema_name</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl">  <span class="c1">// truncate info
-</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">yb.tserver.TruncateRequestPB</span> <span class="n">truncate_request_info</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table></div>
+</span></span></span><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">RowMessage</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">enum</span> <span class="n">Op</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UNKNOWN</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">INSERT</span>   <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UPDATE</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DELETE</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BEGIN</span>    <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">COMMIT</span>   <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DDL</span>      <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TRUNCATE</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">READ</span>     <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">bytes</span>  <span class="n">transaction_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint64</span> <span class="n">commit_time</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">string</span> <span class="n">table</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">Op</span> <span class="n">op</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">repeated</span> <span class="n">DatumMessagePB</span> <span class="n">new_tuple</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">repeated</span> <span class="n">DatumMessagePB</span> <span class="n">old_tuple</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">repeated</span> <span class="n">TypeInfo</span> <span class="n">new_typeinfo</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Schema information used in case of DDL
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">CDCSDKSchemaPB</span> <span class="n">schema</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Schema version
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">uint32</span> <span class="n">schema_version</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// New table name, used in the case of rename table
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">string</span> <span class="n">new_table_name</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="kt">string</span> <span class="n">pgschema_name</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// truncate info
+</span></span></span><span class="line"><span class="cl">  <span class="k">optional</span> <span class="n">yb.tserver.TruncateRequestPB</span> <span class="n">truncate_request_info</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table></div>
 </div>
 </div><p>The inline <code>Op</code> identifies the type of the operation. This is where the CDC SDK shows its biggest difference from the original CDC solution. The CDC SDK provides additional context for DDL events, table truncation events, and transaction state. The <code>YugabyteDBStreamingChangeEventSource.getChanges2(...)</code> Debezium connector method mentioned earlier is a reference for event processing.</p>
 <p>There are three groups of messages:</p>

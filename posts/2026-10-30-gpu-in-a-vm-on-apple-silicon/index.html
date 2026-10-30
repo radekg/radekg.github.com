@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.169.0"><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>GPU in a Linux VM on Apple Silicon | gruchalski.com</title>
+
+    <link rel="stylesheet" href="/css/meme.min.fe3b4eabe26125d7716d7271d1dcc928f862e422b39cc80a8c45354f89084434.css"/>
+
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.1321582b41a9fdb1a15023a3d3204fa013ace575e4c594c9dbc43078a016fce0.js"></script>
+
+    
+
+    <link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="/assets/fonts/amaranth.css?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Amaranth&amp;display=swap" /></noscript>
+
+    <meta name="author" content="radek gruchalski (coauthor)" /><meta name="description" content="making Vulkan enumerate inside a krunkit VM" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="gruchalski.com" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="gruchalski.com" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    
+        <link rel="canonical" href="https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/" />
+    
+
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2026-10-30T00:00:00+00:00",
+        "dateModified": "2026-10-30T20:56:56+01:00",
+        "url": "https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/",
+        "headline": "GPU in a Linux VM on Apple Silicon",
+        "description": "making Vulkan enumerate inside a krunkit VM",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  3172 ,
+        "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+        "author": {
+            "@type": "Person",
+            "email": "radek@gruchalski.com",
+            "image": "https://gruchalski.com/icons/apple-touch-icon.png",
+            "url": "https://io-oi.me/",
+            "name": "radek gruchalski"
+        },
+        "license": "[reposting requires attribution, **use canonical links** »](https://en.wikipedia.org/wiki/Canonical_link_element)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "gruchalski.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://gruchalski.com/icons/apple-touch-icon.png"
+            },
+            "url": "https://gruchalski.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://gruchalski.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+
+    
+
+
+
+<meta property="og:title" content="GPU in a Linux VM on Apple Silicon" />
+<meta property="og:description" content="making Vulkan enumerate inside a krunkit VM" />
+<meta property="og:url" content="https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/" />
+<meta property="og:site_name" content="gruchalski.com" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="https://gruchalski.com/icons/apple-touch-icon.png" />
+        <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-30T00:00:00&#43;00:00" />
+    <meta property="article:modified_time" content="2026-10-30T20:56:56&#43;01:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+    <script async 
+        src="https://analytics.svcs.sh/script.js"
+        data-website-id="791140b3-1642-400d-82b9-6adcd1095688"
+        data-do-not-track="true"
+        data-domains="gruchalski.com"></script>
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">gruchalski.com</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="icon code-branch"><path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"/></svg><span class="menu-item-name">categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">about</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/privacy/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="icon info"><path d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"/></svg><span class="menu-item-name">privacy</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href=""></a>
+                </li>
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">GPU in a Linux VM on Apple Silicon</h1>
+
+            
+
+            
+                <div class="post-description p-summary">making Vulkan enumerate inside a krunkit VM</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2026-10-30T00:00:00&#43;00:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;October 30, 2026</time>
+    
+    
+    
+    
+        
+        
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3172</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;15&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            
+
+            <div class="post-body e-content">
+              <p>I have been running the pi coding agent (a CLI that drives an LLM to read code, edit files, run commands) in a Linux VM on Apple Silicon for a while now. For an agent, to write working software operarting in real world, the agent must have the freedom to navigate in said world. More complex tasks, for example browser applications or extensions, require the agent to operate the software, like we do. Writing a Kubernetes operator is the best done when the agent can run what it&rsquo;s building in a real Kubernetes cluster. It needs to trip over the hurdles on its own, like we do.</p>
+<blockquote>
+<p>From the coauthor: This was written by an LLM under my guidance.<br>
+Regarding emdash: any remaining, remain on purpose. Some some did not survive, and some have been added.</p>
+</blockquote>
+<div>
+    <h2>table of contents</h2>
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#give-em-all">give &rsquo;em all</a></li>
+    <li><a href="#background">background</a></li>
+    <li><a href="#the-symptom">the symptom</a></li>
+    <li><a href="#issue-102">issue #102</a></li>
+    <li><a href="#the-comment-that-pointed-the-way">the comment that pointed the way</a></li>
+    <li><a href="#the-root-cause">the root cause</a></li>
+    <li><a href="#the-fix">the fix</a></li>
+    <li><a href="#what-this-enables">what this enables</a></li>
+    <li><a href="#build-mesa">build mesa</a></li>
+    <li><a href="#the-recipe-in-summary">the recipe, in summary</a></li>
+    <li><a href="#the-upstream-solution">the upstream solution</a></li>
+    <li><a href="#closing-words">closing words</a></li>
+  </ol>
+</nav>
+</div>
+<h2 id="give-em-all"><a href="#give-em-all" class="anchor-link">§</a>give &rsquo;em all</h2>
+<p>Macs come with capable GPUs. But GPUs in Linux VMs on macOS are the tough part. Most people, including me until recently, assume a Linux VM on macOS gets no graphics acceleration. There is no display attached, no X server, no desktop. Not even Docker supports GPU in containers on macOS!</p>
+<p>Whether it is a browser application, or local LLM inference, a working GPU supplements any development environment for an autonomous agent. When an agent needs to run a model—llama.cpp (the C/C++ inference engine most local LLM tools are built on), Ollama (a model registry and local API server that wraps llama.cpp), anything that does on-device inference—that runtime uses the GPU. For an agent on the macOS host, this is straightforward: same machine, same GPU.</p>
+<p>I want to run the agent inside a VM, fully isolated, so the harness cannot reach back into the host. The only way to keep that isolation and still have GPU compute available to the agent is to pass the GPU through the VM. The place where I have seen the mention of a Linux VM on macOS + the GPU was in Colima, the <code>colima model</code> command. Since I knew it was possible, I wanted to figure out how to do this myself on Apple Silicon. This is the story of how that happened, and the chain of issues that made it possible.</p>
+<p>As a bonus, anything Vulkan works inside the guest. That is useful in its own right. Building or testing front-end apps that use GPU paths, for example. But it is not the main reason this exists.</p>
+<p><a href="https://github.com/lima-vm/lima" target="_blank" rel="noopener">Lima</a> is a tool for running Linux VMs on macOS, originally written for container-style workflows. This is not a job for Lima alone because Lima by default offers no GPU passthrough on macOS. It is also not a job for <a href="https://www.qemu.org/" target="_blank" rel="noopener">QEMU</a> VM—the most common open-source machine emulator and virtualizer, because QEMU on macOS does not get access to the GPU either. However, there is one gem out there. The one Colima uses: krunkit, a thin macOS frontend over libkrun. Likrun is the library that talks to Apple&rsquo;s hypervisor.framework, the macOS API for creating and managing virtual machines. Krunkit is the only thing on this platform that exposes a virtio-gpu device (a virtual GPU that the guest sees as a virtio peripheral, with rendering offloaded to the host) backed by something useful on the host side. So:</p>
+<p>I will need:</p>
+<ul>
+<li>krunkit on the host (Apple Silicon macOS).</li>
+<li>a custom-built Mesa guest (Mesa is the open-source graphics stack; here, built with only the virtio-vulkan driver enabled, the Vulkan driver that talks to the host over the virtio-gpu wire).</li>
+<li>a slp/krun-pinned virglrenderer on the host (virglrenderer is the host-side renderer that turns the guest&rsquo;s virtio-gpu commands into calls on the host&rsquo;s actual GPU; the slp/krun tap is a Homebrew tap, i.e. a third-party package source, that ships a version known to work with krunkit).</li>
+<li>a small, ugly patch. Without it, nothing enumerates.</li>
+</ul>
+<p>That fourth item is the entire subject of this post.</p>
+<p>I will cover:</p>
+<ul>
+<li>the stack, end to end.</li>
+<li>the symptom that started the investigation.</li>
+<li>one GitHub comment that changed everything.</li>
+<li>the root cause analysis that came after.</li>
+<li>the patch that fixed it.</li>
+<li>the upstream fix that will eventually make the patch unnecessary.</li>
+</ul>
+<h2 id="background"><a href="#background" class="anchor-link">§</a>background</h2>
+<p>The stack looks like this:</p>
+<pre tabindex="0"><code>┌──────────────────────────────────────────────────────────────────┐
+│  Ubuntu 24.04 aarch64 guest                                      │
+│                                                                  │
+│   pi coding agent + Chromium, llamma.cpp, Ollama, ...            │
+│                    │                                             │
+│                    ▼                                             │
+│   Vulkan apps   ──▶   Venus ICD (Mesa, virtio-vulkan only)       │
+│                    │                                             │
+└────────────────────│─────────────────────────────────────────────┘
+                     │  virtio-gpu / Venus protocol over shared mem
+                     ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  macOS host (Apple Silicon)                                      │
+│                                                                  │
+│   krunkit / libkrun  ──▶  virglrenderer  ──▶  Metal              │
+│                                       (slp/krun tap, pinned)     │
+└──────────────────────────────────────────────────────────────────┘
+</code></pre><p>On the guest side, krunkit exposes a virtio-gpu device with a Venus-compatible transport. Venus, in this context, is a protocol for running Vulkan across the virtio-gpu boundary: the guest translates Vulkan calls into a wire format the host can execute, and the host executes them on the real GPU. Memory for Vulkan buffers and command rings is shared between the guest and host via the <code>RESOURCE_CREATE_BLOB</code> ioctl, an ioctl being a syscall for sending a command to a device driver, here the virtio-gpu driver in the guest kernel. The guest Mesa is built from source with <code>-Dvulkan-drivers=virtio</code> only. No GL, no GLX (the two historical Linux OpenGL transports), no EGL (the interface between OpenGL/Vulkan and the windowing system), no Gallium drivers (Mesa&rsquo;s internal driver framework). The build is installed to <code>/opt/mesa/venus</code>. The guest points <code>VK_DRIVER_FILES</code>. <code>VK_DRIVER_FILES</code> is the environment variable that tells the Vulkan loader which Installable Client Drivers to consider. IDCs are the per-driver JSON manifests the loader discovers and dlopens. The one created by this build is <code>virtio_icd.aarch64.json</code> and that is the only Vulkan ICD the loader sees.</p>
+<p>On the host side, virglrenderer translates the guest&rsquo;s Vulkan commands into Metal calls. Metal is Apple&rsquo;s graphics API, the only way to talk to the GPU on macOS. This virglrenderer must be the version pinned by the slp/krun Homebrew tap. The upstream Homebrew <code>virglrenderer 1.3.0</code> is incompatible with krunkit on Apple Silicon and produces the most unhelpful error imaginable. There is a <code>fix-virglrenderer.sh</code> script for exactly this situation. Use it. It removes the invalid virglrenderer and installs the slp/krun-pinned one.</p>
+<p>So far, this is all ground that&rsquo;s already been explored. But how did we get there?</p>
+<h2 id="the-symptom"><a href="#the-symptom" class="anchor-link">§</a>the symptom</h2>
+<p>Run a stock Ubuntu 24.04 cloud image with the system Mesa inside a krunkit VM and:</p>
+<pre tabindex="0"><code>$ vulkaninfo
+ERROR at ./vulkaninfo/./vulkaninfo.h:458:vkCreateInstance failed with ERROR_OUT_OF_HOST_MEMORY
+</code></pre><p><code>vkCreateInstance</code> is the first Vulkan call every program makes. It sets up the library and lets the loader pick an ICD. <code>ERROR_OUT_OF_HOST_MEMORY</code> is the loader&rsquo;s way of saying &ldquo;something inside the ICD bailed out&rdquo;. Or, depending on the version:</p>
+<pre tabindex="0"><code>ERROR: [Loader Message] Code 0 : setup_loader_term_phys_devs:  Failed to detect any valid GPUs in the current config
+ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with ERROR_INITIALIZATION_FAILED
+</code></pre><p><code>vkEnumeratePhysicalDevices</code> is the second Vulkan call. It lists the GPUs the loader can see. <code>ERROR_INITIALIZATION_FAILED</code> is the catch-all &ldquo;the ICD is broken&rdquo; error.</p>
+<p>Either way, no GPU. Stock Debian, Ubuntu, Fedora. All the same. This is a real problem because if you actually want to do anything Vulkan in a krunkit VM, you cannot use a stock image.</p>
+<p>The investigation that produced the answer is documented in two issues on the krunkit repository, and the chain between them is short enough to read in order.</p>
+<h2 id="issue-102"><a href="#issue-102" class="anchor-link">§</a>issue #102</h2>
+<p><a href="https://github.com/libkrun/krunkit/issues/102" target="_blank" rel="noopener"><code>libkrun/krunkit#102</code></a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup> is the symptom report. A user runs <code>ghcr.io/ggml-org/llama.cpp:light-vulkan</code> inside a krunkit VM. The container ships a recent Mesa. <code>vulkaninfo</code> fails. No GPU is detected. The error is <code>vkCreateInstance failed with ERROR_OUT_OF_HOST_MEMORY</code>. That&rsquo;s exactly the error I have become intimate with.</p>
+<p>The user does all the right debugging. They check the capset (the capability set the host advertises over virtio-gpu to say which features it supports), the parameters, the protocol version. Venus negotiates fine. <code>VIRTGPU_PARAM_HOST_VISIBLE</code> reports 1, i.e. yes, the host supports making blobs visible to both sides for sharing. The issue is closed by switching to a container image whose Mesa carries a downstream patch. The workaround exists. The root cause, at this point, is not pinned down.</p>
+<p>This is where most investigations end. Someone finds a workaround, the issue is closed, life goes on.</p>
+<h2 id="the-comment-that-pointed-the-way"><a href="#the-comment-that-pointed-the-way" class="anchor-link">§</a>the comment that pointed the way</h2>
+<p>It did not end here because <em>@stewartjeacocke</em> left a <a href="https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380" target="_blank" rel="noopener">one-line comment</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">[2]</a></sup> on issue #102:</p>
+<blockquote>
+<p>I believe the root cause of this may be <a href="https://github.com/libkrun/krunkit/issues/114" target="_blank" rel="noopener"><code>libkrun/krunkit#114</code></a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">[3]</a></sup>.</p>
+</blockquote>
+<p>This single sentence changes everything.</p>
+<h2 id="the-root-cause"><a href="#the-root-cause" class="anchor-link">§</a>the root cause</h2>
+<p>Issue #114 is the diagnosis. The author did the work I would have wanted to do. The finding is:</p>
+<p>On macOS on Apple Silicon, the VM page size—the granularity at which the hypervisor maps memory between guest and host—is <code>16384</code> bytes. Apple&rsquo;s <code>hv_vm_map</code> requires page-aligned arguments. libkrun&rsquo;s <code>resource_map_blob</code> passes the guest-requested blob size unchanged into <code>hv_vm_map</code>. The guest runs on 4 KiB pages. The guest kernel <code>PAGE_ALIGN</code>s blob sizes up to a multiple of <code>4096</code> (the kernel macro that rounds a size up to the nearest page boundary). But that is not a multiple of <code>16384</code>. Remember, on macOS it must be a multiple of <code>16384</code> and <code>4096</code> is simply less. So the host-side mapping fails with <code>EINVAL</code>—the standard POSIX error code for &ldquo;invalid argument&rdquo;. The guest&rsquo;s <code>mmap</code> (the syscall that maps a file or device region into the process&rsquo;s address space) returns <code>EINVAL</code>. Mesa&rsquo;s Venus ring shmem is <code>131268</code> bytes; the kernel rounds it to <code>135168</code>; <code>135168</code> is <code>33 × 4</code> KiB and <code>8.25 × 16</code> KiB. The mapping fails. Venus reports the failure upward as <code>VK_ERROR_OUT_OF_HOST_MEMORY</code>, and the Vulkan loader aborts <code>vkCreateInstance</code>.</p>
+<p>The author of #114 includes a self-contained C reproducer that walks a list of sizes and shows the exact failure pattern. Sizes that are multiples of <code>16384</code> work. Sizes that are not, do not. It does not matter what the guest&rsquo;s page size is and what the protocol says. The host is imposing an undocumented requirement and reporting it as a generic <code>ErrUnspec</code> (the libkrun catch-all error variant), which surfaces to userspace as a bare <code>EINVAL</code> with no indication of the cause.</p>
+<p>Not much to add to that analysis.</p>
+<h2 id="the-fix"><a href="#the-fix" class="anchor-link">§</a>the fix</h2>
+<p>The fix lives in slp&rsquo;s downstream Mesa fork, in commit <a href="https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549" target="_blank" rel="noopener"><code>761ef1ec</code></a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>. It does exactly what the issue title suggests: it forces Venus allocations to be multiples of <code>16384</code>. The change is in four call sites:</p>
+<ul>
+<li><code>src/virtio/vulkan/vn_device_memory.c</code> — <code>vn_device_memory_alloc_simple</code> aligns the allocation size up to 16384.</li>
+<li><code>src/virtio/vulkan/vn_renderer_virtgpu.c</code> — <code>virtgpu_bo_create_from_device_memory</code> and <code>virtgpu_shmem_create</code> align their sizes up.</li>
+<li><code>src/virtio/vulkan/vn_ring.c</code> — <code>vn_ring_get_layout</code> aligns the ring shmem size up.</li>
+</ul>
+<p>The author of #114 is explicit that <strong>all four hunks are needed</strong>. The <code>vn_ring.c</code> one alone gets past <code>vkCreateInstance</code>, then device memory allocation fails instead. Drop any one hunk and the failure moves somewhere else.</p>
+<p>For Mesa 22.3.6:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gh">diff --git a/src/virtio/vulkan/vn_device_memory.c b/src/virtio/vulkan/vn_device_memory.c
+</span></span></span><span class="line"><span class="cl"><span class="gh">index cfb32c7bee5..74ebf6f0f7e 100644
+</span></span></span><span class="line"><span class="cl"><span class="gd">--- a/src/virtio/vulkan/vn_device_memory.c
+</span></span></span><span class="line"><span class="cl"><span class="gi">+++ b/src/virtio/vulkan/vn_device_memory.c
+</span></span></span><span class="line"><span class="cl"><span class="gu">@@ -28,6 +28,10 @@ vn_device_memory_alloc_simple(struct vn_device *dev,
+</span></span></span><span class="line"><span class="cl"> {
+</span></span><span class="line"><span class="cl">    VkDevice dev_handle = vn_device_to_handle(dev);
+</span></span><span class="line"><span class="cl">    VkDeviceMemory mem_handle = vn_device_memory_to_handle(mem);
+</span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+   ((VkMemoryAllocateInfo *)alloc_info)-&gt;allocationSize =
+</span></span></span><span class="line"><span class="cl"><span class="gi">+      align64(alloc_info-&gt;allocationSize, 16384);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl">    if (VN_PERF(NO_ASYNC_MEM_ALLOC)) {
+</span></span><span class="line"><span class="cl">       return vn_call_vkAllocateMemory(dev-&gt;instance, dev_handle, alloc_info,
+</span></span><span class="line"><span class="cl">                                       NULL, &amp;mem_handle);
+</span></span><span class="line"><span class="cl"><span class="gh">diff --git a/src/virtio/vulkan/vn_renderer_virtgpu.c b/src/virtio/vulkan/vn_renderer_virtgpu.c
+</span></span></span><span class="line"><span class="cl"><span class="gh">index 8c26d86f43e..e3cbed6e470 100644
+</span></span></span><span class="line"><span class="cl"><span class="gd">--- a/src/virtio/vulkan/vn_renderer_virtgpu.c
+</span></span></span><span class="line"><span class="cl"><span class="gi">+++ b/src/virtio/vulkan/vn_renderer_virtgpu.c
+</span></span></span><span class="line"><span class="cl"><span class="gu">@@ -1235,6 +1235,8 @@ virtgpu_bo_create_from_device_memory(
+</span></span></span><span class="line"><span class="cl">    struct virtgpu *gpu = (struct virtgpu *)renderer;
+</span></span><span class="line"><span class="cl">    const uint32_t blob_flags = virtgpu_bo_blob_flags(flags, external_handles);
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gi">+   size = align64(size, 16384);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl">    uint32_t res_id;
+</span></span><span class="line"><span class="cl">    uint32_t gem_handle = virtgpu_ioctl_resource_create_blob(
+</span></span><span class="line"><span class="cl">       gpu, gpu-&gt;bo_blob_mem, blob_flags, size, mem_id, &amp;res_id);
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -1285,6 +1287,8 @@ virtgpu_shmem_create(struct vn_renderer *renderer, size_t size)
+</span></span></span><span class="line"><span class="cl"> {
+</span></span><span class="line"><span class="cl">    struct virtgpu *gpu = (struct virtgpu *)renderer;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gi">+   size = align64(size, 16384);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl">    struct vn_renderer_shmem *cached_shmem =
+</span></span><span class="line"><span class="cl">       vn_renderer_shmem_cache_get(&amp;gpu-&gt;shmem_cache, size);
+</span></span><span class="line"><span class="cl">    if (cached_shmem) {
+</span></span><span class="line"><span class="cl"><span class="gh">diff --git a/src/virtio/vulkan/vn_ring.c b/src/virtio/vulkan/vn_ring.c
+</span></span></span><span class="line"><span class="cl"><span class="gh">index eec832ba1d5..7dc545e4894 100644
+</span></span></span><span class="line"><span class="cl"><span class="gd">--- a/src/virtio/vulkan/vn_ring.c
+</span></span></span><span class="line"><span class="cl"><span class="gi">+++ b/src/virtio/vulkan/vn_ring.c
+</span></span></span><span class="line"><span class="cl"><span class="gu">@@ -170,7 +170,7 @@ vn_ring_get_layout(size_t buf_size,
+</span></span></span><span class="line"><span class="cl">    layout-&gt;extra_offset = layout-&gt;buffer_offset + layout-&gt;buffer_size;
+</span></span><span class="line"><span class="cl">    layout-&gt;extra_size = extra_size;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gd">-   layout-&gt;shmem_size = layout-&gt;extra_offset + layout-&gt;extra_size;
+</span></span></span><span class="line"><span class="cl"><span class="gi">+   layout-&gt;shmem_size = align64(layout-&gt;extra_offset + layout-&gt;extra_size, 16384);
+</span></span></span><span class="line"><span class="cl"> }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> void
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>For Mesa 25.0.7:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gh">diff --git a/src/virtio/vulkan/vn_device_memory.c b/src/virtio/vulkan/vn_device_memory.c
+</span></span></span><span class="line"><span class="cl"><span class="gh">index e277ce68916..4c814949a67 100644
+</span></span></span><span class="line"><span class="cl"><span class="gd">--- a/src/virtio/vulkan/vn_device_memory.c
+</span></span></span><span class="line"><span class="cl"><span class="gi">+++ b/src/virtio/vulkan/vn_device_memory.c
+</span></span></span><span class="line"><span class="cl"><span class="gu">@@ -30,6 +30,10 @@ vn_device_memory_alloc_simple(struct vn_device *dev,
+</span></span></span><span class="line"><span class="cl"> {
+</span></span><span class="line"><span class="cl">    VkDevice dev_handle = vn_device_to_handle(dev);
+</span></span><span class="line"><span class="cl">    VkDeviceMemory mem_handle = vn_device_memory_to_handle(mem);
+</span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+   ((VkMemoryAllocateInfo *)alloc_info)-&gt;allocationSize =
+</span></span></span><span class="line"><span class="cl"><span class="gi">+      align64(alloc_info-&gt;allocationSize, 16384);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl">    if (VN_PERF(NO_ASYNC_MEM_ALLOC)) {
+</span></span><span class="line"><span class="cl">       return vn_call_vkAllocateMemory(dev-&gt;primary_ring, dev_handle,
+</span></span><span class="line"><span class="cl">                                       alloc_info, NULL, &amp;mem_handle);
+</span></span><span class="line"><span class="cl"><span class="gh">diff --git a/src/virtio/vulkan/vn_renderer_virtgpu.c b/src/virtio/vulkan/vn_renderer_virtgpu.c
+</span></span></span><span class="line"><span class="cl"><span class="gh">index d829dca808a..78fce8ff711 100644
+</span></span></span><span class="line"><span class="cl"><span class="gd">--- a/src/virtio/vulkan/vn_renderer_virtgpu.c
+</span></span></span><span class="line"><span class="cl"><span class="gi">+++ b/src/virtio/vulkan/vn_renderer_virtgpu.c
+</span></span></span><span class="line"><span class="cl"><span class="gu">@@ -1240,6 +1240,8 @@ virtgpu_bo_create_from_device_memory(
+</span></span></span><span class="line"><span class="cl">    struct virtgpu *gpu = (struct virtgpu *)renderer;
+</span></span><span class="line"><span class="cl">    const uint32_t blob_flags = virtgpu_bo_blob_flags(gpu, flags, external_handles);
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gi">+   size = align64(size, 16384);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl">    uint32_t res_id;
+</span></span><span class="line"><span class="cl">    uint32_t gem_handle = virtgpu_ioctl_resource_create_blob(
+</span></span><span class="line"><span class="cl">       gpu, gpu-&gt;bo_blob_mem, blob_flags, size, mem_id, &amp;res_id);
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -1290,6 +1292,8 @@ virtgpu_shmem_create(struct vn_renderer *renderer, size_t size)
+</span></span></span><span class="line"><span class="cl"> {
+</span></span><span class="line"><span class="cl">    struct virtgpu *gpu = (struct virtgpu *)renderer;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gi">+   size = align64(size, 16384);
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl">    struct vn_renderer_shmem *cached_shmem =
+</span></span><span class="line"><span class="cl">       vn_renderer_shmem_cache_get(&amp;gpu-&gt;shmem_cache, size);
+</span></span><span class="line"><span class="cl">    if (cached_shmem) {
+</span></span><span class="line"><span class="cl"><span class="gh">diff --git a/src/virtio/vulkan/vn_ring.c b/src/virtio/vulkan/vn_ring.c
+</span></span></span><span class="line"><span class="cl"><span class="gh">index 4e0cff9e9cd..c340c91ebb0 100644
+</span></span></span><span class="line"><span class="cl"><span class="gd">--- a/src/virtio/vulkan/vn_ring.c
+</span></span></span><span class="line"><span class="cl"><span class="gi">+++ b/src/virtio/vulkan/vn_ring.c
+</span></span></span><span class="line"><span class="cl"><span class="gu">@@ -264,7 +264,7 @@ vn_ring_get_layout(size_t buf_size,
+</span></span></span><span class="line"><span class="cl">    layout-&gt;extra_offset = layout-&gt;buffer_offset + layout-&gt;buffer_size;
+</span></span><span class="line"><span class="cl">    layout-&gt;extra_size = extra_size;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gd">-   layout-&gt;shmem_size = layout-&gt;extra_offset + layout-&gt;extra_size;
+</span></span></span><span class="line"><span class="cl"><span class="gi">+   layout-&gt;shmem_size = align64(layout-&gt;extra_offset + layout-&gt;extra_size, 16384);
+</span></span></span><span class="line"><span class="cl"> }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> struct vn_ring *
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Whitespace is critical.</p>
+<p>The two patches are derived directly from this commit. They reside in the <em>pi-lima.bootstrap</em> directory and they must not be edited. The reason: small but important, they are the only thing standing between the guest and a <code>vkCreateInstance</code> that returns <code>VK_ERROR_OUT_OF_HOST_MEMORY</code>.</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt-get install --install-recommends linux-generic-hwe-24.04-edge
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="what-this-enables"><a href="#what-this-enables" class="anchor-link">§</a>what this enables</h2>
+<p>Once the four-hunk patch is in place, the guest Mesa enumerates a real Vulkan physical device. In my case, on an M-series host, that device reports itself as <code>Virtio-GPU Venus (Apple M5 Pro)</code>. From that point on, anything that talks to Metal on the host has a Vulkan-backed implementation in the guest.</p>
+<p>The main thing this enables is local LLM inference from inside the agent. llama.cpp, Ollama, vLLM (a high-throughput inference server for serving LLMs to many clients), MLX (Apple&rsquo;s array framework for running ML models on Apple Silicon), or WebGPU, anything that talks to the GPU on macOS works as if it were running on the bare host, except it is running in the VM, alongside the agent. This is what makes it possible to test &ldquo;computer + LLM&rdquo; deployments end to end on macOS without ever leaving the host machine: the agent is fully sandboxed in a VM, the GPU is passed through, and any local-inference runtime the agent wants to use just works.</p>
+<p>A second thing is that the guest is not a server-class VM. It is a desktop-class VM with a real GPU. Anything Vulkan-based runs inside it. This is handy for front-end work—building or testing apps that use GPU paths (WebGPU, Skia/Vulkan, canvas-heavy UIs)—and Chromium picks up hardware acceleration as a side effect.</p>
+<p>A third thing, and this one surprised me, is that nested virtualization is enabled in the image. KVM (the Linux in-kernel hypervisor, normally requires hardware virtualization extensions on the host CPU) is available inside the guest. So the guest can itself host additional VMs or run workloads that need <code>/dev/kvm</code>. This is unusual for a krunkit VM and I am not sure why it works on this combination, only that it does. I was able to run Firecracker microVM inside. I am certain it is possible to further pass the GPU to Firecracker itself. But that&rsquo;s a bed time story for another day.</p>
+<h2 id="build-mesa"><a href="#build-mesa" class="anchor-link">§</a>build mesa</h2>
+<p>Finally, build Mesa:</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">MESA_VERSION</span><span class="o">=</span><span class="s2">&#34;25.0.7&#34;</span> <span class="c1"># 22.3.6</span>
+</span></span><span class="line"><span class="cl">mkdir -p /opt/mesa/build
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /opt/mesa/build
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">apt-get install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl">  bison <span class="se">\
+</span></span></span><span class="line"><span class="cl">  cmake <span class="se">\
+</span></span></span><span class="line"><span class="cl">  flex <span class="se">\
+</span></span></span><span class="line"><span class="cl">  meson <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ninja-build <span class="se">\
+</span></span></span><span class="line"><span class="cl">  pkg-config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">git clone -v https://gitlab.freedesktop.org/mesa/mesa.git .
+</span></span><span class="line"><span class="cl">git checkout <span class="s2">&#34;mesa-</span><span class="nv">$MESA_VERSION</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">git apply /path/to/the/mesa-<span class="nv">$MESA_VERSION</span>.patch<span class="s2">&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">meson setup &#34;</span>build-krunkit-<span class="nv">$MESA_VERSION</span><span class="s2">&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  --prefix=&#34;</span>/opt/mesa/venus<span class="s2">&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  --libdir=lib \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  --buildtype=debugoptimized \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  -Dvulkan-drivers=virtio \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  -Dgallium-drivers=[] \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  -Dplatforms=[] \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  -Dglx=disabled \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  -Degl=disabled \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  -Dgles1=disabled \
+</span></span></span><span class="line"><span class="cl"><span class="s2">  -Dgles2=disabled
+</span></span></span><span class="line"><span class="cl"><span class="s2">meson compile -C &#34;</span>build-krunkit-<span class="nv">$MESA_VERSION</span><span class="s2">&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">meson install -C &#34;</span>build-krunkit-<span class="nv">$MESA_VERSION</span><span class="s2">&#34;
+</span></span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>To have the GPU working, put this in your <code>~/.bashrc</code>, <code>~/.zshrc</code>, or another place where it becomes globally available.</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">VK_DRIVER_FILES</span><span class="o">=</span>/opt/mesa/venus/share/vulkan/icd.d/virtio_icd.aarch64.json
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><p>Now <code>vulkaninfo --summary</code> simply works.</p>
+<h2 id="the-recipe-in-summary"><a href="#the-recipe-in-summary" class="anchor-link">§</a>the recipe, in summary</h2>
+<p>The recipe that works, on Apple Silicon, today:</p>
+<ul>
+<li>install krunkit, libkrun, libkrunfw (a firmware bundle used by libkrun), gvproxy (the network plumbing used by Lima to give the guest a routable network), and virglrenderer from the <code>slp/krun</code> Homebrew tap. Trust the formulae (Homebrew 4.x removed automatic trust for third-party formulae; <code>brew trust</code> opts back in). Do not use the upstream Homebrew <code>virglrenderer</code>.</li>
+<li>build a guest Mesa with <code>-Dvulkan-drivers=virtio</code> only.</li>
+<li>apply the four-hunk <code>16384</code>-alignment patch before building.</li>
+<li>install the result to <code>/opt/mesa/venus</code> and point <code>VK_DRIVER_FILES</code> at the Venus ICD.</li>
+<li>inside the guest, run <code>vulkaninfo --summary</code> and see <code>Virtio-GPU Venus (Apple Mx Pro)</code>.</li>
+</ul>
+<p>The recipe is a bit fragile, it&rsquo;s probably wise to hold forks of all dependencies. There is the Mesa patch that is not in upstream Mesa. And there is the virglrenderer version that is not in upstream Homebrew.</p>
+<h2 id="the-upstream-solution"><a href="#the-upstream-solution" class="anchor-link">§</a>the upstream solution</h2>
+<p>Hardcoding <code>16384</code> is a workaround for an undocumented host-side requirement. The proper fix landed in upstream Mesa as <a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783" target="_blank" rel="noopener">MR #44783 <em>&ldquo;venus: honor the virtio-gpu blob alignment&rdquo;</em></a><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">[5]</a></sup>, merged on 2026-09-28 by Matthew Periut.</p>
+<p>Instead of hardcoding <code>16384</code>, MR #44783 queries the kernel for <code>VIRTGPU_PARAM_BLOB_ALIGNMENT</code>—a new parameter added in Linux 7.2—and rounds blob sizes up to whatever the kernel reports. On hosts without that parameter it falls back to 1, i.e. no rounding. The change is a no-op on every other platform.</p>
+<p>The implementation is a single hunk in <code>vn_renderer_virtgpu.c</code>. It is much smaller than the slp downstream patch because it does not hardcode anything. It just listens to the kernel.</p>
+<p>This is the kind of fix that makes the slp downstream patch obsolete eventually. The downstream patch exists because, at the time, the kernel did not advertise its alignment requirement. Once both Mesa and the kernel are new enough, the patches for those new versions aren&rsquo;t required anymore.</p>
+<p>The conditions for <em>no patch needed</em>:</p>
+<ul>
+<li>a Mesa release that contains MR #44783,</li>
+<li>a Linux 7.2+ guest kernel,</li>
+<li>Ubuntu 24.04&rsquo;s HWE kernel with kernel 7.2 support. At the time of writing it is <code>24.04.5 LTS (HWE)</code> with kernel version <code>7.0</code>.</li>
+</ul>
+<p>The third of these is the bottleneck. Installing an edge kernel could be an option.</p>
+<h2 id="closing-words"><a href="#closing-words" class="anchor-link">§</a>closing words</h2>
+<p>The investigation that produced it was carried out, almost entirely, by two people in two GitHub issues and one commit. That is how good open-source debugging actually happens: small, focused, well-documented. The fact that I can run a Linux VM with a working GPU on Apple Silicon is a direct consequence of those two issues and one patch.</p>
+<p>Once the upstream fix rolls through Ubuntu&rsquo;s HWE kernel, the hardcoded patch becomes unnecessary.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/libkrun/krunkit/issues/102" target="_blank" rel="noopener">https://github.com/libkrun/krunkit/issues/102</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380" target="_blank" rel="noopener">https://github.com/libkrun/krunkit/issues/102#issuecomment-5228832380</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://github.com/libkrun/krunkit/issues/114" target="_blank" rel="noopener">https://github.com/libkrun/krunkit/issues/114</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549" target="_blank" rel="noopener">https://gitlab.freedesktop.org/slp/mesa/-/commit/761ef1ec5ff2aae1cc3dc8bbc22b3d06ef04b549</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+<li id="fn:5">
+<p><a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783" target="_blank" rel="noopener">https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon footnote-icon"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg></a></p>
+</li>
+</ol>
+</div>
+
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://io-oi.me/" class="p-author h-card" target="_blank" rel="noopener">radek gruchalski</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/" target="_blank" rel="noopener">https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/&amp;text=GPU%20in%20a%20Linux%20VM%20on%20Apple%20Silicon&amp;hashtags=Apple-Silicon,Krunkit,Vulkan,Mesa,Virtio,Lima,&amp;via=%25!s%28%3cnil%3e%29" title="Share on Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/&amp;title=GPU%20in%20a%20Linux%20VM%20on%20Apple%20Silicon&amp;summary=making%20Vulkan%20enumerate%20inside%20a%20krunkit%20VM&amp;source=gruchalski.com" title="Share on LinkedIn" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="Share via QR Code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https:\/\/gruchalski.com\/posts\/2026-10-30-gpu-in-a-vm-on-apple-silicon\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/apple-silicon/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Apple-Silicon</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/krunkit/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Krunkit</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/vulkan/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Vulkan</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/mesa/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Mesa</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/virtio/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Virtio</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/lima/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Lima</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/2026-04-23-macos-power-consumption-exporter/" rel="next">Building a macOS Power‑Usage Prometheus Exporter with Supervised MiniMax 2.5 &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2015–2026&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;radek gruchalski</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://en.wikipedia.org/wiki/Canonical_link_element" target="_blank" rel="noopener">reposting requires attribution, <strong>use canonical links</strong> »</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="/rss.xml" target="_blank" rel="external noopener" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="mailto:radek@gruchalski.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/radekg" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://linkedin.com/in/radgruchalski" target="_blank" rel="external noopener" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon social-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
