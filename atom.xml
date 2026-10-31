@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">gruchalski.com</title>
     <subtitle type="html">engineering software for 20&#43; years</subtitle>
-    <updated>2026-10-31T00:57:08&#43;01:00</updated>
+    <updated>2026-10-31T09:13:49&#43;01:00</updated>
     <id>https://gruchalski.com/</id>
     <link rel="alternate" type="text/html" href="https://gruchalski.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://gruchalski.com/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">GPU in a Linux VM on Apple Silicon</title>
             <link rel="alternate" type="text/html" href="https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/" />
             <id>https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/</id>
-            <updated>2026-10-31T00:54:29&#43;01:00</updated>
+            <updated>2026-10-31T09:10:39&#43;01:00</updated>
             <published>2026-10-30T00:00:00&#43;00:00</published>
             <author>
                     <name>radek gruchalski</name>
@@ -498,9 +498,8 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;/ul&gt;
 &lt;p&gt;The recipe is a bit fragile, it&amp;rsquo;s probably wise to hold forks of all dependencies. There is the Mesa patch that is not in upstream Mesa. And there is the virglrenderer version that is not in upstream Homebrew.&lt;/p&gt;
 &lt;h2 id=&#34;the-upstream-solution&#34;&gt;the upstream solution&lt;/h2&gt;
-&lt;p&gt;Hardcoding &lt;code&gt;16384&lt;/code&gt; is a workaround for an undocumented host-side requirement. The proper fix landed in upstream Mesa as a merge request &lt;a href=&#34;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&#34;&gt;MR #44783 &lt;em&gt;&amp;ldquo;venus: honor the virtio-gpu blob alignment&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;, merged on 2026-09-28 by Matthew Periut.&lt;/p&gt;
-&lt;p&gt;Instead of hardcoding &lt;code&gt;16384&lt;/code&gt;, MR #44783 queries the kernel for &lt;code&gt;VIRTGPU_PARAM_BLOB_ALIGNMENT&lt;/code&gt;—a new parameter added in Linux 7.2—and rounds blob sizes up to whatever the kernel reports. On hosts without that parameter it falls back to 1, i.e. no rounding. The change is a no-op on every other platform.&lt;/p&gt;
-&lt;p&gt;The implementation is a single hunk in &lt;code&gt;vn_renderer_virtgpu.c&lt;/code&gt;. It is much smaller than the slp downstream patch because it does not hardcode anything. It just listens to the kernel.&lt;/p&gt;
+&lt;p&gt;Hardcoding &lt;code&gt;16384&lt;/code&gt; is a workaround for an undocumented host-side requirement. The proper fix is two-sided. On the guest side, &lt;a href=&#34;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&#34;&gt;Mesa MR #44783 &lt;em&gt;&amp;ldquo;venus: honor the virtio-gpu blob alignment&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt; (merged 2026-09-28 by Matthew Periut) queries the kernel for &lt;code&gt;VIRTGPU_PARAM_BLOB_ALIGNMENT&lt;/code&gt;—a new parameter added in Linux 7.2—and rounds blob sizes up to whatever the kernel reports. On the host side, &lt;a href=&#34;https://github.com/libkrun/libkrun/pull/886&#34;&gt;libkrun PR #886 &lt;em&gt;&amp;ldquo;virtio/gpu: offer VIRTIO_GPU_F_BLOB_ALIGNMENT&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&lt;sup id=&#34;fnref:9&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:9&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;9&lt;/a&gt;&lt;/sup&gt; (merged 2026-10-01 by &lt;code&gt;willie&lt;/code&gt;) advertises the parameter with &lt;code&gt;sysconf(_SC_PAGESIZE)&lt;/code&gt; — 16384 on Apple Silicon — so the guest kernel has a meaningful value to forward to Mesa.&lt;/p&gt;
+&lt;p&gt;The implementation on the guest side is a single hunk in &lt;code&gt;vn_renderer_virtgpu.c&lt;/code&gt;. It is much smaller than the slp downstream patch because it does not hardcode anything. It just listens to the kernel. On hosts without the parameter, the change is a no-op.&lt;/p&gt;
 &lt;p&gt;This is the kind of fix that makes the slp downstream patch obsolete eventually. The downstream patch exists because, at the time, the kernel did not advertise its alignment requirement. Once both Mesa and the kernel are new enough, the patches for those new versions aren&amp;rsquo;t required anymore.&lt;/p&gt;
 &lt;p&gt;The conditions for &lt;em&gt;no patch needed&lt;/em&gt;:&lt;/p&gt;
 &lt;ul&gt;
@@ -509,9 +508,10 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;li&gt;Ubuntu 24.04&amp;rsquo;s HWE kernel with kernel 7.2 support. At the time of writing it is &lt;code&gt;24.04.5 LTS (HWE)&lt;/code&gt; with kernel version &lt;code&gt;7.0&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The third of these is the bottleneck. Installing an edge kernel could be an option.&lt;/p&gt;
+&lt;p&gt;The rollout order matters. Once libkrun PR #886 is in a stable libkrun release, any guest with a 7.2 kernel and a Mesa older than the first release that contains MR #44783 will hit the same &lt;code&gt;VK_ERROR_OUT_OF_HOST_MEMORY&lt;/code&gt; we have been diagnosing—see &lt;a href=&#34;https://github.com/liminavm/limina/issues/22&#34;&gt;limina issue #22&lt;/a&gt;&lt;sup id=&#34;fnref:10&#34;&gt;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fn:10&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;10&lt;/a&gt;&lt;/sup&gt; for a real report (Debian forky/sid, Mesa 26.1.6, kernel 7.2.9). As of 2026-10-30, MR #44783 is on Mesa &lt;code&gt;main&lt;/code&gt; and tagged for 26.3, but &lt;strong&gt;no released stable Mesa has it yet&lt;/strong&gt;. Until Mesa 26.3 ships in a stable release that Ubuntu picks up, holding the hardcoded patches in pi-lima is the safe call even for users who have updated everything else.&lt;/p&gt;
 &lt;h2 id=&#34;closing-words&#34;&gt;closing words&lt;/h2&gt;
 &lt;p&gt;The investigation that produced it was carried out, almost entirely, by two people in two GitHub issues and one commit. That is how good open-source debugging actually happens: small, focused, well-documented. The fact that I can run a Linux VM with a working GPU on Apple Silicon is a direct consequence of those two issues and one patch.&lt;/p&gt;
-&lt;p&gt;Once the upstream fix rolls through Ubuntu&amp;rsquo;s HWE kernel, the hardcoded patch becomes unnecessary.&lt;/p&gt;
+&lt;p&gt;Once both halves of the upstream fix are present in a stable combination on the user&amp;rsquo;s VM — Mesa 26.3+ in Ubuntu&amp;rsquo;s archive, libkrun with PR #886, and a 7.2+ guest kernel — the hardcoded patch becomes unnecessary. As of 2026-10-30, that combination has not landed in any released stable distribution; the patches stay.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
@@ -538,6 +538,12 @@ ERROR at ./vulkaninfo/./vulkaninfo.h:245:vkEnumeratePhysicalDevices failed with 
 &lt;/li&gt;
 &lt;li id=&#34;fn:8&#34;&gt;
 &lt;p&gt;&lt;a href=&#34;https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/44783&#34;&gt;MR #44783 &lt;em&gt;&amp;ldquo;venus: honor the virtio-gpu blob alignment&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:9&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/libkrun/libkrun/pull/886&#34;&gt;libkrun PR #886 &lt;em&gt;&amp;ldquo;virtio/gpu: offer VIRTIO_GPU_F_BLOB_ALIGNMENT&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:9&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:10&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/liminavm/limina/issues/22&#34;&gt;limina issue #22 &lt;em&gt;&amp;ldquo;virtio-gpu: offering VIRTIO_GPU_F_BLOB_ALIGNMENT kills venus on stock guests with a 7.2 kernel&amp;rdquo;&lt;/em&gt;&lt;/a&gt;&amp;#160;&lt;a href=&#34;https://gruchalski.com/posts/2026-10-30-gpu-in-a-vm-on-apple-silicon/#fnref:10&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
